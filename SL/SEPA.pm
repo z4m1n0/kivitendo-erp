@@ -35,6 +35,11 @@ sub retrieve_open_invoices {
 
   my $payment_term_type = $params{vc} eq 'customer' ? "${arap}" : 'vc';
 
+  # Flag for direct debit. For SEPA bank transfers vendors flagged
+  # with »direct debit« should not be shown. Similarly for SEPA bank
+  # collections: only customers flagged with it should be shown.
+  my $tf = $params{vc} eq 'customer' ? 'FALSE' : 'TRUE';
+
   # open_amount is not the current open amount according to bookkeeping, but
   # the open amount minus the SEPA transfer amounts that haven't been closed yet
   my $query =
@@ -46,7 +51,7 @@ sub retrieve_open_invoices {
          vc.name AS vcname, vc.language_id, ${arap}.duedate as duedate, ${arap}.direct_debit,
          vc.${vc_vc_id} as vc_vc_id,
 
-         COALESCE(vc.iban, '') <> '' AND COALESCE(vc.bic, '') <> '' ${mandate} AS vc_bank_info_ok,
+         COALESCE(vc.iban, '') <> '' AND COALESCE(vc.bic, '') <> '', vc.direct_debit <> ${tf} ${mandate} AS vc_bank_info_ok,
 
          ${arap}.amount - ${arap}.paid - COALESCE(open_transfers.amount, 0) AS open_amount,
          COALESCE(open_transfers.amount, 0) AS transfer_amount,
@@ -64,7 +69,8 @@ sub retrieve_open_invoices {
 
        LEFT JOIN payment_terms pt ON (${payment_term_type}.payment_id = pt.id)
 
-       WHERE ${arap}.amount > (COALESCE(open_transfers.amount, 0) + ${arap}.paid)
+       WHERE (${arap}.amount > (COALESCE(open_transfers.amount, 0) + ${arap}.paid))
+         AND (${arap}.direct_debit <> ${tf})
 
        ORDER BY lower(vc.name) ASC, lower(${arap}.invnumber) ASC
 |;
