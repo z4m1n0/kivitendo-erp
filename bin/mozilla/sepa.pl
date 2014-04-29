@@ -269,7 +269,7 @@ sub bank_transfer_list {
   my @columns = qw(selected id export_date employee executed closed num_invoices sum_amounts message_ids);
   my %column_alignment = map { ($_ => 'right') } qw(num_invoices sum_amounts);
 
-  foreach my $name (qw(id export_date employee executed closed)) {
+  foreach my $name (qw(id export_date employee executed closed sum_amounts)) {
     my $sortdir                 = $form->{sort} eq $name ? 1 - $form->{sortdir} : $form->{sortdir};
     $column_defs{$name}->{link} = $href . "&sort=$name&sortdir=$sortdir";
   }

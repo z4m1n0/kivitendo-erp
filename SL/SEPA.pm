@@ -316,6 +316,7 @@ sub list_exports {
     'employee'    => [ 'e.name',      'se.id', ],
     'executed'    => [ 'se.executed', 'se.id', ],
     'closed'      => [ 'se.closed',   'se.id', ],
+    'sum_amounts' => [ 'sum_amounts', 'se.id', ],
     );
 
   my %sort_spec = create_sort_spec('defs' => \%sort_columns, 'default' => 'id', 'column' => $params{sortorder}, 'dir' => $params{sortdir});
@@ -365,7 +366,7 @@ SQL
     foreach my $dir (qw(from to)) {
       next unless ($filter->{"${type}_date_${dir}"});
       push @where_sub,  "(items.${type}_date IS NOT NULL) AND (items.${type}_date $operators{$dir} ?)";
-      push @values_sub, $filter->{"${type}_date_${_}"};
+      push @values_sub, $filter->{"${type}_date_${dir}"};
     }
   }
 
@@ -409,6 +410,7 @@ SQL
          FROM employee emp
        ) AS e ON (se.employee_id = e.id)
        $where
+       GROUP BY se.id, se.employee_id, se.executed, se.closed, se.itime, e.name
        ORDER BY $sort_spec{sql}|;
 
   my $results = selectall_hashref_query($form, $dbh, $query, @values);
