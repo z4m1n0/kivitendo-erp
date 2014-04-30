@@ -1,6 +1,6 @@
 [%- USE T8 %]
 [%- USE L %]
-[% USE HTML %][% USE LxERP %]
+[% USE HTML %][% USE LxERP %][%- USE JavaScript -%]
 [% IF vc == 'vendor' %]
  [% SET is_vendor = 1 %]
  [% SET arap = 'ap' %]
@@ -39,6 +39,7 @@
      <th class="listheading" align="right">[% 'Open amount' | $T8 %]</th>
      <th class="listheading" align="right">[% 'Invoice Date' | $T8 %]</th>
      <th class="listheading" align="right">[% 'Due Date' | $T8 %]</th>
+     <th class="listheading">[% 'Payment Terms' | $T8 %]</th>
      <th class="listheading">[% 'Purpose' | $T8 %]</th>
      <th class="listheading" align="right">[% 'Bank transfer amount' | $T8 %]</th>
      <th class="listheading" align="right">[% 'Payment type' | $T8 %]</th>
@@ -52,9 +53,9 @@
      <input type="hidden" id="skonto_amount_[% loop.count %]" name="skonto_amount_[% loop.count %]" value="[% LxERP.format_amount(invoice.skonto_amount, 2) %]">
 
 
-     <tr class="listrow[% IF !invoice.vc_bank_info_ok && invoice.checked %]_error[% END %]">
+     <tr class="listrow[% loop.count % 2 %]">
       <td align="center">
-       [%- IF invoice.vc_bank_info_ok %]
+       [%- IF invoice.vc_bank_info_ok && (invoice.vc_bank_info_ok != '2') %]
         <input type="checkbox" name="bank_transfers[].selected" value="1"[% IF invoice.checked %] checked[% END %]>
        [%- END %]
       </td>
@@ -64,12 +65,11 @@
          [%- GET HTML.escape(invoice.vcname);
              SET previous_vcname = invoice.vcname;
              IF !invoice.vc_bank_info_ok;
-               IF invoice.checked;
-                 GET ' <sup>(2)</sup>';
-               ELSE;
-                 GET ' <sup>(1)</sup>';
-               END;
+               GET ' <sup>(1)</sup>';
                SET show_vc_bank_info_footnote = '1';
+             ELSIF invoice.vc_bank_info_ok == '2';
+               GET ' <sup>(2)</sup>';
+               SET show_vc_bank_info_footnote = '2';
              END; -%]
         </a>
        [%- END -%]
@@ -85,6 +85,7 @@
       <td align="right">[% LxERP.format_amount(invoice.open_amount-invoice.open_sepa_transfer_amount, 2) %]</td>
       <td align="right">[% invoice.transdate %]</td>
       <td align="right">[% invoice.duedate %]</td>
+      <td align="left">[% HTML.escape(invoice.pt_description) %]</td>
       <td>
     [% IF INSTANCE_CONF.get_sepa_reference_add_vc_vc_id %]
        [%- SET reference = invoice.reference_prefix _ invoice.invnumber _ invoice.reference_prefix_vc _ invoice.vc_vc_id %]
@@ -116,19 +117,12 @@
      [% "The required information consists of the IBAN, the BIC, the mandator ID and the mandate's date of signature." | $T8 %]
     [%- END %]
    </p>
-
+  [%- IF !is_vendor %]
    <p>
     <sup>(2)</sup>
-    [%- IF is_vendor %]
-     [%- 'No bank information has been entered in this vendor\'s master data entry. You cannot create bank transfers unless you enter bank information.' | $T8 %]
-     [% "The required information consists of the IBAN and the BIC." | $T8 %]
-     [% LxERP.t8("Additionally the invoice is not marked for direct debit and would have been checked automatically had the bank information been entered.") %]
-    [%- ELSE %]
-     [%- 'No bank information has been entered in this customer\'s master data entry. You cannot create bank collections unless you enter bank information.' | $T8 %]
-     [% "The required information consists of the IBAN, the BIC, the mandator ID and the mandate's date of signature." | $T8 %]
-     [% LxERP.t8("Additionally the invoice is marked for direct debit and would have been checked automatically had the bank information been entered.") %]
-    [%- END %]
+    [%- 'No SEPA Direct Debit can be created since the due date of this invoice has been exceeded.' | $T8 %]
    </p>
+  [%- END %]
   [%- END %]
 
   <p>
@@ -140,23 +134,7 @@
  </form>
 
  <script type="text/javascript">
-  <!--
-    $(function() {
-      $("#select_all").checkall('INPUT[name="bank_transfers[].selected"]');
-    });
-    -->
-
-$( ".type_target" ).change(function() {
-  type_id = $(this).attr('id');
-  var id = type_id.match(/\d*$/);
-  // alert("found id " + id);
-  if ( $(this).val() == "without_skonto" ) {
-      $('#' + id).val( $('#invoice_open_amount_' + id).val() );
-  } else if ( $(this).val() == "difference_as_skonto" ) {
-      $('#' + id).val( $('#invoice_open_amount_' + id).val() );
-  } else if ( $(this).val() == "with_skonto_pt" ) {
-            $('#' + id).val( $('#amount_less_skonto_' + id).val() );
-  }
-});
-
+  $(function() {
+    kivi.Sepa.initBankTransferAdd('[% JavaScript.escape(vc) %]');
+  });
  </script>

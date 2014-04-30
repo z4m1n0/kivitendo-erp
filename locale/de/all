@@ -1887,6 +1887,7 @@ $self->{texts} = {
   'No sections created yet'     => 'Keine Abschnitte erstellt',
   'No sections have been created so far.' => 'Bisher wurden noch keine Abschnitte angelegt.',
   'No sections have been created yet.' => 'Es wurden noch keine Abschnitte angelegt.',
+  'No SEPA Direct Debit can be created since the due date of this invoice has been exceeded.' => 'Zu dieser Rechnung kann keine SEPA-Lastschrift erstellt werden, da das Fälligkeitsdatum überschritten wurde.',
   'No shipto selected to delete' => 'Keine Lieferadresse zum Löschen ausgewählt',
   'No start date given, setting to #1' => 'Kein Startdatum gegeben, setze Startdatum auf #1',
   'No such job #1 in the database.' => 'Hintergrund-Job #1 existiert nicht mehr.',
