@@ -132,11 +132,11 @@
       </td>
      </tr>
     [%- END %]
+     <tr>
+      <td><b>[% 'Totals' | $T8 %]</b></td>
+      <td></td><td></td><td align="right"><b>[% LxERP.format_amount(total_trans, -2) %]</b></td><td></td><td align="right"><b>[% LxERP.format_amount(total_amount, -2) %]</b></td><td></td>
+     </tr>
    </table>
-  </p>
-
-  <p>
-   [% 'Sum open amount' | $T8 %]: [% LxERP.format_amount(total_trans, -2) %]
   </p>
 
   <p>

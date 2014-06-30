@@ -138,7 +138,8 @@ sub bank_transfer_create {
     }
   }
 
-  my $total_trans = sum map { $_->{open_amount} } @bank_transfers;
+  my $total_trans  = sum map { $_->{open_amount} } @bank_transfers;
+  my $total_amount = sum map { $_->{amount}      } @bank_transfers;
 
   my ($vc_bank_info);
   my $error_message;
@@ -172,6 +173,7 @@ sub bank_transfer_create {
                                        'error_message'      => $error_message,
                                        'vc'                 => $vc,
                                        'total_trans'        => $total_trans,
+                                       'total_amount'       => $total_amount,
                                      });
 
   } else {
