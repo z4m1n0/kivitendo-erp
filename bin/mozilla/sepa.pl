@@ -173,6 +173,11 @@ sub bank_transfer_create {
       }
 
       $bank_transfer->{chart_id} = $bank_account->{chart_id};
+
+      if (length($bank_transfer->{reference}) > 140){
+        $form->error($locale->text('The purpose "#1" is too long (maximum length: #2).', $bank_transfer->{reference}, 140));
+        last;
+      }
     }
 
     my $id = SL::SEPA->create_export('employee'       => $::myconfig{login},

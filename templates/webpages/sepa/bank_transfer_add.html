@@ -91,7 +91,7 @@
     [% ELSE %]
        [%- SET reference = invoice.reference_prefix _ invoice.invnumber %]
     [% END %]
-       <input name="bank_transfers[].reference" value="[% HTML.escape(reference.substr(0, 140)) %]" maxlength="140" size="30">
+       <input name="bank_transfers[].reference" value="[% HTML.escape(reference.substr(0, 140)) %]" maxlength="140" size="60">
       </td>
       <td align="right">
        <input id=[% loop.count %] name="bank_transfers[].amount" id="amount_[% loop.count %]" value="[% LxERP.format_amount(invoice.invoice_amount_suggestion, 2) %]" style="text-align: right" size="12">
