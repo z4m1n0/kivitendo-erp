@@ -34,6 +34,7 @@ sub bank_transfer_add {
     $form->error($locale->text('You have not added bank accounts yet.'));
   }
 
+  my $show_empty = scalar @{ $bank_accounts } > 1;
   my $invoices = SL::SEPA->retrieve_open_invoices(vc => $vc);
 
   if (!scalar @{ $invoices }) {
@@ -71,6 +72,7 @@ sub bank_transfer_add {
                                    { 'INVOICES'           => $invoices,
                                      'BANK_ACCOUNTS'      => $bank_accounts,
                                      'vc'                 => $vc,
+                                     'show_empty'         => $show_empty,
                                    });
 
   $main::lxdebug->leave_sub();

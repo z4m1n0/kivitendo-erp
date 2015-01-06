@@ -24,7 +24,7 @@
    [% L.select_tag('bank_account',
        BANK_ACCOUNTS,
        title_key='displayable_name',
-       with_empty=0,
+       with_empty=show_empty,
        style='width:450px',
    ) %]
   </p>
