@@ -144,7 +144,7 @@ sub bank_transfer_create {
   my ($vc_bank_info);
   my $error_message;
 
-  my @bank_columns    = qw(iban bic);
+  my @bank_columns    = qw(iban bic depositor);
   push @bank_columns, qw(mandator_id mandate_date_of_signature) if $vc eq 'customer';
 
   if ($form->{confirmation}) {
@@ -153,6 +153,10 @@ sub bank_transfer_create {
     foreach my $info (values %{ $vc_bank_info }) {
       if (any { !$info->{$_} } @bank_columns) {
         $error_message = $locale->text('The bank information must not be empty.');
+        last;
+      }
+      if (!SL::SEPA->is_depositor_name_valid($info->{depositor})) { # Checking for Depositor formatting if SEPA conform
+        $error_message = $locale->text('Incorrect depositor!');
         last;
       }
     }
@@ -564,7 +568,7 @@ sub bank_transfer_download_sepa_xml {
                                  'src_bic'        => $item->{our_bic},
                                  'dst_iban'       => $item->{vc_iban},
                                  'dst_bic'        => $item->{vc_bic},
-                                 'company'        => $item->{vc_name},
+                                 'company'        => $item->{vc_depositor},
                                  'company_number' => $item->{vc_number},
                                  'amount'         => $item->{amount},
                                  'reference'      => $item->{reference},

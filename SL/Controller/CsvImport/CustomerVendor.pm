@@ -8,6 +8,7 @@ use SL::DB::Business;
 use SL::DB::CustomVariable;
 use SL::DB::CustomVariableConfig;
 use SL::DB::PaymentTerm;
+use SL::SEPA;
 use SL::TransNumber;
 
 use parent qw(SL::Controller::CsvImport::Base);
@@ -74,6 +75,7 @@ sub check_objects {
     my $object = $entry->{object};
 
     $self->check_name($entry);
+    $self->check_depositor($entry);
     $self->check_language($entry);
     $self->check_business($entry);
     $self->check_payment($entry);
@@ -86,7 +88,7 @@ sub check_objects {
     next if @{ $entry->{errors} };
 
     my @cleaned_fields = $self->clean_fields(qr{[\r\n]}, $object, qw(name department_1 department_2 street zipcode city country gln contact phone fax homepage email cc bcc
-                                                                     taxnumber account_number bank_code bank username greeting taxzone));
+                                                                     taxnumber account_number bank_code bank username greeting taxzone depositor));
 
     push @{ $entry->{information} }, $::locale->text('Illegal characters have been removed from the following fields: #1', join(', ', @cleaned_fields))
       if @cleaned_fields;
@@ -142,6 +144,14 @@ sub check_name {
 
   push @{ $entry->{errors} }, $::locale->text('Error: Name missing');
   return 0;
+}
+
+sub check_depositor {
+  my ($self, $entry) = @_;
+
+  my $depositor = $entry->{object}->depositor;
+
+  push @{ $entry->{errors} }, $::locale->text('Error: Depositor not SEPA conform') if !SL::SEPA->is_depositor_name_valid($depositor);
 }
 
 sub check_language {
@@ -290,6 +300,7 @@ sub setup_displayable_columns {
                                  { name => 'customernumber',    description => $::locale->text('Customer Number')                 },
                                  { name => 'department_1',      description => $::locale->text('Department 1')                    },
                                  { name => 'department_2',      description => $::locale->text('Department 2')                    },
+                                 { name => 'depositor',         description => $::locale->text('Depositor')                       },
                                  { name => 'delivery_term_id',  description => $::locale->text('Delivery terms (database ID)')    },
                                  { name => 'delivery_term',     description => $::locale->text('Delivery terms (name)')           },
                                  { name => 'direct_debit',      description => $::locale->text('direct debit')                    },

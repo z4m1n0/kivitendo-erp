@@ -138,10 +138,10 @@ sub _create_export {
   my $q_insert =
     qq|INSERT INTO sepa_export_items (id,          sepa_export_id,           ${arap}_id,  chart_id,
                                       amount,      requested_execution_date, reference,   end_to_end_id,
-                                      our_iban,    our_bic,                  vc_iban,     vc_bic,
+                                      our_iban,    our_bic, our_depositor,   vc_iban,     vc_bic, vc_depositor,
                                       skonto_amount, payment_type ${c_mandate})
        VALUES                        (?,           ?,                        ?,           ?,
-                                      ?,           ?,                        ?,           ?,
+                                      ?,           ?,       ?,               ?,           ?,      ?,
                                       ?,           ?,                        ?,           ?,
                                       ?,           ? ${p_mandate})|;
   my $h_insert = prepare_query($form, $dbh, $q_insert);
@@ -188,7 +188,7 @@ sub _create_export {
                   conv_i($transfer->{"${arap}_id"}), conv_i($transfer->{chart_id}),
                   $transfer->{amount},               conv_date($transfer->{requested_execution_date}),
                   $transfer->{reference},            $end_to_end_id,
-                  map { my $pfx = $_; map { $transfer->{"${pfx}_${_}"} } qw(iban bic) } qw(our vc));
+                  map { my $pfx = $_; map { $transfer->{"${pfx}_${_}"} } qw(iban bic depositor) } qw(our vc));
     # save value of skonto_amount and payment_type
     if ( $transfer->{payment_type} eq 'without_skonto' ) {
       push(@values, 0);
@@ -530,6 +530,11 @@ sub _post_payment {
   map { $_->[0]->finish() } values %handles;
 
   return 1;
+}
+
+sub is_depositor_name_valid {
+  my ($class, $depositor) = @_;
+  return $depositor =~ /[^A-Za-z0-9\/\?\:\(\)\.\,\'\+\- ]/ ? 0 : 1;
 }
 
 1;

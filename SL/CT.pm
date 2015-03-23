@@ -382,7 +382,7 @@ sub get_bank_info {
   my @ids          = ref $params{id} eq 'ARRAY' ? @{ $params{id} } : ($params{id});
   my $placeholders = join ", ", ('?') x scalar @ids;
   my $c_mandate    = $params{vc} eq 'customer' ? ', mandator_id, mandate_date_of_signature' : '';
-  my $query        = qq|SELECT id, name, account_number, bank, bank_code, iban, bic ${c_mandate}
+  my $query        = qq|SELECT id, name, depositor, account_number, bank, bank_code, iban, bic ${c_mandate}
                         FROM ${table}
                         WHERE id IN (${placeholders})|;
 
