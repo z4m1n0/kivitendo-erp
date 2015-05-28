@@ -53,6 +53,7 @@ sub bank_transfer_add {
 
   my $translation_list = GenericTranslations->list(translation_type => 'sepa_remittance_info_pfx');
   my %translations     = map { ( ($_->{language_id} || 'default') => $_->{translation} ) } @{ $translation_list };
+  my $current_date     = DateTime->today_local;
 
   foreach my $invoice (@{ $invoices }) {
     my $prefix                    = $translations{ $invoice->{language_id} } || $translations{default} || $::locale->text('Invoice');
@@ -127,6 +128,14 @@ sub bank_transfer_create {
 
   if (!scalar @bank_transfers) {
     $form->error($locale->text('You have selected none of the invoices.'));
+  }
+
+  my $current_date = DateTime->today_local;
+
+  foreach my $item1 (@bank_transfers) {
+    if ($vc eq 'customer' && !$form->{confirmation}) {
+      $item1->{requested_execution_date} = $invoices_map{ $item1->{id} }->{duedate} if DateTime->from_kivitendo($invoices_map{ $item1->{id} }->{duedate}) > $current_date;
+    }
   }
 
   my $total_trans = sum map { $_->{open_amount} } @bank_transfers;
