@@ -96,6 +96,8 @@ sub bank_transfer_create {
     $form->error($locale->text('You have not added bank accounts yet.'));
   }
 
+  $form->error($::locale->text('You have to select a bank account.')) unless $form->{bank_account};
+
   my $bank_account = SL::DB::Manager::BankAccount->find_by( id => $form->{bank_account} );
 
   unless ( $bank_account ) {

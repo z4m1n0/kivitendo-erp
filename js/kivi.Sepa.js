@@ -15,8 +15,17 @@ namespace('kivi.Sepa', function(ns) {
       $('#' + id).val( $('#amount_less_skonto_' + id).val() );
   };
 
+  this.verifyBankAccountSelected = function() {
+    if ($('#bank_account').val())
+      return true;
+
+    alert(kivi.t8('You have to select a bank account.'));
+    return false;
+  };
+
   this.initBankTransferAdd = function(vc) {
     $("#select_all").checkall('INPUT[name="bank_transfers[].selected"]');
     $(".type_target").change(kivi.Sepa.paymentTypeChanged);
+    $('[type=submit]').click(kivi.Sepa.verifyBankAccountSelected);
   };
 });

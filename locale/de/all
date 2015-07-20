@@ -3592,6 +3592,7 @@ $self->{texts} = {
   'You have to enter a company name in the client configuration.' => 'Sie müssen in der Mandantenkonfiguration einen Firmennamen angeben.',
   'You have to enter the SEPA creditor ID in the client configuration.' => 'Sie müssen in der Mandantenkonfiguration eine SEPA-Kreditoren-Identifikation angeben.',
   'You have to grant users access to one or more clients.' => 'Benutzern muss dann Zugriff auf einzelne Mandanten gewährt werden.',
+  'You have to select a bank account.' => 'Sie müssen ein Bankkonto auswählen.',
   'You have to specify a department.' => 'Sie müssen eine Abteilung wählen.',
   'You have to specify an execution date for each antry.' => 'Sie müssen für jeden zu buchenden Eintrag ein Ausführungsdatum angeben.',
   'You must chose a user.'      => 'Sie m&uuml;ssen einen Benutzer ausw&auml;hlen.',

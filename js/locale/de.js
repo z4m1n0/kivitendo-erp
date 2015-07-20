@@ -107,6 +107,7 @@ namespace("kivi").setupLocale({
 "Update quotation/order":"Auftrag/Angebot aktualisieren",
 "Version actions":"Aktionen für Versionen",
 "Yes":"Ja",
+"You have to select a bank account.":"Sie müssen ein Bankkonto auswählen.",
 "flat-rate position":"Pauschalposition",
 "sort items":"Positionen sortieren",
 "time and effort based position":"Aufwandsposition"
