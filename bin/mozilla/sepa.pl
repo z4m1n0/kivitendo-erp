@@ -68,6 +68,8 @@ sub bank_transfer_add {
     $invoice->{reference_prefix_vc}  = ' '  . $prefix_vc_number unless $prefix_vc_number =~ m/^ /;
   }
 
+  $::request->layout->use_javascript('js/kivi.Sepa.js');
+
   $form->header();
   print $form->parse_html_template('sepa/bank_transfer_add',
                                    { 'INVOICES'           => $invoices,
