@@ -51,7 +51,7 @@
      [%- IF show_post_payments_button %]
       <th class="listheading" colspan="[% IF vc == 'customer' %]6[% ELSE %]5[% END %]">&nbsp;</th>
       <th class="listheading">
-        [% L.date_tag('set_all_execution_date', '', onchange='set_all_execution_date_fields(this);') %]
+        [% L.date_tag('set_all_execution_date', '', onchange='check_right_date_format(this); set_all_execution_date_fields(this);') %]
       </th>
      [%- ELSE %]
       <th class="listheading" colspan="4">&nbsp;</th>
