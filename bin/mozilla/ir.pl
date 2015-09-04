@@ -794,10 +794,14 @@ sub delete {
   $main::lxdebug->enter_sub();
 
   my $form     = $main::form;
+  my %myconfig = %main::myconfig;
   my $locale   = $main::locale;
 
   $main::auth->assert('vendor_invoice_edit');
 
+  if ( IR->has_sepaexport(\%myconfig, \%$form) ) {
+    $form->error($locale->text('Cannot delete because of existing SEPA Export Items!'));
+  }
   $form->header;
   print qq|
 <form method=post action=$form->{script}>

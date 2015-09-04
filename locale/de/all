@@ -492,6 +492,7 @@ $self->{texts} = {
   'Cancel Accounts Receivables Transaction' => 'Debitorenbuchung stornieren',
   'Cannot check correct WebDAV folder' => 'Kann nicht den richtigen WebDAV Pfad überprüfen',
   'Cannot delete account!'      => 'Konto kann nicht gelöscht werden!',
+  'Cannot delete because of existing SEPA Export Items!' => 'Rechnung kann nicht gelöscht werden weil es SEPA Überweisung(en) dazu gibt!',
   'Cannot delete customer!'     => 'Kunde kann nicht gelöscht werden!',
   'Cannot delete default account!' => 'Das Standard-Konto kann nicht gelöscht werden!',
   'Cannot delete delivery order!' => 'Lieferschein kann nicht gelöscht werden!',

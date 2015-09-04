@@ -916,10 +916,27 @@ sub reverse_invoice {
   $main::lxdebug->leave_sub();
 }
 
+sub has_sepaexport {
+  $main::lxdebug->enter_sub();
+  my ($self, $myconfig, $form) = @_;
+
+  my $dbh = $form->dbconnect_noauto($myconfig);
+  my $query = qq|SELECT count(*) FROM sepa_export_items where ap_id=$form->{id} |;
+  my ($count) = selectrow_query($self, $dbh, $query);
+  $dbh->disconnect;
+  $main::lxdebug->leave_sub();
+
+  return $count;
+}
+
 sub delete_invoice {
   $main::lxdebug->enter_sub();
 
   my ($self, $myconfig, $form) = @_;
+  if ( $self->has_sepaexport(\%$myconfig, \%$form) ) {
+      $main::lxdebug->leave_sub();
+      return 0;
+  }
   my $query;
   # connect to database
   my $dbh = SL::DB->client->dbh;
