@@ -51,7 +51,7 @@
      [%- IF show_post_payments_button %]
       <th class="listheading" colspan="[% IF vc == 'customer' %]6[% ELSE %]5[% END %]">&nbsp;</th>
       <th class="listheading">
-        [% L.date_tag('set_all_execution_date', '', onchange='check_right_date_format(this); set_all_execution_date_fields(this);') %]
+        [% L.date_tag('set_all_execution_date', '', onchange='check_right_date_format(this); set_all_execution_date_fields(this);' , onblur='check_right_date_format(this); set_all_execution_date_fields(this);') %]
       </th>
      [%- ELSE %]
       <th class="listheading" colspan="4">&nbsp;</th>
@@ -104,6 +104,7 @@
 
   [%- IF show_post_payments_button %]
   <p>
+   <input type="submit" class="submit" name="action_bank_update_list" value="[% 'Update' | $T8 %]">
    <input type="submit" class="submit" name="action_bank_transfer_post_payments" value="[% 'Post payments' | $T8 %]">
   </p>
 
@@ -145,3 +146,33 @@
 
      <input type="hidden" name="vc" value="[% HTML.escape(vc) %]">
  </form>
+<script>
+$(function()
+  {
+    var submitActor = null;
+    var $form = $( 'form' );
+    var $submitActors = $form.find( 'input[type=submit]' );
+
+    $form.submit( function( event )
+    {
+      if ( null === submitActor )
+      {
+        // If no actor is explicitly clicked, the browser will
+        // automatically choose the first in source-order
+        // so we do the same here
+        submitActor = $submitActors[0];
+      }
+
+      if (submitActor.name !== "action_bank_transfer_post_payments")
+        return false;
+    });
+
+    $submitActors.click( function( event )
+    {
+      submitActor = this;
+    });
+
+  } );
+
+
+</script>
