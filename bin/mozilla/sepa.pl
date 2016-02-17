@@ -49,7 +49,7 @@ sub bank_transfer_add {
   # has been selected. For purchase invoices it's the other way
   # around: if direct debit is active then the vendor will collect
   # from us automatically and we don't have to send money manually.
-  $_->{checked} = ($vc eq 'customer' ? $_->{direct_debit} : !$_->{direct_debit}) for @{ $invoices };
+  #$_->{checked} = ($vc eq 'customer' ? $_->{direct_debit} : !$_->{direct_debit}) for @{ $invoices };
 
   my $translation_list = GenericTranslations->list(translation_type => 'sepa_remittance_info_pfx');
   my %translations     = map { ( ($_->{language_id} || 'default') => $_->{translation} ) } @{ $translation_list };

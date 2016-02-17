@@ -33,17 +33,17 @@
    <table border="0">
     <tr>
      <th class="listheading" align="center"><input type="checkbox" id="select_all"></th>
+     <th class="listheading" align="right">[% 'Due<br>Date' | $T8 %]</th>
      <th class="listheading">[% IF is_vendor %][% 'Vendor' | $T8 %][%- ELSE %][%- LxERP.t8('Customer') %][%- END %]</th>
      <th class="listheading">[% 'Invoice' | $T8 %]</th>
-     <th class="listheading" align="right">[% 'Amount' | $T8 %]</th>
+     <th class="listheading" align="right">[% 'Invoice<br>Amount' | $T8 %]</th>
      <th class="listheading" align="right">[% 'Open amount' | $T8 %]</th>
-     <th class="listheading" align="right">[% 'Invoice Date' | $T8 %]</th>
-     <th class="listheading" align="right">[% 'Due Date' | $T8 %]</th>
+     <th class="listheading" align="right">[% 'Invoice<br>Date' | $T8 %]</th>
      <th class="listheading">[% 'Payment Terms' | $T8 %]</th>
-     <th class="listheading">[% 'Purpose' | $T8 %]</th>
-     <th class="listheading" align="right">[% 'Bank transfer amount' | $T8 %]</th>
-     <th class="listheading" align="right">[% 'Payment type' | $T8 %]</th>
      <th class="listheading" align="right">[% 'Skonto information' | $T8 %]</th>
+     <th class="listheading" align="right">[% 'Payment type' | $T8 %]</th>
+     <th class="listheading" align="right">[% 'Bank transfer<br>amount' | $T8 %]</th>
+     <th class="listheading">[% 'Purpose' | $T8 %]</th>
     </tr>
 
     [%- FOREACH invoice = INVOICES %]
@@ -59,6 +59,7 @@
         <input type="checkbox" name="bank_transfers[].selected" value="1"[% IF invoice.checked %] checked[% END %]>
        [%- END %]
       </td>
+      <td align="right">[% invoice.duedate %]</td>
       <td>
        [%- IF loop.first || (previous_vcname != invoice.vcname) %]
         <a href="controller.pl?action=CustomerVendor/edit&db=[% vc %]&id=[% HTML.url(invoice.vc_id) %]&callback=[% HTML.url('sepa.pl?action=bank_transfer_add&vc=' _ vc) %]">
@@ -84,8 +85,8 @@
       <td align="right">[% LxERP.format_amount(invoice.invoice_amount-invoice.open_sepa_transfer_amount, 2) %]</td>
       <td align="right">[% LxERP.format_amount(invoice.open_amount-invoice.open_sepa_transfer_amount, 2) %]</td>
       <td align="right">[% invoice.transdate %]</td>
-      <td align="right">[% invoice.duedate %]</td>
       <td align="left">[% HTML.escape(invoice.pt_description) %]</td>
+      <td align="left" [%- IF invoice.within_skonto_period %]style="background-color: LightGreen"[%- END %]>[%- IF invoice.skonto_amount %] [% LxERP.format_amount(invoice.percent_skonto, 2) %] % = [% LxERP.format_amount(invoice.skonto_amount, 2) %] € bis [% invoice.skonto_date %] [%- END %]</td>
       <td>
     [% IF INSTANCE_CONF.get_sepa_reference_add_vc_vc_id %]
        [%- SET reference = invoice.reference_prefix _ invoice.invnumber _ invoice.reference_prefix_vc _ invoice.vc_vc_id %]
@@ -93,14 +94,15 @@
        [%- SET reference = invoice.reference_prefix _ invoice.invnumber %]
     [% END %]
        <input name="bank_transfers[].reference" value="[% HTML.escape(reference.substr(0, 140)) %]" maxlength="140" size="60">
-      </td>
-      <td align="right">
-       <input id=[% loop.count %] name="bank_transfers[].amount" id="amount_[% loop.count %]" value="[% LxERP.format_amount(invoice.invoice_amount_suggestion, 2) %]" style="text-align: right" size="12">
-      </td>
-      <td>
       [% L.select_tag('bank_transfers[].payment_type', invoice.payment_select_options, value_key => 'payment_type', title_key => 'display', id => 'payment_type_' _ loop.count, class => 'type_target' ) %]
       </td>
-      <td align="left" [%- IF invoice.within_skonto_period %]style="background-color: LightGreen"[%- END %]>[%- IF invoice.skonto_amount %] [% LxERP.format_amount(invoice.percent_skonto, 2) %] % = [% LxERP.format_amount(invoice.skonto_amount, 2) %] € bis [% invoice.skonto_date %] [%- END %]</td>
+      <td align="right">
+        <input id=[% loop.count %] name="bank_transfers[].amount" id="amount_[% loop.count %]" value="[% LxERP.format_amount(invoice.invoice_amount_suggestion, 2) %]" style="text-align: right" size="12">
+      </td>
+      <td>
+      [%- SET reference = invoice.reference_prefix _ invoice.invnumber _ invoice.substitution _ invoice.vc_prefix _ invoice.vc_number %]
+      <input name="bank_transfers[].reference" value="[% HTML.escape(reference.substr(0, 140)) %]" maxlength="140" size="60">
+      </td>
      </tr>
     [%- END %]
    </table>
