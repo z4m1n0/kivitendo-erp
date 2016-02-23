@@ -323,16 +323,9 @@ sub skonto_date {
   my $is_sales = ref($self) eq 'SL::DB::Invoice';
 
   my $skonto_date;
-
-  if ( $is_sales ) {
-    return undef unless ref $self->payment_terms;
-    return undef unless $self->payment_terms->terms_skonto > 0;
-    $skonto_date = DateTime->from_object(object => $self->transdate)->add(days => $self->payment_terms->terms_skonto);
-  } else {
-    return undef unless ref $self->vendor->payment_terms;
-    return undef unless $self->vendor->payment_terms->terms_skonto > 0;
-    $skonto_date = DateTime->from_object(object => $self->transdate)->add(days => $self->vendor->payment_terms->terms_skonto);
-  };
+  return undef unless ref $self->payment_terms;
+  return undef unless $self->payment_terms->terms_skonto > 0;
+  $skonto_date = DateTime->from_object(object => $self->transdate)->add(days => $self->payment_terms->terms_skonto);
 
   return $skonto_date;
 };
@@ -428,15 +421,9 @@ sub percent_skonto {
 
   my $percent_skonto = 0;
 
-  if ( $is_sales ) {
-    return undef unless ref $self->payment_terms;
-    return undef unless $self->payment_terms->percent_skonto > 0;
-    $percent_skonto = $self->payment_terms->percent_skonto;
-  } else {
-    return undef unless ref $self->vendor->payment_terms;
-    return undef unless $self->vendor->payment_terms->terms_skonto > 0;
-    $percent_skonto = $self->vendor->payment_terms->percent_skonto;
-  };
+  return undef unless ref $self->payment_terms;
+  return undef unless $self->payment_terms->percent_skonto > 0;
+  $percent_skonto = $self->payment_terms->percent_skonto;
 
   return $percent_skonto;
 };

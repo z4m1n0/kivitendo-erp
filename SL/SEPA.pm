@@ -33,7 +33,8 @@ sub retrieve_open_invoices {
   # currently there is no option in vendor invoices for setting payment terms,
   # so the vendor settings are always used
 
-  my $payment_term_type = $params{vc} eq 'customer' ? "${arap}" : 'vc';
+# Opendynamic: Es gibt es die Option Zahlungsbedingungen zu setzen
+  my $payment_term_type = "${arap}";
 
   # Flag for direct debit. For SEPA bank transfers vendors flagged
   # with »direct debit« should not be shown. Similarly for SEPA bank
