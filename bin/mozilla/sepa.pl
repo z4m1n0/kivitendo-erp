@@ -54,7 +54,9 @@ sub bank_transfer_add {
   my $translation_list = GenericTranslations->list(translation_type => 'sepa_remittance_info_pfx');
   my %translations     = map { ( ($_->{language_id} || 'default') => $_->{translation} ) } @{ $translation_list };
   my $current_date     = DateTime->today_local;
-
+  my %sorted_invoices;
+  my $sec = 0;
+  
   foreach my $invoice (@{ $invoices }) {
     my $prefix                    = $translations{ $invoice->{language_id} } || $translations{default} || $::locale->text('Invoice');
     $prefix                      .= ' ' unless $prefix =~ m/ $/;
@@ -66,13 +68,34 @@ sub bank_transfer_add {
     my $prefix_vc_number             = $translations{ $invoice->{language_id} } || $translations{default} || $vc_no;
     $prefix_vc_number               .= ' ' unless $prefix_vc_number =~ m/ $/;
     $invoice->{reference_prefix_vc}  = ' '  . $prefix_vc_number unless $prefix_vc_number =~ m/^ /;
-  }
 
+    my $vc_prefix                 = $invoice->{vc_number} eq '' ? ''
+                                  : $vc eq 'customer'           ? $translations{ $invoice->{language_id} } || $translations{default} || ' ' . $::locale->text('Ven.nr.')  . ' '
+                                  :                               $translations{ $invoice->{language_id} } || $translations{default} || ' ' . $::locale->text('Cust.nr.') . ' ';
+    $invoice->{vc_prefix}         = $vc_prefix;
+
+    # Check due date for SEPA bank collections.
+    if ((DateTime->from_kivitendo($invoice->{duedate}) < $current_date) && ($vc eq 'customer')) {
+      $invoice->{vc_bank_info_ok}   = '2' if  $invoice->{vc_bank_info_ok};
+    }
+    $invoice->{duedate} = $invoice->{transdate} if !$invoice->{duedate};
+    $invoice->{is_before_today} = 0;
+    if ( $invoice->{within_skonto_period} ) {
+        $invoice->{is_before_today} = 1 if DateTime->from_kivitendo($invoice->{skonto_date}) <= $current_date;
+        $sorted_invoices{DateTime->from_kivitendo($invoice->{skonto_date})->add_duration(DateTime::Duration->new(seconds => $sec))} = $invoice;
+    } else {
+        $invoice->{is_before_today} = 1 if DateTime->from_kivitendo($invoice->{duedate}) <= $current_date;
+        $sorted_invoices{DateTime->from_kivitendo($invoice->{duedate})->add_duration(DateTime::Duration->new(seconds => $sec))} = $invoice;
+    }
+    $sec++;
+  }
+  my $newinvoices;
+  @{ $newinvoices } = map { $sorted_invoices{$_} } sort keys %sorted_invoices;
   $::request->layout->use_javascript('js/kivi.Sepa.js');
 
   $form->header();
   print $form->parse_html_template('sepa/bank_transfer_add',
-                                   { 'INVOICES'           => $invoices,
+                                   { 'INVOICES'           => $newinvoices,
                                      'BANK_ACCOUNTS'      => $bank_accounts,
                                      'vc'                 => $vc,
                                      'show_empty'         => $show_empty,

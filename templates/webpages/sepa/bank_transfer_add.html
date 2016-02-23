@@ -14,22 +14,29 @@
  <p><div class="listtop">[% title %]</div></p>
 
  <form action="sepa.pl" method="post">
-  <p>
+   <table border="0">
+    <tr>
+     <th style='text-align:left;'>
    [%- IF is_vendor %]
-    [% 'Please select the source bank account for the transfers:' | $T8 %]
+    [% 'Source bank account for the transfers:' | $T8 %]
    [%- ELSE %]
-    [% 'Please select the destination bank account for the collections:' | $T8 %]
+    [% 'Destination bank account for the collections:' | $T8 %]
    [%- END %]
-   <br>
-   [% L.select_tag('bank_account',
+    </th><th style='width:800px; text-align:left;'>
+     [% L.select_tag('bank_account',
        BANK_ACCOUNTS,
        title_key='displayable_name',
        with_empty=show_empty,
        style='width:450px',
    ) %]
-  </p>
-
-  <p>
+    </th>
+    <th>
+   [%- IF is_vendor %][% 'Bank transfer amount' | $T8 %][%- ELSE %][%-
+    LxERP.t8('Bank collection amount') %][%- END %]:
+    </th>
+    <td><span id="sepa_sum_amount">0</span> € </td>
+   </tr>
+   </table>
    <table border="0">
     <tr>
      <th class="listheading" align="center"><input type="checkbox" id="select_all"></th>
@@ -47,19 +54,20 @@
     </tr>
 
     [%- FOREACH invoice = INVOICES %]
-     <input type="hidden" name="bank_transfers[+].[% arap %]_id" value="[% HTML.escape(invoice.id) %]">
-     <input type="hidden" id="amount_less_skonto_[% loop.count %]" name="amount_less_skonto_[% loop.count %]" value="[% LxERP.format_amount(invoice.amount_less_skonto, 2) %]">
-     <input type="hidden" id="invoice_open_amount_[% loop.count %]" name="invoice_open_amount_[% loop.count %]" value="[% LxERP.format_amount(invoice.open_amount - invoice.open_sepa_transfer_amount, 2) %]">
-     <input type="hidden" id="skonto_amount_[% loop.count %]" name="skonto_amount_[% loop.count %]" value="[% LxERP.format_amount(invoice.skonto_amount, 2) %]">
-
-
-     <tr class="listrow[% loop.count % 2 %]">
+     <tr class="[%- IF invoice.is_before_today %]listrow_highlight[%- ELSE %]listrow[%- END %][% loop.count % 2 %] invoice_row">
       <td align="center">
+
+       <input type="hidden" name="bank_transfers[+].[% arap %]_id" value="[% HTML.escape(invoice.id) %]">
+       <input type="hidden" id="amount_less_skonto_[% loop.count %]" name="amount_less_skonto_[% loop.count %]" value="[% LxERP.format_amount(invoice.amount_less_skonto, 2) %]">
+       <input type="hidden" id="invoice_open_amount_[% loop.count %]" name="invoice_open_amount_[% loop.count %]" value="[% LxERP.format_amount(invoice.open_amount - invoice.open_sepa_transfer_amount, 2) %]">
+       <input type="hidden" id="skonto_amount_[% loop.count %]" name="skonto_amount_[% loop.count %]" value="[% LxERP.format_amount(invoice.skonto_amount, 2) %]">
+
+
        [%- IF invoice.vc_bank_info_ok && (invoice.vc_bank_info_ok != '2') %]
         <input type="checkbox" name="bank_transfers[].selected" value="1"[% IF invoice.checked %] checked[% END %]>
        [%- END %]
       </td>
-      <td align="right">[% invoice.duedate %]</td>
+      <td align="right">[%- IF invoice.within_skonto_period %][% invoice.skonto_date %][%- ELSE %][% invoice.duedate %][%- END %]</td>
       <td>
        [%- IF loop.first || (previous_vcname != invoice.vcname) %]
         <a href="controller.pl?action=CustomerVendor/edit&db=[% vc %]&id=[% HTML.url(invoice.vc_id) %]&callback=[% HTML.url('sepa.pl?action=bank_transfer_add&vc=' _ vc) %]">
@@ -85,7 +93,7 @@
       <td align="right">[% LxERP.format_amount(invoice.invoice_amount-invoice.open_sepa_transfer_amount, 2) %]</td>
       <td align="right">[% LxERP.format_amount(invoice.open_amount-invoice.open_sepa_transfer_amount, 2) %]</td>
       <td align="right">[% invoice.transdate %]</td>
-      <td align="left">[% HTML.escape(invoice.pt_description) %]</td>
+      <td align="left">[% HTML.escape(invoice.pt_description) %][%- IF invoice.within_skonto_period %] bis [% invoice.duedate %][%- END %]</td>
       <td align="left" [%- IF invoice.within_skonto_period %]style="background-color: LightGreen"[%- END %]>[%- IF invoice.skonto_amount %] [% LxERP.format_amount(invoice.percent_skonto, 2) %] % = [% LxERP.format_amount(invoice.skonto_amount, 2) %] € bis [% invoice.skonto_date %] [%- END %]</td>
       <td>
     [% IF INSTANCE_CONF.get_sepa_reference_add_vc_vc_id %]
@@ -97,7 +105,7 @@
       [% L.select_tag('bank_transfers[].payment_type', invoice.payment_select_options, value_key => 'payment_type', title_key => 'display', id => 'payment_type_' _ loop.count, class => 'type_target' ) %]
       </td>
       <td align="right">
-        <input id=[% loop.count %] name="bank_transfers[].amount" id="amount_[% loop.count %]" value="[% LxERP.format_amount(invoice.invoice_amount_suggestion, 2) %]" style="text-align: right" size="12">
+        <input id=[% loop.count %] name="bank_transfers[].amount" id="amount_[% loop.count %]" value="[% LxERP.format_amount(invoice.invoice_amount_suggestion, 2) %]" style="text-align: right" size="8">
       </td>
       <td>
       [%- SET reference = invoice.reference_prefix _ invoice.invnumber _ invoice.substitution _ invoice.vc_prefix _ invoice.vc_number %]

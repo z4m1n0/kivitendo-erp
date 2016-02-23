@@ -44,8 +44,8 @@
    <br>
    <table>
     <tr>
-     <th class="listheading">[%- IF is_vendor %][% 'Vendor' | $T8 %][%- ELSE %][%- LxERP.t8('Customer') %][%- END %]</th>
-     <th class="listheading">[% 'Depositor' | $T8 %]</th>
+     <th class="listheading" id='cv' style="min-width:250px">[%- IF is_vendor %][% 'Vendor' | $T8 %][%- ELSE %][%- LxERP.t8('Customer') %][%- END %]</th>
+     <th class="listheading" id='depo'>[% 'Depositor' | $T8 %]</th>
      <th class="listheading">[% 'IBAN' | $T8 %]</th>
      <th class="listheading">[% 'BIC' | $T8 %]</th>
      <th class="listheading">[% 'Bank' | $T8 %]</th>
@@ -54,7 +54,6 @@
       <th class="listheading">[% 'Mandate Date of Signature' | $T8 %]</th>
      [%- END %]
     </tr>
-
     [%- FOREACH vbi = VC_BANK_INFO %]
     <tr class="listrow[% loop.count % 1 %]">
      <td>
@@ -62,7 +61,7 @@
       <input type="hidden" name="vc_bank_info[].name" value="[% HTML.escape(vbi.name) %]">
       [% HTML.escape(vbi.name) %]
      </td>
-     <td><input name="vc_bank_info[].depositor" size="20" value="[% HTML.escape(vbi.depositor) %]"></td>
+     <td><input name="vc_bank_info[].depositor" style="width:97%;" size="20" value="[% HTML.escape(vbi.depositor) %]"></td>
      <td><input name="vc_bank_info[].iban" size="34" value="[% HTML.escape(vbi.iban.substr(0, 34)) %]" maxlength="34"></td>
      <td><input name="vc_bank_info[].bic" size="20" value="[% HTML.escape(vbi.bic.substr(0, 20)) %]" maxlength="20"></td>
      <td><input name="vc_bank_info[].bank" size="30" value="[% HTML.escape(vbi.bank) %]"></td>
@@ -74,7 +73,9 @@
     [%- END %]
    </table>
   </p>
-
+   <script type='text/javascript'>
+      $("#depo").css("width",$("#cv").width()+"px");
+   </script>
   <p>
    3. [% 'Enter the requested execution date or leave empty for the quickest possible execution:' | $T8 %]
    <br>

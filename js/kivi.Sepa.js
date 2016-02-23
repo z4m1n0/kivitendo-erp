@@ -1,5 +1,5 @@
 namespace('kivi.Sepa', function(ns) {
-  this.paymentTypeChanged = function() {
+  ns.paymentTypeChanged = function() {
     var type_id = $(this).attr('id');
     var id      = type_id.match(/\d*$/);
 
@@ -13,9 +13,10 @@ namespace('kivi.Sepa', function(ns) {
 
     else if ( $(this).val() == "with_skonto_pt" )
       $('#' + id).val( $('#amount_less_skonto_' + id).val() );
+    kivi.Sepa.updateSumAmount();
   };
 
-  this.verifyBankAccountSelected = function() {
+  ns.verifyBankAccountSelected = function() {
     if ($('#bank_account').val())
       return true;
 
@@ -23,9 +24,35 @@ namespace('kivi.Sepa', function(ns) {
     return false;
   };
 
-  this.initBankTransferAdd = function(vc) {
+  ns.selectRow = function(elem) {
+    if ( elem.target.localName != 'td' )
+	return true;
+    if ($(this).find('INPUT[name="bank_transfers[].selected"]').prop('checked'))
+      $(this).find('INPUT[name="bank_transfers[].selected"]').prop('checked', false);
+    else
+      $(this).find('INPUT[name="bank_transfers[].selected"]').prop('checked', true);
+    kivi.Sepa.updateSumAmount();
+    return false;
+  };
+
+  ns.updateSumAmount = function() {
+    var sum_amount=0;
+    $('INPUT[name="bank_transfers[].selected"]:checked').each(function(idx,elem)
+       {
+	   var $trans = $(elem).closest('tr').find('INPUT[name="bank_transfers[].amount"]');
+           sum_amount += kivi.parse_amount($trans.val());
+       });
+    $('#sepa_sum_amount').text(kivi.format_amount(sum_amount,2));
+    return false;
+  };
+
+  ns.initBankTransferAdd = function(vc) {
     $("#select_all").checkall('INPUT[name="bank_transfers[].selected"]');
+    $("#select_all").change(kivi.Sepa.updateSumAmount);
+    $('INPUT[name="bank_transfers[].selected"]').change(kivi.Sepa.updateSumAmount);
+    $('INPUT[name="bank_transfers[].amount"]').change(kivi.Sepa.updateSumAmount);
     $(".type_target").change(kivi.Sepa.paymentTypeChanged);
+    $('.invoice_row').click(kivi.Sepa.selectRow);
     $('[type=submit]').click(kivi.Sepa.verifyBankAccountSelected);
   };
 });
