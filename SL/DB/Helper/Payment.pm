@@ -666,13 +666,17 @@ sub get_payment_suggestions {
   $self->{invoice_amount_suggestion} = $open_amount;
   undef $self->{payment_select_options};
   push(@{$self->{payment_select_options}} , { payment_type => 'without_skonto',  display => t8('without skonto') });
-  if ( $self->within_skonto_period ) {
+  if ( $self->skonto_date ) {
     # If there have been no payments yet suggest amount_less_skonto, otherwise the open amount
     if ( $open_amount &&                   # invoice amount not 0
          $open_amount == $self->amount &&  # no payments yet, or sum of payments and sepa export amounts is zero
          $self->check_skonto_configuration) {
       $self->{invoice_amount_suggestion} = $self->amount_less_skonto;
-      push(@{$self->{payment_select_options}} , { payment_type => 'with_skonto_pt',  display => t8('with skonto acc. to pt') , selected => 1 });
+
+      # Check check in invoice in skonto period
+      my $selected = 0;
+      $selected = 1 if($self->within_skonto_period);
+      push(@{$self->{payment_select_options}} , { payment_type => 'with_skonto_pt',  display => t8('with skonto acc. to pt') , selected => $selected });
     } else {
       if ( ( $self->valid_skonto_amount($self->open_amount) || $self->valid_skonto_amount($open_amount) ) and not $params{sepa} ) {
         $self->{invoice_amount_suggestion} = $open_amount;
