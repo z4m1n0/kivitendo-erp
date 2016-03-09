@@ -676,6 +676,12 @@ sub get_payment_suggestions {
       # Check check in invoice in skonto period
       my $selected = 0;
       $selected = 1 if($self->within_skonto_period);
+
+      # Precalculate amount of suggestion when Skonto not in period (Preselected payment_select_option)
+      if (!$self->within_skonto_period) {
+        $self->{invoice_amount_suggestion} = $self->amount;
+      }
+
       push(@{$self->{payment_select_options}} , { payment_type => 'with_skonto_pt',  display => t8('with skonto acc. to pt') , selected => $selected });
     } else {
       if ( ( $self->valid_skonto_amount($self->open_amount) || $self->valid_skonto_amount($open_amount) ) and not $params{sepa} ) {
