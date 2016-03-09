@@ -90,11 +90,11 @@
        </a>
       </td>
 
-      <td align="right">[% LxERP.format_amount(invoice.invoice_amount-invoice.open_sepa_transfer_amount, 2) %]</td>
-      <td align="right">[% LxERP.format_amount(invoice.open_amount-invoice.open_sepa_transfer_amount, 2) %]</td>
+      <td align="right" id='[%- HTML.escape(invoice.invnumber) %]_se_full'>[% LxERP.format_amount(invoice.invoice_amount-invoice.open_sepa_transfer_amount, 2) %]</td>
+      <td align="right" id='[%- HTML.escape(invoice.invnumber) %]_se_open'>[% LxERP.format_amount(invoice.open_amount-invoice.open_sepa_transfer_amount, 2) %]</td>
       <td align="right">[% invoice.transdate %]</td>
       <td align="left">[% HTML.escape(invoice.pt_description) %][%- IF invoice.within_skonto_period %] bis [% invoice.duedate %][%- END %]</td>
-      <td align="left" [%- IF invoice.within_skonto_period %]style="background-color: LightGreen"[%- END %]>[%- IF invoice.skonto_amount %] [% LxERP.format_amount(invoice.percent_skonto, 2) %] % = [% LxERP.format_amount(invoice.skonto_amount, 2) %] € bis [% invoice.skonto_date %] [%- END %]</td>
+      <td align="left" id='[%- HTML.escape(invoice.invnumber) %]_skrow' [%- IF invoice.within_skonto_period %]style="background-color: LightGreen"[%- END %]>[%- IF invoice.skonto_amount %] [% LxERP.format_amount(invoice.percent_skonto, 2) %] % = [% LxERP.format_amount(invoice.skonto_amount, 2) %] € bis [% invoice.skonto_date %] <script type='text/javascript'>if (parseFloat($("#[%- HTML.escape(invoice.invnumber)%]_se_full").html()) != parseFloat($("#[%- HTML.escape(invoice.invnumber)%]_se_open").html())) {$("#[%- HTML.escape(invoice.invnumber) %]_skrow").css({"background-color":"OrangeRed", "color":"white"})}</script> [%- END %]</td>
       <td>
     [% IF INSTANCE_CONF.get_sepa_reference_add_vc_vc_id %]
        [%- SET reference = invoice.reference_prefix _ invoice.invnumber _ invoice.reference_prefix_vc _ invoice.vc_vc_id %]
