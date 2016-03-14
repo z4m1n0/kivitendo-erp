@@ -52,7 +52,7 @@ namespace('kivi.Sepa', function(ns) {
     $('INPUT[name="bank_transfers[].selected"]').change(kivi.Sepa.updateSumAmount);
     $('INPUT[name="bank_transfers[].amount"]').change(kivi.Sepa.updateSumAmount);
     $(".type_target").change(kivi.Sepa.paymentTypeChanged);
-    $('.invoice_row').click(kivi.Sepa.selectRow);
+    $('.invoice_row').find("td:first").click(kivi.Sepa.selectRow);
     $('[type=submit]').click(kivi.Sepa.verifyBankAccountSelected);
   };
 });
