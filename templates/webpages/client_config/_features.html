@@ -295,5 +295,26 @@
    <td align="right">[% LxERP.t8('Add Customer/Vendor Number as a reference add-on for SEPA export.') %]</td>
    <td>[% L.yes_no_tag('defaults.sepa_reference_add_vc_vc_id', SELF.defaults.sepa_reference_add_vc_vc_id) %]</td>
   </tr>
+
+ <tr><td class="listheading" colspan="4">[% LxERP.t8("SEPA transfers") %]</td></tr>
+ <td align="right">[% LxERP.t8('Additional days for skonto SEPA bank transfer') %]</td>
+ <td>
+     [% L.input_tag('defaults.additional_skontodays',
+     LxERP.format_amount(SELF.defaults.additional_skontodays, 0), style=style, onchange="check_skontodays_range(this);") %]
+ </td>
+ <td>
+   [% LxERP.t8('Now it is possible to make skonto transfers after the skonto date .') %]
+ </td>
+</tr>
+
  </table>
 </div>
+<script type="text/javascript">
+function check_skontodays_range(elem) {
+   var value = parseInt(elem.value);
+   if ( value < 0 || value > 99 ) {
+       elem.value='0';
+       alert('[% LxERP.t8("Value must between 0 and 99") %]');
+   }
+}
+</script>
