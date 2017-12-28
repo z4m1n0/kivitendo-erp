@@ -183,13 +183,13 @@ sub get_custom_variables {
       $cvar->{value} = $form->format_amount($myconfig, $cvar->{value} * 1, $cvar->{precision});
     } elsif ($cvar->{type} eq 'customer') {
       require SL::DB::Customer;
-      $cvar->{value} = SL::DB::Manager::Customer->find_by(id => $cvar->{value} * 1);
+      $cvar->{value} = $cvar->{value} * 1 ? SL::DB::Customer->load_cached($cvar->{value} * 1) : undef;
     } elsif ($cvar->{type} eq 'vendor') {
       require SL::DB::Vendor;
-      $cvar->{value} = SL::DB::Manager::Vendor->find_by(id => $cvar->{value} * 1);
+      $cvar->{value} = $cvar->{value} * 1 ? SL::DB::Vendor->load_cached($cvar->{value} * 1) : undef;
     } elsif ($cvar->{type} eq 'part') {
       require SL::DB::Part;
-      $cvar->{value} = SL::DB::Manager::Part->find_by(id => $cvar->{value} * 1);
+      $cvar->{value} = $cvar->{value} * 1 ? SL::DB::Part->load_cached($cvar->{value} * 1) : undef;
     }
   }
 
