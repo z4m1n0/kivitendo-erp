@@ -1221,6 +1221,8 @@ sub _retrieve {
 
   $self->load_periodic_invoice_config($form);
 
+  $::form->{record_obj} = SL::DB::Manager::Order->find_by(id => $::form->{id});
+
   return 1;
 }
 
