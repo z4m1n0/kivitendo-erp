@@ -2,7 +2,6 @@
 [%- USE HTML %]
 [%- USE L %]
 [%- USE LxERP %]
-[%- PROCESS 'amcvar/render_inputs_block.html' %]
 <tr>
  <td>
   <input type="button" id="cb_show_details" name="show_details_button" value='[% 'Show details' | $T8 %]'[% IF  show_details %] style="display:none"[% END %]>
@@ -48,33 +47,7 @@
    [%- END %]
  [%- END %]
 
- [%# process editable cvars  %]
- <table class='row2-cvars-table'>
-   <tr>
-   [%- FOREACH row2 = row.ROW2 %]
-     [%- SET show = ((row2.render_options.var.flag_editable || !row2.render_options.hide_non_editable ) && row2.render_options.valid && !row2.render_options.partsgroup_filtered) %]
-     [%- IF row2.cvar && show %]
-       [%- IF row2.line_break %]
-         </tr><tr>
-       [%- END %]
-     <th>
-       [% row2.description %]
-     </th>
-     <td>
-       [% PROCESS cvar_inputs cvar = row2.render_options %]
-     </td>
-     [%- END %]
-   [%- END %]
-   </tr>
- </table>
-
- [%# process non editable cvars extra to not disturb the table layout (this will be hidden inputs) %]
- [%- FOREACH row2 = row.ROW2 %]
-   [%- SET hide = (!row2.render_options.var.flag_editable && row2.render_options.hide_non_editable) %]
-   [%- IF row2.cvar && hide %]
-     [% PROCESS cvar_inputs cvar = row2.render_options %]
-   [%- END %]
- [%- END %]
+ [% P.record_item.cvar_inputs_as_block(row.obj, hide_non_editable=1, table=1) %]
 
       </td>
      </tr>

@@ -236,7 +236,6 @@ sub display_row {
 
   _update_part_information();
   _update_ship() if ($is_s_p_order);
-  _update_custom_variables();
 
   my $totalweight = 0;
 
@@ -248,6 +247,7 @@ sub display_row {
     my %column_data = ();
 
     my $record_item = $record->id && $record->items ? $record->items->[$i-1] : _make_record_item($i);
+    _update_custom_variables($record_item, $i);
 
     # undo formatting
     map { $form->{"${_}_$i"} = $form->parse_amount(\%myconfig, $form->{"${_}_$i"}) }
@@ -488,11 +488,8 @@ sub display_row {
 
     $form->{invsubtotal} += $linetotal;
 
-    # Benutzerdefinierte Variablen für Waren/Dienstleistungen/Erzeugnisse
-    _render_custom_variables_inputs(ROW2 => \@ROW2, row => $i, part_id => $form->{"id_$i"});
-
     my $colspan = scalar @ROW1;
-    push @ROWS, { ROW1 => \@ROW1, ROW2 => \@ROW2, HIDDENS => \@HIDDENS, colspan => $colspan, error => $form->{"row_error_$i"}, obj => $record_item };
+    push @ROWS, { ROW1 => \@ROW1, ROW2 => \@ROW2, HIDDENS => \@HIDDENS, colspan => $colspan, error => $form->{"row_error_$i"}, obj => $record_item, i => $i };
   }
 
   $form->{totalweight} = $totalweight;
@@ -1698,77 +1695,13 @@ sub _update_ship {
 }
 
 sub _update_custom_variables {
-  $main::lxdebug->enter_sub();
+  my ($record_item, $index) = @_;
 
-  my $form     = $main::form;
+  return unless $record_item;
 
-  $form->{CVAR_CONFIGS}         = { } unless ref $form->{CVAR_CONFIGS} eq 'HASH';
-  $form->{CVAR_CONFIGS}->{IC} ||= CVar->get_configs(module => 'IC');
-
-  $main::lxdebug->leave_sub();
-}
-
-sub _render_custom_variables_inputs {
-  $main::lxdebug->enter_sub(2);
-
-  my $form     = $main::form;
-
-  my %params = @_;
-
-  if (!$form->{CVAR_CONFIGS}->{IC}) {
-    $main::lxdebug->leave_sub();
-    return;
-  }
-
-  my $valid = CVar->custom_variables_validity_by_trans_id(trans_id => $params{part_id});
-
-  # get partsgroup_id from part
-  my $partsgroup_id;
-  if ($params{part_id}) {
-    $partsgroup_id = SL::DB::Part->new(id => $params{part_id})->load->partsgroup_id;
-  }
-
-  my $num_visible_cvars = 0;
-  foreach my $cvar (@{ $form->{CVAR_CONFIGS}->{IC} }) {
-    $cvar->{valid} = $params{part_id} && $valid->($cvar->{id});
-
-    # set partsgroup filter
-    my $partsgroup_filtered = 0;
-    if ($cvar->{flag_partsgroup_filter}) {
-      if (!$partsgroup_id || (!grep {$partsgroup_id == $_} @{ $cvar->{partsgroups} })) {
-        $partsgroup_filtered = 1;
-      }
-    }
-
-    my $hide_non_editable = 1;
-
-    my $show = 0;
-    my $description = '';
-    if (( ($cvar->{flag_editable} || !$hide_non_editable) && $cvar->{valid}) && !$partsgroup_filtered) {
-      $num_visible_cvars++;
-      $description = $cvar->{description} . ' ';
-      $show = 1;
-    }
-
-    my $form_key = "ic_cvar_" . $cvar->{name} . "_$params{row}";
-
-    push @{ $params{ROW2} }, {
-      line_break     => $show && !(($num_visible_cvars - 1) % ($::myconfig{form_cvars_nr_cols}*1 || 3)),
-      description    => $description,
-      cvar           => 1,
-      render_options => {
-         hide_non_editable => $hide_non_editable,
-         var               => $cvar,
-         name_prefix       => 'ic_',
-         name_postfix      => "_$params{row}",
-         valid             => $cvar->{valid},
-         value             => CVar->parse($::form->{$form_key}, $cvar),
-         partsgroup_filtered => $partsgroup_filtered,
-      }
-    };
-  }
-
-  $main::lxdebug->leave_sub(2);
+  my $cvars = $record_item->cvars_by_config;
+  $_->value($::form->{"ic_cvar_" . $_->config->name . "_$index"}) for @$cvars;
+  $record_item->{custom_variables} = $cvars;
 }
 
 sub _remove_billed_or_delivered_rows {
