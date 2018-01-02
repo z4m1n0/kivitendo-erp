@@ -1901,6 +1901,10 @@ sub _make_record {
 
   $class = 'SL::DB::' . $class;
 
+  return $::form->{record_obj} if $::form->{record_obj}
+                               && $class eq ref $::form->{record_obj}
+                               && $::form->{id} == $::form->{record_obj}->id;
+
   eval "require $class";
 
   my $obj = $::form->{id}
