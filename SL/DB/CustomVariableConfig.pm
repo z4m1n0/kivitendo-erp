@@ -44,9 +44,7 @@ use constant OPTION_DEFAULTS =>
 sub processed_options {
   my ($self) = @_;
 
-  if( exists($self->{processed_options_cache}) ) {
-    return $self->{processed_options_cache};
-  }
+  return $self->{processed_options_cache} if $self->{processed_options_cache};
 
   my $ops = $self->options;
   my $ret;
@@ -70,9 +68,7 @@ sub processed_options {
 sub processed_flags {
   my ($self) = @_;
 
-  if( exists($self->{processed_flags_cache}) ) {
-    return $self->{processed_flags_cache};
-  }
+  return $self->{processed_flags_cache} if $self->{processed_flags_cache};
 
   my $flags = $self->flags;
   my $ret = {};
@@ -91,9 +87,7 @@ sub processed_flags {
 }
 
 sub has_flag {
-  my ($self, $flag) = @_;
-
-  return $self->processed_flags()->{$flag};
+  $_[0]->processed_flags->{$_[1]};
 }
 
 sub type_dependent_default_value {
@@ -101,6 +95,21 @@ sub type_dependent_default_value {
 
   return $self->default_value if $self->type ne 'select';
   return (any { $_ eq $self->default_value } @{ $self->processed_options }) ? $self->default_value : $self->processed_options->[0];
+}
+
+sub textarea_options {
+  my $options = $_[0]->processed_options;
+
+  cols => $options->{WIDTH},
+  rows => $options->{HEIGHT}
+}
+
+sub text_options {
+  maxlength => $_[0]->processed_options->{MAXLENGTH}
+}
+
+sub number_options {
+  precision => $_[0]->processed_options->{PRECISION}
 }
 
 sub value_col {
