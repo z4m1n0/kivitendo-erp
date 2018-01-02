@@ -56,8 +56,7 @@ sub escape_js {
 
 # internal magic
 sub escaped_text {
-  my ($self) = @_;
-  return $self->{text};
+  $_[0]{text};
 }
 
 sub TO_JSON {
