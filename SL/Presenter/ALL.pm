@@ -14,6 +14,7 @@ use SL::Presenter::Order;
 use SL::Presenter::Part;
 use SL::Presenter::Project;
 use SL::Presenter::Record;
+use SL::Presenter::RecordItem;
 use SL::Presenter::RequirementSpec;
 use SL::Presenter::RequirementSpecItem;
 use SL::Presenter::RequirementSpecTextBlock;
@@ -26,6 +27,7 @@ use SL::Presenter::BankAccount;
 our %presenters = (
   chart                       => 'SL::Presenter::Chart',
   customer_vendor             => 'SL::Presenter::CustomerVendor',
+  custom_variable             => 'SL::Presenter::CustomVariable',
   delivery_order              => 'SL::Presenter::DeliveryOrder',
   escaped_text                => 'SL::Presenter::EscapedText',
   invoice                     => 'SL::Presenter::Invoice',
@@ -35,6 +37,7 @@ our %presenters = (
   part                        => 'SL::Presenter::Part',
   project                     => 'SL::Presenter::Project',
   record                      => 'SL::Presenter::Record',
+  record_item                 => 'SL::Presenter::RecordItem',
   requirement_spec            => 'SL::Presenter::RequirementSpec',
   requirement_spec_item       => 'SL::Presenter::RequirementSpecItem',
   requirement_spec_text_block => 'SL::Presenter::RequirementSpecTextBlock',
