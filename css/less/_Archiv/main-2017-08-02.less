@@ -1,0 +1,315 @@
+/* Stylesheet for kivitendo * Name:kivitendo.css */
+//
+/* Color table */
+/* ----------- */
+//
+/* Background:    #EBEBEB burlywood */
+/* Links:         #006400 DarkGreen */
+/* Link-hover     #FE5F14 Orange / #FFFFE0 lightyellow */
+/* Titles, BG/VG: #79B61B Mid-green FFFFFF White */
+/* Tabcolor:      #CAFFA3 */
+
+
+
+
+
+/* Headings */
+
+h1{
+	display: block;
+	z-index: 12;
+	position: fixed;
+	top: 50px;
+	width: 100%;
+	/* siehe auch .listtop */
+	background-color: #9ccb21 ; /* hps: Schoen aber satt: #9ccb21, #d6ff75 */
+	text-align: left;
+	padding: 0.8em 0.5em;
+	color: #003c18 ; /* hps // #638229 //  #6b7929 */
+	font-size:112%;
+	font-weight: normal; /* hps */
+}
+
+body.admin > h1{
+	top: 21px;
+
+}
+
+
+/* PENDENT: Tabellen? oder einfach nur DIV oder P? */
+/* siehe auch H1 */
+.listtop {
+	background: none; /* #d6ff75 // hps // Schoen aber satt: #9ccb21 */
+	text-align: left;
+	padding: 0.8em 0.5em;
+	color: #666;/* #638229// hps//  #6b7929 */
+	font-size: 112%;
+	font-weight: normal; /* hps */
+	/* border-style: none; // hps */
+	/* border-width: thin;// hps */
+	/* -moz-border-radius:0.4em;//  Firefox // hps */
+	/* -webkit-border-radius:0.4em;//  Safari, Chrome // hps */
+	/* -khtml-border-radius:0.4em; //  Konqueror // hps */
+	/* border-radius:0.4em;// hps */
+	behavior: url(border-radius.htc);/* CSS3 */
+}
+
+/* siehe auch Caption in Tabellen */
+#content h2,
+.admin h2{
+  padding: 0.6em 0.2em; /* hps */
+  /*background-color: #bcbcbc;*/ /* hps */
+  color: #000; /* hps */
+  font-size: 1.3em; /* hps */
+  font-weight: normal; /* hps */
+  text-align: left;
+  border-style: none;
+}
+h2.confirm {
+  color: blue;
+}
+h2.error {
+  color: red;
+}
+
+/* siehe auch  */
+h3{
+    font-size: 90%;
+    color: #000;
+}
+
+
+/* **************** */
+/* Links */
+/* **************** */
+//
+a {
+    padding: 0 0.2em;
+    text-decoration: none;
+
+    &:link,
+    &:visited,
+    &:active {
+        color: #000000;
+        /* border-bottom: thin solid #FE5F14;  // hps */
+    }
+    &:hover {
+        color: #FE5F14;
+        /* background-color: whitesmoke; // hps */
+    }
+
+    /* spezielle Klassen */
+    &.selected:hover {
+      color:#EBEBEB;
+    }
+    &.nomobile {
+      background-color:transparent;
+      border:none;
+    }
+    &.green {
+      background-color: DarkGreen;
+      color: white !important;
+      border:none;
+    }
+    &.orange {
+      background-color:#FF8000;
+      border:none;
+    }
+    &.red {
+      background-color:#FF0000;
+      border:none;
+    }
+
+
+}
+/* /a (Links) */
+
+
+
+
+hr {
+    background-color: #006400;
+    border: none;
+    color: #79B61B;
+    height: 2px;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* PENDENT: obsolete? */
+body.menu {
+  color: #000000;
+}
+
+
+
+/*
+ * Messages & Warnings
+ *
+ */
+
+.message_ok,
+.message_error,
+.message_hint {
+/*
+    font-weight: bolder;
+    text-align: center;
+    border-style: solid;
+    border-width: thin;
+*/
+    padding: 5px;
+}
+.message_ok {
+/*
+  background-color: #ADFFB6;
+*/
+  color: black;
+}
+.message_error {
+    background-color: #CC0000;
+    color: white;
+    border-style: solid;
+    border-width: thin;
+}
+.message_hint {
+  /*background-color: #FFEE66;*/
+  color: black;
+}
+.message_error_label {
+  padding: 0.5em;
+  background-color: #E00000;
+  color: white;
+  font-weight: normal;
+  text-align: left;
+  border-style: solid;
+  border-width: thin;
+}
+
+/*
+ * Flash Messages
+ *
+ */
+
+.flash_message_error,
+.flash_message_ok,
+.flash_message_warning,
+.flash_message_info{
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 5px;
+
+}
+.flash_message_error {
+  background-color: #FFD6D6;
+  border: 1px solid #AE0014;
+}
+.flash_message_ok {
+  background-color: #ADFFB6;
+  border: 1px solid #007F0F;
+}
+.flash_message_warning {
+  background-color: #FFE8C7;
+  border: 1px solid #FF6600;
+}
+.flash_message_info {
+  background-color: #DCF2FF;
+  border: 1px solid #4690FF;
+}
+
+.flash_title {
+  font-weight: bold;
+}
+
+/* Inline-Hinweis-Formatierung (Warnung etc.) */
+.plus0 {
+  /* font color for negative numbers */
+  color: red;
+}
+.plus1 {
+  color: green;
+}
+
+/* PENDENT: welche Selektoren? */
+/* /templates/webpages/am/edit_templates.html */
+pre.filecontent {
+  border: 1px solid blue;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+/* PENDENT: welche Selektoren? */
+/* bin/mozilla/gl.pl */
+span.unbalanced_ledger {
+  background-color: #ffa0a0;
+}
+
+/* /templates/webpages/requirement_spec_text_block/_text_block.html */
+/* /templates/webpages/requirement_spec_item/_section_header.html */
+div.dimmed-text,
+span.dimmed-text {
+  color: #ccc;
+  font-style: italic;
+}
+
+/* Chart-Picker-Daten in jquery.autocomplete.less verlagert */
+
+
+
+
+
+
+
+
+/* gemahnte Rechnung */
+/* /templates/webpages/is/form_header.html*/
+/* /templates/webpages/ar/form_header.html*/
+.dunned_invoice {
+  font-weight: bold;
+  color: #f00;
+}
+/* gemahnte Rechnung */
+/* /templates/webpages/is/form_header.html*/
+/* /templates/webpages/ar/form_header.html*/
+.customer_dunning_level {
+  font-weight: bold;
+}
+/* dunning  */
+/* ./templates/webpages/dunning/show_invoices.html*/
+#dunning_invoice_list .direct_debit td,
+#dunning_invoice_list .direct_debit a {
+  color: #aaa;
+}
+/* /templates/webpages/order/tabs/_row.html */
+/* /templates/webpages/order/tabs/basic_data.html */
+/* /js/kivi.Order.js */
+#expand_all,
+.expand {
+    cursor: pointer;
+    display: block;
+    max-width: 16px;
+    max-height: 16px;
+}
+
+/* Bank transactions */
+/* /templates/webpages/bank_transactions/tabs/automatic.html */
+#bank_transactions_proposals .invoice_number_highlight a,
+#bank_transactions_proposals span.invoice_number_highlight {
+  background-color: #006400;
+  color: #FFFFFF;
+}
+
+
+
+
+
+
+
+
+

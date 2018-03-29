@@ -1,14 +1,7 @@
 [%- USE LxERP -%][%- USE L -%][%- USE HTML -%][% SET style="width: 500px" %]
 [% DEFAULT id_base = 'edit_text_block_' _ SELF.text_block.id %]
 <form method="post" id="[% id_base %]_form">
- <h2>
-  [%- IF SELF.text_block.id %]
-   [%- SET title = SELF.text_block.title || '(' _ LxERP.t8('No title yet') _ ')' %]
-   [%- LxERP.t8("Edit text block '#1'", title) %]
-  [%- ELSE %]
-   [%- LxERP.t8("Add text block") %]
-  [%- END %]
- </h2>
+
 
  [% L.hidden_tag('form_prefix',                    id_base,            id=id_base _ '_form_prefix') %]
  [% L.hidden_tag('id',                             SELF.text_block.id, id=id_base _ '_id') %]
@@ -19,14 +12,23 @@
  [% END %]
 
  <table>
+ <caption>
+  [%- IF SELF.text_block.id %]
+   [%- SET title = SELF.text_block.title || '(' _ LxERP.t8('No title yet') _ ')' %]
+   [%- LxERP.t8("Edit text block '#1'", title) %]
+  [%- ELSE %]
+   [%- LxERP.t8("Add text block") %]
+  [%- END %]
+ </caption>
+ t<tbody>
   <tr>
-   <th align="right">[%- LxERP.t8("Title") %]:</th>
+   <th>[%- LxERP.t8("Title") %]:</th>
    <td>[% L.input_tag(id_base _ '.title', SELF.text_block.title, style = style) %]</td>
   </tr>
 
  [%- IF SELF.predefined_texts.size %]
   <tr>
-   <th align="right">[%- LxERP.t8("Pre-defined Texts") %]:</th>
+   <th>[%- LxERP.t8("Pre-defined Texts") %]:</th>
    <td>
     [%- L.select_tag(id_base _ '_predefined_text_block', SELF.predefined_texts, title_key='description', style=style) %]
     <a href="#" onclick="insert_selected_predefined_text()">[%- LxERP.t8("Insert") %]</a>
@@ -35,9 +37,10 @@
  [%- END %]
 
   <tr>
-   <th align="right" valign="top">[%- LxERP.t8("Description") %]:</th>
-   <td valign="top">[% L.textarea_tag(id_base _ '.text_as_restricted_html', SELF.text_block.text_as_restricted_html, id = id_base _ '_text', style = style _ '; height: 200px', class='texteditor') %]</td>
+   <th>[%- LxERP.t8("Description") %]:</th>
+   <td>[% L.textarea_tag(id_base _ '.text_as_restricted_html', SELF.text_block.text_as_restricted_html, id = id_base _ '_text', style = style _ '; height: 200px', class='texteditor') %]</td>
   </tr>
+  </tbody>
  </table>
 
  <p>

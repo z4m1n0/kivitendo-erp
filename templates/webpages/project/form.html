@@ -22,18 +22,18 @@
     [%- END %]
    </ul>
 
-   <div id="basic_data">
+   <div id="basic_data" class="ui-tabs-panel">
    [%- PROCESS 'project/_basic_data.html' %]
    </div>
 
    [%- IF CUSTOM_VARIABLES.size %]
-   <div id="custom_variables">
+   <div id="custom_variables" class="ui-tabs-panel">
    [%- PROCESS 'project/_cvars.html' %]
    </div>
    [%- END %]
 
    [%- IF SELF.project.id and AUTH.assert('record_links', 1) %]
-   <div id="linked_records">
+   <div id="linked_records" class="ui-tabs-panel">
    [%- PROCESS 'project/_linked_records.html' records=SELF.linked_records %]
    </div>
    [%- END %]

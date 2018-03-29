@@ -3,45 +3,49 @@
 [%- USE P %]
 [%- USE HTML %]
 [%- USE LxERP %]
-<table>
+<div class="pad-wrapper">
+<table class="tbl-horizontal">
+  <tbody>
  <tr>
-  <th align="right">[% 'Number' | $T8 %]</th>
-  <td>[% L.input_tag("project.projectnumber", SELF.project.projectnumber, size=60, style='width: 300px', class="initial_focus") %]</td>
+  <th>[% 'Number' | $T8 %]</th>
+  <td>[% L.input_tag("project.projectnumber", SELF.project.projectnumber, class="wi-wide initial_focus") %]</td>
  </tr>
 
  <tr>
-  <th align="right">[% 'Description' | $T8 %]</th>
+  <th>[% 'Description' | $T8 %]</th>
   <td>
-    [%- L.areainput_tag("project.description", SELF.project.description, size=60, style="width: 300px", wrap="soft") %]
+    [%- L.areainput_tag("project.description", SELF.project.description, size=60, class='wi-wide', wrap="soft") %]
   </td>
  </tr>
 
  <tr>
-  <th align="right">[% 'Project Type' | $T8 %]</th>
-  <td>[% L.select_tag('project.project_type_id', SELF.project_types, default=SELF.project.project_type_id, title_key='description', style='width: 300px') %]</td>
+  <th>[% 'Project Type' | $T8 %]</th>
+  <td>[% L.select_tag('project.project_type_id', SELF.project_types, default=SELF.project.project_type_id, title_key='description', class='wi-wide') %]</td>
  </tr>
 
  <tr>
-  <th align="right">[% 'Project Status' | $T8 %]</th>
-  <td>[% L.select_tag('project.project_status_id', SELF.project_statuses, default=SELF.project.project_status_id, title_key='description', style='width: 300px') %]</td>
+  <th>[% 'Project Status' | $T8 %]</th>
+  <td>[% L.select_tag('project.project_status_id', SELF.project_statuses, default=SELF.project.project_status_id, title_key='description', class='wi-wide') %]</td>
  </tr>
 
  <tr>
-  <th align="right">[% 'Customer' | $T8 %]</th>
-<td>[% L.customer_vendor_picker('project.customer_id', SELF.project.customer_id, type='customer', fat_set_item=1, style='width: 300px', default=SELF.project.customer_id)%] [%- IF SELF.project.customer_id %]
+  <th>[% 'Customer' | $T8 %]</th>
+<td>[% L.customer_vendor_picker('project.customer_id', SELF.project.customer_id, type='customer', fat_set_item=1, class='wi-wide', default=SELF.project.customer_id)%] [%- IF SELF.project.customer_id %]
 [%- END %]
 </td>
  </tr>
 
  <tr>
-  <th align="right">[% 'Valid' | $T8 %]</th>
-  <td>[% L.select_tag('project.valid', [ [ 1, LxERP.t8('Valid') ], [ 0, LxERP.t8('Invalid') ] ], default=SELF.project.valid, style='width: 300px') %]</td>
+  <th>[% 'Valid' | $T8 %]</th>
+  <td>[% L.select_tag('project.valid', [ [ 1, LxERP.t8('Valid') ], [ 0, LxERP.t8('Invalid') ] ], default=SELF.project.valid, class='wi-wide') %]</td>
  </tr>
 
  [%- IF SELF.project.id %]
  <tr>
-  <th align="right">[% 'Active' | $T8 %]</th>
-  <td>[% L.select_tag('project.active', [ [ 1, LxERP.t8('Active') ], [ 0, LxERP.t8('Inactive') ] ], default=SELF.project.active, style='width: 300px') %]</td>
+  <th>[% 'Active' | $T8 %]</th>
+  <td>[% L.select_tag('project.active', [ [ 1, LxERP.t8('Active') ], [ 0, LxERP.t8('Inactive') ] ], default=SELF.project.active, class='wi-wide') %]</td>
  </tr>
  [%- END %]
+</tbody>
 </table>
+</div>

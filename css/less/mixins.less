@@ -1,0 +1,59 @@
+// ----------------------------------------------------------------------------
+//
+// MIXINS (general sitewide properties)
+//
+// ----------------------------------------------------------------------------
+// DESCRIPTION:
+// Mixins can be used like variables and be written like a CSS-class
+// Do not apply these classes onto selectors but apply besides other properties
+// within a selector
+//
+// CONTENTS:
+// - H3 & CAPTION
+// - CONTENT-BLOCKS (Content-Boxes)
+// - - 
+// - 
+// - 
+// - 
+// 
+// ----------------------------------------------------------------------------
+
+
+
+
+// --------------
+// H3
+//
+
+// Mixin, no class to apply in selectors
+// see H3 in main.less
+// see also Caption in tables.less
+.mx-h3-caption{
+  text-align: left;
+  font-size : @font-size-h3 ;
+  font-style: normal;
+  font-weight: bold;
+  padding: 0.2em 0 0.2em 0.4em;
+  color: #666 !important ;
+  margin: 0;
+}
+
+// -------------------
+// Content-BLOCKS (Content-Boxes)
+// 
+
+.mx-contentbox-properties {
+  margin:  @contentbox-margin ; 
+  padding: @contentbox-padding;
+}
+
+
+//  --------------------------------------
+//  Tables
+//  --------------------------------------
+
+.mx-thead-th{
+  color: @t-cell-head-text ;
+  text-align: left ;
+  vertical-align: middle ;
+}

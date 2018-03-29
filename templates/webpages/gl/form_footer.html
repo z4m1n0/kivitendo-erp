@@ -2,23 +2,22 @@
 [%- USE LxERP %]
 [%- USE T8 %]
 [%- USE L %]
-      <tr class=listtotal>
-      <th colspan="3" align=right class=listtotal> [% LxERP.format_amount(totaldebit, 2) | html %]</th>
-      <th align=right class=listtotal> [% LxERP.format_amount(totalcredit, 2) | html %]</th>
-      <td colspan=6></td>
-      </tr>
-    </table>
-    </td>
+  <tfoot>
+    <tr>
+      <th></th>
+      <th></th>
+      <th class="total right"> [% LxERP.format_amount(totaldebit, 2) | html %]</th>
+      <th class="total right"> [% LxERP.format_amount(totalcredit, 2) | html %]</th>
+      <td colspan="2"></td>
+      [%- IF show_details %]<td colspan="3"></td>[% END %]
     </tr>
-  </table>
-  </td>
-  </tr>
+  </tfoot>
 </table>
+
 </div>
 [% PROCESS 'webdav/_list.html' %]
 </div>
 
-<hr size="3" noshade>
 <input name=callback type=hidden value="[% callback %]">
 
 [%- IF id && follow_ups.size %]

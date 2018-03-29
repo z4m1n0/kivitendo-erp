@@ -8,45 +8,46 @@
   [% END %]
  </h2>
 
- <table>
-  <tr class="listrow">
-   <td>[% LxERP.t8("Title") %]:</td>
+ <table class="tbl-horizontal">
+   <tbody>
+  <tr>
+   <th>[% LxERP.t8("Title") %]:</th>
    <td>[% HTML.escape(SELF.requirement_spec.title) %]</td>
   </tr>
 
-  <tr class="listrow">
-   <td>[% LxERP.t8("Requirement Spec Type") %]:</td>
+  <tr>
+   <th>[% LxERP.t8("Requirement Spec Type") %]:</th>
    <td>[% HTML.escape(SELF.requirement_spec.type.description) %]</td>
   </tr>
 
 [%- UNLESS SELF.requirement_spec.is_template %]
 
-  <tr class="listrow">
-   <td>[% LxERP.t8("Requirement Spec Status") %]:</td>
+  <tr>
+   <th>[% LxERP.t8("Requirement Spec Status") %]:</th>
    <td>[% HTML.escape(SELF.requirement_spec.status.description) %]</td>
   </tr>
 
-  <tr class="listrow">
-   <td>[% LxERP.t8("Customer") %]:</td>
+  <tr>
+   <th>[% LxERP.t8("Customer") %]:</th>
    <td>[% HTML.escape(SELF.requirement_spec.customer.name) %]</td>
   </tr>
 
-  <tr class="listrow">
-   <td>[% LxERP.t8("Hourly Rate") %]:</td>
+  <tr>
+   <th>[% LxERP.t8("Hourly Rate") %]:</th>
    <td>[% HTML.escape(SELF.requirement_spec.hourly_rate_as_number) %]</td>
   </tr>
 
   [% cvars = SELF.requirement_spec.cvars_by_config %]
 
   [% FOREACH var = cvars %]
-   <tr class="listrow">
-    <td>[% HTML.escape(var.config.description) %]</td>
+   <tr>
+    <th>[% HTML.escape(var.config.description) %]</th>
     <td>[% HTML.escape(var.value_as_text) %]</td>
    </tr>
   [% END %]
 
 [%- END %]
-
+</tbody>
  </table>
 
 [% UNLESS SELF.requirement_spec.is_template %]

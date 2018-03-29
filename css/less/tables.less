@@ -1,0 +1,737 @@
+//  ----------------------------------------------------------------------------
+//
+//  TABLES
+//
+//  ----------------------------------------------------------------------------
+//  DESCRIPTION:
+//
+//
+//
+//  CONTENTS:
+//  - MIXINS
+//  - TABLE
+//  - CELLS (TD & TH)
+//    - Data Format
+//    - Images within Cells
+//    - TD
+//    - TH
+//    - TR (Table Row)
+//  - THEAD
+//  - TBODY
+//  - TFOOT
+//  - CAPTION
+//  - HEADINGS (Print Style)
+//  - COLGROUP & COLS
+//    - Dimensions for Table Colums (COL)
+//  - TABLE LIST
+//  - TABLE PLAIN
+//  - TABLE HORIZONTAL
+//  - TABLE DIALOG
+//  - TABLE CLASS TEST
+//  - DIMENSIONS (Classes) FOR TABLES
+//  - LINKS
+//  - HEADINGS
+//  - SUBTOTALS
+//
+//  - TABLES in Requirement Specs
+//  - TABLES with DIVS
+//  - LIST WITH PARAGRAPHS
+//  ----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+//  --------------------------------------
+//  TABLE
+//  --------------------------------------
+
+table {
+  font-size: @font-size-base ;
+  table-layout: auto;
+  border-spacing: 1px;
+
+
+  //  --------------------------------------
+  //  CELLS (TD & TH)
+  //  --------------------------------------
+
+  td,
+  th {
+    text-align: left ;
+    vertical-align: top;
+    font-size: @font-size-smaller;
+    font-weight: normal ;
+    color: #000000;
+
+
+    //  --------------
+    //  Data format
+    //
+    &.right{
+      text-align: right !important ;
+    }
+    &.center{
+      text-align: center !important ;
+    }
+    &.numeric {
+      text-align: right !important ;
+    }
+    &.numeric-centered{
+      text-align: center !important ;
+    }
+    &.date {
+      text-align: right !important ;
+    }
+    &.button {
+      text-align: center !important ;
+    }
+    &.img {
+      text-align: center !important ;
+    }
+    &.top {
+      vertical-align: top !important ;
+    }
+    // see also div.longdesc in main.css
+    // PENDENT: Mixin und Variablen erstellen
+    &.long-desc,
+    &.long-description,
+    &.longdesc,
+    &.longdescription {
+      font-size: 70% ;
+      color: #888888 ;
+    }
+
+    &.formelem-with-desc {
+      div.description{
+        margin-left: 2.0em
+      }
+    }
+
+    &.formelem-with-desc-float {
+      input,
+      select,
+      div.description {
+        float: left;
+      }
+      div.description{
+        margin-left: 2.0em
+      }
+    }
+
+
+    //  --------------
+    //  Images within Cells
+    //
+
+    img{
+      //display: inline-block ;
+      display: inline ;
+      vertical-align: top ;
+    }
+
+    &+a img,
+    &+img {
+      float: left ;
+    }
+
+    &~a img,
+    &~img {
+      float: right ;
+    }
+
+
+    //  --------------
+    //  Description within Cell
+    //
+    div.description {
+      font-size: 80% ;
+      color: #555 ;
+      float: both;
+    }
+
+    // PENDENT: vielleicht noetig?
+    span {
+      &.label{
+        font-style: italic ;
+        font-size: 90% ;
+        color: #999 ;
+      }
+    }
+
+
+
+    //  --------------
+    //  Form Element within Cells
+    //
+    input,
+    select {
+      //float: left;
+    }
+
+  }
+  //  /th, td
+
+
+  //  --------------
+  //  TH (Table Header Cells)
+  //
+  th {
+    white-space: normal !important ;
+  }
+
+  //  --------------
+  //  TD (Table Data)
+  //
+  td {
+
+  }
+
+
+  //  --------------
+  //  TR
+  //
+  tr {
+    //  if header-cell is in the same row as a caption-header-cell (TH.CAPTION)
+    &.header-caption th{
+      vertical-align: bottom ;
+    }
+
+  }
+
+
+  //  --------------------------------------
+  //  THEAD
+  //  --------------------------------------
+  thead{
+    th {
+      .mx-thead-th; //  Mixin
+
+      a {
+        img {
+          vertical-align: middle;
+          padding: 0;
+          margin: 0;
+        }
+      }
+    }
+  }
+
+
+  //  --------------------------------------
+  //  TBODY
+  //  --------------------------------------
+
+  tbody {
+    tr {
+      //  common cells within TBODY
+      td {  }
+      th {  }
+    }
+  }
+
+
+  //  --------------------------------------
+  //  TFOOT
+  //  --------------------------------------
+  tfoot {
+    tr{
+      th,
+      td{
+        vertical-align: middle;
+        //border-top: #999 1px solid ;
+        border-bottom: #999 2px solid ;
+        height: 1.8em;
+      }
+
+      td{
+        font-weight: bold;
+        color: #000;
+      }
+
+      th{
+        font-weight: normal;
+        color: #666;
+       }
+
+      //  if more than one row in TFOOT first row has other properties
+      &:first{
+        td,
+        th{
+          border-top: #000 2px solid ;
+        }
+      }
+      
+      // normaly last row of a table with some links or buttons under a designated row 
+      &.blank {
+        th, 
+        td {
+          border: none !important ;        
+        }
+      }
+    } //  /tr
+  } //  /TFOOT
+
+
+  //  --------------------------------------
+  //  CAPTION
+  //  --------------------------------------
+
+  //  this must be placed here
+  //  otherwise th.caption will be overridden if placed above
+  caption,
+  th.caption {
+    color: @t-caption-text-color !important;
+    font-weight: bold ;
+    white-space: nowrap ;
+
+    .mx-h3-caption ; //   Mixin
+
+    //  Addition with smaller font-size
+    small {
+      font-size : @font-size-small ;
+    }
+  }
+
+
+  //  --------------------------------------
+  //  HEADINGS
+  //  --------------------------------------
+
+  //  alternativ Version (Print style)
+  tr.heading th {
+    font-size: 120%;
+    border-top: 1px #999 solid;
+  }
+
+
+  //  --------------------------------------
+  //  COLGROUP & COLS
+  //  --------------------------------------
+
+  colgroup{  }
+
+  //  Table Columns
+  //  only for background-color and width
+  //   PENDENT: funktioniert Text-Ausrichtung?
+  col{
+    &.right  { text-align: right;  }
+    &.center { text-align: center; }
+    &.long-desc { font-size: 70% ; }
+
+
+    //  --------------
+    //  Width of Columns (Dimensions)
+    //
+    &.wi-smallest    { width: (@tcol-wi-smallest    ) ; }
+    &.wi-verysmall   { width: (@tcol-wi-verysmall   ) ; }
+    &.wi-small       { width: (@tcol-wi-small       ) ; }
+    &.wi-mediumsmall { width: (@tcol-wi-mediumsmall ) ; }
+    &.wi-normal      { width: (@tcol-wi-normal      ) ; }
+    &.wi-lightwide   { width: (@tcol-wi-lightwide   ) ; }
+    &.wi-wide        { width: (@tcol-wi-wide        ) ; }
+    &.wi-wider       { width: (@tcol-wi-wider       ) ; }
+    &.wi-verywide    { width: (@tcol-wi-verywide    ) ; }
+  }
+
+
+
+
+  //  --------------------------------------
+  //  TABLE LIST (vertical)
+  //  --------------------------------------
+  //  Table with Zebra Effect
+  //  This table has at least a THEAD and a TBODY
+  //  Optional a TFOOT for Totals
+
+  &.tbl-list {
+    border-spacing:  1px;
+    border-collapse: collapse ;
+    margin:          0 0 1.0em 0 ;
+
+    td,
+    th{
+      padding: 0.2em 0.4em ;
+      white-space: normal ;
+      vertical-align: middle;
+    }
+
+    thead {
+      tr {
+        height: 2.2em ;
+        th {
+          .mx-thead-th;
+          background-color: @gray-light ;
+          border-top:       1px solid @gray ;
+          border-bottom:    1px solid @gray ;
+        }
+      }
+    }
+
+    tbody{
+      tr:nth-child(odd){
+        background-color: #ececec ;
+      }
+      tr:nth-child(even){
+        background-color: #dedede ;
+      }
+      border-bottom: #999 1px solid ;
+    }
+    tfoot{
+      tr{
+        th,
+        td{ }
+      }
+    }
+  } // /.tbl-list
+
+
+
+
+  //  --------------------------------------
+  //  TABLE PLAIN
+  //  --------------------------------------
+
+  //  Simple Table without Zebra Effect
+  &.tbl-list-plain,
+  &.tbl-plain{
+    caption,
+    th.caption { font-size: 80% !important; }
+  
+    th,
+    td{ padding-right: 0.8em; }
+
+    thead{
+      th{
+        .mx-thead-th; //  Mixin
+      }
+    }
+
+    tr{
+      th,
+      td{
+        padding: 0.3em inherit 0.3em 0.3em ;
+      }
+      td{ }
+      th{ }
+    }
+  } // /.tbl-plain
+
+  &.tbl-list-plain {
+    thead th {
+      border-top:    1px #000 solid !important; 
+      border-bottom: 1px #000 solid; 
+      font-weight:   bold;
+    }
+    tbody {
+      td,
+      th { border-bottom: 1px #999 solid; }
+    }
+  }
+
+
+
+
+  //  --------------------------------------
+  //  TABLE HORIZONTAL
+  //  --------------------------------------
+
+  &.tbl-horizontal{
+
+    th,
+    td{
+      background: none;
+      padding: 0.5em 0.8em 0.2em 0.2em;
+      
+      // Adjust Form Elements in this table type
+      &>input[type="checkbox"],
+      &>input[type="radio"] {
+        margin: 0.2em 0.3em 0 0 !important ;
+      }
+      input,
+      select{
+        margin-top: -0.3em ;
+        // if there are further form elements within a table cell separated with a Linebreak BR
+        &.addition { margin-top: 0.3em !important; }
+      }
+
+    }
+
+    th{
+      color: @t-cell-head-text-accent;
+      vertical-align: top;
+      padding-top: 0.5em ;
+    }
+    
+    td{ }
+
+    caption,
+    th.caption{
+      padding: 0.8em 0 0.2em 0.2em;
+    }
+    
+    &.zebra {
+      tbody{
+        tr:nth-child(odd){
+          background-color: #dedede ;
+        }
+        tr:nth-child(even){
+          background-color: #ececec ;
+        }
+      }      
+    }
+    
+  } // /.tbl-horizontal
+
+
+
+
+  //  --------------------------------------
+  //  TABLE DIALOG
+  //  --------------------------------------
+
+  //  Table within DIV-Dialogs
+  &.tbl-dialog{
+    th,
+    td{
+      background-color: #ececec;
+    }
+    th{
+      color: #888;
+      font-size: @font-size-base ;
+      vertical-align: top;
+    }
+  }
+
+
+
+
+
+  //  --------------------------------------
+  //  TABLE CLASS TEST
+  //  --------------------------------------
+  //  Use it for controlling your Table HTML
+  
+  &.test{
+     background-color: #CCFF99;
+      
+    th{
+      border: 1px solid red !important;
+
+      &.caption {
+      border: 3px solid red !important;
+      }
+    }
+    td{
+      border: 1px solid blue !important;
+
+      &.longdesc,
+      &.longdescription,
+      &.long-desc,
+      &.long-description{
+        border: 1px solid green !important;
+      }
+    }
+  } // /.test
+
+
+
+  //  --------------------------------------
+  //  DIMENSIONS (Classes) FOR TABLES
+  //  --------------------------------------
+
+  &.width-full,
+  &.full-width,
+  &.wi-full { width: 100% ; }
+
+  //  moderate width with padding on the right side
+  &.width-moderate,
+  &.moderate-width,
+  &.wi-moderate{
+    width: auto ;
+    td,
+    th {
+      padding-left: 0.6em ;
+      padding-right: 1.2em;
+    }
+  }
+
+
+  //  --------------------------------------
+  //  LINKS (within TD & TH)
+  //  --------------------------------------
+
+  td > a,
+  th > a{
+    display: block;
+  }
+
+
+
+  //  --------------------------------------
+  //  HEADINGS (within TD & TH)
+  //  --------------------------------------
+
+  td h4{
+    font-weight: normal;
+    margin: 0 ;
+    padding: 0;
+  }
+
+
+
+  //  --------------------------------------
+  //  SUB-TOTALS
+  //  --------------------------------------
+
+  tr{
+
+    //  PENDENT: ggf. OBSOLETE
+    &.total-sub{
+      height: 2.0em;
+
+      td{
+        border-top: 1px solid #ccc ;
+        border-bottom: 2px solid #999 ;
+        font-weight: bold;
+        color: #666 ;
+      }
+    }
+
+  } //  /tr
+
+}
+//  /table
+
+
+//  --------------------------------------
+//  TABLES in Content-Blocks
+//  --------------------------------------
+
+div.pad-wrapper,
+div.cols {
+  table.tbl-list{
+    border-left: 1px solid @gray !important ;
+    border-right: 1px solid @gray ;
+  }
+}
+
+
+
+
+//  --------------------------------------
+//  TABLES in Requirement Specs
+//  --------------------------------------
+
+div.function-block * table.tbl-horizontal td{
+  font-size: 66% !important;
+}
+
+
+
+
+
+//  --------------------------------------
+//  TABLES build with DIVS
+//  --------------------------------------
+
+div.table {
+  margin-bottom: 1.0em ;
+  &.col {
+    float: left;
+    margin-right: 2.0em;
+  }
+
+  div.caption {
+    clear: left ;
+    display: block;
+    font-weight: bold;
+  }
+  div.field {
+    clear: left ;
+    display: block ;
+    overflow: hidden ;
+
+    span.label{
+      display: block ;
+      float: left ;
+      width: @wi-normal ;
+    }
+    span.value{
+      display: block ;
+      float: left ;
+      width: @wi-normal ;
+    }
+  }
+}
+
+
+//  --------------------------------------
+//  TABLES with PARAGRAPHS for Checkboxes
+//  --------------------------------------
+
+div.list {
+  font-size: 10pt ;
+  color: black ;
+
+  h4 {
+    margin: 0 ;
+    padding: 1.2em 0 0.2em 0.4em ;
+    font-size: 10pt !important;
+    font-style: italic;
+  }
+
+  p {
+    padding: 0.3em 0 0.4em 0;
+    margin: 0 ;
+
+    &>input[type="checkbox"],
+    &>input[type="radio"] {
+      padding: 0 ;
+      margin: 0.3em 0.6em 0 0 ;
+    }
+  }
+}
+
+
+// --------------------------------------
+// FLOAT-CELLS TABLE
+// --------------------------------------
+// Table with left-floating cell
+
+div.float-cells-table{
+  display: block ;
+  width: 100% ;
+  overflow: hidden;
+  font-size: 80% ;
+
+  div.caption{
+    float: left;
+    display: block;
+    width: auto:
+    padding: 0 2.0em 0 0;
+    margin: 0;
+     background-color: #6FC; 
+    
+  }
+  div.cells{
+    float: left;
+    display: block;
+    overflow: hidden;
+    width: 100%;
+     background-color: #F66; 
+    
+    div.cell{
+      float: left;
+      padding: 0 2.0em 0 0;
+      border-right: 1px #fff solid; 
+      background-color: #FC6; 
+    }
+  }
+}

@@ -1,0 +1,345 @@
+// ----------------------------------------------------------------------------
+//
+// FORMS & FORM-ELEMENTS
+//
+// ----------------------------------------------------------------------------
+// DESCRIPTION:
+// The properties of every form and form element should be specified here
+//
+//
+// CONTENTS:
+// - FORM
+// - FORM ELEMENTS
+// - BUTTONS
+// - LABELS
+// - FIELDSET
+// - DIMENSIONS:
+//   - Single line input fields
+//   - Select elements
+// - DATA FORMAT
+// - SPECIALS:
+//   - Date picker (JQuery-UI)
+// - MIXED FORM-TABLES
+// - PLACEHOLDER-TEXT
+// - JQUERY-CONTAINERS FOR FIELDS (Picker etc.)
+// ----------------------------------------------------------------------------
+
+
+/* forms.less */
+
+// --------------------------------------
+// FORM
+// --------------------------------------
+
+form {
+  display: table;
+  width: 100%;
+  text-align: left;
+  margin: 0 auto 0 auto;
+
+
+
+
+  // --------------------------------------
+  // FORM-ELEMENTS
+  // --------------------------------------
+
+  input,
+  textarea,
+  select {
+    font-family: @font-family-sans-serif ;
+    font-size: @font-size-small ;
+    padding: 0.2em 0.28em;
+    border: 1px;
+    border-color: darkgray lightgray lightgray;
+    border-style: solid;
+    outline: none;
+    background-color: #fff ;
+
+    input[type="text"],
+    input[type="password"],
+    textarea,
+    select {
+      background-color: #fff ;
+
+      // --------------
+      // Focused Elements
+      &:focus,
+      &:active {
+        background-color: @formelement-focus-bg !important ;
+        border: @formelement-focus-border ;
+      }
+    }
+  }
+  // /input, textarea, select
+
+
+  // --------------
+  // Forced Padding for Pop-Down-Symbol
+  // PENDENT: Pop-Down-Symbol wo definiert?
+
+  select {
+    // background: white url('../image/select-down.png') no-repeat scroll right center;
+    padding-right: 1.0em;
+    
+    &.helper {
+       background-color: #efefef; 
+    }
+  }
+
+
+
+
+  // --------------------------------------
+  // BUTTONS
+  // --------------------------------------
+
+  input[type="button"],
+  input[type="submit"],
+  input.submit,
+  button,
+  a.button {
+    // PENDENT: MIXIN-anlegen fuer .Buttons
+    background-color: #99CCFF;
+    border: 1px #53619B solid;
+    border-radius: 3px;
+    color: #06C;
+    padding: 0px 4px;
+  }
+
+  input[type="button"]:focus,
+  input[type="submit"]:focus,
+  button:focus {
+    background-color: #FFFFA0;
+    border-color: #fe5f14;
+  }
+
+  // PENDENT: anschauen
+  button:hover:enabled,
+  input[type="button"]:hover:enabled,
+  input[type="submit"]:hover:enabled {
+    color: #fe5f14;
+  }
+
+
+
+
+  // --------------------------------------
+  // LABELS
+  // --------------------------------------
+
+  label {
+    cursor: pointer;
+    vertical-align: top;
+    display: inline-block;
+    
+    // PENDENT: MIXIN-anlegen fuer .Buttons
+    &.button{
+      background-color: #99CCFF;
+      border: 1px #53619B solid;
+      border-radius: 3px;
+      color: #06C;
+      padding: 0px 4px;
+    }
+    &:hover {
+      color: #000 ;
+      text-decoration: underline ;
+    }
+  }
+
+
+
+
+  // --------------------------------------
+  // FIELDSET
+  // --------------------------------------
+
+  fieldset {
+    margin-top: 15px;
+    color: black;
+    font-weight: normal;
+    font-size: @font-size-large;
+    text-transform: uppercase;
+    border-color: grey;
+    border-width: 1px ;
+    margin: 0.4em 0.6em 1.4em 0.6em;
+
+    // Heading within FIELDSET */
+    h4 {
+    font-weight: normal ;
+    font-size: @font-size-h4 ;
+    margin: 0;
+    padding: 0 0 0.2em 0;
+    }
+  }
+
+
+
+
+  // --------------------------------------
+  // DIMENSIONS
+  // --------------------------------------
+  input{
+
+    // -------------------
+    // 1 Lined input field
+    //
+
+    &[type="text"]{
+
+      &.wi-smallest     { width:     @input-wi-smallest    ; } //  2.0em
+      &.wi-verysmall    { width:     @input-wi-verysmall   ; } //   4.0em
+      &.wi-small        { width:     @input-wi-small       ; } //   8.8em
+      &.wi-mediumsmall  { width:     @input-wi-mediumsmall ; } //   8.8em
+      &.wi-normal       { width:     @input-wi-normal      ; } //  12.0em
+      &.wi-lightwide    { width:     @input-wi-lightwide   ; } //  12.0em
+      &.wi-wide         { min-width: @input-wi-wide        ; } //  18.0em
+      &.wi-wider        { min-width: @input-wi-wider       ; } //  24.0em
+      &.wi-verywide     { min-width: @input-wi-verywide    ; } //  36.0em
+
+      &.wi-date         { width: @input-wi-small       ; } //
+      &.wi-number       { width: @input-wi-small       ; } //
+      &.wi-tinynumber   { width: @input-wi-verysmall   ; } //
+      &.wi-largenumber  { width: @input-wi-mediumsmall ; } //
+
+    }
+
+    // Password (Standard size)
+     &[type="password"]{
+      width: 10.0em ;
+    }
+
+    // OBSOLETE
+    .fixed_width {
+      width: 250px;
+    }
+
+  }
+  // /DIMENSION input
+
+
+  // -------------------
+  // Select-Element
+  //
+
+  select {
+    &.wi-smallest     { width:     @select-wi-smallest    ; } //   2.0em
+    &.wi-verysmall    { width:     @select-wi-verysmall   ; }
+    &.wi-small        { width:     @select-wi-small       ; }
+    &.wi-mediumsmall  { width:     @select-wi-mediumsmall ; }
+    &.wi-normal       { width:     @select-wi-normal      ; }
+    &.wi-lightwide    { width:     @select-wi-lightwide   ; }
+    &.wi-wide         { min-width: @select-wi-wide        ; }
+    &.wi-wider        { min-width: @select-wi-wider       ; }
+    &.wi-verywide     { min-width: @select-wi-verywide    ; }
+  }
+  // /DIMENSION select
+
+
+  // -------------------
+  // Textarea-Element
+  //
+
+  textarea {
+    &.wi-small        { width:     @input-wi-small       ; }
+    &.wi-mediumsmall  { width:     @input-wi-mediumsmall ; }
+    &.wi-normal       { width:     @input-wi-normal      ; }
+    &.wi-wide         { min-width: @input-wi-wide        ; }
+    &.wi-wider        { min-width: @input-wi-wider       ; }
+    &.wi-verywide     { min-width: @input-wi-verywide    ; }
+  }
+  // /DIMENSION select
+
+
+
+
+  // --------------------------------------
+  // DATA-FORMAT
+  // --------------------------------------
+
+  input,
+  select {
+    &.number  { text-align: right ; }
+    &.numeric { text-align: right ; }
+    &.right   { text-align: right ; }
+  }
+
+
+
+
+  // --------------------------------------
+  // SPECIALS
+  // --------------------------------------
+
+  // -------------------
+  // Date picker Symbol (Jquery-UI)
+  // normally placed after a input field within a table cell
+
+  td img.ui-datepicker-trigger{
+    vertical-align: middle ;
+    padding: 0 0.2em ;
+  }
+
+
+
+  // --------------------------------------
+  // MIXED FORM-TABLES
+  // --------------------------------------
+  // Tables with either Form Elements or Text in Cells
+
+  table td > span.data {
+    display: block; 
+    overflow: hidden ;
+    font-size: @font-size-smaller ;
+    height: 1.0em ;
+    padding: 0.1em 0.28em 0.4em 0.28em;
+    margin: 0 ;
+    border: 1px #dcdcdc solid; 
+    &::before{
+      content: "" ;
+    }
+    
+    // Dimensions
+    &.wi-smallest    { width: @input-wi-smallest    ; }
+    &.wi-verysmall   { width: @input-wi-verysmall   ; }
+    &.wi-small       { width: @input-wi-small       ; }
+    &.wi-mediumsmall { width: @input-wi-mediumsmall ; }
+    &.wi-normal      { width: @input-wi-normal      ; }
+    &.wi-lightwide   { width: @input-wi-lightwide   ; }
+    &.wi-wide        { width: @input-wi-wide        ; }
+    
+    // Data Types
+    &.numeric { text-align: right ; }
+    &.right   { text-align: right ; }
+    
+  }
+
+
+}
+// /form
+
+
+
+
+// --------------------------------------
+// PLACEHOLDER-TEXT
+// --------------------------------------
+
+.frame-header-quicksearch input::placeholder {
+  color: #666 ;
+}
+
+#content input::placeholder {
+  color: #999 ;
+}
+
+
+
+// --------------------------------------
+// JQUERY-CONTAINERS FOR FIELDS
+// --------------------------------------
+
+span.customer_vendor_picker {
+  padding: 0 ;
+}
+

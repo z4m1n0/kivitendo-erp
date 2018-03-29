@@ -321,6 +321,7 @@ sub setup_oe_action_bar {
         t8('Update'),
         submit    => [ '#form', { action => "update" } ],
         id        => 'update_button',
+        class     => 'inline',
         accesskey => 'enter',
       ],
 
@@ -640,6 +641,17 @@ sub form_header {
     $TMPL_VAR->{transport_cost_reminder_article} = SL::DB::Part->new(id => $::instance_conf->get_transport_cost_reminder_article_number_id)->load;
   }
 
+  # following 4 lines came from form_footer, comments/notes are now in upper part of the page
+  my $introws = max 5, $form->numtextrows($form->{intnotes}, 35, 8);
+
+  my $TMPL_VAR = $::request->cache('tmpl_var', {});
+
+  $TMPL_VAR->{notes}    = qq|<textarea name="notes" class="texteditor" wrap="soft" style="width: 300px; height: 150px">| . H($form->{notes}) . qq|</textarea>|;
+  $TMPL_VAR->{intnotes} = qq|<textarea name=intnotes rows="$introws" cols="35">| . H($form->{intnotes}) . qq|</textarea>|;
+
+
+
+
   print $form->parse_html_template("oe/form_header", {
     %$TMPL_VAR,
     %type_check_vars,
@@ -659,12 +671,12 @@ sub form_footer {
 
   $form->{invtotal} = $form->{invsubtotal};
 
-  my $introws = max 5, $form->numtextrows($form->{intnotes}, 35, 8);
+  #my $introws = max 5, $form->numtextrows($form->{intnotes}, 35, 8);
 
   my $TMPL_VAR = $::request->cache('tmpl_var', {});
 
-  $TMPL_VAR->{notes}    = qq|<textarea name="notes" class="texteditor" wrap="soft" style="width: 350px; height: 150px">| . H($form->{notes}) . qq|</textarea>|;
-  $TMPL_VAR->{intnotes} = qq|<textarea name=intnotes rows="$introws" cols="35">| . H($form->{intnotes}) . qq|</textarea>|;
+  #$TMPL_VAR->{notes}    = qq|<textarea name="notes" class="texteditor" wrap="soft" style="width: 350px; height: 150px">| . H($form->{notes}) . qq|</textarea>|;
+  #$TMPL_VAR->{intnotes} = qq|<textarea name=intnotes rows="$introws" cols="35">| . H($form->{intnotes}) . qq|</textarea>|;
 
   if( $form->{customer_id} && !$form->{taxincluded_changed_by_user} ) {
     my $customer = SL::DB::Customer->new(id => $form->{customer_id})->load();

@@ -172,7 +172,7 @@ sub display_row {
     serialnr projectnr reqdate subtotal marge listprice lastcost onhand
   );
   my %column_def = (
-    runningnumber => { width => 5,     value => $locale->text('No.'),                  display => 1, },
+    runningnumber => { width => 2,     value => $locale->text('No.'),                  display => 1, },
     partnumber    => { width => 8,     value => $locale->text('Number'),               display => 1, },
     type_and_classific
                   => { width => 2,     value => $locale->text('Type'),                 display => 1, },
@@ -304,7 +304,7 @@ sub display_row {
     # quick delete single row
     $column_data{runningnumber}  = q|<a onclick= "$('#partnumber_| . $i . q|').val(''); $('#update_button').click();">| .
                                    q|<img height="10px" width="10px" src="image/cross.png" alt="| . $locale->text('Remove') . q|"></a> |;
-    $column_data{runningnumber} .= $cgi->textfield(-name => "runningnumber_$i", -id => "runningnumber_$i", -size => 5,  -value => $i);    # HuT
+    $column_data{runningnumber} .= $cgi->textfield(-name => "runningnumber_$i", -id => "runningnumber_$i", -size => 2,  -value => $i);    # HuT
 
 
     $column_data{partnumber}    = $cgi->textfield(-name => "partnumber_$i",    -id => "partnumber_$i",    -size => 12, -value => $form->{"partnumber_$i"});

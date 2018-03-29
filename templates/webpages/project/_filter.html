@@ -3,7 +3,8 @@
 [%- USE L %]
 [%- USE LxERP %]
 
-<table id="filter_table">
+<table id="filter_table" class="tbl-horizontal">
+  <tbody>
  <tr>
   <th align="right">[% 'Number' | $T8 %]</th>
   <td>[% L.input_tag('filter.projectnumber:substr::ilike', filter.projectnumber_substr__ilike, size=60) %]</td>
@@ -30,28 +31,27 @@
  </tr>
 
  [% CUSTOM_VARIABLES_FILTER_CODE %]
-
- <tr>
-  <th>[% 'Include in Report' | $T8 %]</th>
-  <td>
-   <table>
-    <tr>
-     <td>[% L.select_tag('filter.active', [ [ 'active', LxERP.t8('Active') ], [ 'inactive', LxERP.t8('Inactive') ], [ 'both', LxERP.t8('Both') ] ], default=filter.active, style="width: 200px") %]</td>
-    </tr>
-
-    <tr>
-     <td>[% L.select_tag('filter.valid', [ [ 'valid', LxERP.t8('Valid') ], [ 'invalid', LxERP.t8('Invalid') ], [ 'both', LxERP.t8('Both') ] ], default=filter.valid, style="width: 200px") %]</td>
-    </tr>
-
-    <tr>
-     <td>[% L.select_tag('filter.status', [ [ 'all', LxERP.t8('All') ], [ 'orphaned', LxERP.t8('Orphaned') ] ], default=filter.status, style="width: 200px") %]</td>
-    </tr>
-
-    [% CUSTOM_VARIABLES_INCLUSION_CODE %]
-
-   </table>
-  </td>
- </tr>
+  </tbody>
 </table>
+
+<table class="tbl-plain">
+<caption>[% 'Include in Report' | $T8 %]</caption>
+<tbody>
+<tr>
+ <td>[% L.select_tag('filter.active', [ [ 'active', LxERP.t8('Active') ], [ 'inactive', LxERP.t8('Inactive') ], [ 'both', LxERP.t8('Both') ] ], default=filter.active, style="width: 200px") %]</td>
+</tr>
+
+<tr>
+ <td>[% L.select_tag('filter.valid', [ [ 'valid', LxERP.t8('Valid') ], [ 'invalid', LxERP.t8('Invalid') ], [ 'both', LxERP.t8('Both') ] ], default=filter.valid, style="width: 200px") %]</td>
+</tr>
+
+<tr>
+ <td>[% L.select_tag('filter.status', [ [ 'all', LxERP.t8('All') ], [ 'orphaned', LxERP.t8('Orphaned') ] ], default=filter.status, style="width: 200px") %]</td>
+</tr>
+
+[% CUSTOM_VARIABLES_INCLUSION_CODE %]
+</tbody>
+</table>
+
 
 [% L.button_tag('$("#search_form").resetForm()', LxERP.t8('Reset')) %]

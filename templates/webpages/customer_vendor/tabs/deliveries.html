@@ -3,11 +3,11 @@
 [%- USE L %]
 
 <div id="deliveries">
-  <table>
-    <tr>
-      <th align="right">[% 'Shipping Address' | $T8 %]</th>
-      <td colspan="3">
-        [% temp = [{shipto_id = 'all', displayable_id = LxERP.t8('All')}] %]
+  <div class="pad-wrapper">
+    <div class="select-item">
+      <span class="label">[% 'Select Shipping Address' | $T8 %]</span>
+      <span class="formelement">
+      [% temp = [{shipto_id = 'all', displayable_id = LxERP.t8('All')}] %]
         [% temp = temp.merge(SELF.shiptos) %]
         [%
           L.select_tag(
@@ -19,13 +19,9 @@
             onchange = "kivi.CustomerVendor.selectDelivery();"
           )
         %]
-      </td>
-    </tr>
-
-    <tr>
-      <th align="right" nowrap>[% 'From' | $T8 %]</th>
-
-      <td>
+      </span>
+      <span class="label">[% 'From' | $T8 %]</span>
+      <span class="formelement">
         [%
           L.date_tag(
             'delivery_from',
@@ -33,12 +29,9 @@
             onchange => "kivi.CustomerVendor.selectDelivery(this.form.delivery_from.value, this.form.delivery_to.value);"
           )
         %]
-      </td>
-
-
-      <th align="right" nowrap>[% 'To (time)' | $T8 %]</th>
-
-      <td>
+      </span>
+      <span class="label">[% 'To (time)' | $T8 %]</span>
+      <span class="formelement">
         [%
           L.date_tag(
             'delivery_to',
@@ -46,13 +39,8 @@
             onchange => "kivi.CustomerVendor.selectDelivery(this.form.delivery_from.value, this.form.delivery_to.value);"
           )
         %]
-      </td>
-    </tr>
-
-    <tr>
-      <td colspan="4">
-        <div id="delivery"></div>
-      </td>
-    </tr>
-  </table>
+      </span>
+    </div>
+    <div id="delivery"></div>
+  </div>
 </div>

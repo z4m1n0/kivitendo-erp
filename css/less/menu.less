@@ -1,0 +1,382 @@
+// ----------------------------------------------------------------------------
+//
+// MENU (V3) and HTML MENU
+//
+// ----------------------------------------------------------------------------
+// DESCRIPTION:
+//
+//
+//
+// CONTENTS:
+// - MENUV3
+// - - Links
+// - - Items with Sub Items
+// - - List 1st Level (horizontal)
+// - - List 2nd Level (Vertical)
+// - - List 2nd and 3rd Level (Vertical)
+// - - List 3rd Level (Vertical)
+// - - Hovers
+//
+// - HTML-MENU
+// - -
+// ----------------------------------------------------------------------------
+
+
+
+
+// --------------------------------------
+// MENUV3
+// --------------------------------------
+
+
+#menuv3 {
+  // Main-Properties of this element in File SCAFFOLDING.LESS
+  background-color: @menu_link_bg;
+  color: @menu_link;
+  font-weight: normal !important ;
+
+
+  a,
+  li,
+  div.x {
+    font-size: @font-size-smaller;
+    line-height: 96%;
+    display: block;
+    border: 0;
+    white-space: nowrap;
+    margin: 0;
+    font-weight: normal !important ;
+  }
+
+
+
+
+  // --------------
+  // Links
+  //
+
+  a {
+    background: @menu_link_bg;
+    display: block;
+  }
+
+  a,
+  a:visited,
+  div.x,
+  div.x:visited {
+    color: @menu_link;
+    text-decoration: none;
+    padding-right: 0.6em;
+  }
+
+
+
+  // --------------
+  // Items with Sub Items
+  //
+
+  div.x,
+  div.x:visited {
+    //border-right: 1em solid #FE5F14;
+    background-color: @menu_link_bg ;
+    background: no-repeat right url("/image/menu-arrow-to-right-5.png");
+  }
+
+  div.x:hover { border-right: none; }
+
+  a:hover,
+  div.x:hover {
+    color: @menu_link_hover;
+    background-color: @menu_link_hover_bg;
+  }
+
+  a:active,
+  div.x:active { color: @menu_link; }
+
+
+
+
+  // --------------
+  // List 1st Level (horizontal)
+  //
+
+  & > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    float: left;
+
+
+    li {
+      position: relative;
+      float: none;
+      padding: 0;
+      background-color: @menu_link_bg ;
+
+      &:hover{
+        background-color: @menu_link_hover_bg ;
+      }
+    }
+    //  /li
+
+    & > li{
+      display: block;
+      //height: auto;
+      height: 17px;
+      padding: 9px 0.9em 6px 0.9em;
+      border-radius: 0 0 0 0;
+      vertical-align: middle;
+      color: @menu_link;
+
+      &:hover {
+        background-color: @menu_link_hover_bg;
+        color: @menu_link_hover;
+      }
+
+
+      // --------------
+      // List 2nd Level (Vertical)
+      //
+      & > ul {  }
+
+
+
+      // --------------
+      // List 2nd and 3rd Level (Vertical)
+      //
+
+      ul {
+        position: absolute;
+        display: none;
+        top: 32px;
+        padding: 0 2em 2em 2em;
+        margin: 0 -2em -2em -2.9em;
+
+        li{
+          border-bottom: 1px #ccc solid ;
+          background-color: @menu_link_bg ;
+
+          a,
+          div.x {
+            padding: 0.45em 0.6em 0.58em 0.8em ;
+            font-size: 1.0em ;
+            background-color: @menu_link_bg ;
+          }
+        }
+
+
+        // --------------
+        // List 3rd Level (Vertical)
+        //
+
+        ul {
+          top: 0;
+          left: 99%;
+          padding: 2em;
+          margin: -2em;
+          list-style: none;
+
+          li {
+            border-left: 0.2em solid @menu_link_bg;
+            a { padding: 0.4em 0.9em 0.5em 0.9em; }
+           }
+        }
+
+      }
+      //  /ul ul
+    }
+    //  /> li
+  } //  /ul
+
+
+
+  // --------------
+  // HOVERS
+  //
+
+  li:hover {
+    cursor: pointer;
+  }
+
+  li:hover ul ul,
+  li li:hover ul ul,
+  li li li:hover ul ul,
+  li li li li:hover ul ul {
+    display: none;
+  }
+  li:hover ul,
+  li li:hover ul,
+  li li li:hover ul,
+  li li li li:hover ul {
+    display: block;
+    position: absolute;
+    //left: 10px;
+  }
+
+
+}
+//  /#menuv3
+
+
+
+
+
+
+
+
+
+
+
+
+
+// --------------------
+// HTML-MENU
+// --------------------
+
+
+
+div.layout-split-right {
+  margin-left: 190px;
+}
+div.layout-split-right.folded {
+  margin-left: 40px
+}
+
+
+
+
+#html-menu {
+  position: fixed;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 95%;
+  transition:     margin-left 0.2s, width 0.2s;
+  -moz-transition:  margin-left 0.2s, width 0.2s;
+  -webkit-transition: margin-left 0.2s, width 0.2s;
+  -o-transition:    margin-left 0.2s, width 0.2s;
+  float:left;
+  width: 183px;
+  font-size: @font-size-small;
+  margin-top: 10px;
+
+
+  //  PENDENT: noch noetig, oder wird das via JS gesetzt?
+  &.folded {
+    width: 32px;
+
+    &:hover {
+      width: 183px;
+    }
+    &+ div.layout-split-right.folded {
+      margin-left: 190px ;
+    }
+  }
+
+
+
+
+
+//  types of lines: m sm i (menu submenu item)
+//  each line is a mi (menuitem)
+//  - and has one mii (menu-item-icon)
+//  - which is ms (menu-spacer)
+//  - and one mic (menu-item-chunk)
+//  - indenting is done with the levels s0, s1, s2
+
+  //  Menu
+  div.m {
+    height: 24px ;
+
+    span.ms {
+      float: left;
+      width: 32px
+    }
+    &:hover {
+      color:blue;
+      background-color: #d1d1d1;
+      cursor: pointer;
+    }
+  }
+
+  //  Submenu
+  div.sm {
+    font-weight: bold;
+
+    span.ms {
+      float: left;
+      width: 24px;
+      background: url(../../image/unterpunkt.png);
+    }
+  }
+
+  //  Item
+  div.i {
+    span.ms {
+      float: left;
+      width: 24px;
+      margin-bottom: 4px;
+    }
+    &:hover {
+      color:blue;
+      background-color: #d1d1d1;
+      cursor: pointer;
+    }
+  }
+
+
+  //  Menu-Item
+  div.mi {
+    margin-top: 4px;
+    margin-bottom: 3px;
+    white-space: nowrap;
+    clear:both;
+    position:relative;
+  }
+
+
+  //  Menu-Item-Chunk
+  span.mic {
+    white-space: normal;
+    display: inline-block;
+    vertical-align: top;
+    line-height: 1.2;
+  }
+
+  //  Indention
+  div.s0 { padding-left: 2px ; }
+  div.s1 { padding-left: 8px ; }
+  div.s2 { padding-left: 16px ; }
+
+
+  img { vertical-align: top; border: 0; }
+
+  a {
+    vertical-align: top ;
+
+    .ml {
+      span.mic { width: 145px } //  fix deep indents
+    }
+  }
+
+} //  /#html-menu
+
+
+
+//  PENDENT: ???
+li.sub {
+  position: relative;
+  left: 0.2em;
+  top: 0px;
+  background-color: #FFFFFF;
+}
+
+
+
+
+
+
+
+
+
+
+

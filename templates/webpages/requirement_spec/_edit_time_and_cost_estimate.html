@@ -13,18 +13,19 @@
    [%- L.hidden_tag('id', SELF.requirement_spec.id, id=id_prefix _ '_id') -%]
 
    [%# time-cost-estimate-context-menu %]
-   <table class="time-cost-estimate">
-    <tbody>
+   <table class="tbl-list time-cost-estimate test">
      [%- FOREACH section = SELF.requirement_spec.sections_sorted %]
-      <tr class="listheading">
+     <thead>
+      <tr>
        <th>[%- LxERP.t8("Function block") %]</th>
        <th>[%- LxERP.t8("Complexity") %]</th>
        <th>[%- LxERP.t8("Risk") %]</th>
-       <th align="right">[%- LxERP.t8("Time estimate") %]</th>
+       <th class="right">[%- LxERP.t8("Time estimate") %]</th>
       </tr>
-
+      </thead>
+    <tbody>
       <tr class="listrow section">
-       <td colspan="5">[%- HTML.escape(section.fb_number) %]: [%- HTML.escape(section.title) %]</td>
+       <th class="caption" colspan="4">[%- HTML.escape(section.fb_number) %]: [%- HTML.escape(section.title) %]</td>
       </tr>
 
       [%- IF section.children.size %]

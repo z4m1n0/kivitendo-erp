@@ -6,7 +6,7 @@
    [% SET have_files = 1 ;
       FOREACH file = files.as_list %]
     <tr>
-     <th align="right" nowrap>
+     <th>
       [% IF loop.first %]
        [% label %]
       [% END %]
@@ -19,38 +19,38 @@
   [% END %]
 [% END %]
 
-<table>
+<table class="tbl-horizontal">
  <tbody>
   <tr>
-   <th align="right" nowrap>
+  <th>
     [% LxERP.t8("Recipients") %]
    </th>
    <td>
     [% L.input_tag("email_form.to", email_form.to, size="80") %]
-    <span class="interactive cursor-pointer"        onclick="$('[data-toggle-recipients=1]').toggle()" data-toggle-recipients="1">[+]</span>
+    <span class="interactive cursor-pointer" onclick="$('[data-toggle-recipients=1]').toggle()" data-toggle-recipients="1">[+]</span>
     <span class="interactive cursor-pointer hidden" onclick="$('[data-toggle-recipients=1]').toggle()" data-toggle-recipients="1">[-]</span>
    </td>
   </tr>
 
   <tr class="hidden" data-toggle-recipients="1">
-   <th align="right" nowrap>[% LxERP.t8("Cc") %]</th>
+   <th>[% LxERP.t8("Cc") %]</th>
    <td>[% L.input_tag("email_form.cc", email_form.cc, size="80") %]</td>
   </tr>
 
  [%- IF show_bcc %]
   <tr class="hidden" data-toggle-recipients="1">
-   <th align="right" nowrap>[% LxERP.t8("Bcc") %]</th>
+   <th>[% LxERP.t8("Bcc") %]</th>
    <td>[% L.input_tag("email_form.bcc", email_form.bcc, size="80") %]</td>
   </tr>
  [%- END %]
 
   <tr>
-   <th align="right" nowrap>[% LxERP.t8("Subject") %]</th>
+   <th>[% LxERP.t8("Subject") %]</th>
    <td>[% L.input_tag("email_form.subject", email_form.subject, size="80") %]</td>
   </tr>
 
-  <tr valign="top">
-   <th align="right" nowrap>[% LxERP.t8("Message") %]
+  <tr>
+   <th>[% LxERP.t8("Message") %]
     <sup> [% L.link("generictranslations.pl?action=edit_email_strings", "1)", title=LxERP.t8('Tired of copying always nice phrases for this message? Click here to use the new preset message option!'), target="_blank") %]</sup>
   </th>
    <td>[% L.textarea_tag("email_form.message", email_form.message, rows="15" cols="80" wrap="soft") %]</td>
@@ -58,7 +58,7 @@
 
 [% IF INSTANCE_CONF.get_doc_storage %]
   <tr>
-   <th align="right" nowrap>[% LxERP.t8("Send printout of record") %]</th>
+   <th>[% LxERP.t8("Send printout of record") %]</th>
    <td>
     [% SET no_file_label = have_files ? LxERP.t8("Don't include a printout of the record with the email, only selected files") : LxERP.t8("Don't include a printout of the record with the email") ;
            options       = [
@@ -72,7 +72,7 @@
 [% END %]
 
   <tr>
-   <th align="right" nowrap>
+   <th>
 [% IF !INSTANCE_CONF.get_doc_storage %]
     [% LxERP.t8("Attachment name") %]
 [% END %]

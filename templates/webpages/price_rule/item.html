@@ -12,29 +12,74 @@
   [ 'gt', LxERP.t8('is after') ],
   [ 'lt', LxERP.t8('is before') ],
 ] %]
-<div>
-<a class='price_rule_remove_line interact cursor-pointer'>✘</a>
+<tr class="item">
+<!-- PENDENT: das Loeschzeichen sollte einheitlich angewendet werden. -->
+<td>
+  <a class="price_rule_remove_line interact cursor-pointer button">✘</a>
 [% L.hidden_tag('price_rule.items[+].id', item.id) %]
 [% L.hidden_tag('price_rule.items[].type', item.type) %]
+</td>
+
 [%- SWITCH item.type %]
   [% CASE 'part' %]
-    [% 'Part' | $T8 %] [% 'is' | $T8 %] [% L.part_picker('price_rule.items[].value_int', item.part) %]
+    <td>[% 'Part' | $T8 %]</td>
+    <th>[% 'is' | $T8 %]</th>
+    <td>[% L.part_picker('price_rule.items[].value_int', item.part,, class='wi-wide') %]</td>
   [% CASE 'customer' %]
-    [% 'Customer' | $T8 %] [% 'is' | $T8 %] [% L.customer_vendor_picker('price_rule.items[].value_int', item.customer, type='customer') %]
+    <td>[% 'Customer' | $T8 %]</td>
+    <th>[% 'is' | $T8 %]</th>
+    <td>
+      [% L.customer_vendor_picker('price_rule.items[].value_int', item.customer, type='customer', class='wi-wide') %]
+    </td>
   [% CASE 'vendor' %]
-    [% 'Vendor' | $T8 %] [% 'is' | $T8 %] [% L.customer_vendor_picker('price_rule.items[].value_int', item.vendor, type='vendor') %]
+    <td>[% 'Vendor' | $T8 %]</td>
+    <th>[% 'is' | $T8 %]</th>
+    <td>
+      [% L.customer_vendor_picker('price_rule.items[].value_int', item.vendor, type='vendor', class='wi-wide') %]
+    </td>
   [% CASE 'business' %]
-    [% 'Type of Business' | $T8 %] [% 'is' | $T8 %] [% L.select_tag('price_rule.items[].value_int', SELF.businesses, title_key='description', default=item.value_int) %]
+    <td>[% 'Type of Business' | $T8 %]</td>
+    <th>[% 'is' | $T8 %]</th>
+    <td>
+      [% L.select_tag('price_rule.items[].value_int', SELF.businesses, title_key='description', default=item.value_int, class='wi-wide') %]
+    </td>
   [% CASE 'partsgroup' %]
-    [% 'Partsgroup' | $T8 %] [% 'is' | $T8 %] [% L.select_tag('price_rule.items[].value_int', SELF.partsgroups, title_key='partsgroup', default=item.value_int) %]
+    <td>[% 'Partsgroup' | $T8 %]</td>
+    <th>[% 'is' | $T8 %]</th>
+    <td>
+      [% L.select_tag('price_rule.items[].value_int', SELF.partsgroups, title_key='partsgroup', default=item.value_int, class='wi-wide') %]
+    </td>
   [% CASE 'qty' %]
-    [% 'Quantity' | $T8 %] [% L.select_tag('price_rule.items[].op', num_compare_ops, default=item.op) %] [% L.input_tag('price_rule.items[].value_num_as_number', item.value_num_as_number) %]
+    <td>[% 'Quantity' | $T8 %]</td>
+    <th>
+      [% L.select_tag('price_rule.items[].op', num_compare_ops, default=item.op, class='wi-normal' ) %]
+    </th>
+    <td>
+      [% L.input_tag('price_rule.items[].value_num_as_number', item.value_num_as_number, class='wi-small') %]
+    </td>
   [% CASE 'reqdate' %]
-    [% 'Reqdate' | $T8 %] [% L.select_tag('price_rule.items[].op', date_compare_ops, default=item.op) %] [% L.date_tag('price_rule.items[].value_date', item.value_date) %]
-  [% CASE 'transdate' %]
-    [% 'Transdate Record' | $T8 %] [% L.select_tag('price_rule.items[].op', date_compare_ops, default=item.op) %] [% L.date_tag('price_rule.items[].value_date', item.value_date) %]
+    <td>[% 'Reqdate' | $T8 %]</td>
+    <th>
+      [% L.select_tag('price_rule.items[].op', date_compare_ops, default=item.op, class='wi-normal') %]
+    </th>
+    <td>
+      [% L.date_tag('price_rule.items[].value_date', item.value_date,, class='wi-date') %]
+    </td>
+  [% CASE 'transdate' %]</td>
+    <td>[% 'Transdate Record' | $T8 %]</td>
+    <th>
+      [% L.select_tag('price_rule.items[].op', date_compare_ops, default=item.op, class='wi-normal') %]
+    </th>
+    <td>
+      [% L.date_tag('price_rule.items[].value_date', item.value_date,, class='wi-date') %]
+    </td>
   [% CASE 'pricegroup' %]
-    [% 'Pricegroup' | $T8 %] [% 'is' | $T8 %] [% L.select_tag('price_rule.items[].value_int', SELF.pricegroups, title_key='pricegroup', default=item.value_int) %]
+    <td>[% 'Pricegroup' | $T8 %]</td>
+    <th>[% 'is' | $T8 %]</th>
+    <td>
+      [% L.select_tag('price_rule.items[].value_int', SELF.pricegroups, title_key='pricegroup', default=item.value_int, class='wi-wide') %]
+    </td>
   [% CASE %]
 [%- END %]
-</div>
+
+</tr>

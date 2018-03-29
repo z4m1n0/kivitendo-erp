@@ -1,0 +1,590 @@
+// ----------------------------------------------------------------------------
+//
+// VARIABLES (Less-Style) for Kivitendo-Themes
+//
+// ----------------------------------------------------------------------------
+// DESCRIPTION:
+//
+//
+//
+// CONTENTS:
+// - COLORS
+//   - Greys
+//   - Branding
+//   - Divers Color Specifications
+// - DIMENSIONS
+//   - Standard Dimensions
+//   - Dimensions for Table Colums (COL)
+// - SCAFFOLDING
+//   - Body/Content Background color, Text color
+//   - Content Boxes (Wrapper & Columns Container)
+// - LINKS
+// - TYPOGRAPHY
+//   - Font family
+//   - Font size
+//   - Line height
+//   - Heading 1 - 6
+//   - Heading 1 (H1)
+// - ICONOGRAPHY
+// - TABLES
+//   - Table & Caption
+//   - Table Cells
+//   - Dimensions (Table Cells Only)
+// - BUTTONS
+// - FORMS
+//   - Input fields
+//   - Legend, Labels, Fieldsets
+//   - Highlighting (Focus and so on)
+//   - Dimensions (input, select)
+// - DROPDOWNS
+// - COMPONENTS
+//   - Z-Index
+//   - Dashboard (frame-header)
+//   - Menu (menuv3)
+//   - Context-Menu (layout-actionbar) -> missing
+//   - Component properties
+// - MESSAGES
+//   - Messages Old Style
+//   - Flash Messages
+// ----------------------------------------------------------------------------
+
+
+
+
+// --------------
+// Original Kivitendo Colors
+//
+// Background:    #EBEBEB burlywood
+// Links:         #006400 DarkGreen
+// Link-hover     #FE5F14 Orange / #FFFFE0 lightyellow
+// Titles, BG/VG: #79B61B Mid-green FFFFFF White
+// Tabcolor:      #CAFFA3
+//
+
+
+
+
+// --------------------------------------
+// COLORS
+// --------------------------------------
+
+
+// --------------
+// Grey shades
+//
+
+@gray-darker:            #222222 ;
+@gray-dark:              #555555 ;
+@gray:                   #999999 ;
+@gray-light:             #cecece ;
+@gray-lighter:           #dedede ;
+@gray-verylight:         #ececec ;
+@gray-superlight:        #efefef ;
+
+
+// --------------
+// Brand colors
+//
+
+@brand-primary:         #000000;
+@brand-success:         #FF0080;
+@brand-warning:         #f0ad4e;
+@brand-danger:          #d9534f;
+@brand-info:            #5bc0de;
+
+
+@rainbow-green:         #408000;
+@rainbow-blue:          #0080FF;
+@rainbow-red:           #FF0000;
+@rainbow-yellow:        #FFFF00;
+
+
+// --------------
+// Divers Color Specications
+//
+
+@color-darkgreen:       #006400;
+@color-midgreen:        #79B61B;
+@color-lightgreen:      #CAFFA3;
+@color-softneongreen:   #ADFFB6;
+
+@color-orange:          #FE5F14;
+@color-strongorange:    #FF6600;
+@color-lightorange:     #FFE8C7;
+
+@color-lightestyellow:  #FFFFE0;
+@color-lightyellow:     #FFFF99;
+@color-mediumyellow:    #FFEE66;
+
+@color-pink:            #FFCCCC;
+@color-strongpink:      #F5A9A9;
+
+@color-darkred:         #8B0000;
+@color-darkestred:      #AE0014;
+
+@color-lightestblue:    #DCF2FF;
+@color-strongblue:      #4690FF;
+
+
+
+// --------------------------------------
+// DIMENSIONS (width)
+// --------------------------------------
+
+
+// --------------
+// Standard Dimensions
+// Only for Form elements and Table Cells
+//
+// Form elements: INPUT, SELECT & TEXTAREA
+// Table cells:   COL, TD, TH, DIV
+//
+
+@wi-smallest:           2.6em ; // one or two ciphers
+@wi-verysmall:          5.0em ;
+@wi-small:              7.0em ;
+@wi-mediumsmall:        9.0em ;
+@wi-normal:            12.0em ;
+@wi-lightwide:         14.0em ; // min-width
+@wi-wide:              18.0em ; // min-width
+@wi-wider:             24.0em ; // min-width
+@wi-verywide:          36.0em ; // min-width
+
+
+
+// --------------
+// Dimensions for Table Colums (TH, TD & Col)
+//
+
+@tcol-wi-smallest:     (@wi-smallest) ;
+@tcol-wi-verysmall:    (@wi-verysmall   + 1.0em) ;
+@tcol-wi-small:        (@wi-small       + 0.6em) ;
+@tcol-wi-mediumsmall:  (@wi-mediumsmall + 0.6em) ;
+@tcol-wi-normal:       (@wi-normal      + 1.0em) ;
+@tcol-wi-lightwide:    (@wi-lightwide   + 1.0em) ;
+@tcol-wi-wide:         (@wi-wide)                ; // min-width
+@tcol-wi-wider:        (@wi-wider)               ; // min-width
+@tcol-wi-verywide:     (@wi-verywide)            ; // min-width
+
+// --------------
+// Dimensions for Form elements
+//
+
+// Input elements
+@input-wi-smallest:     (@wi-smallest) ;
+@input-wi-verysmall:    (@wi-verysmall   - 1.0em) ;
+@input-wi-small:        (@wi-small       - 0.6em) ;
+@input-wi-mediumsmall:  (@wi-mediumsmall - 0.6em) ;
+@input-wi-normal:       (@wi-normal      - 0.6em) ;
+@input-wi-lightwide:    (@wi-lightwide   - 0.6em) ;
+@input-wi-wide:         (@wi-wide)                ; // min-width
+@input-wi-wider:        (@wi-wider)               ; // min-width
+@input-wi-verywide:     (@wi-verywide)            ; // min-width
+
+// Select elements
+@select-wi-smallest:    (@wi-smallest             ) ;
+@select-wi-verysmall:   (@wi-verysmall            ) ;
+@select-wi-small:       (@wi-small                ) ;
+@select-wi-mediumsmall: (@wi-mediumsmall + 0.2em  ) ;
+@select-wi-normal:      (@wi-normal      + 0.1em  ) ;
+@select-wi-lightwide:   (@wi-lightwide            ) ;
+@select-wi-wide:        (@wi-wide        + 0.66em ) ; // min-width
+@select-wi-wider:       (@wi-wider       + 0.66em ) ; // min-width
+@select-wi-verywide:    (@wi-verywide             ) ; // min-width
+
+
+
+
+
+
+// --------------------------------------
+// SCAFFOLDING
+// --------------------------------------
+
+@body-bg:               #4f4f4f;
+@content-bg:            #eeeeee;
+@text-color:            @gray-darker;
+
+
+// --------------
+// Content Boxes
+//
+// like Wrappers, Colums Containers, Flash-Messages and Record Selection
+
+@contentbox-margin:     1.0em 1.0em 1.0em 1.0em ;
+@contentbox-padding:    0 1.0em 1.0em 1.0em ;
+@contentbox-radius:     0.3em ;
+
+@message-margin:        1.0em 2.0em 0.6em 1.0em ;
+@message-padding:       0.6em 1.6em 0.5em 0.6em ;
+
+@instructionbox-bg:     #E6E6E6 ;
+@instructionbox-border: 1px #808080 solid ;
+
+
+
+
+
+// --------------------------------------
+// LINKS
+// --------------------------------------
+
+@link-color:            @brand-primary;
+@link-hover-color:      darken(@link-color, 15%);
+
+
+
+
+// --------------------------------------
+// TYPOGRAPHY
+// --------------------------------------
+
+// --------------
+// Font family
+//
+
+@font-family-sans-serif:  Verdana, "Helvetica Neue", Helvetica, Arial, sans-serif;
+@font-family-serif:       Georgia, "Times New Roman", Times, serif;
+@font-family-monospace:   Monaco, Menlo, Consolas, "Courier New", monospace;
+@font-family-base:        @font-family-sans-serif;
+
+
+// --------------
+// Font size
+//
+
+@font-size-base:          12pt; // vorh.14px
+@font-size-large:         ceil(@font-size-base * 1.25); //  ~18px
+@font-size-small:         ceil(@font-size-base * 0.85); //  ~11px
+@font-size-smaller:       ceil(@font-size-base * 0.76); //  ~12px
+
+
+// --------------
+// Line height
+//
+
+@line-height-base:        1.428571429; //  20/14
+@line-height-computed:    floor(@font-size-base * @line-height-base); //  ~20px
+
+
+// --------------
+// Heading 1-6
+//
+
+@font-size-h1:            floor(@font-size-base * 1.4); //  ~36px
+@font-size-h2:            floor(@font-size-base * 1.3); //  ~30px
+@font-size-h3:            ceil(@font-size-base * 1.0); //  ~24px
+@font-size-h4:            ceil(@font-size-base * 1.0); //  ~18px
+@font-size-h5:            @font-size-base;
+@font-size-h6:            ceil(@font-size-base * 0.85); //  ~12px
+
+@headings-font-family:    @font-family-base;
+@headings-font-weight:    500;
+@headings-line-height:    1.1;
+@headings-color:          #000;
+
+
+// --------------
+// Heading 1 (H1)
+//
+
+@h1-text-color:           #003c18;
+@h1-bg-color:             #9ccb21;
+
+
+
+
+// --------------------------------------
+// Iconography
+// --------------------------------------
+
+
+@icon-font-path:          "../bootstrap/fonts/";
+@icon-font-name:          "glyphicons-halflings-regular";
+
+
+
+
+// --------------------------------------
+// TABLES
+// --------------------------------------
+
+
+// --------------
+// Table & Caption
+//
+
+@table-bg:                       transparent; //  overall background-color
+@table-bg-accent:                #f9f9f9; //  for striping
+@table-bg-hover:                 #f5f5f5;
+@table-bg-active:                @table-bg-hover;
+@table-border-color:             #ddd; //  table and cell border
+
+@t-caption-bg:                   transparent ;
+@t-caption-text-color:           @headings-color ;
+
+
+// --------------
+// Table Cells
+//
+
+@t-cell-padding:                 8px;
+@t-cell-padding-condensed:       5px;
+
+@t-cell-head-bg:                 transparent;
+@t-cell-head-bg-accent:          #BFBFBF;
+@t-cell-head-text:               #555;
+@t-cell-head-text-accent:        #888888;
+
+
+
+
+// --------------------------------------
+// BUTTONS
+// --------------------------------------
+
+@btn-font-weight:                normal;
+
+@btn-default-color:              #333;
+@btn-default-bg:                 #fff;
+@btn-default-border:             #ccc;
+
+@btn-primary-color:              #fff;
+@btn-primary-bg:                 @brand-primary;
+@btn-primary-border:             darken(@btn-primary-bg, 5%);
+
+@btn-success-color:              #fff;
+@btn-success-bg:                 @brand-success;
+@btn-success-border:             darken(@btn-success-bg, 5%);
+
+@btn-warning-color:              #fff;
+@btn-warning-bg:                 @brand-warning;
+@btn-warning-border:             darken(@btn-warning-bg, 5%);
+
+@btn-danger-color:               #fff;
+@btn-danger-bg:                  @brand-danger;
+@btn-danger-border:              darken(@btn-danger-bg, 5%);
+
+@btn-info-color:                 #fff;
+@btn-info-bg:                    @brand-info;
+@btn-info-border:                darken(@btn-info-bg, 5%);
+
+@btn-link-disabled-color:        @gray-light;
+
+
+
+
+// --------------------------------------
+// FORMS
+// --------------------------------------
+
+
+// --------------
+// Input elements
+//
+
+@input-bg:                       #fff;
+@input-bg-disabled:              @gray-lighter;
+
+@input-color:                    @gray;
+@input-border:                   #ccc;
+@input-border-radius:            @border-radius-base;
+@input-border-focus:             #66afe9;
+
+@input-color-placeholder:        @gray-light;
+
+@input-height-base:              (@line-height-computed + (@padding-base-vertical * 2) + 2);
+@input-height-large:             (floor(@font-size-large * @line-height-large) + (@padding-large-vertical * 2) + 2);
+@input-height-small:             (floor(@font-size-small * @line-height-small) + (@padding-small-vertical * 2) + 2);
+
+@input-group-addon-bg:           @gray-lighter;
+@input-group-addon-border-color: @input-border;
+
+
+
+// --------------
+// Legend, Labels, Fieldsets
+//
+
+@legend-color:                   @gray-dark;
+@legend-border-color:            #e5e5e5;
+
+
+// --------------
+//  Highlighting (Focused, Activated)
+//
+
+@formelement-focus-bg:     #DDFF82 ;
+@formelement-focus-border: 1px solid #9ccb21 ;
+
+
+
+
+
+
+
+// --------------------------------------
+// Dropdowns
+// --------------------------------------
+
+@dropdown-bg:                    #fff;
+@dropdown-border:                rgba(0,0,0,.15);
+@dropdown-fallback-border:       #ccc;
+@dropdown-divider-bg:            #e5e5e5;
+
+@dropdown-link-color:            @gray-dark;
+@dropdown-link-hover-color:      darken(@gray-dark, 5%);
+@dropdown-link-hover-bg:         #f5f5f5;
+
+@dropdown-link-active-color:     @component-active-color;
+@dropdown-link-active-bg:        @component-active-bg;
+
+@dropdown-link-disabled-color:   @gray-light;
+
+@dropdown-header-color:          @gray-light;
+
+@dropdown-caret-color:           #000;
+
+
+
+
+// --------------------------------------
+// COMPONENTS
+// --------------------------------------
+
+
+// --------------
+// Z-index
+// Stack-/Layer Positions of components
+// only for specialists
+
+// General
+@zindex-dropdown:          1000;
+@zindex-popover:           1010;
+@zindex-tooltip:           1030;
+@zindex-navbar-fixed:      1030;
+@zindex-modal-background:  1040;
+@zindex-modal:             1050;
+
+// Components
+@zindex-dashboard:         1040; // frame-header
+@zindex-navbar:            1999; // menuv3 muss zuoberst sein
+@zindex-h1:                1020; // h1 innerhalb content
+
+@zindex-actionbar:         1030; // action-bar (Workflow)
+@zindex-actionbar-action:  1031; 
+@zindex-actionbar-combobox: 1031;
+@zindex-actionbar-combobox-head: 1033;
+@zindex-actionbar-combobox-list: 1032;
+
+
+
+// --------------
+// Dashboard (frame-header)
+//
+
+@dashbrd_bg:            #666 ;
+@dashbrd_text:          #bbb ;
+@dashbrd_link:          #aaa ;
+@dashbrd_link_hover:    #fff ;
+@dashbrd_link_deco:     underline ;
+@dashbrd_input_bg:      #aaa;
+@dashbrd_input_text:    #000 ;
+
+
+// --------------
+// Menue (menuv3)
+//
+
+@menu_bg:               #fff ;
+@menu_link:             #000 ;
+@menu_link_bg:          #EBEBEB ; // display:block
+@menu_link_hover:       #000 ;
+@menu_link_hover_bg:    #ebebeb ;
+@menu_link_hover_deco:  underline ;
+
+
+
+// --------------
+// Context-Menu (layout-actionbar)
+//
+@actionbar-bg:                  #BCEC6D;
+@actionbar-bg-active:           #BCEC6D;
+@actionbar-font-color:          #1A920F;
+@actionbar-font-color-active:   #1A920F;
+@actionbar-border-color:        #30B21E;
+@actionbar-border-color-active: #21AF20;
+
+
+
+// --------------
+// Component properties
+//
+// Based on 14px font-size and 1.428 line-height (~20px to start)
+// PENDENT: UI-Tabs und so weiter
+
+
+@padding-base-vertical:          6px;
+@padding-base-horizontal:        12px;
+
+@padding-large-vertical:         10px;
+@padding-large-horizontal:       16px;
+
+@padding-small-vertical:         5px;
+@padding-small-horizontal:       10px;
+
+@line-height-large:              1.33;
+@line-height-small:              1.5;
+
+@border-radius-base:             4px;
+@border-radius-large:            6px;
+@border-radius-small:            3px;
+
+@component-active-color:         #fff;
+@component-active-bg:            @brand-primary;
+
+@caret-width-base:               4px;
+@caret-width-large:              5px;
+
+
+
+
+// --------------------------------------
+// Messages
+// --------------------------------------
+
+// --------------
+// Message Old-Style
+//
+
+@message_error_bg :            #000 ;
+@message_error_border :        #000 ;
+@message_error_text :          #000 ;
+@message_ok_bg :               #000 ;
+@message_ok_border :           #000 ;
+@message_ok_text :             #000 ;
+@message_hint_bg :             #000 ;
+@message_hint_border :         #000 ;
+@message_hint_text :           #000 ;
+
+// --------------
+// Flash Messages
+//
+
+@flash_message_error_bg:       #FFD6D6 ;
+@flash_message_error_border:   1px solid #AE0014 ;
+@flash_message_error_text:     #AE0014 ;
+@flash_message_warning_bg:     #FFE8C7 ;
+@flash_message_warning_border: 1px solid #FF6600 ;
+@flash_message_warning_text:   #FF6600 ;
+@flash_message_info_bg:        #DCF2FF ;
+@flash_message_info_border:    1px solid #4690FF ;
+@flash_message_info_text:      #4690FF ;
+@flash_message_ok_bg:          #ADFFB6 ;
+@flash_message_ok_border:      1px solid #007F0F ;
+@flash_message_ok_text:        #007F0F ;
+
+
+
+
+

@@ -803,14 +803,14 @@ sub display_rows {
   for my $i (1 .. $form->{rowcount}) {
     if ($form->{show_details}) {
       $source = qq|
-      <td><input name="source_$i" value="$form->{"source_$i"}" size="16"></td>|;
+      <td><input name="source_$i" value="$form->{"source_$i"}" class="wi-verysmall" type="text"></td>|;
       $memo = qq|
-      <td><input name="memo_$i" value="$form->{"memo_$i"}" size="16"></td>|;
+      <td><input name="memo_$i" value="$form->{"memo_$i"}" class="wi-small" type="text"></td>|;
     } else {
       $source_hidden = qq|
-      <input type="hidden" name="source_$i" value="$form->{"source_$i"}" size="16">|;
+      <input type="hidden" name="source_$i" value="$form->{"source_$i"}">|;
       $memo_hidden = qq|
-      <input type="hidden" name="memo_$i" value="$form->{"memo_$i"}" size="16">|;
+      <input type="hidden" name="memo_$i" value="$form->{"memo_$i"}">|;
     }
 
     my %taxchart_labels = ();
@@ -851,7 +851,7 @@ sub display_rows {
     if ($init) {
       if ($form->{transfer}) {
         $fx_transaction = qq|
-        <td><input name="fx_transaction_$i" class=checkbox type=checkbox value=1></td>
+        <td><input name="fx_transaction_$i" type="checkbox" value="1"></td>
     |;
       }
 
@@ -880,7 +880,7 @@ sub display_rows {
           $checked = ($form->{"fx_transaction_$i"}) ? "1" : "";
           my $x = ($checked) ? "x" : "";
           $fx_transaction = qq|
-      <td><input type=hidden name="fx_transaction_$i" value="$checked">$x</td>
+      <td><input type="hidden" name="fx_transaction_$i" value="$checked">$x</td>
     |;
         }
         $form->hide_form("accno_$i");
@@ -888,7 +888,7 @@ sub display_rows {
       } else {
         if ($form->{transfer}) {
           $fx_transaction = qq|
-      <td><input name="fx_transaction_$i" class=checkbox type=checkbox value=1></td>
+      <td><input name="fx_transaction_$i" type="checkbox" value="1"></td>
     |;
         }
       }
@@ -916,11 +916,11 @@ sub display_rows {
 
     print qq|<tr valign=top>
     $accno
-    <td id="chart_balance_$i" align="right">${balance}</td>
+    <td id="chart_balance_$i" class="right">${balance}</td>
     $fx_transaction
-    <td><input name="debit_$i" size="8" value="$form->{"debit_$i"}" accesskey=$i $copy2credit $debitreadonly></td>
-    <td><input name="credit_$i" size=8 value="$form->{"credit_$i"}" $creditreadonly></td>
-    <td><input type="hidden" name="tax_$i" value="$form->{"tax_$i"}">$form->{"tax_$i"}</td>
+    <td class="right"><input name="debit_$i" type="text" class="wi-small numeric" value="$form->{"debit_$i"}" accesskey=$i $copy2credit $debitreadonly></td>
+    <td class="right"><input name="credit_$i" type="text" class="wi-small numeric" value="$form->{"credit_$i"}" $creditreadonly></td>
+    <td class="right"><input name="tax_$i" type="hidden" value="$form->{"tax_$i"}">$form->{"tax_$i"}</td>
     $tax_ddbox|;
 
     if ($form->{show_details}) {

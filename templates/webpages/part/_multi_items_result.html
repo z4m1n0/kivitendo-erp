@@ -1,12 +1,11 @@
 [%- USE T8 %][%- USE HTML %][%- USE L %][%- USE LxERP %][% USE P %]
 
-<table id="multi_items">
+<table id="multi_items" class="tbl-list">
+  <thead>
     <tr>
-      <td>[% 'for all' | $T8 %]
-      <td>[% L.input_tag("multi_items.all_qty", '', size = 5, class='numeric') %]</td>
-    </tr>
-    <tr>
-      <td colspan="5"><hr></td>
+      <th>[% 'for all' | $T8 %]</th>
+      <th>[% L.input_tag("multi_items.all_qty", '', size = 5, class='numeric') %]</th>
+      <th colspan="4"></th>
     </tr>
     <tr>
       <th></th>
@@ -16,6 +15,8 @@
       <th>[% 'Sellprice' | $T8 %]</th>
       <th>[% 'Partsgroup' | $T8 %]</th>
     </tr>
+  </thead>
+  <tbody>
   [%- FOREACH item = multi_items %]
     <tr>
       <td></td>
@@ -30,4 +31,5 @@
       <td class="numeric">[% HTML.escape(item.partsgroup.partsgroup) %]</td>
     </tr>
   [%- END %]
+  </tbody>
 </table>

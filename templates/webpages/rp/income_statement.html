@@ -7,40 +7,7 @@
 [% L.button_tag('', LxERP.t8('Hide charts'),  id="hide_charts_button",  class="hide") %]
 
 <h3 align="center" id="show_buttons"> [% title %]</h3>
-<h3 align=center>
-[% period %]<br>
-[% accounting_method %]<br>
-
-<br>[% report_date %]
-</h3>
-
-<style type="text/css">
-
-#eurtable {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-tr.category {
-  /* background set via jquery */
-}
-
-tr.chart {
-  border: 0;
-}
-
-td.chartname {
-  padding-left: 50px;
-}
-
-tr.chartrow {
-  font-size: 75%;
-}
-
-.guv_row_background {
-  background:#f0f0f0;
-}
-</style>
+<h3 align=center>[% period %]<br>[% accounting_method %]<br><br>[% report_date %]</h3>
 
 <table id="eurtable">
 <tr>

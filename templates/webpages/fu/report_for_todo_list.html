@@ -1,23 +1,26 @@
 [%- USE T8 %]
 [% USE HTML %]
-<h1>[% 'Unfinished follow-ups' | $T8 %]</h1>
 
+<div class="center">
 <form action="fu.pl" method="post" name="TODOFollowUpsForm">
  <input type="hidden" name="callback" value="[% HTML.escape(callback) %]">
  <input type="hidden" name="rowcount" value="[% FOLLOW_UPS.size %]">
 
-  <table width="100%">
+  <table class="tbl-list width-moderate">
+    <caption>[% 'Unfinished follow-ups' | $T8 %]</caption>
+    <thead>
    <tr>
-    <td class="listheading">&nbsp;</td>
-    <td class="listheading">[% 'Follow-Up Date' | $T8 %]</td>
-    <td class="listheading">[% 'Created on' | $T8 %]</td>
-    <td class="listheading">[% 'Subject' | $T8 %]</td>
-    <td class="listheading">[% 'Reference' | $T8 %]</td>
-    <td class="listheading">[% 'Created by' | $T8 %]</td>
+    <th>&nbsp;</th>
+    <th>[% 'Follow-Up Date' | $T8 %]</th>
+    <th>[% 'Created on' | $T8 %]</th>
+    <th>[% 'Subject' | $T8 %]</th>
+    <th>[% 'Reference' | $T8 %]</th>
+    <th>[% 'Created by' | $T8 %]</th>
    </tr>
-
+  </thead>
+  <tbody>
    [%- FOREACH row = FOLLOW_UPS %]
-   <tr class="listrow[% loop.count % 2 %]">
+   <tr>
     <td>
      <input type="hidden" name="follow_up_id_[% loop.count %]" value="[% HTML.escape(row.id) %]">
      <input type="checkbox" name="selected_[% loop.count %]" value="1">
@@ -29,11 +32,13 @@
     <td>[% HTML.escape(row.created_by_name) %]</td>
    </tr>
    [%- END %]
+  </tbody>
   </table>
 
- <p>
+ <div class="buttons">
   <input type="hidden" name="action" value="dispatcher">
   <input type="submit" class="submit" name="action_finish" value="[% 'Finish' | $T8 %]">
   <input type="submit" class="submit" name="action_delete" value="[% 'Delete' | $T8 %]">
- </p>
+ </div>
 </form>
+</div>

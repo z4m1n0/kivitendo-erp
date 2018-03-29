@@ -3,10 +3,12 @@
 [%- USE L %]
 [%- USE LxERP %]
 [%- PROCESS 'amcvar/render_inputs_block.html' %]
-<tr>
- <td>
-  <input type="button" id="cb_show_details" name="show_details_button" value='[% 'Show details' | $T8 %]'[% IF  show_details %] style="display:none"[% END %]>
-  <input type="button" id="cb_hide_details" name="hide_details_button" value='[% 'Hide details' | $T8 %]'[% IF !show_details %] style="display:none"[% END %]>
+
+<div class="full-width">
+<div class="buttons positions">
+  <input type="button" id="cb_show_details" name="show_details_button" class="positions" value="[% 'Show details' | $T8 %]"[% IF  show_details %] style="display:none"[% END %]>
+  <input type="button" id="cb_hide_details" name="hide_details_button" class="positions" value="[% 'Hide details' | $T8 %]"[% IF !show_details %] style="display:none"[% END %]>
+</div>
   <script type="text/javascript">
    $('#cb_show_details,#cb_hide_details').click(function(){
      $('[id^="row2"],#cb_show_details,#cb_hide_details').toggle();
@@ -17,28 +19,49 @@
      }}
    );
   </script>
-  <table id='display_row' width="100%">
-   <tr class="listheading">
+  <table id="display_row" class="tbl-list full-width test">
+    <caption>[% 'Invoice items' | $T8 %]</caption>
+     <colgroup>
+      <col style="width: 5.0em"></col>
+      <col style="width: 8.0em"></col>
+      <col style="width: 4.0em"></col>
+      <col style="width:16.0em"></col>
+      <col style="width: 6.0em;text-align:right;"></col>
+      <col style="width: 5.0em"></col>
+      <col style="width: 7.0em"></col>
+      <col style="width: 5.0em"></col>
+      <col style="width: 5.0em"></col>
+      <col style="width: 4.0em"></col>
+      <col style="width: 5.0em"></col>
+      <col style="width: 5.0em"></col>
+      <col style="width: 5.0em"></col>
+      </colgroup> 
+    <thead>
+   <tr>
 [%- FOREACH header = HEADER %]
  [%- IF header.display %]
-    <th align="left" nowrap width="[% header.width %]" class="listheading">[% header.value %]</th>
+    <th>[% header.value %]</th>
  [%- END %]
 [%- END %]
    </tr>
+   </thead>
+   <tbody>
 [%- FOREACH row = ROWS %]
-     <tr valign="top" class="row [% IF row.error %]error_message[% ELSE %]listrow[% loop.count % 2 %][% END %]">
+     <tr>
  [%- FOREACH row1 = row.ROW1 %]
-      <td[% IF row1.align %] align="[% row1.align %]"[% END %][% IF row1.nowrap %] nowrap[% END %][% IF row1.class %] class="[% row1.class %]"[% END %]>[% row1.value %]</td>
+      <td style="[% IF row1.align %]text-align:[% row1.align %];[% END %][% IF row1.nowrap %]white-space:nowrap;[% END %]"[% IF row1.class %] class="[% row1.class %]"[% END %]>
+        [% row1.value %]
+      </td>
  [%- END %]
      </tr>
-     <tr style='display:none'>
+     <tr style="display:none">
       <td>
  [%- FOREACH hidden = row.HIDDENS %]
       [% hidden.value %]
  [%- END %]
       </td>
      </tr>
-     <tr class="listrow[% loop.count % 2 %]" id="row2.[% loop.count %]" [% UNLESS show_details %]style="display:none;"[% END %]>
+     <tr id="row2.[% loop.count %]" [% UNLESS show_details %]style="display:none;"[% END %]>
       <td colspan="[% row.colspan %]">
 
  [%# render all row2 entries except cvars  %]
@@ -49,7 +72,7 @@
  [%- END %]
 
  [%# process editable cvars  %]
- <table class='row2-cvars-table'>
+ <table class="row2-cvars-table">
    <tr>
    [%- FOREACH row2 = row.ROW2 %]
      [%- SET show = ((row2.render_options.var.flag_editable || !row2.render_options.hide_non_editable ) && row2.render_options.valid && !row2.render_options.partsgroup_filtered) %]
@@ -79,7 +102,7 @@
       </td>
      </tr>
 [%- END %]
-
+    </tbody>
   </table>
- </td>
-</tr>
+</div>
+

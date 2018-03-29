@@ -1,27 +1,29 @@
 [%- USE HTML -%][%- USE LxERP -%]
-<table>
- <tr class="listrow">
-  <td>[% LxERP.t8("Project Number") %]:</td>
+<table class="tbl-horizontal">
+  <tbody>
+ <tr>
+  <th>[% LxERP.t8("Project Number") %]:</th>
   <td>[% HTML.escape(requirement_spec.project.projectnumber) %]</td>
  </tr>
 
- <tr class="listrow">
-  <td>[% LxERP.t8("Description") %]:</td>
+ <tr>
+  <th>[% LxERP.t8("Description") %]:</th>
   <td>[% HTML.escape(requirement_spec.project.description) %]</td>
  </tr>
 
- <tr class="listrow">
-  <td>[% LxERP.t8("Customer") %]:</td>
+ <tr>
+  <th>[% LxERP.t8("Customer") %]:</th>
   <td>[% HTML.escape(requirement_spec.project.customer.name) %]</td>
  </tr>
 
- <tr class="listrow">
-  <td>[% LxERP.t8("Type") %]:</td>
+ <tr>
+  <th>[% LxERP.t8("Type") %]:</th>
   <td>[% HTML.escape(requirement_spec.project.project_type.description) %]</td>
  </tr>
 
- <tr class="listrow">
-  <td>[% LxERP.t8("Status") %]:</td>
+ <tr>
+  <th>[% LxERP.t8("Status") %]:</th>
   <td>[% HTML.escape(requirement_spec.project.project_status.description) %]</td>
  </tr>
+ </tbody>
 </table>

@@ -2,6 +2,8 @@
 [%- USE HTML %]
 <h1>[% HTML.escape(title) %]</h1>
 
+<div class="pad-wrapper">
+  <!-- UPDATE: Message -->
  [%- IF message %]
  <p>
   [% HTML.escape(message) %]
@@ -10,14 +12,16 @@
 
  <form method="post" action="generictranslations.pl" id="form">
 
-  <table>
+  <table class="tbl-list">
+    <thead>
 
    <tr>
-    <th class="listheading">&nbsp;</th>
-    <th class="listheading">[% 'male' | $T8 %]</th>
-    <th class="listheading">[% 'female' | $T8 %]</th>
+    <th>&nbsp;</th>
+    <th>[% 'male' | $T8 %]</th>
+    <th>[% 'female' | $T8 %]</th>
    </tr>
-
+  </thead>
+  <tbody>
    [%- FOREACH language = LANGUAGES %]
    <tr>
     <td>
@@ -27,10 +31,11 @@
      [%- HTML.escape(language.description) %]
      [%- END %]
     </td>
-    <td><input name="translation__[% language.id %]__male" size="40" value="[% HTML.escape(language.male) %]"></td>
-    <td><input name="translation__[% language.id %]__female" size="40" value="[% HTML.escape(language.female) %]"></td>
+    <td><input name="translation__[% language.id %]__male" value="[% HTML.escape(language.male) %]" class="wi-wide" type="text"></td>
+    <td><input name="translation__[% language.id %]__female" value="[% HTML.escape(language.female) %]" class="wi-wide" type="text"></td>
    </tr>
    [%- END %]
-
+  </tbody>
   </table>
  </form>
+</div>
