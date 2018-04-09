@@ -15,7 +15,7 @@
 <div class="wrapper" style="width:100%">
 
 
-[%- IF show_weight %]
+[% IF show_weight %]
 <table class="tbl-plain col">
   <tbody>
     <tr>
@@ -24,10 +24,10 @@
     </tr>
   </tbody>
 </table>
-[%- END %]
+[% END %]
 
 
-[%- IF is_sales %]
+[% IF is_sales %]
 <table class="tbl-plain col">
 	<tbody>
 		<tr>
@@ -45,15 +45,15 @@
 	</tbody>
 </table>
 
-[%- END %]
+[% END %]
 
 
 <div class="col">
   [%- IF taxaccounts %]
-  <input type="hidden" name="taxincluded_changed_by_user" id="taxincluded_changed_by_user" value="[% taxincluded_changed_by_user ? '1' : '0' %]">
-  <input type="checkbox" name="taxincluded" class="checkbox" onclick="document.getElementById('taxincluded_changed_by_user').value = '1';" value="1"[% IF taxincluded %] checked[% END %]>
-  <b>[% 'Tax Included' | $T8 %]</b>
-[%- END %]
+    <input type="hidden" name="taxincluded_changed_by_user" id="taxincluded_changed_by_user" value="[% taxincluded_changed_by_user ? '1' : '0' %]">
+    <input type="checkbox" name="taxincluded" class="checkbox" onclick="document.getElementById('taxincluded_changed_by_user').value = '1';" value="1"[% IF taxincluded %] checked[% END %]>
+    <b>[% 'Tax Included' | $T8 %]</b>
+  [% END %]
 </div>
 
 

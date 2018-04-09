@@ -12,9 +12,16 @@
   padding: 0 1em 1em 1em;
 }
 .mx-thead-th {
-  color: #555555;
+  color: #555;
   text-align: left ;
   vertical-align: middle ;
+}
+.mx-button {
+  background-color: #99CCFF;
+  border: 1px #53619B solid;
+  border-radius: 3px;
+  color: #06C;
+  padding: 0px 4px;
 }
 body {
   margin: 0 ;
@@ -77,6 +84,14 @@ body .cols .col-right,
 body .cols-no-padding .col-right {
   display: block;
   overflow: hidden;
+}
+body .cols .col p,
+body .cols-no-padding .col p,
+body .cols .col-left p,
+body .cols-no-padding .col-left p,
+body .cols .col-right p,
+body .cols-no-padding .col-right p {
+  font-size: 10pt;
 }
 body .cols .col,
 body .cols-no-padding .col,
@@ -180,12 +195,11 @@ body div.center {
   font: menu;
   font-size: 12pt;
   /*hps: vorher 12px */
-
   line-height: 16px;
   overflow: hidden;
 }
 .ac_loading {
-  background: #ffffff url('indicator.gif') right center no-repeat;
+  background: white url('indicator.gif') right center no-repeat;
 }
 .ac_odd {
   background-color: #eee;
@@ -242,7 +256,6 @@ div.chart_picker_chart:hover {
 .ms2side__header {
   color: #666;
   /* hps */
-
   font-size: 10pt;
   line-height: 1.0em;
   padding: 0 0 0.3em 0;
@@ -288,7 +301,6 @@ div.chart_picker_chart:hover {
 .ms2side__div select {
   width: 12.0em;
   /*hps:400px*/
-
   float: left;
 }
 /* This is the default Tooltipster theme */
@@ -311,7 +323,6 @@ div.chart_picker_chart:hover {
 /* Set display: none; if you would like a border around the tooltip but no border around the arrow */
 .tooltipster-default .tooltipster-arrow .tooltipster-arrow-border {
   /* border-color: ... !important; */
-
 }
 /* If you're using the icon option, use this next selector to style them */
 .tooltipster-icon {
@@ -2006,7 +2017,7 @@ body .ui-tooltip {
   padding: 0;
   white-space: nowrap;
   border: 1px solid #cccccc;
-  background: #f6f6f6 url(../ui-lightness/images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
+  background: #f6f6f6 url(ui-lightness/images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
   font-size: 10pt;
   font-weight: bold;
   color: #1c94c4;
@@ -2131,7 +2142,6 @@ span.part_picker {
 span.chart_picker input,
 span.part_picker input {
   /* padding-right: 20px; */
-
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -2275,7 +2285,7 @@ a.cti_call_action {
   background-repeat: no-repeat;
 }
 .interact {
-  color: #808080;
+  color: gray;
 }
 .interact:hover {
   color: black;
@@ -2346,7 +2356,7 @@ h1 {
 .admin h2 {
   padding: 0.6em 0.2em;
   margin: 0.6em 0 0 0 ;
-  color: #000000;
+  color: #000;
   font-size: 15pt;
   font-weight: normal;
   text-align: left;
@@ -2367,7 +2377,8 @@ h3 {
   padding: 0.2em 0 0.2em 0.4em;
   color: #666 !important ;
   margin: 0;
-  color: #000000;
+  color: #000;
+  padding-left: 0 ;
 }
 a {
   text-decoration: none;
@@ -2399,6 +2410,12 @@ a.orange {
 a.red {
   background-color: #FF0000;
   border: none;
+}
+a.button.below {
+  clear: both !important;
+}
+a.button .wi-wider {
+  width: 24em;
 }
 div.wi-smallest,
 span.wi-smallest {
@@ -2492,7 +2509,7 @@ div.description.wi-verywide {
   width: 36em;
 }
 div.instructions {
-  background-color: #e6e6e6;
+  background-color: #E6E6E6;
   border: 1px #808080 solid;
   border-radius: 0.3em;
   max-width: 70% ;
@@ -2509,6 +2526,21 @@ div.instructions p {
   padding: 0 ;
   margin: 1em 1em 1em 1em;
   clear: both;
+}
+.accent div.label {
+  float: left ;
+  color: gray ;
+  font-size: 80% ;
+  padding-top: 0.8em ;
+}
+.accent div.label.wi-mediumsmall {
+  width: 13.6em;
+}
+.accent div.data {
+  float: left ;
+}
+.accent div.data input[type="text"] {
+  width: 20em !important ;
 }
 .center {
   margin: 0 auto;
@@ -2618,40 +2650,40 @@ pre.filecontent {
   border-radius: 0.22em ;
 }
 .flash_message.flash_message_error {
-  background-color: #ffd6d6;
-  border: 1px solid #ae0014;
-  color: #ae0014;
+  background-color: #FFD6D6;
+  border: 1px solid #AE0014;
+  color: #AE0014;
 }
 .flash_message.flash_message_error a.icon-close {
-  border: 1px solid #ae0014;
-  color: #ae0014;
+  border: 1px solid #AE0014;
+  color: #AE0014;
 }
 .flash_message.flash_message_ok {
-  background-color: #adffb6;
-  border: 1px solid #007f0f;
-  color: #007f0f;
+  background-color: #ADFFB6;
+  border: 1px solid #007F0F;
+  color: #007F0F;
 }
 .flash_message.flash_message_ok a.icon-close {
-  border: 1px solid #007f0f;
-  color: #007f0f;
+  border: 1px solid #007F0F;
+  color: #007F0F;
 }
 .flash_message.flash_message_warning {
-  background-color: #ffe8c7;
-  border: 1px solid #ff6600;
-  color: #ff6600;
+  background-color: #FFE8C7;
+  border: 1px solid #FF6600;
+  color: #FF6600;
 }
 .flash_message.flash_message_warning a.icon-close {
-  border: 1px solid #ff6600;
-  color: #ff6600;
+  border: 1px solid #FF6600;
+  color: #FF6600;
 }
 .flash_message.flash_message_info {
-  background-color: #dcf2ff;
-  border: 1px solid #4690ff;
-  color: #4690ff;
+  background-color: #DCF2FF;
+  border: 1px solid #4690FF;
+  color: #4690FF;
 }
 .flash_message.flash_message_info a.icon-close {
-  border: 1px solid #4690ff;
-  color: #4690ff;
+  border: 1px solid #4690FF;
+  color: #4690FF;
 }
 .flash_message .flash_title {
   font-weight: bold;
@@ -2694,10 +2726,10 @@ span.dimmed-text {
   color: #FFFFFF;
 }
 .shipped {
-  color: #008000;
+  color: green;
 }
 .not_shipped {
-  color: #ff0000;
+  color: red;
 }
 hr {
   background-color: #006400;
@@ -2754,49 +2786,30 @@ div.logged-in .col p {
   font-size: 10pt ;
 }
 #menuv3 {
-  background-color: #ebebeb;
-  color: #000000;
-  font-weight: normal !important ;
+  background-color: #dcdcdc;
 }
-#menuv3 a,
-#menuv3 li,
-#menuv3 div.x {
+#menuv3 li {
+  display: block;
+  position: relative;
+  float: none;
+  font-weight: normal !important ;
   font-size: 10pt;
   line-height: 96%;
-  display: block;
-  border: 0;
   white-space: nowrap;
+  border: 0;
+  padding: 0;
   margin: 0;
-  font-weight: normal !important ;
 }
-#menuv3 a {
-  background: #ebebeb;
+#menuv3 li:hover {
+  cursor: pointer;
+}
+#menuv3 li a,
+#menuv3 li a:visited,
+#menuv3 li div.x,
+#menuv3 li div.x:visited {
   display: block;
-}
-#menuv3 a,
-#menuv3 a:visited,
-#menuv3 div.x,
-#menuv3 div.x:visited {
-  color: #000000;
+  color: #000;
   text-decoration: none;
-  padding-right: 0.6em;
-}
-#menuv3 div.x,
-#menuv3 div.x:visited {
-  background-color: #ebebeb;
-  background: no-repeat right url("/image/menu-arrow-to-right-5.png");
-}
-#menuv3 div.x:hover {
-  border-right: none;
-}
-#menuv3 a:hover,
-#menuv3 div.x:hover {
-  color: #000000;
-  background-color: #ebebeb;
-}
-#menuv3 a:active,
-#menuv3 div.x:active {
-  color: #000000;
 }
 #menuv3 > ul {
   list-style: none;
@@ -2804,72 +2817,61 @@ div.logged-in .col p {
   padding: 0;
   float: left;
 }
-#menuv3 > ul li {
-  position: relative;
-  float: none;
-  padding: 0;
-  background-color: #ebebeb;
-}
-#menuv3 > ul li:hover {
-  background-color: #ebebeb;
-}
 #menuv3 > ul > li {
   display: block;
   height: 17px;
   padding: 9px 0.9em 6px 0.9em;
-  border-radius: 0 0 0 0;
+  background-color: #dcdcdc;
   vertical-align: middle;
-  color: #000000;
+  /* List 2nd Level (Vertical) */
 }
 #menuv3 > ul > li:hover {
-  background-color: #ebebeb;
-  color: #000000;
+  background-color: #cdcdcd;
+}
+#menuv3 > ul > li:hover > ul {
+  display: block;
+  position: absolute;
 }
 #menuv3 > ul > li ul {
-  position: absolute;
+  position: relative;
   display: none;
-  top: 32px;
   padding: 0 2em 2em 2em;
   margin: 0 -2em -2em -2.9em;
 }
 #menuv3 > ul > li ul li {
-  border-bottom: 1px #ccc solid ;
-  background-color: #ebebeb;
-}
-#menuv3 > ul > li ul li a,
-#menuv3 > ul > li ul li div.x {
+  border-bottom: 1px #777777 solid ;
   padding: 0.45em 0.6em 0.58em 0.8em ;
-  font-size: 1.0em ;
-  background-color: #ebebeb;
 }
-#menuv3 > ul > li ul ul {
+#menuv3 > ul > li > ul {
+  top: 32px;
+}
+#menuv3 > ul > li > ul > li {
+  background-color: #cdcdcd;
+}
+#menuv3 > ul > li > ul > li div.x {
+  background: no-repeat right url("/image/menu-arrow-to-right-5.png");
+}
+#menuv3 > ul > li > ul > li:hover {
+  color: #000;
+  background-color: #dcdcdc;
+}
+#menuv3 > ul > li > ul > li:hover > ul {
+  display: block;
+  position: absolute;
+}
+#menuv3 > ul > li > ul > li > ul {
   top: 0;
   left: 99%;
   padding: 2em;
   margin: -2em;
   list-style: none;
 }
-#menuv3 > ul > li ul ul li {
-  border-left: 0.2em solid #ebebeb;
+#menuv3 > ul > li > ul > li > ul > li {
+  background-color: #dcdcdc;
+  border-left: 0.2em solid #EBEBEB;
 }
-#menuv3 > ul > li ul ul li a {
-  padding: 0.4em 0.9em 0.5em 0.9em;
-}
-#menuv3 li:hover {
-  cursor: pointer;
-}
-#menuv3 li:hover ul ul,
-#menuv3 li li:hover ul ul,
-#menuv3 li li li:hover ul ul,
-#menuv3 li li li li:hover ul ul {
-  display: none;
-}
-#menuv3 li:hover ul,
-#menuv3 li li:hover ul,
-#menuv3 li li li:hover ul,
-#menuv3 li li li li:hover ul {
-  display: block;
-  position: absolute;
+#menuv3 > ul > li > ul > li > ul > li:hover {
+  background-color: #cdcdcd;
 }
 div.layout-split-right {
   margin-left: 190px;
@@ -2989,10 +2991,10 @@ li.sub {
 }
 .layout-actionbar > div.layout-actionbar-action {
   border-radius: 0.3em ;
-  border: 1px #30b21e solid;
-  background-color: #bcec6d;
+  border: 1px #30B21E solid;
+  background-color: #BCEC6D;
   float: left;
-  color: #1a920f;
+  color: #1A920F;
   z-index: 1031;
 }
 .layout-actionbar div.layout-actionbar-link,
@@ -3043,9 +3045,9 @@ li.sub {
   height: 25px;
   border-top-left-radius: 0.3em ;
   border-bottom-left-radius: 0.3em ;
-  border: 1px #30b21e solid;
-  background-color: #bcec6d;
-  color: #1a920f;
+  border: 1px #30B21E solid;
+  background-color: #BCEC6D;
+  color: #1A920F;
   position: relative;
 }
 .layout-actionbar div.layout-actionbar-combobox div.layout-actionbar-combobox-head > span {
@@ -3055,12 +3057,12 @@ li.sub {
   right: 0;
   width: 14px;
   height: 15px;
-  border: 1px #30b21e solid;
+  border: 1px #30B21E solid;
   border-left: none;
   border-top-right-radius: 0.3em ;
   border-bottom-right-radius: 0.3em ;
   padding: 4px;
-  background-color: #bcec6d;
+  background-color: #BCEC6D;
 }
 .layout-actionbar div.layout-actionbar-combobox div.layout-actionbar-combobox-head > span:after {
   content: "";
@@ -3083,7 +3085,7 @@ li.sub {
   min-width: 120px;
   float: right;
   overflow: hidden;
-  border: 1px solid #30b21e;
+  border: 1px solid #30B21E;
   border-top-left-radius: 0.3em;
   border-bottom-left-radius: 0.3em;
   border-bottom-right-radius: 0.3em;
@@ -3091,7 +3093,7 @@ li.sub {
   min-width: 10.0em;
   top: 1px;
   padding-bottom: 0.6em;
-  background-color: #bcec6d !important;
+  background-color: #BCEC6D !important;
 }
 .layout-actionbar div.layout-actionbar-combobox div.layout-actionbar-combobox-list div.layout-actionbar-action {
   white-space: nowrap;
@@ -3101,8 +3103,8 @@ li.sub {
   text-align: left;
   padding: 0.6em 0.6em 0.6em 1.0em;
   border-bottom: none !important;
-  background-color: #bcec6d !important;
-  color: #1a920f;
+  background-color: #BCEC6D !important;
+  color: #1A920F;
 }
 .layout-actionbar div.layout-actionbar-combobox div.layout-actionbar-combobox-list div.layout-actionbar-action:hover {
   color: white;
@@ -3112,13 +3114,13 @@ li.sub {
   border-bottom: none !important ;
 }
 .layout-actionbar div.layout-actionbar-combobox.active div.layout-actionbar-combobox-head div {
-  background-color: #bcec6d !important;
+  background-color: #BCEC6D !important;
   border-bottom-left-radius: 0 !important;
   border-bottom: none;
   height: 30px ;
 }
 .layout-actionbar div.layout-actionbar-combobox.active div.layout-actionbar-combobox-head span {
-  background-color: #bcec6d !important;
+  background-color: #BCEC6D !important;
   border-bottom-right-radius: 0 !important;
   border-bottom: none;
   height: 24px ;
@@ -3141,22 +3143,27 @@ a.no-underlined-links:hover {
   background: none;
 }
 body > div.admin {
-  padding-top: 24px;
+  margin: 60px 0 0 0 ;
 }
 body > div.admin h1 {
   background-color: #fe5f14;
   color: #ffffff;
+  padding: 0.1em 0.5em 37px 0.5em ;
+  top: 0 ;
+  position: fixed;
+  width: 100% ;
+  display: block;
 }
-/* Admin-Bereich */
-.admin #menuv3 {
-  top: 0px ;
+body > div.admin .tabwidget {
+  top: 0 ;
+  padding: 1.0em 0 0 0 !important;
 }
-/* Admin-Bereich */
-.admin > div.admin {
-  top: 74px ;
-  position: absolute;
-  width: 100%;
-  background-color: #ececec ;
+body > div.admin .tabwidget .ui-tabs-panel {
+  padding: 2.0em 1.0em 1.0em 1.0em ;
+}
+body > div.admin form {
+  display: block ;
+  margin-top: 1px ;
 }
 table {
   font-size: 12pt;
@@ -3266,7 +3273,7 @@ table tr.header-caption th {
   vertical-align: bottom ;
 }
 table thead th {
-  color: #555555;
+  color: #555;
   text-align: left ;
   vertical-align: middle ;
 }
@@ -3299,7 +3306,7 @@ table tfoot tr.blank td {
 }
 table caption,
 table th.caption {
-  color: #000000 !important;
+  color: #000 !important;
   font-weight: bold ;
   white-space: nowrap ;
   text-align: left;
@@ -3369,7 +3376,7 @@ table.tbl-list thead tr {
   height: 2.2em ;
 }
 table.tbl-list thead tr th {
-  color: #555555;
+  color: #555;
   text-align: left ;
   vertical-align: middle ;
   background-color: #cecece;
@@ -3399,7 +3406,7 @@ table.tbl-plain td {
 }
 table.tbl-list-plain thead th,
 table.tbl-plain thead th {
-  color: #555555;
+  color: #555;
   text-align: left ;
   vertical-align: middle ;
 }
@@ -3441,10 +3448,20 @@ table.tbl-horizontal th select.addition,
 table.tbl-horizontal td select.addition {
   margin-top: 0.3em !important;
 }
+table.tbl-horizontal th .label-above,
+table.tbl-horizontal td .label-above {
+  display: block;
+  clear: both ;
+  overflow: hidden;
+  height: 1.8em ;
+}
 table.tbl-horizontal th {
   color: #888888;
   vertical-align: top;
   padding-top: 0.5em ;
+}
+table.tbl-horizontal td span.plain-data {
+  padding: 0.3em 0.3em 0.6em 0.3em ;
 }
 table.tbl-horizontal caption,
 table.tbl-horizontal th.caption {
@@ -3466,22 +3483,35 @@ table.tbl-dialog th {
   vertical-align: top;
 }
 table.test {
-  background-color: #CCFF99;
+  border: 2px #000 solid ;
+  background-color: #BFD2AD;
 }
 table.test th {
-  border: 1px solid red !important;
+  border-width: 1px !important;
+  background-color: #C20D18;
+  color: #FFD9C3 ;
+  font-weight: bold ;
 }
 table.test th.caption {
   border: 3px solid red !important;
 }
 table.test td {
-  border: 1px solid blue !important;
+  border: 1px solid blue !#FF9D58;
+  background-color: #F7CC94;
 }
 table.test td.longdesc,
 table.test td.longdescription,
 table.test td.long-desc,
 table.test td.long-description {
   border: 1px solid green !important;
+}
+table.test table {
+  border: 2px #0000FF solid ;
+  border-collapse: collapse;
+}
+table.test table td,
+table.test table th {
+  border: 1px #C20D18 dotted !important;
 }
 table.width-full,
 table.full-width,
@@ -3601,6 +3631,64 @@ div.float-cells-table div.cells div.cell {
   border-right: 1px #fff solid;
   background-color: #FC6;
 }
+@media screen and (min-device-width: 768px) and (max-device-width: 1023px) {
+  .tbl-horizontal th.wi-smallest {
+    width: 13em !important;
+  }
+  .tbl-horizontal th.wi-verysmall {
+    width: 13em !important;
+  }
+  .tbl-horizontal th.wi-small {
+    width: 13em !important;
+  }
+  .tbl-horizontal th.wi-mediumsmall {
+    width: 13em !important;
+  }
+  .tbl-horizontal th.wi-normal {
+    width: 13em !important;
+  }
+  .tbl-horizontal th.wi-lightwide {
+    width: 13em !important;
+  }
+  .tbl-horizontal th.wi-wide {
+    width: 13em !important;
+  }
+  .tbl-horizontal th.wi-wider {
+    width: 13em !important;
+  }
+  .tbl-horizontal th.wi-verywide {
+    width: 13em !important;
+  }
+}
+@media screen and (max-device-width: 1024px) {
+  .tbl-horizontal th.wi-smallest {
+    width: 13em !important;
+  }
+  .tbl-horizontal th.wi-verysmall {
+    width: 13em !important;
+  }
+  .tbl-horizontal th.wi-small {
+    width: 13em !important;
+  }
+  .tbl-horizontal th.wi-mediumsmall {
+    width: 13em !important;
+  }
+  .tbl-horizontal th.wi-normal {
+    width: 13em !important;
+  }
+  .tbl-horizontal th.wi-lightwide {
+    width: 13em !important;
+  }
+  .tbl-horizontal th.wi-wide {
+    width: 13em !important;
+  }
+  .tbl-horizontal th.wi-wider {
+    width: 13em !important;
+  }
+  .tbl-horizontal th.wi-verywide {
+    width: 13em !important;
+  }
+}
 /* Benutzerdefinierte Tabellen-Angaben */
 /* Diese uebersteuern alle Anweisungen aus tables.less */
 /* Es dürfen nur Tabellen mit Zusatzklassen oder mit IDs uebersteuert werden. */
@@ -3609,23 +3697,14 @@ div.float-cells-table div.cells div.cell {
 /* Diese Datei wird am Schluss von tables.less includiert. */
 table {
   /* Zusatzklasse zur Tabelle (Beispiel) */
-
   /* Betreff: xyz */
-
   /* Autor: hanspeter.schlaepfer@revamp-it.ch */
-
   /* Tabelle mit spezieller ID (Beispiel) */
-
   /* Betreff: xyz */
-
   /* Autor: hanspeter.schlaepfer@revamp-it.ch */
-
   /* Tabelle mit Konten-Uebersicht (Kontoplan) */
-
   /* Betreff: Kontoplan */
-
   /* Autor: hanspeter.schlaepfer@revamp-it.ch */
-
 }
 table#konten-plan tbody tr td:first-child {
   text-align: right !important;
@@ -3643,7 +3722,6 @@ table#eurtable {
 }
 table tr.category {
   /* background set via jquery */
-
 }
 table tr.chart {
   border: 0;
@@ -3679,45 +3757,20 @@ form select {
   outline: none;
   background-color: #fff ;
 }
-form input input[type="text"],
-form textarea input[type="text"],
-form select input[type="text"],
-form input input[type="password"],
-form textarea input[type="password"],
-form select input[type="password"],
-form input textarea,
-form textarea textarea,
-form select textarea,
-form input select,
-form textarea select,
-form select select {
-  background-color: #fff ;
+form input[type="text"].accent,
+form textarea[type="text"].accent,
+form select[type="text"].accent {
+  font-weight: bold ;
+  font-size: 130% !important ;
+  padding: 0.6em auto !important ;
 }
-form input input[type="text"]:focus,
-form textarea input[type="text"]:focus,
-form select input[type="text"]:focus,
-form input input[type="password"]:focus,
-form textarea input[type="password"]:focus,
-form select input[type="password"]:focus,
-form input textarea:focus,
-form textarea textarea:focus,
-form select textarea:focus,
-form input select:focus,
-form textarea select:focus,
-form select select:focus,
-form input input[type="text"]:active,
-form textarea input[type="text"]:active,
-form select input[type="text"]:active,
-form input input[type="password"]:active,
-form textarea input[type="password"]:active,
-form select input[type="password"]:active,
-form input textarea:active,
-form textarea textarea:active,
-form select textarea:active,
-form input select:active,
-form textarea select:active,
-form select select:active {
-  background-color: #ddff82 !important;
+form input:focus,
+form textarea:focus,
+form select:focus,
+form input:active,
+form textarea:active,
+form select:active {
+  background-color: #E7FFCE !important;
   border: 1px solid #9ccb21;
 }
 form select {
@@ -3737,6 +3790,22 @@ form a.button {
   color: #06C;
   padding: 0px 4px;
 }
+form a.button.neutral {
+  background-color: #ccc;
+}
+form a.button.neutral:link,
+form a.button.neutral:visited {
+  color: #666 ;
+}
+form input[type="button"].below {
+  clear: both !important;
+  float: none;
+  margin-top: 0.3em;
+  overflow: hidden ;
+}
+form input[type="button"].wi-wider {
+  width: 24.5em;
+}
 form input[type="button"]:focus,
 form input[type="submit"]:focus,
 form button:focus {
@@ -3746,7 +3815,13 @@ form button:focus {
 form button:hover:enabled,
 form input[type="button"]:hover:enabled,
 form input[type="submit"]:hover:enabled {
-  color: #fe5f14;
+  color: #fff;
+}
+form div.buttons {
+  padding: 1.0em ;
+}
+form div.buttons.positions {
+  margin: 0 0 -2.4em 20em;
 }
 form label {
   cursor: pointer;
@@ -3780,47 +3855,60 @@ form fieldset h4 {
   margin: 0;
   padding: 0 0 0.2em 0;
 }
-form input[type="text"].wi-smallest {
+form input[type="text"].wi-smallest,
+form input[type="password"].wi-smallest {
   width: 2.6em;
 }
-form input[type="text"].wi-verysmall {
+form input[type="text"].wi-verysmall,
+form input[type="password"].wi-verysmall {
   width: 4em;
 }
-form input[type="text"].wi-small {
+form input[type="text"].wi-small,
+form input[type="password"].wi-small {
   width: 6.4em;
 }
-form input[type="text"].wi-mediumsmall {
+form input[type="text"].wi-mediumsmall,
+form input[type="password"].wi-mediumsmall {
   width: 8.4em;
 }
-form input[type="text"].wi-normal {
+form input[type="text"].wi-normal,
+form input[type="password"].wi-normal {
   width: 11.4em;
 }
-form input[type="text"].wi-lightwide {
+form input[type="text"].wi-lightwide,
+form input[type="password"].wi-lightwide {
   width: 13.4em;
 }
-form input[type="text"].wi-wide {
+form input[type="text"].wi-wide,
+form input[type="password"].wi-wide {
   min-width: 18em;
 }
-form input[type="text"].wi-wider {
+form input[type="text"].wi-wider,
+form input[type="password"].wi-wider {
   min-width: 24em;
 }
-form input[type="text"].wi-verywide {
+form input[type="text"].wi-verywide,
+form input[type="password"].wi-verywide {
   min-width: 36em;
 }
-form input[type="text"].wi-date {
+form input[type="text"].wi-date,
+form input[type="password"].wi-date {
   width: 6.4em;
 }
-form input[type="text"].wi-number {
+form input[type="text"].wi-number,
+form input[type="password"].wi-number {
   width: 6.4em;
 }
-form input[type="text"].wi-tinynumber {
+form input[type="text"].wi-tinynumber,
+form input[type="password"].wi-tinynumber {
   width: 4em;
 }
-form input[type="text"].wi-largenumber {
+form input[type="text"].wi-largenumber,
+form input[type="password"].wi-largenumber {
   width: 8.4em;
 }
 form input[type="password"] {
-  width: 10.0em ;
+  min-width: 11.4em;
 }
 form input .fixed_width {
   width: 250px;
@@ -3886,6 +3974,20 @@ form td img.ui-datepicker-trigger {
   vertical-align: middle ;
   padding: 0 0.2em ;
 }
+form td div.rowspan-table {
+  display: table-row;
+}
+form td div.rowspan-table div.label-n-value {
+  display: table-cell;
+  vertical-align: middle;
+  height: 1.6em !important ;
+  float: left;
+  padding: 0 2.3em 0 0 ;
+}
+form td div.rowspan-table div.label-n-value b {
+  font-weight: normal;
+  padding: 0 0 0 0 ;
+}
 form table td > span.data {
   display: block;
   overflow: hidden ;
@@ -3924,6 +4026,33 @@ form table td > span.data.numeric {
 }
 form table td > span.data.right {
   text-align: right ;
+}
+div.admin form {
+  font-size: 11pt;
+}
+div.admin form input[type="checkbox"] {
+  margin: 0.2em 0.6em 0.3em 0 ;
+  float: left;
+}
+div.admin form h3 {
+  margin: 1.2em 0 0.6em 0 ;
+  display: block;
+}
+div.admin form div.boxes {
+  margin: 0 0 0.9em 0 ;
+  overflow: hidden ;
+  max-width: 800px ;
+}
+div.admin form div.boxes div {
+  clear: both;
+  margin: 0 0 0.6em 0 ;
+  padding: 0;
+  display: block ;
+  overflow: hidden ;
+}
+div.admin form div.boxes div label {
+  float: left;
+  width: 94% ;
 }
 .frame-header-quicksearch input::placeholder {
   color: #666 ;
@@ -4113,7 +4242,6 @@ span.customer_vendor_picker {
 .requirement-spec-text-block.flagged {
   background-color: #feece3;
   /* border: 1px solid #fe5f14; */
-
 }
 .requirement-spec-text-block.flagged > h2 {
   background-color: #fe5f14;
@@ -4159,12 +4287,12 @@ span.customer_vendor_picker {
   display: table-cell;
   vertical-align: middle;
   border-spacing: 0;
-  background-color: #666666;
+  background-color: #666;
   line-height: 100%;
   font-size: 10pt;
 }
 #frame-header span.frame-header-element {
-  color: #bbbbbb;
+  color: #bbb;
   padding-top: 0.2em;
 }
 #frame-header span.frame-header-element a:link,
@@ -4173,13 +4301,12 @@ span.customer_vendor_picker {
 #frame-header span.frame-header-element a:active {
   text-decoration: none;
   border-bottom: none;
-  color: #aaaaaa;
+  color: #aaa;
 }
 #frame-header span.frame-header-element a:hover {
-  color: #ffffff;
+  color: #fff;
   text-decoration: underline;
   /*underline*/
-
 }
 #frame-header span.frame-header-left,
 #frame-header span.frame-header-center,
@@ -4211,7 +4338,7 @@ span.customer_vendor_picker {
 #frame-header div.frame-header-quicksearch span.frame-header-quicksearch input {
   font-size: 10pt;
   margin-top: 0.1em;
-  background-color: #aaaaaa;
+  background-color: #aaa;
   width: 14.0% !important;
   border-color: #bcbcbc;
   padding: 0 0.2em ;

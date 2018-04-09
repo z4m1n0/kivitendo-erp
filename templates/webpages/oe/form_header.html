@@ -50,15 +50,27 @@
 
 
 <div id="ui-tabs-basic-data">
+<div class="pad-wrapper accent">
+	<div class="label wi-mediumsmall">
+		[% IF vc == 'customer' %][% 'Customer' | $T8 %][% ELSE %][% 'Vendor' | $T8 %][% END %] 
+	</div>
+	<div class="data">
+		<span class="customer_vendor_picker"> <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span> 
+		<input type="text" class="wi-very-wide accent" value="Peter Muster" autocomplete="off">
+		</span> 
+		<input value="D" onclick="show_vc_details('customer')" type="button">
+	</div>
+</div>
 
 <div class="cols">
 
 <table class="tbl-horizontal col">
 <caption>[% IF vc == 'customer' %][% 'Customer' | $T8 %][% ELSE %][% 'Vendor' | $T8 %][% END %] & [% 'Quotation' | $T8 %]</caption>
+<colgroup><col class="wi-mediumsmall"><col class="wi-wider"></colgroup>
 <tbody>
   <tr>
     <th>[% IF vc == 'customer' %][% 'Customer' | $T8 %][% ELSE %][% 'Vendor' | $T8 %][% END %]</th>
-    <td>[%- SET vc_id = vc _ "_id" %][% P.customer_vendor_picker(vc_id, $vc_id, type=vc, class="initial_focus", onchange="\$('#update_button').click()") %]
+    <td>[%- SET vc_id = vc _ "_id" %][% P.customer_vendor_picker(vc_id, $vc_id, type=vc, class="initial_focus wi-wide accent", onchange="\$('#update_button').click()") %]
      [% P.button_tag("show_vc_details('" _ HTML.escape(vc) _  "')", LxERP.t8("Details (one letter abbreviation)")) %]
      [% P.hidden_tag("previous_" _ vc_id, $vc_id) %]
     </td>
@@ -67,7 +79,7 @@
   <tr>
     <th>[% 'Contact Person' | $T8 %]</th>
     <td>
-      [% L.select_tag('cp_id', ALL_CONTACTS, default=cp_id, value_key='cp_id', title_key='full_name_dep', with_empty=1, style='width: 250px') %]
+      [% L.select_tag('cp_id', ALL_CONTACTS, default=cp_id, value_key='cp_id', title_key='full_name_dep', with_empty=1, class='wi-wider') %]
     </td>
   </tr>
 [%- END %]
@@ -76,15 +88,15 @@
     <td>
 [%- IF ALL_SHIPTO.size %]
       [% shiptos = [ [ "", LxERP.t8("No/individual shipping address") ] ] ;
-         L.select_tag('shipto_id', shiptos.import(ALL_SHIPTO), default=shipto_id, value_key='shipto_id', title_key='displayable_id', style='width: 250px') %]
+         L.select_tag('shipto_id', shiptos.import(ALL_SHIPTO), default=shipto_id, value_key='shipto_id', title_key='displayable_id', class='wi-wider') %]
 [%- END %]<br>
-      [% L.button_tag("kivi.SalesPurchase.edit_custom_shipto()", LxERP.t8("Custom shipto")) %]
+      [% L.button_tag("kivi.SalesPurchase.edit_custom_shipto()", LxERP.t8("Custom shipto"), class="inline below wi-wider") %]
     </td>
   </tr>
 [%- IF business %]
   <tr>
     <th>[% business_label %]</th>
-    <td>[% HTML.escape(business) %]; [% 'Trade Discount' | $T8 %] [% LxERP.format_percent(tradediscount) %] %</td>
+    <td><span class="plain-data">[% HTML.escape(business) %]; [% 'Trade Discount' | $T8 %] [% LxERP.format_percent(tradediscount) %] %</span></td>
   </tr>
 [%- END %]
 [%- IF is_order %]
@@ -175,13 +187,13 @@
 <tbody>
 <tr>
   <th>
-    [% 'Payment Terms' | $T8 %]<br>
+    <span class="label-above">[% 'Payment Terms' | $T8 %]</span>
     [% L.select_tag('payment_id', ALL_PAYMENTS, default = payment_id, title_key = 'description', with_empty = 1, style="width: 250px") %]
   </th>
 </tr>
 <tr>
   <th>
-    [% 'Delivery Terms' | $T8 %]<br>
+    <span class="label-above">[% 'Delivery Terms' | $T8 %]</span>
     [% L.select_tag('delivery_term_id', ALL_DELIVERY_TERMS, default = delivery_term_id, with_empty = 1, title_key = 'description', style = 'width: 250px') %]
   </th>
 </tr>

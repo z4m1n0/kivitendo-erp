@@ -129,7 +129,6 @@ table {
     //  --------------
     //  Images within Cells
     //
-
     img{
       //display: inline-block ;
       display: inline ;
@@ -189,9 +188,7 @@ table {
   //  --------------
   //  TD (Table Data)
   //
-  td {
-
-  }
+  td {}
 
 
   //  --------------
@@ -202,7 +199,6 @@ table {
     &.header-caption th{
       vertical-align: bottom ;
     }
-
   }
 
 
@@ -267,12 +263,12 @@ table {
           border-top: #000 2px solid ;
         }
       }
-      
-      // normaly last row of a table with some links or buttons under a designated row 
+
+      // normaly last row of a table with some links or buttons under a designated row
       &.blank {
-        th, 
+        th,
         td {
-          border: none !important ;        
+          border: none !important ;
         }
       }
     } //  /tr
@@ -349,7 +345,6 @@ table {
   //  Table with Zebra Effect
   //  This table has at least a THEAD and a TBODY
   //  Optional a TFOOT for Totals
-
   &.tbl-list {
     border-spacing:  1px;
     border-collapse: collapse ;
@@ -403,7 +398,7 @@ table {
   &.tbl-plain{
     caption,
     th.caption { font-size: 80% !important; }
-  
+
     th,
     td{ padding-right: 0.8em; }
 
@@ -425,8 +420,8 @@ table {
 
   &.tbl-list-plain {
     thead th {
-      border-top:    1px #000 solid !important; 
-      border-bottom: 1px #000 solid; 
+      border-top:    1px #000 solid !important;
+      border-bottom: 1px #000 solid;
       font-weight:   bold;
     }
     tbody {
@@ -448,7 +443,7 @@ table {
     td{
       background: none;
       padding: 0.5em 0.8em 0.2em 0.2em;
-      
+
       // Adjust Form Elements in this table type
       &>input[type="checkbox"],
       &>input[type="radio"] {
@@ -460,6 +455,15 @@ table {
         // if there are further form elements within a table cell separated with a Linebreak BR
         &.addition { margin-top: 0.3em !important; }
       }
+      
+      // In some cases labels can be placed within the same cell as the form element
+      // best is to have it above the element
+      .label-above{
+        display: block;
+        clear: both ;
+        overflow: hidden;
+        height: 1.8em ; // PENDENT: besser loesen, gefaellt mir nicht
+      }
 
     }
 
@@ -468,14 +472,19 @@ table {
       vertical-align: top;
       padding-top: 0.5em ;
     }
-    
-    td{ }
+
+    td{
+      // 2nd to x column with plain data (no form elements)
+      span.plain-data{
+        padding: 0.3em 0.3em 0.6em 0.3em ;
+      }
+    }
 
     caption,
     th.caption{
       padding: 0.8em 0 0.2em 0.2em;
     }
-    
+
     &.zebra {
       tbody{
         tr:nth-child(odd){
@@ -484,9 +493,15 @@ table {
         tr:nth-child(even){
           background-color: #ececec ;
         }
-      }      
+      }
     }
-    
+
+
+
+
+
+
+
   } // /.tbl-horizontal
 
 
@@ -516,20 +531,25 @@ table {
   //  --------------------------------------
   //  TABLE CLASS TEST
   //  --------------------------------------
-  //  Use it for controlling your Table HTML
-  
+  //  Use this class for reviewing your Table HTML
+
   &.test{
-     background-color: #CCFF99;
-      
+    border: 2px #000 solid ;
+    background-color: #BFD2AD;
+
     th{
-      border: 1px solid red !important;
+      border-width: 1px !important;
+      background-color: #C20D18;
+      color: #FFD9C3 ;
+      font-weight: bold ;
 
       &.caption {
-      border: 3px solid red !important;
+        border: 3px solid red !important;
       }
     }
     td{
-      border: 1px solid blue !important;
+      border: 1px solid blue !#FF9D58;
+      background-color: #F7CC94;
 
       &.longdesc,
       &.longdescription,
@@ -538,6 +558,16 @@ table {
         border: 1px solid green !important;
       }
     }
+
+    table {
+      border: 2px #0000FF solid ;
+      border-collapse: collapse;
+
+      td, th{
+        border: 1px #C20D18 dotted !important;
+      }
+    }
+
   } // /.test
 
 
@@ -611,7 +641,7 @@ table {
 
 
 //  --------------------------------------
-//  TABLES in Content-Blocks
+//  LIST-TABLES in Wrappers
 //  --------------------------------------
 
 div.pad-wrapper,
@@ -717,21 +747,79 @@ div.float-cells-table{
     width: auto:
     padding: 0 2.0em 0 0;
     margin: 0;
-     background-color: #6FC; 
-    
+     background-color: #6FC;
+
   }
   div.cells{
     float: left;
     display: block;
     overflow: hidden;
     width: 100%;
-     background-color: #F66; 
-    
+     background-color: #F66;
+
     div.cell{
       float: left;
       padding: 0 2.0em 0 0;
-      border-right: 1px #fff solid; 
-      background-color: #FC6; 
+      border-right: 1px #fff solid;
+      background-color: #FC6;
     }
   }
 }
+
+
+
+    //  --------------------------------------
+    //  Medienabfragen und Beruecksichtigungen Plattformen
+    //  --------------------------------------    
+    //  Handheld Hochformat width: 320px 
+    @media screen and (max-device-width: 479px) {
+
+    }
+    //  Handheld Querformat width: 480px 
+    @media screen and (min-device-width: 480px) and (max-device-width: 767px) {
+
+    }
+    //  Tablet Hochformat 
+    @media screen and (min-device-width: 768px) and (max-device-width: 1023px) {
+      //colgroup col:first-child,
+      .tbl-horizontal th{
+        //  --------------
+        //  Width of Columns (Dimensions)
+        //
+        &.wi-smallest    { width:  @tcol-wi-normal  !important      ; }
+        &.wi-verysmall   { width:  @tcol-wi-normal  !important      ; }
+        &.wi-small       { width:  @tcol-wi-normal  !important      ; }
+        &.wi-mediumsmall { width:  @tcol-wi-normal  !important      ; }
+        &.wi-normal      { width:  @tcol-wi-normal  !important      ; }
+        &.wi-lightwide   { width:  @tcol-wi-normal  !important      ; }
+        &.wi-wide        { width:  @tcol-wi-normal  !important      ; }
+        &.wi-wider       { width:  @tcol-wi-normal  !important      ; }
+        &.wi-verywide    { width:  @tcol-wi-normal  !important      ; }
+      }      
+    } 
+    //  < Tablet Querformat 
+    @media screen and (max-device-width: 1024px) {
+      .tbl-horizontal th{
+        //  --------------
+        //  Width of Columns (Dimensions)
+        //
+        &.wi-smallest    { width:  @tcol-wi-normal  !important      ; }
+        &.wi-verysmall   { width:  @tcol-wi-normal  !important      ; }
+        &.wi-small       { width:  @tcol-wi-normal  !important      ; }
+        &.wi-mediumsmall { width:  @tcol-wi-normal  !important      ; }
+        &.wi-normal      { width:  @tcol-wi-normal  !important      ; }
+        &.wi-lightwide   { width:  @tcol-wi-normal  !important      ; }
+        &.wi-wide        { width:  @tcol-wi-normal  !important      ; }
+        &.wi-wider       { width:  @tcol-wi-normal  !important      ; }
+        &.wi-verywide    { width:  @tcol-wi-normal  !important      ; }
+      }      
+    }
+    //  Normale Bildschirme 
+    @media screen and (min-device-width: 1260px)  {
+
+    }
+
+
+
+
+

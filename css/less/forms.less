@@ -56,20 +56,27 @@ form {
     outline: none;
     background-color: #fff ;
 
-    input[type="text"],
-    input[type="password"],
-    textarea,
-    select {
-      background-color: #fff ;
+    &[type="text"],
+    &[type="password"] {
 
-      // --------------
-      // Focused Elements
-      &:focus,
-      &:active {
-        background-color: @formelement-focus-bg !important ;
-        border: @formelement-focus-border ;
-      }
     }
+
+    &[type="text"] {
+      &.accent{
+        font-weight: bold ;
+        font-size: 130% !important ;
+        padding: 0.6em auto !important ; 
+      }
+    } 
+
+    // --------------
+    // Focused Elements
+    &:focus,
+    &:active {
+      background-color: @formelement-focus-bg !important ;
+      border: @formelement-focus-border ;
+    }
+
   }
   // /input, textarea, select
 
@@ -99,12 +106,25 @@ form {
   input.submit,
   button,
   a.button {
-    // PENDENT: MIXIN-anlegen fuer .Buttons
-    background-color: #99CCFF;
-    border: 1px #53619B solid;
-    border-radius: 3px;
-    color: #06C;
-    padding: 0px 4px;
+    .mx-button
+  }
+  a.button.neutral{
+    background-color: #ccc;
+    &:link, 
+    &:visited{
+      color: #666 ;
+    }
+  }
+  // PENDENT: Neu
+  input[type="button"]{
+    &.inline{}
+    &.below{
+      clear: both !important;
+      float: none;
+      margin-top: 0.3em;
+      overflow: hidden ;
+    }
+    &.wi-wider{ width: 24.5em; }
   }
 
   input[type="button"]:focus,
@@ -118,10 +138,15 @@ form {
   button:hover:enabled,
   input[type="button"]:hover:enabled,
   input[type="submit"]:hover:enabled {
-    color: #fe5f14;
+    color: #fff;
   }
 
-
+  div.buttons{
+    padding: 1.0em ;
+    &.positions{
+      margin: 0 0 -2.4em 20.0em;
+    }
+  }
 
 
   // --------------------------------------
@@ -185,7 +210,8 @@ form {
     // 1 Lined input field
     //
 
-    &[type="text"]{
+    &[type="text"],
+    &[type="password"]{
 
       &.wi-smallest     { width:     @input-wi-smallest    ; } //  2.0em
       &.wi-verysmall    { width:     @input-wi-verysmall   ; } //   4.0em
@@ -206,7 +232,7 @@ form {
 
     // Password (Standard size)
      &[type="password"]{
-      width: 10.0em ;
+      min-width: @input-wi-normal ;
     }
 
     // OBSOLETE
@@ -281,6 +307,26 @@ form {
   }
 
 
+  td {
+    div.rowspan-table{ 
+      display: table-row ;
+      
+      div.label-n-value{
+        display: table-cell ;
+        vertical-align: middle;
+        height: 1.6em !important ; // the cell have not the same height if they are made with DIVs
+        
+        float: left;
+        padding: 0 2.3em 0 0 ;
+        //overflow: hidden ;
+        b{
+          font-weight: normal;
+          padding: 0 0 0 0 ;
+        }
+      }
+    }
+  }
+
 
   // --------------------------------------
   // MIXED FORM-TABLES
@@ -314,9 +360,49 @@ form {
     
   }
 
-
 }
 // /form
+
+
+// --------------------------------------
+// CHECKBOXES & LABELS WITHIN DIVS
+// --------------------------------------
+// especially in the admin section
+
+div.admin{
+  form{
+    font-size: @font-size-small ;
+    input[type="checkbox"] {
+      margin: 0.2em 0.6em 0.3em 0 ;
+      float: left;        
+    }  
+
+
+
+    h3{
+      margin: 1.2em 0 0.6em 0 ;
+      display: block;
+    }
+    div.boxes{
+      margin: 0 0 0.9em 0 ;
+      overflow: hidden ;
+      max-width: 800px ;
+      
+      div{
+        clear: both;
+        margin: 0 0 0.6em 0 ; 
+        padding: 0;
+        display: block ;
+        overflow: hidden ;
+        label{
+          float: left;
+          width: 94% ;
+        }
+      }
+    }
+  }
+}
+
 
 
 

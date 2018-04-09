@@ -19,7 +19,7 @@
      }}
    );
   </script>
-  <table id="display_row" class="tbl-list full-width test">
+  <table id="display_row" class="tbl-list full-width">
     <caption>[% 'Invoice items' | $T8 %]</caption>
      <colgroup>
       <col style="width: 5.0em"></col>
@@ -65,11 +65,13 @@
       <td colspan="[% row.colspan %]">
 
  [%# render all row2 entries except cvars  %]
- [%- FOREACH row2 = row.ROW2 %]
-   [%- IF !row2.cvar %]
-     [% row2.value %]
-   [%- END %]
- [%- END %]
+ <div class="rowspan-table">
+ [% FOREACH row2 = row.ROW2 %]
+   [% IF !row2.cvar %]
+     <div class="label-n-value">[% row2.value %]</div>
+   [% END %]
+ [% END %]
+ </div>
 
  [%# process editable cvars  %]
  <table class="row2-cvars-table">

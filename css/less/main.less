@@ -139,6 +139,7 @@ h2.error {
 h3{
   .mx-h3-caption ; // Mixin
   color: @headings-color ;
+  padding-left: 0 ;
 }
 
 
@@ -184,6 +185,20 @@ a {
     border:none;
   }
 
+  // --------------
+  // Buttons (Link as Buttons outside a FORM)
+  //
+  &.button {
+    .mx-button
+    // PENDENT!
+    &.inline{
+    
+    }
+    &.below{
+      clear: both !important;
+    }
+    .wi-wider{ width: @wi-wider ; }
+  }
 
 }
 // /a (Links)
@@ -313,6 +328,24 @@ div.instructions {
   margin: @contentbox-margin;
   clear: both;
 }
+// PENDENT: Neue Loesung
+.accent{
+  div.label{
+    float: left ;
+    color: gray ;
+    font-size: 80% ;
+    &.wi-mediumsmall{ width: 13.6em; } // PENDENT!
+    padding-top: 0.8em ;
+  }
+  div.data{
+    float: left ;
+    input[type="text"]{
+      width: 20em !important ;
+    }
+  }
+}
+
+
 
 // Centered blocks
 .center {
