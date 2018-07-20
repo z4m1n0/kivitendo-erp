@@ -1,7 +1,7 @@
-[%- USE T8 %]
-[%- USE L %]
-[%- USE HTML %]
-[%- USE LxERP %]
+[% USE T8 %]
+[% USE L %]
+[% USE HTML %]
+[% USE LxERP %]
 
 [% IF SELF.all_pricegroups.size %]
 <table class="tbl-horizontal">
@@ -17,7 +17,7 @@
     </tr>
   </thead>
   <tbody>
-  [%- FOREACH pricegroup = SELF.all_pricegroups %]
+  [% FOREACH pricegroup = SELF.all_pricegroups %]
     [% SET pricegroup_id = pricegroup.id
            price         = prices_map.$pricegroup_id %]
   <tr>
@@ -28,7 +28,8 @@
     </th>
     <td> [% L.input_tag('prices[].price', price.price_as_number, size=11, class='wi-small numeric reformat_number') %] </td>
   </tr>
-  [%- END %]
-  </tbody>
-</table>
+  [% END %]
+  [% # followed by Storage-Table %] 
+  <!-- </tbody> -->
+<!-- </table> -->
 [% END %]

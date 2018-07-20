@@ -9,8 +9,8 @@
 </div>
 <div class="filter_toggle  select-item" style="display:none">
 <a href="#" class="button" onClick='javascript:$(".filter_toggle").toggle()'>[% 'Hide Filter' | $T8 %]</a>
-<div class="cols">
- <table id="filter_table" class="tbl-horizontal col">
+<div class="wrapper">
+ <table id="filter_table" class="tbl-horizontal">
    <caption>[% 'Part' | $T8 %]</caption>
    <tbody>
   <tr>
@@ -50,7 +50,7 @@
   </tbody>
  </table>
 
-   <table id="filter_table" class="tbl-horizontal col">
+   <table id="filter_table" class="tbl-horizontal">
    <caption>[% 'Dates' | $T8 %]</caption>
    <tbody>
 

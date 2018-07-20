@@ -469,7 +469,10 @@ sub form_header {
 
   setup_do_action_bar();
 
+  $form->{ALL_DELIVERY_TERMS} = SL::DB::Manager::DeliveryTerm->get_all_sorted(); # aus sub form_footer
+
   $form->header();
+
   # Fix für Bug 1082 Erwartet wird: 'abteilungsNAME--abteilungsID'
   # und Erweiterung für Bug 1760:
   # Das war leider nur ein Teil-Fix, da das Verhalten den 'Erneuern'-Knopf
@@ -495,7 +498,7 @@ sub form_footer {
   my $form     = $main::form;
 
   $form->{PRINT_OPTIONS}      = setup_sales_purchase_print_options();
-  $form->{ALL_DELIVERY_TERMS} = SL::DB::Manager::DeliveryTerm->get_all_sorted();
+  # $form->{ALL_DELIVERY_TERMS} = SL::DB::Manager::DeliveryTerm->get_all_sorted(); # verlagert in sub form_header
 
   print $form->parse_html_template('do/form_footer',
     {transfer_default         => ($::instance_conf->get_transfer_default)});

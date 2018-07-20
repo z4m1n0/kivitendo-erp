@@ -649,6 +649,7 @@ sub form_header {
   $TMPL_VAR->{notes}    = qq|<textarea name="notes" class="texteditor" wrap="soft" style="width: 300px; height: 150px">| . H($form->{notes}) . qq|</textarea>|;
   $TMPL_VAR->{intnotes} = qq|<textarea name=intnotes rows="$introws" cols="35">| . H($form->{intnotes}) . qq|</textarea>|;
 
+  $TMPL_VAR->{ALL_DELIVERY_TERMS} = SL::DB::Manager::DeliveryTerm->get_all_sorted(); # moved from sub form_footer
 
 
 

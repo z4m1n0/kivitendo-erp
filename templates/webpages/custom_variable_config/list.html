@@ -12,28 +12,28 @@
 [%- ELSE %]
   [%- SET W="20%" %]
 [%- END %]
-<p>
- <table width="100%" id="cvarcfg_list">
+
+ <table id="cvarcfg_list" class="tbl-list wi-moderate">
   <thead>
-   <tr class="listheading">
-    <th align="center"><img src="image/updown.png" alt="[%- LxERP.t8('reorder item') %]"></th>
-    <th width="[%- W -%]">[% 'Name' | $T8 %]</th>
-    <th width="[%- W -%]">[% 'Description' | $T8 %]</th>
-    <th width="[%- W -%]">[% 'Type' | $T8 %]</th>
-    <th width="[%- W -%]">[% 'Searchable' | $T8 %]</th>
-    <th width="[%- W -%]">[% 'Includeable in reports' | $T8 %]</th>
+   <tr>
+    <th><img src="image/updown.png" alt="[%- LxERP.t8('reorder item') %]"></th>
+    <th>[% 'Name' | $T8 %]</th>
+    <th>[% 'Description' | $T8 %]</th>
+    <th>[% 'Type' | $T8 %]</th>
+    <th>[% 'Searchable' | $T8 %]</th>
+    <th>[% 'Includeable in reports' | $T8 %]</th>
     [%- IF SELF.module == 'IC' %]
-     <th width="[%- W -%]">[% 'Editable' | $T8 %]</th>
-     <th width="[%- W -%]">[% 'Deactivate by default' | $T8 %]</th>
-     <th width="[%- W -%]">[% 'Filter by Partsgroups' | $T8 %]</th>
+     <th>[% 'Editable' | $T8 %]</th>
+     <th>[% 'Deactivate by default' | $T8 %]</th>
+     <th>[% 'Filter by Partsgroups' | $T8 %]</th>
     [%- END %]
    </tr>
   </thead>
 
   <tbody>
    [%- FOREACH cfg = CONFIGS %]
-    <tr class="listrow" id="cvarcfg_id_[% cfg.id %]">
-     <td align="center" class="dragdrop"><img src="image/updown.png" alt="[%- LxERP.t8('reorder item') %]"></td>
+    <tr id="cvarcfg_id_[% cfg.id %]">
+     <td class="center dragdrop"><img src="image/updown.png" alt="[%- LxERP.t8('reorder item') %]"></td>
 
      <td><a href="[% SELF.url_for(action='edit', module=SELF.module, id=cfg.id) %]">[% HTML.escape(cfg.name) %]</a></td>
 
@@ -53,7 +53,7 @@
     [%- END %]
   </tbody>
  </table>
-</p>
+
 
 [% L.sortable_element('#cvarcfg_list tbody', url=SELF.url_for(action='reorder'), with='cvarcfg_id', params='"&module=" + encodeURIComponent($("#module").val())') %]
 

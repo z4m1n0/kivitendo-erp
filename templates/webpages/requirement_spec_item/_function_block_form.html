@@ -20,8 +20,8 @@
  [% END %]
 
 <div style="float:left;overflow:hidden;">
-<div class="cols">
-<table class="tbl-horizontal col" style="margin-right: 0.6em">
+<div class="wrapper">
+<table class="tbl-horizontal" style="margin-right: 0.6em">
 <tbody>
     <tr>
         <th>[%- IF SELF.item.id -%]
@@ -39,7 +39,7 @@
 </table>
 
 
-<table class="tbl-horizontal col">
+<table class="tbl-horizontal">
     <tbody>
         <tr>
             <th>[%- LxERP.t8("Complexity") %]</th>

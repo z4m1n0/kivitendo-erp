@@ -1,4 +1,7 @@
-[% USE HTML %][% USE L %][% USE LxERP %][%- USE JavaScript -%]
+[% USE HTML %]
+[% USE L %]
+[% USE LxERP %]
+[% USE JavaScript %]
 
 <script type="text/javascript">
   $(function() {
@@ -51,24 +54,24 @@
    END ;
    '' %]
 
-<p>
+<div class="select-item">
  [% LxERP.t8("Copy address from master data") %]:
  [% L.select_tag("", select_options, id="shipto_to_copy", style="width: 300px") %]
- [% L.button_tag("kivi.SalesPurchase.copy_shipto_address()", LxERP.t8("Copy")) %]
-</p>
+ [% L.button_tag("kivi.SalesPurchase.copy_shipto_address()", LxERP.t8("Copy"), type="button", class="neutral") %]
+</div>
 
 <table class="tbl-horizontal">
   <thead>
     <tr>
-      <th></th>
+      <td></td>
       <th>[% LxERP.t8('Billing Address') %]</th>
       <th>[% LxERP.t8('Shipping Address') %]</th>
     </tr>
   </thead>
    <tbody>
    <tr>
-    <th>[%- IF vc == "customer" %][%- LxERP.t8('Customer Number') %][%- ELSE %][%- LxERP.t8('Vendor Number') %][%- END %]</th>
-    <td>[%- IF vc == "customer" %][%- HTML.escape(vc_obj.customernumber) %][%- ELSE %][%- HTML.escape(vc_obj.vendornumber) %][%- END %]</td>
+    <th>[% IF vc == "customer" %][% LxERP.t8('Customer Number') %][% ELSE %][% LxERP.t8('Vendor Number') %][% END %]</th>
+    <td>[% IF vc == "customer" %][% HTML.escape(vc_obj.customernumber) %][% ELSE %][% HTML.escape(vc_obj.vendornumber) %][% END %]</td>
     <td></td>
    </tr>
    <tr>
@@ -82,7 +85,7 @@
     <td>[% L.input_tag("shiptodepartment_1", shiptodepartment_1, "size", "35") %]</td>
    </tr>
    <tr>
-    <th>&nbsp;</th>
+    <th>[% LxERP.t8('Department') %] 2</th>
     <td>[% HTML.escape(vc_obj.department_2) %]</td>
     <td>[% L.input_tag("shiptodepartment_2", shiptodepartment_2, "size", "35") %]</td>
    </tr>
@@ -148,9 +151,9 @@
   </tbody>
 </table>
 
-<p>
+<div class="buttons">
  [% L.button_tag("kivi.SalesPurchase.submit_custom_shipto()", LxERP.t8("Apply")) %]
- [% L.button_tag("kivi.SalesPurchase.reset_shipto_fields()", LxERP.t8("Reset")) %]
- [% L.button_tag("kivi.SalesPurchase.clear_shipto_fields()", LxERP.t8("Clear fields")) %]
- [% L.button_tag("\$('#shipto_dialog').dialog('close');", LxERP.t8("Abort")) %]
-</p>
+ [% L.button_tag("kivi.SalesPurchase.reset_shipto_fields()", LxERP.t8("Reset"), class="neutral") %]
+ [% L.button_tag("kivi.SalesPurchase.clear_shipto_fields()", LxERP.t8("Clear fields"), class="neutral") %]
+ [% L.button_tag("\$('#shipto_dialog').dialog('close');", LxERP.t8("Abort"), class="neutral") %]
+</div>

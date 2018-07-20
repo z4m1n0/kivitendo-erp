@@ -1,9 +1,12 @@
-[%- USE L %][% USE LxERP %][% USE HTML %][%- USE JavaScript -%]
- <script type="text/javascript" src="js/common.js"></script>
- <script type="text/javascript">
-  <!--
+[% USE L %]
+[% USE LxERP %]
+[% USE HTML %]
+[% USE JavaScript %]
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript"><!--
+
 var warehouses = [
- [%- USE warehouses_it = Iterator(SELF.all_warehouses) %][%- FOREACH warehouse = warehouses_it %]
+ [% USE warehouses_it = Iterator(SELF.all_warehouses) %][% FOREACH warehouse = warehouses_it %]
   { id:   [% warehouse.id %],
     bins: [
      [% USE bins_it = Iterator(warehouse.bins_sorted) %][% FOREACH bin = bins_it %]
@@ -73,39 +76,44 @@ $(function() {
   $('#doc_max_filesize_MB').val(parseInt($('#defaults_doc_max_filesize').val())/1000000.0);
   $('#use_templates_existing,#use_templates_new').change(enable_template_controls);
 })
-    -->
- </script>
+
+--> </script>
+
+
+
 <h1>[% title | html %]</h1>
 
 [% PROCESS 'common/flash.html' %]
 
 <form action='controller.pl' method='POST' id='form'>
- <div class="tabwidget">
-  <ul>
-   <li><a href="#miscellaneous">[% LxERP.t8('Miscellaneous') %]</a></li>
-   <li><a href="#ranges_of_numbers">[% LxERP.t8('Ranges of numbers') %]</a></li>
-   <li><a href="#default_accounts">[% LxERP.t8('Default Accounts') %]</a></li>
-   <li><a href="#posting_configuration">[% LxERP.t8('Posting Configuration') %]</a></li>
-   [% IF FORM.feature_datev %]
-     <li><a href="#datev_check_configuration">[% LxERP.t8('DATEV check configuration') %]</a></li>
-   [% END %]
-   <li><a href="#orders_deleteable">[% LxERP.t8('Orders / Delivery Orders deleteable') %]</a></li>
-[%- IF INSTANCE_CONF.get_doc_storage %]
-   <li><a href="#attachments">[% LxERP.t8('Global Attachments') %]</a></li>
-[%- END %]
-   <li><a href="#warehouse">[% LxERP.t8('Warehouse') %]</a></li>
-   <li><a href="#features">[% LxERP.t8('Features') %]</a></li>
-  </ul>
+<div class="tabwidget">
+ 
+<ul>
+	<li><a href="#miscellaneous">[% LxERP.t8('Miscellaneous') %]</a></li>
+	<li><a href="#ranges_of_numbers">[% LxERP.t8('Ranges of numbers') %]</a></li>
+	<li><a href="#default_accounts">[% LxERP.t8('Default Accounts') %]</a></li>
+	<li><a href="#posting_configuration">[% LxERP.t8('Posting Configuration') %]</a></li>
+	[% IF FORM.feature_datev %] 
+    <li><a href="#datev_check_configuration">[% LxERP.t8('DATEV check configuration') %]</a></li>
+	[% END %] 
+	<li><a href="#orders_deleteable">[% LxERP.t8('Orders / Delivery Orders deleteable') %]</a></li>
+	[% IF INSTANCE_CONF.get_doc_storage %] 
+    <li><a href="#attachments">[% LxERP.t8('Global Attachments') %]</a></li>
+	[% END %] 
+	<li><a href="#warehouse">[% LxERP.t8('Warehouse') %]</a></li>
+	<li><a href="#features">[% LxERP.t8('Features') %]</a></li>
+</ul>
 
 [% PROCESS 'client_config/_ranges_of_numbers.html' %]
 [% PROCESS 'client_config/_default_accounts.html' %]
 [% PROCESS 'client_config/_posting_configuration.html' %]
 [% PROCESS 'client_config/_datev_check_configuration.html' %]
 [% PROCESS 'client_config/_orders_deleteable.html' %]
-[%- IF INSTANCE_CONF.get_doc_storage %]
-[% PROCESS 'client_config/_attachments.html' %]
-[%- END %]
+[% IF INSTANCE_CONF.get_doc_storage %]
+  [% PROCESS 'client_config/_attachments.html' %]
+[% END %]
 [% PROCESS 'client_config/_warehouse.html' %]
 [% PROCESS 'client_config/_features.html' %]
 [% PROCESS 'client_config/_miscellaneous.html' %]
+
 </form>

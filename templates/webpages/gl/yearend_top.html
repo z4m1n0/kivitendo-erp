@@ -1,9 +1,10 @@
 [%- USE LxERP %]
 <form method="post" action="controller.pl" id="form">
-<table>
+<table class="tbl-horizontal">
+  <tbody>
   <tr>
-    <td width="20px"></td>
-    <td colspan="6" align="left">
+    <th></th>
+    <td colspan="2">
       [%- LxERP.t8('Select charts for which the CB/OB transactions want to be posted.') %]<br>
       [%- LxERP.t8('There will be two transactions done:') %]<br>
      - [%- LxERP.t8('One SB-transaction') %] ( [% SELF.cb_date.to_kivitendo %], [% SELF.cb_reference %], [% SELF.cb_description %], [% SELF.cbob_chartaccno %] )<br>
@@ -12,11 +13,8 @@
     </td>
   </tr>
   <tr>
-    <td><p></p></td>
-  </tr>
-  <tr>
-    <th></th>
-    <th align="right">[% LxERP.t8('close chart') %]</th>
+    <th>[% LxERP.t8('close chart') %]</th>
     <td>[% SELF.cbob_chartaccno %]</td>
   </tr>
+  </tbody>
 </table>

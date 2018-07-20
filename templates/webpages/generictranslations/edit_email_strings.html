@@ -1,47 +1,44 @@
-[%- USE T8 %]
-[%- USE HTML %]
+[% USE T8 %]
+[% USE HTML %]
+
 <h1>[% HTML.escape(title) %]</h1>
-<div class="pad-wrapper">
+<div class="wrapper">
 
+[% IF message %]
+ <p>[% HTML.escape(message) %]</p>
+[% END %]
+<form method="post" action="generictranslations.pl" id="form">
 
-[%- IF message %]
- <p>
- [% HTML.escape(message) %]
- </p>
-[%- END %]
- <form method="post" action="generictranslations.pl" id="form">
-   <div class="pad-wrapper"><p>[% 'Default means "if no language selected then..."' | $T8 %]</p></div>
-   <div class="pad-wrapper">
+<div class="long-description">[% 'Default means "if no language selected then..."' | $T8 %]</div>
 
-  <table class="tbl-horizontal">
-    <tbody>
-   [%- FOREACH mail_string IN MAIL_STRINGS.keys.sort %]
+<table class="tbl-horizontal">
+<tbody>
+  [% FOREACH mail_string IN MAIL_STRINGS.keys.sort %]
     <tr>
       <th class="caption" colspan="2">[% MAIL_STRINGS.$mail_string %]</th>
-     </tr>
+    </tr>
 
-     [%- FOREACH language = LANGUAGES %]
-     <tr>
+    [% FOREACH language = LANGUAGES %]
+    <tr>
+      <th>
+        [% IF language.id == 'default' %]
+        [% 'Default' | $T8 %]
+        [% ELSE %]
+        [% HTML.escape(language.description) %]
+        [% END %]
+      </th>
       <td>
-       [%- IF language.id == 'default' %]
-       [% 'Default' | $T8 %]
-       [%- ELSE %]
-       [%- HTML.escape(language.description) %]
-       [%- END %]
+        [% IF mail_string.search('preset') %]
+          <textarea name="translation__[% language.id %]__[% mail_string %]" rows="4" cols="50">[% HTML.escape(language.$mail_string) %]</textarea>
+        [% ELSE %]
+          <input name="translation__[% language.id %]__[% mail_string %]" value="[% HTML.escape(language.$mail_string) %]" type="text" class="wi-wide">
+        [% END %]
       </td>
-      <td>
-       [%- IF mail_string.search('preset') %]
-        <textarea name="translation__[% language.id %]__[% mail_string %]" rows="4" cols="50">[% HTML.escape(language.$mail_string) %]</textarea>
-       [%- ELSE %]
-        <input name="translation__[% language.id %]__[% mail_string %]" value="[% HTML.escape(language.$mail_string) %]" type="text" class="wi-wide">
-       [%- END %]
-      </td>
-     </tr>
-     [%- END %]
-   [%- END %]
-   </tbody>
-  </table>
+    </tr>
+    [% END %]
+  [% END %]
+</tbody>
+</table>
 
-   </div>
- </form>
+</form>
 </div>

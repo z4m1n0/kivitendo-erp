@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <link href="../style.css" rel="stylesheet">
+  <title>Tabellen in Kivitendo</title>
+</head>
+<body class="developing">
+<header>
+  <h1>Tabellen in Kivitendo</h1>
+	<nav><a href="index.html" title="Zur Übersicht bzw. Inhaltsverzeichnis">Zum Index</a></nav>
+</header>
+<div class="wrapper">
+
+
+
+<h2>Horizontale Tabelle</h2>
+
+<p>Befinden sich Horizontale Tabellen in einer <b>.wrapper-Box</b>, werden diese links ausgerichtet (float:left;) bzw. rechts angefügt. Soll zwingend ein Umbruch (clear) stattfinden, nächste Tabelle einfach in eine weitere, anschliessende .wrapper-Box setzen.</p>
+
+</div><!-- /.wrapper -->
+
+<div class="wrapper">
+<pre><code>
+&lt;table class="tbl-horizontal"&gt;
+  &lt;caption&gt;Tabllentitel (Caption)&lt;/caption&gt;
+  &lt;colgroup&gt; 
+    &lt;col class="wi-small"&gt;
+    &lt;col class="wi-lightwide"&gt; 
+  &lt;/colgroup&gt; 
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Feldbezeichnung&lt;/th&gt;
+      &lt;td&gt;Wert oder Formular-Element&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+</code></pre>
+</div>
+
+
+
+<div class="wrapper">
+
+<table class="tbl-horizontal">
+	<caption>Caption horizontale Tabelle</caption>
+	<colgroup> <col class="wi-verysmall"><col class="wi-normal"> </colgroup> 
+	<tbody>
+		<tr>
+			<th>Label 1</th>
+			<td>Wert 1</td>
+		</tr>
+		<tr>
+			<th>Label 2</th>
+			<td>Wert 2</td>
+		</tr>
+		<tr>
+		  <th class="caption" colspan="2">Caption Zeile</th>
+		</tr>
+		<tr>
+			<th>Label 3</th>
+			<td>Wert 3</td>
+		</tr>
+		<tr>
+			<th>Label 4</th>
+			<td>Wert 4</td>
+		</tr>
+	</tbody>
+</table>
+
+<table class="tbl-horizontal test">
+	<caption>Horizontale Tabelle mit Zusatz-Klasse «test»</caption>
+	<colgroup> <col class="wi-verysmall"><col class="wi-normal"> </colgroup> 
+	<tbody>
+		<tr>
+			<th>Label 1</th>
+			<td>Wert 1</td>
+		</tr>
+		<tr>
+			<th>Label 2</th>
+			<td>Wert 2</td>
+		</tr>
+		<tr>
+		  <th class="caption" colspan="2">Caption Zeile</th>
+		</tr>
+		<tr>
+			<th>Label 3</th>
+			<td>Wert 3</td>
+		</tr>
+		<tr>
+			<th>Label 4</th>
+			<td>Wert 4</td>
+		</tr>
+	</tbody>
+</table>
+
+</div><!-- /.wrapper -->
+
+<div class="wrapper">
+
+<table class="tbl-horizontal">
+	<caption>Caption horizontale Tabelle</caption>
+	<colgroup> 
+	  <col class="wi-verysmall"><col class="wi-normal"> 
+	</colgroup> 
+	<tbody>
+		<tr>
+			<th>Label 1</th>
+			<td>Wert 1</td>
+		</tr>
+		<tr>
+			<th>Label 2</th>
+			<td>Wert 2</td>
+		</tr>
+		<tr>
+		  <th class="caption" colspan="2">Caption Zeile</th>
+		</tr>
+		<tr>
+			<th>Label 3</th>
+			<td>Wert 3</td>
+		</tr>
+		<tr>
+			<th>Label 4</th>
+			<td>Wert 4</td>
+		</tr>
+	</tbody>
+</table>
+
+</div><!-- /.wrapper -->
+
+
+<div class="wrapper">
+<h2>Listen-Tabelle mit Header</h2>
+<p>
+Diese komplexen Tabellen benötigen ein zwingend korrektes Konstrukt, um eine optimale Darstellungsqualität zu erreichen, die genug Freiraum für nachträgliche Gestaltung via CSS erlaubt. THEAD- und TBODY-Container müssen zwingend gesetzt sein, optional auch der TFOOT-Container für Summenangaben. Listen-Tabellen, die sich über die ganze Seite erstrecken, müssen nicht zwingend in einer .wrapper-Box liegen. Schmale Listen-Tabellen in einer .wrapper-Box erhalten automatisch links und rechts einen abschliessenden Rand, der in CSS auch deaktiviert werden kann.
+</p>
+<p>
+«COLGROUP > COL»-Angaben können nur in Bezug auf Breiten angewendet werden, nicht aber auf Ausrichtung oder Schriftgrösse innerhalb der Zellen der Spalte.
+</p>
+
+</div>
+
+<table class="tbl-list">
+  <caption>Caption der Listen-Tabelle</caption>
+  <colgroup>
+    <col class="wi-normal"><col class="wi-normal"><col class="wi-normal"><col class="wi-normal"><col class="wi-normal">
+    <col class="wi-wide"><col class="wi-normal"><col class="wi-normal"><col class="wi-normal"><col class="wi-normal right">
+  </colgroup>
+	<thead>
+	<tr>
+		<th></th>
+		<th>Column 1</th>
+		<th>Column 2</th>
+		<th>Column 3</th>
+		<th>Column 4</th>
+		<th>Column 5</th>
+		<th>Column 6</th>
+		<th class="right">Column 7</th>
+		<th class="right">Column 8</th>
+		<th class="right">Column 9</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<th>Row 1</th>
+		<td>R1C1</td>
+		<td>R1C2R1C2R1C2R1C2</td>
+		<td>R1C3</td>
+		<td>R1C4</td>
+		<td>R1C5</td>
+		<td>R1C6</td>
+		<td class="right">R1C7</td>
+		<td class="right">R1C8</td>
+		<td class="right">R1C9</td>
+	</tr>
+	<tr>
+		<th>Row 2</th>
+		<td>R2C1</td>
+		<td>R2C2</td>
+		<td>R2C3</td>
+		<td>R2C4R2C4R2C4R2C4R2C4</td>
+		<td>R2C5</td>
+		<td>R2C6</td>
+		<td class="right">R2C7</td>
+		<td class="right">R2C8</td>
+		<td class="right">R2C9</td>
+	</tr>
+	<tr>
+		<th>Row 3</th>
+		<td>R3C1</td>
+		<td>R3C2</td>
+		<td>R3C3</td>
+		<td>R3C4</td>
+		<td>R3C5R3C5R3C5R3C5R3C5R3C5R3C5R3C5R3C5R3C5</td>
+		<td>R3C6</td>
+		<td class="right">R3C7</td>
+		<td class="right">R3C8</td>
+		<td class="right">R3C9</td>
+	</tr>
+	<tr>
+		<th>Row 4</th>
+		<td>R4C1</td>
+		<td>R4C2</td>
+		<td>R4C3</td>
+		<td>R4C4</td>
+		<td>R4C5</td>
+		<td>R4C6</td>
+		<td class="right">R4C7</td>
+		<td class="right">R4C8</td>
+		<td class="right">R4C9</td>
+	</tr>
+	</tbody>
+	<tfoot>
+		<th colspan="7">Summen</th>
+		<th class="numeric">Summe C7</th>
+		<th class="numeric">Summe C8</th>
+		<th class="numeric">Summe C9</th>	
+	</tfoot>
+</table>
+
+
+</body>
+</html>

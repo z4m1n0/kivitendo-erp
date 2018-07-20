@@ -1,10 +1,12 @@
-[%- USE HTML %][%- USE LxERP -%][%- USE L -%]
+[% USE HTML %]
+[% USE LxERP %]
+[% USE L %]
 
 [% INCLUDE 'common/flash.html' %]
 
 <h1>[% LxERP.t8("Database login (#1)", title) %]</h1>
 
-<div class="pad-wrapper">
+<div class="wrapper">
 <form method="post" action="controller.pl">
 <p>
   [% LxERP.t8('Here you only provide the credentials for logging into the database.') %] 
@@ -36,8 +38,9 @@
 	</tbody>
 </table>
 
- [% L.hidden_tag("action", 'Admin/dispatch') %]
+[% L.hidden_tag("action", 'Admin/dispatch') %]
 
- <p>[% L.submit_tag('action_' _ next_action, LxERP.t8('Login')) %]</p>
-</div>
+<div class="buttons">[% L.submit_tag('action_' _ next_action, LxERP.t8('Login')) %]</div>
+
+</div><!-- /.wrapper -->
 </form>

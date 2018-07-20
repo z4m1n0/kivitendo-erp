@@ -1,26 +1,27 @@
-[%- USE T8 %]
-[%- USE HTML %]
-[%- USE LxERP %]
-[%- USE L %]
-[%- USE P %]
+[% USE T8 %]
+[% USE HTML %]
+[% USE LxERP %]
+[% USE L %]
+[% USE P %]
 
 
 <div id="basic_data_table">
 
 
-[%- IF SELF.part.image && INSTANCE_CONF.get_parts_show_image %]
+[% IF SELF.part.image && INSTANCE_CONF.get_parts_show_image %]
 <div class="image">
   <a href="[% SELF.part.image | html %]" target="_blank">
     <img style="[% INSTANCE_CONF.get_parts_image_css %]" src="[% SELF.part.image | html %]"/>
   </a>
 </div>
-[%- END %]
+[% END %]
 
-<div class="cols">
+<div class="wrapper">
 
 
-<table id="ic3" class="tbl-horizontal col">
+<table id="ic3" class="tbl-horizontal wi-small-wide">
 	<caption>[% 'Basic Article Data' | $T8 %]</caption>
+  <colgroup> <col class="wi-small"><col class="wi-wide"> </colgroup> 
 	<tbody>
 		<tr>
 			<th> [% 'Part Number' | $T8 %] </th>
@@ -33,55 +34,49 @@
 		<tr>
 			<th> [% 'Part Description' | $T8 %] </th>
 			<td> 
-        [%- IF description_area %] <textarea name="description" rows="[% HTML.escape(rows) %]" cols="40" class="wi-normal">[% HTML.escape(description) %]</textarea>
-        [%- ELSE %] [% L.input_tag("part.description", SELF.part.description, class="wi-wide") %] [%- END %] 
+        [% IF description_area %] <textarea name="description" rows="[% HTML.escape(rows) %]" cols="40" class="wi-normal">[% HTML.escape(description) %]</textarea>
+        [% ELSE %] [% L.input_tag("part.description", SELF.part.description, class="wi-wide") %] [% END %] 
 			</td>
 		</tr>
 		<tr>
 			<th> [% 'EAN-Code' | $T8 %]</th>
 			<td> [% L.input_tag("part.ean", SELF.part.ean, class="wi-wide") %]</td>
 		</tr>
-    [%- IF SELF.all_partsgroups.size %] 
+    [% IF SELF.all_partsgroups.size %] 
 		<tr>
 			<th> [% 'Partsgroup' | $T8 %] </th>
 			<td> 
-			  [%- L.select_tag('part.partsgroup_id', SELF.all_partsgroups, default=SELF.part.partsgroup_id, title_key='partsgroup', value_key='id', with_empty=1, class="wi-wide") %] 
+			  [% L.select_tag('part.partsgroup_id', SELF.all_partsgroups, default=SELF.part.partsgroup_id, title_key='partsgroup', value_key='id', with_empty=1, class="wi-wide") %] 
 			</td>
 		</tr>
     [% END %] 
-		[%- IF SELF.all_buchungsgruppen.size %] 
+		[% IF SELF.all_buchungsgruppen.size %] 
 		<tr>
 			<th> [% 'Booking group' | $T8 %]</th>
-			<td> [%- L.select_tag('part.buchungsgruppen_id', SELF.all_buchungsgruppen, default=SELF.part.buchungsgruppen_id, title_key='description', value_key='id', with_empty=0, class="wi-wide") %] </td>
+			<td> [% L.select_tag('part.buchungsgruppen_id', SELF.all_buchungsgruppen, default=SELF.part.buchungsgruppen_id, title_key='description', value_key='id', with_empty=0, class="wi-wide") %] </td>
 		</tr>
-		[%- END %] 
-		[%- IF SELF.all_payment_terms.size %] 
+		[% END %] 
+		[% IF SELF.all_payment_terms.size %] 
 		<tr>
 			<th> [% 'Payment Terms' | $T8 %]</th>
-			<td> [%- L.select_tag('part.payment_id', SELF.all_payment_terms, default=SELF.part.payment_id, title_key='description', value_key='id', with_empty=1, class="wi-wide") %] </td>
+			<td> [% L.select_tag('part.payment_id', SELF.all_payment_terms, default=SELF.part.payment_id, title_key='description', value_key='id', with_empty=1, class="wi-wide") %] </td>
 		</tr>
-		[% END %] [%- IF SELF.part.id %] 
+		[% END %] [% IF SELF.part.id %] 
 		<tr>
 			<th> <label for="part.obsolete">[% 'Obsolete' | $T8 %]</label> </th>
 			<td> [% L.checkbox_tag('part.obsolete', checked = SELF.part.obsolete, for_submit=1) %] </td>
 		</tr>
-		[%- END %] 
+		[% END %] 
 		<tr>
-			<th> <label for="part.shop">[% 'Shop article' | $T8 %]</label> </th>
-			<td> [% L.checkbox_tag('part.shop', checked = SELF.part.shop, for_submit=1) %] </td>
+			<th> <label for="part_shop">[% 'Shop article' | $T8 %]</label> </th>
+			<td> [% L.checkbox_tag('part.shop', checked = SELF.part.shop, for_submit=1, id='part_shop') %] </td>
 		</tr>
-    <tr>
-      <th class="caption" colspan="2"> [% 'Part Notes' | $T8 %] </th>
-    </tr>
-    <tr>
-      <td colspan="2"> [% L.textarea_tag("part.notes", P.restricted_html(SELF.part.notes), class="texteditor", style='width:24.0em; height:8.0em; padding:0.1em;') %] </td>
-    </tr>
-	</tbody>
+  </tbody>
 </table>
 
-
-<table id="ic5" class="tbl-horizontal col">
+<table id="ic5" class="tbl-horizontal wi-small-small">
 	<caption>[% 'Prices' | $T8 %]</caption>
+  <colgroup> <col class="wi-small"><col class="wi-small"> </colgroup> 
 	<tbody>
 		<tr>
 			<th>[% 'Updated' | $T8 %]</th>
@@ -89,81 +84,83 @@
 		</tr>
 		<tr>
 			<th>[% 'List Price' | $T8 %]</th>
-			<td>[% L.input_tag("part.listprice_as_number", SELF.part.listprice_as_number, size=11 class='reformat_number numeric wi-mediumsmall') %]</td>
+			<td>[% L.input_tag("part.listprice_as_number", SELF.part.listprice_as_number, class='reformat_number numeric wi-mediumsmall') %]</td>
 		</tr>
 		<tr>
 			<th>[% 'Sell Price' | $T8 %]</th>
 			<td>
-        [% L.input_tag("part.sellprice_as_number", SELF.part.sellprice_as_number, size=11, class='reformat_number numeric wi-mediumsmall') %] 
-        [% IF (SELF.part.is_assortment or SELF.part.is_assembly) %] (<span id="items_sellprice_sum_basic">[% LxERP.format_amount(SELF.part.items_sellprice_sum, 2) %]</span>) [% END %]
+        [% L.input_tag("part.sellprice_as_number", SELF.part.sellprice_as_number, class='reformat_number numeric wi-mediumsmall') %] 
+        [% IF (SELF.part.is_assortment or SELF.part.is_assembly) %] 
+          <span id="items_sellprice_sum_basic" class="data below wi-mediumsmall numeric">([% LxERP.format_amount(SELF.part.items_sellprice_sum, 2) %])</span>
+        [% END %]
 			</td>
 		</tr>
-		[%- UNLESS SELF.part.is_assembly %]
+		[% UNLESS SELF.part.is_assembly %]
 		<tr>
 			<th>[% 'Last Cost' | $T8 %]</th>
 			<td>
-        [% L.input_tag("part.lastcost_as_number", SELF.part.lastcost_as_number, size=11 class='reformat_number numeric wi-mediumsmall') %] 
-        [% IF SELF.part.is_assortment %] (<span id="items_lastcost_sum_basic">[% LxERP.format_amount(SELF.part.items_lastcost_sum, 2) %]</span>) [% END %]
+        [% L.input_tag("part.lastcost_as_number", SELF.part.lastcost_as_number, class='reformat_number numeric wi-mediumsmall') %] 
+        [% IF SELF.part.is_assortment %] 
+          <span id="items_lastcost_sum_basic" class="data below wi-mediumsmall numeric">([% LxERP.format_amount(SELF.part.items_lastcost_sum, 2) %])</span> 
+        [% END %]
       </td>
 		</tr>
-		[%- END %] 
-		[%- IF SELF.all_price_factors.size %]
+		[% END %] 
+		[% IF SELF.all_price_factors.size %]
 		<tr>
 			<th>[% 'Price Factor' | $T8 %]</th>
 			<td>
-			  [%- L.select_tag('part.price_factor_id', SELF.all_price_factors, default=SELF.part.price_factor_id, title_key='description', value_key='id', with_empty=1, class='wi-mediumsmall') %]
+			  [% L.select_tag('part.price_factor_id', SELF.all_price_factors, default=SELF.part.price_factor_id, title_key='description', value_key='id', with_empty=1, class='wi-mediumsmall') %]
 			  </td>
 		</tr>
-		[%- END %]
+		[% END %]
 		<tr>
 			<th>[% 'Unit' | $T8 %]</th>
 			<td>
-			  [%- IF !SELF.part.id or SELF.part.orphaned # same logic as unit_changable %] 
-			    [%- L.select_tag('part.unit', SELF.all_units, default=SELF.part.unit, title_key='name', value_key='name', class='wi-mediumsmall') %] 
-			  [%- ELSE %] 
+			  [% IF !SELF.part.id or SELF.part.orphaned # same logic as unit_changable %] 
+			    [% L.select_tag('part.unit', SELF.all_units, default=SELF.part.unit, title_key='name', value_key='name', class='wi-mediumsmall') %] 
+			  [% ELSE %] 
 			    [% L.hidden_tag('part.unit', SELF.part.unit) %] [% HTML.escape(SELF.part.unit) %] 
-			  [%- END %]</td>
+			  [% END %]</td>
 		</tr>
 		<tr>
 			<th>[% 'Verrechnungseinheit' | $T8 %]</th>
 			<td>[% L.input_tag("part.ve", SELF.part.ve, class='wi-mediumsmall') %]</td>
 		</tr>
 		<tr>
-			<th><label for="part.not_discountable">[% 'Not Discountable' | $T8 %]</label></th>
+			<th><label for="part_not_discountable">[% 'Not Discountable' | $T8 %]</label></th>
 			<td>[% L.checkbox_tag('part.not_discountable', checked = SELF.part.not_discountable, for_submit=1) %]</td>
 		</tr>
 		<tr>
 			<th>[% 'Business Volume' | $T8 %]</th>
-			<td>[% L.input_tag("part.gv_as_number", SELF.part.gv_as_number, size=10, class='reformat_number numeric wi-mediumsmall') %]</td>
+			<td>[% L.input_tag("part.gv_as_number", SELF.part.gv_as_number, class='reformat_number numeric wi-mediumsmall') %]</td>
 		</tr>
-    <tr>
-      <th class="caption" colspan="2">[% 'Formula' | $T8 %]</th>
-    </tr>
-    <tr>
-      <td colspan="2"> <textarea id="part.formel" name="part.formel" rows="[% HTML.escape(notes_rows) %]" cols="30" style="width:19.5em;" wrap="soft" class="tooltipster-html" title="[% 'The formula needs the following syntax:<br>For regular article:<br>Variablename= Variable Unit;<br>Variablename2= Variable2 Unit2;<br>...<br>###<br>Variable + ( Variable2 / Variable )<br><b>Please be beware of the spaces in the formula</b><br>' | $T8 %]">[% HTML.escape(SELF.part.formel) %]</textarea>
-      </td>
-    </tr>
 	</tbody>
 </table>
 
 
-<div id="pricegroups" class="col">
- [% PROCESS 'part/_pricegroup_prices.html' %]
-</div>
+<div id="pricegroups">
+[% PROCESS 'part/_pricegroup_prices.html' %]
+<!-- </div> -->
 
-
-[%- UNLESS SELF.part.is_service %]
-<table class="tbl-horizontal col">
+[% UNLESS SELF.part.is_service %]
+<!-- 
+# After Pricegroup, see part/_pricegroup_prices.html
+<table class="tbl-horizontal">
   <caption>[% 'Warehouse' | $T8 %]</caption>
   <colgroup> 
     <col class="wi-mediumsmall">
     <col class="wi-lightwide">
   </colgroup> 
   <tbody>
+ -->
+  <tr>
+    <th class="caption">[% 'Warehouse' | $T8 %]</th>
+  </tr>
   <tr>
    <th>[% 'Weight' | $T8 %]</th>
    <td>
-    [%- IF SELF.part.is_assembly %]
+    [% IF SELF.part.is_assembly %]
       [% LxERP.format_amount(SELF.part.weight) %]
     [% ELSE %]
       [% L.input_tag('part.weight_as_number', SELF.part.weight_as_number, size=10, class='wi-small reformat_number numeric') %]
@@ -190,19 +187,46 @@
    <td>
     <span id="bin"> [% IF SELF.part.warehouse.id %]
       [% L.select_tag('part.bin_id', SELF.part.warehouse.bins, default=SELF.part.bin.id, title_key='description',class="wi-wide") %]
-    [%- END %] </span>
+    [% END %] </span>
    </td>
   </tr>
   <tr>
-   <th><label for="part.has_sernumber">[% 'Has serial no.' | $T8 %]</label></th>
+   <th><label for="part_has_sernumber">[% 'Has serial no.' | $T8 %]</label></th>
    <td>[% L.checkbox_tag('part.has_sernumber', checked = SELF.part.has_sernumber, for_submit=1) %]</td>
   </tr>
+[% END %][% #END OF UNLESS SELF.part.is_service %]
   </tbody>
 </table>
-[%- END %]
+</div><!-- /#pricegroup -->
 
 
-<table id="ic6" class="tbl-horizontal col">
+</div><!-- /.wrapper -->
+<div class="wrapper">
+
+
+<table class="tbl-horizontal wi-small-wide"> 
+  <caption>[% 'Part Notes' | $T8 %]</caption>
+  <tbody>
+    <tr>
+      <td>[% L.textarea_tag("part.notes", P.restricted_html(SELF.part.notes), class="texteditor", style='width:100%; height:8.0em; padding:0.1em;') %]</td>
+    </tr>
+	</tbody>
+</table>
+
+
+<table class="tbl-horizontal wi-small-small">
+	<caption>[% 'Formula' | $T8 %]</caption>
+		<colgroup> <col class="wi-small-small"> </colgroup> 
+	<tbody>
+    <tr>
+      <td colspan="2"> <textarea id="part.formel" name="part.formel" rows="[% HTML.escape(notes_rows) %]" cols="30" style="width:19.5em;" wrap="soft" class="tooltipster-html" title="[% 'The formula needs the following syntax:<br>For regular article:<br>Variablename= Variable Unit;<br>Variablename2= Variable2 Unit2;<br>...<br>###<br>Variable + ( Variable2 / Variable )<br><b>Please be beware of the spaces in the formula</b><br>' | $T8 %]">[% HTML.escape(SELF.part.formel) %]</textarea>
+      </td>
+    </tr>
+	</tbody>
+</table>
+
+
+<table id="ic6" class="tbl-horizontal">
 	<caption>[% 'Illustrations' | $T8 %]</caption>
 	<colgroup> 
 	  <col class="wi-mediumsmall">
@@ -224,11 +248,12 @@
 	</tbody>
 </table>
 
-</div><!-- /.cols -->
+
+</div><!-- /.wrapper -->
 
 
-[%- UNLESS SELF.part.is_assembly %]
-<div id="makemodel">
+[% UNLESS SELF.part.is_assembly %]
+<div id="makemodel" class="wrapper">
  [% PROCESS 'part/_makemodel.html' %]
 </div>
 [% END %]

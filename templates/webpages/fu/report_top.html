@@ -1,13 +1,13 @@
-[%- IF SAVED_MESSAGE %]
+[% IF SAVED_MESSAGE %]
   <p>[% SAVED_MESSAGE %]</p>
-[%- END %]
+[% END %]
 
-[%- IF OPTIONS.size %]
-<p>
- [%- FOREACH option = OPTIONS %]
- [%- option %][% UNLESS loop.last %]<br>[% END %]
- [%- END %]
-</p>
-[%- END %]
+[% IF OPTIONS.size %]
+  <p>
+  [% FOREACH option = OPTIONS %]
+    [% option %][% UNLESS loop.last %]<br>[% END %]
+  [% END %]
+  </p>
+[% END %]
 
 <form action="fu.pl" method="post" name="Form" id="form">

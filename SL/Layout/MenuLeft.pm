@@ -8,7 +8,7 @@ use URI;
 use List::MoreUtils qw(apply);
 
 sub stylesheets {
-  qw(icons16.css icons24.css menu.css)
+  #qw(icons16.css icons24.css menu.css) # no need for that with new design
 }
 
 sub javascripts_inline {

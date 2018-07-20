@@ -38,7 +38,13 @@ form {
   margin: 0 auto 0 auto;
 
 
-
+  // If Form must be a block container
+  &.box {
+    display: block;
+    overflow: hidden ;
+    padding: 0 0 1.6em 0 ;
+    
+  }
 
   // --------------------------------------
   // FORM-ELEMENTS
@@ -48,7 +54,7 @@ form {
   textarea,
   select {
     font-family: @font-family-sans-serif ;
-    font-size: @font-size-small ;
+    font-size: @font-size-smaller ;
     padding: 0.2em 0.28em;
     border: 1px;
     border-color: darkgray lightgray lightgray;
@@ -58,27 +64,32 @@ form {
 
     &[type="text"],
     &[type="password"] {
-
+      
     }
 
     &[type="text"] {
       &.accent{
         font-weight: bold ;
         font-size: 130% !important ;
-        padding: 0.6em auto !important ; 
+        padding: 0.6em auto !important ;
       }
-    } 
-
-    // --------------
-    // Focused Elements
-    &:focus,
-    &:active {
-      background-color: @formelement-focus-bg !important ;
-      border: @formelement-focus-border ;
     }
-
   }
   // /input, textarea, select
+
+  // --------------
+  // Focused Elements
+  input[type="text"],
+  input[type="password"],
+  textarea,
+  select {
+    &:focus,
+    &:active {
+      background-color: @formelement-focus-bg ;
+      border: @formelement-focus-border ;
+    }
+  }
+
 
 
   // --------------
@@ -88,11 +99,32 @@ form {
   select {
     // background: white url('../image/select-down.png') no-repeat scroll right center;
     padding-right: 1.0em;
-    
+
     &.helper {
-       background-color: #efefef; 
+       background-color: #efefef;
     }
   }
+
+
+  // --------------------------------------
+  // SPECIAL INPUT TYPES
+  // --------------------------------------
+
+  input {
+    &[type="file"]{
+      padding: 0.8em;
+      background-color: #dedede;
+      color: #666666 ;
+      border: 1px #666 solid ;
+      // PENDENT: geht wahrscheinlich nicht, oder muss anders geloest werden
+      // Hier handelt es sich um den "Select File"-Button
+      button,
+      input[type="button"] {
+        background-color: #A3FFA8;
+      }
+    }
+  }
+
 
 
 
@@ -101,20 +133,116 @@ form {
   // BUTTONS
   // --------------------------------------
 
+  // General
   input[type="button"],
   input[type="submit"],
-  input.submit,
+  input[type="reset"],
   button,
-  a.button {
-    .mx-button
+  a.button /* PENDENT: A.button verlagern */ {
+    .mx-button ; // Mixin
+
+    &.clear {
+      clear: left;
+    }
+    // DIMENSIONS
+    &.wi-verysmall   { min-width: @input-wi-verysmall   ; }
+    &.wi-small       { min-width: @input-wi-small       ; }
+    &.wi-mediumsmall { min-width: @input-wi-mediumsmall ; }
+    &.wi-normal      { min-width: @input-wi-normal      ; }
+    &.wi-lightwide   { width:     @input-wi-lightwide   ; }
+    &.wi-wide        { width:     @input-wi-wide        ; }
+    &.wi-wider       { width:     @input-wi-wider       ; }
+    &.wi-verywide    { width:     @input-wi-verywide    ; }
+    &.wi-tiny { 
+      width: auto ; 
+      padding: 0.16em 0.2em 0.1em 0.2em;
+      margin: -0.3em 0 0 0.2em;
+      //float: right;
+      display: inline-block;
+      font-size: 84% ;
+    }      
+      
+      
   }
-  a.button.neutral{
-    background-color: #ccc;
-    &:link, 
-    &:visited{
-      color: #666 ;
+
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"],
+  button {
+    cursor: pointer ;
+  }
+
+
+
+  // -------------------
+  // Action (submission to server page)
+  input[type="submit"],  
+  input[type="button"],
+  button[type="submit"], 
+  button[type="button"] {
+    color: @btn-default-color ; 
+    background-color: @btn-default-bg;
+    border-color: @btn-default-border ;      
+    
+    &:hover,
+    &.hover{
+      color: @btn-default-hover-color ; 
+      background-color: @btn-default-hover-bg;
+      border-color: @btn-default-hover-border ;         
+    }
+    &:active,
+    &.active{
+      color: @btn-default-active-color ; 
+      background-color: @btn-default-active-bg;
+      border-color: @btn-default-active-border ;      
+    }
+    
+  }
+  
+  // -------------------
+  // Neutral (no submission to server page)
+  /* a.button.neutral, */
+  input[type="button"].neutral,
+  input[type="submit"].neutral,
+  input[type="reset"],
+  input[type="reset"].neutral,
+  button.neutral,
+  button[type="reset"] {
+    color: @btn-neutral-color ; 
+    background-color: @btn-neutral-bg;
+    border-color: @btn-neutral-border ;  
+        
+    &:hover {
+      color: @btn-neutral-hover-color ;
+      background-color: @btn-neutral-hover-bg;
+      border-color: @btn-neutral-hover-border ;          
+    }
+    
+    &:active {
+      color: @btn-neutral-active-color;
+      background-color: @btn-neutral-active-bg;
+      border-color: @btn-neutral-active-border ;          
     }
   }
+  // just for testing and documentation
+  input[type="reset"].neutral-hover,
+  button.neutral-hover {
+    color: @btn-neutral-hover-color ;
+    background-color: @btn-neutral-hover-bg;
+    border-color: @btn-neutral-hover-border ;              
+  }
+  // just for testing and documentation
+  input[type="reset"].neutral-active,
+  button.neutral-active {
+      color: @btn-neutral-active-color;
+      background-color: @btn-neutral-active-bg;
+      border-color: @btn-neutral-active-border ;          
+  }
+  
+  
+  
+  
+
   // PENDENT: Neu
   input[type="button"]{
     &.inline{}
@@ -124,7 +252,7 @@ form {
       margin-top: 0.3em;
       overflow: hidden ;
     }
-    &.wi-wider{ width: 24.5em; }
+    
   }
 
   input[type="button"]:focus,
@@ -135,18 +263,30 @@ form {
   }
 
   // PENDENT: anschauen
-  button:hover:enabled,
-  input[type="button"]:hover:enabled,
-  input[type="submit"]:hover:enabled {
-    color: #fff;
-  }
+//   button:hover:enabled,
+//   input[type="button"]:hover:enabled,
+//   input[type="submit"]:hover:enabled {
+//     color: #fff ;
+//   }
 
+
+  // Container fuer Buttons
   div.buttons{
     padding: 1.0em ;
+    clear: left ; 
+    display: block;
+    // PENDENT: anschauen, ist fuer Anzeige von Positionsdetails
     &.positions{
-      margin: 0 0 -2.4em 20.0em;
+      margin: 0 0 -2.0em 20.0em;
+      padding: 0 ;
     }
   }
+  .col .buttons{
+    padding: 1.0em 1.0em 1.0em 0 !important;
+    //border: #ff00ff 1px solid // TEST
+  }
+
+
 
 
   // --------------------------------------
@@ -157,7 +297,8 @@ form {
     cursor: pointer;
     vertical-align: top;
     display: inline-block;
-    
+    width: 92% ;
+
     // PENDENT: MIXIN-anlegen fuer .Buttons
     &.button{
       background-color: #99CCFF;
@@ -212,8 +353,7 @@ form {
 
     &[type="text"],
     &[type="password"]{
-
-      &.wi-smallest     { width:     @input-wi-smallest    ; } //  2.0em
+      &.wi-smallest     { width:     @input-wi-smallest    ; } //   2.0em
       &.wi-verysmall    { width:     @input-wi-verysmall   ; } //   4.0em
       &.wi-small        { width:     @input-wi-small       ; } //   8.8em
       &.wi-mediumsmall  { width:     @input-wi-mediumsmall ; } //   8.8em
@@ -230,12 +370,12 @@ form {
 
     }
 
-    // Password (Standard size)
+    // Password (Standard size) // PENDENT: Standardgroesse ??
      &[type="password"]{
-      min-width: @input-wi-normal ;
+      //min-width: @input-wi-normal ;
     }
 
-    // OBSOLETE
+    // OBSOLETE // PENDENT: ggf. entfernen
     .fixed_width {
       width: 250px;
     }
@@ -251,13 +391,14 @@ form {
   select {
     &.wi-smallest     { width:     @select-wi-smallest    ; } //   2.0em
     &.wi-verysmall    { width:     @select-wi-verysmall   ; }
-    &.wi-small        { width:     @select-wi-small       ; }
+    &.wi-small        { width:     @select-wi-small       ; } // Datum (PENDENT: ca. 8.6em)
     &.wi-mediumsmall  { width:     @select-wi-mediumsmall ; }
     &.wi-normal       { width:     @select-wi-normal      ; }
     &.wi-lightwide    { width:     @select-wi-lightwide   ; }
     &.wi-wide         { min-width: @select-wi-wide        ; }
     &.wi-wider        { min-width: @select-wi-wider       ; }
     &.wi-verywide     { min-width: @select-wi-verywide    ; }
+    &.wi-full         { width:     100%                   ; }
   }
   // /DIMENSION select
 
@@ -267,14 +408,65 @@ form {
   //
 
   textarea {
-    &.wi-small        { width:     @input-wi-small       ; }
-    &.wi-mediumsmall  { width:     @input-wi-mediumsmall ; }
-    &.wi-normal       { width:     @input-wi-normal      ; }
-    &.wi-wide         { min-width: @input-wi-wide        ; }
-    &.wi-wider        { min-width: @input-wi-wider       ; }
-    &.wi-verywide     { min-width: @input-wi-verywide    ; }
+  
+    // Standard-Dimensions
+    &.wi-smallest     { width:     @textarea-wi-normal      ; } // no smallest, just normal
+    &.wi-verysmall    { width:     @textarea-wi-normal      ; } // no verysmall, just normal
+    &.wi-small        { width:     @textarea-wi-normal      ; } // no small, just normal
+    &.wi-mediumsmall  { width:     @textarea-wi-normal      ; } // no mediumsmall, just normal
+    &.wi-normal       { width:     @textarea-wi-normal      ; }
+    &.wi-lightwide    { min-width: @textarea-wi-lightwide   ; }
+    &.wi-wide         { min-width: @textarea-wi-wide        ; }
+    &.wi-wide.strict  { max-width: @textarea-wi-wide !important  ; }
+    &.wi-wider        { min-width: @textarea-wi-wider       ; }
+    &.wi-verywide     { min-width: @textarea-wi-verywide    ; }
+    &.wi-full         { width:     100%                  ; }
+    
+    
+    &.wi-small-small       { width: @textarea-wi-small-small ; }
+    &.wi-small-mediumsmall { width: @textarea-wi-small-mediumsmall ; }
+    &.wi-small-normal      { width: @textarea-wi-small-normal ; }
+    &.wi-small-lightwide   { width: @textarea-wi-small-lightwide ; }
+    &.wi-small-wide        { width: @textarea-wi-small-wide ; }
+    &.wi-small-wider       { width: @textarea-wi-small-wider ; }
+    &.wi-small-verywide    { width: @textarea-wi-small-verywide ; }
+    
+    &.wi-mediumsmall-small       { width: @textarea-wi-mediumsmall-small ; }
+    &.wi-mediumsmall-mediumsmall { width: @textarea-wi-mediumsmall-mediumsmall ; }
+    &.wi-mediumsmall-normal      { width: @textarea-wi-mediumsmall-normal ; }
+    &.wi-mediumsmall-lightwide   { width: @textarea-wi-mediumsmall-lightwide ; }
+    &.wi-mediumsmall-wide        { width: @textarea-wi-mediumsmall-wide ; }
+    &.wi-mediumsmall-wider       { width: @textarea-wi-mediumsmall-wider ; }
+    &.wi-mediumsmall-verywide    { width: @textarea-wi-mediumsmall-verywide ; }
+    
+    &.wi-normal-small       { width: @textarea-wi-normal-small ; }
+    &.wi-normal-mediumsmall { width: @textarea-wi-normal-mediumsmall ; }
+    &.wi-normal-normal      { width: @textarea-wi-normal-normal ; }
+    &.wi-normal-lightwide   { width: @textarea-wi-normal-lightwide ; }
+    &.wi-normal-wide        { width: @textarea-wi-normal-wide ; }
+    &.wi-normal-wider       { width: @textarea-wi-normal-wider ; }
+    &.wi-normal-verywide    { width: @textarea-wi-normal-verywide ; }
+    
+    &.wi-lightwide-small       { width: @textarea-wi-lightwide-small ; }
+    &.wi-lightwide-mediumsmall { width: @textarea-wi-lightwide-mediumsmall ; }
+    &.wi-lightwide-normal      { width: @textarea-wi-lightwide-normal ; }
+    &.wi-lightwide-lightwide   { width: @textarea-wi-lightwide-lightwide ; }
+    &.wi-lightwide-wide        { width: @textarea-wi-lightwide-wide ; }
+    &.wi-lightwide-wider       { width: @textarea-wi-lightwide-wider ; }
+    &.wi-lightwide-verywide    { width: @textarea-wi-lightwide-verywide ; }
+    
+    &.wi-wide-small       { width: @textarea-wi-wide-small ; }
+    &.wi-wide-mediumsmall { width: @textarea-wi-wide-mediumsmall ; }
+    &.wi-wide-normal      { width: @textarea-wi-wide-normal ; }
+    &.wi-wide-lightwide   { width: @textarea-wi-wide-wide ; }
+    &.wi-wide-wide        { width: @textarea-wi-wide-wide ; }
+    &.wi-wide-wider       { width: @textarea-wi-wide-wider ; }
+    &.wi-wide-verywide    { width: @textarea-wi-wide-verywide ; }
+    
+    
+    
   }
-  // /DIMENSION select
+  // /DIMENSION textarea
 
 
 
@@ -288,6 +480,14 @@ form {
     &.number  { text-align: right ; }
     &.numeric { text-align: right ; }
     &.right   { text-align: right ; }
+  }
+
+
+  input[type=text].emphasized {
+    word-wrap: break-word;
+    word-break: break-all;
+    height: auto;
+    overflow: hidden ;
   }
 
 
@@ -308,14 +508,14 @@ form {
 
 
   td {
-    div.rowspan-table{ 
+    div.rowspan-table{
       display: table-row ;
-      
+
       div.label-n-value{
         display: table-cell ;
         vertical-align: middle;
         height: 1.6em !important ; // the cell have not the same height if they are made with DIVs
-        
+
         float: left;
         padding: 0 2.3em 0 0 ;
         //overflow: hidden ;
@@ -332,19 +532,27 @@ form {
   // MIXED FORM-TABLES
   // --------------------------------------
   // Tables with either Form Elements or Text in Cells
-
+  // PENDENT: .data mit anderen Formular-Elementen zusammenfassen
   table td > span.data {
-    display: block; 
+    display: block;
     overflow: hidden ;
     font-size: @font-size-smaller ;
-    height: 1.0em ;
-    padding: 0.1em 0.28em 0.4em 0.28em;
     margin: 0 ;
-    border: 1px #dcdcdc solid; 
+    border: 1px #dcdcdc solid;
+    line-height: 120%;
+    //padding: 0.1em 0.28em 0.4em 0.28em;
+    padding: 0.2em 0.28em !important;
     &::before{
       content: "" ;
     }
-    
+    &.below{
+      margin-top: 0.2em;
+    }
+    &.numeric, 
+    &.right{
+      text-align: right;
+    }
+
     // Dimensions
     &.wi-smallest    { width: @input-wi-smallest    ; }
     &.wi-verysmall   { width: @input-wi-verysmall   ; }
@@ -353,12 +561,57 @@ form {
     &.wi-normal      { width: @input-wi-normal      ; }
     &.wi-lightwide   { width: @input-wi-lightwide   ; }
     &.wi-wide        { width: @input-wi-wide        ; }
-    
+
     // Data Types
     &.numeric { text-align: right ; }
     &.right   { text-align: right ; }
-    
+
   }
+
+
+
+  // -------------------
+  // Boxes
+  // 
+
+  div.boxes{
+    margin: 0 0 0.9em 0 ;
+    overflow: hidden ;
+    max-width: 800px ;
+
+    // Additional
+    // There are also some Checkboxes for "Select All"
+    h3 {
+
+      label{
+        float: right;
+        width: 92% ;
+        font-size: @font-size-h3 ;
+        padding: 0 0 0.6em 0 ;
+        line-height: 1.2em ;
+      }
+    }
+
+
+    &>div{
+      clear: both;
+      margin: 0 0 0.6em 0 ;
+      padding: 0;
+      display: block ;
+      overflow: hidden ;
+      label{
+        float: left;
+        width: 92% ;
+      }
+      input[type="checkbox"],
+      input[type="radio"]{
+        float: left;
+        margin-right: 0.6em ;
+      }
+    }
+  }
+
+
 
 }
 // /form
@@ -367,37 +620,43 @@ form {
 // --------------------------------------
 // CHECKBOXES & LABELS WITHIN DIVS
 // --------------------------------------
-// especially in the admin section
 
-div.admin{
-  form{
-    font-size: @font-size-small ;
-    input[type="checkbox"] {
-      margin: 0.2em 0.6em 0.3em 0 ;
-      float: left;        
-    }  
-
-
-
-    h3{
-      margin: 1.2em 0 0.6em 0 ;
-      display: block;
-    }
-    div.boxes{
-      margin: 0 0 0.9em 0 ;
-      overflow: hidden ;
-      max-width: 800px ;
+table.tbl-horizontal,
+table.tbl-list,
+table.tbl-plain {
+  th {
+    label{
+      display: inline-block;
       
-      div{
-        clear: both;
-        margin: 0 0 0.6em 0 ; 
-        padding: 0;
-        display: block ;
-        overflow: hidden ;
-        label{
-          float: left;
-          width: 94% ;
-        }
+      &:link,
+      &:visited {
+        color: #888 ;
+        text-decoration: none ;
+      }
+      &:hover{
+        color: #777 ;
+        text-decoration: underline;
+      }
+    }
+  }
+  td{
+    input[type="radio"],
+    input[type="checkbox"]{
+      float: left; 
+      clear: left;
+      &~label{
+        float: left;
+        width: 75%;
+        margin-left: 0.2em ;
+        //clear: left;
+      }
+    }
+    // Date-Field generated by the function L.Date_Tag
+    span.wi-date {
+      padding: 0 ; 
+      input[type="text"],
+      input[type="date"]{
+        width: @input-wi-small ;
       }
     }
   }
@@ -406,6 +665,55 @@ div.admin{
 
 
 
+// especially in the admin section
+
+div.admin{
+  form{
+    font-size: @font-size-small ;
+    input[type="checkbox"] {
+      margin: 0.2em 0.6em 0.3em 0 ;
+      float: left;
+    }
+    h3{
+      margin: 1.2em 0 0.6em 0 ;
+      display: block;
+    }
+  }
+}
+
+// --------------------------------------
+// jQuery-Plugins for forms
+// --------------------------------------
+
+// MultiSelect2Side
+.ms2side {
+  display: block;
+  overflow: hidden;
+
+  p {
+    margin: 0 0 0.4em 0 ;
+  }
+
+  .ms2side__div {
+
+    .ms2side__header {
+      width: 12.0em ;
+      height: 2.2em ;
+      display: table-cell;
+      vertical-align: bottom;
+    }
+  
+    .ms2side__options > p.ms2side__hide,
+    .ms2side__updown  > p.ms2side__hide {
+      cursor: default;
+      color: #9e9e9e;
+      border: 1px solid grey;
+      background-color: #D4D4D4 !important;
+    }
+  
+  }
+  
+}
 
 // --------------------------------------
 // PLACEHOLDER-TEXT
@@ -424,8 +732,19 @@ div.admin{
 // --------------------------------------
 // JQUERY-CONTAINERS FOR FIELDS
 // --------------------------------------
-
+// PENDENT: gehoert in Tables
 span.customer_vendor_picker {
   padding: 0 ;
 }
+
+
+// --------------------------------------
+// DIVERS JQUERY-/AJAX-STUFF
+// --------------------------------------
+
+  table td span.project_picker {
+   padding: 0 !important;
+  }
+
+
 

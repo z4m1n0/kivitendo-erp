@@ -48,7 +48,7 @@
  
 <div id="ui-tabs-basic-data">
 
-<div class="pad-wrapper">
+<div class="wrapper">
 
 [%- IF saved_message %]
 <div class="message">[% saved_message | html %]</div>
@@ -62,9 +62,9 @@
 
 </div>
 
-<div class="cols">
+<div class="wrapper">
 
-<table class="tbl-horizontal col">
+<table class="tbl-horizontal">
 	<tbody>
 		<tr>
 			<th>[% 'Reference' | $T8 %]</th>
@@ -106,7 +106,7 @@
 	</tbody>
 </table>
 
-<table clas="tbl-horizontal col">
+<table clas="tbl-horizontal">
   <tbody>
 		<tr>
 			<th>[% 'Optional Transaction Type' | $T8 %]</th>

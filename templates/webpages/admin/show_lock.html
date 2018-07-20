@@ -2,16 +2,16 @@
 
 <h1>[% HTML.escape(title) %]</h1>
 
-<div class="pad-wrapper">
+<div class="wrapper">
 
 [% INCLUDE 'common/flash.html' %]
 
 
 [% IF SELF.is_locked %]
 <p>
- [% LxERP.t8("The installation is currently locked.") %]
- [% LxERP.t8("Normal users cannot log in.") %]
- [% LxERP.t8("The administration area is always accessible.") %]
+  [% LxERP.t8("The installation is currently locked.") %]
+  [% LxERP.t8("Normal users cannot log in.") %]
+  [% LxERP.t8("The administration area is always accessible.") %]
 </p>
 
 <p><a href="[% SELF.url_for(action='unlock_system') %]" class="button">[% LxERP.t8("Unlock System") %]</a></p>
@@ -19,13 +19,13 @@
 [% ELSE %]
 
 <p>
- [% LxERP.t8("The installation is currently unlocked.") %]
- [% LxERP.t8("Everyone can log in.") %]
+  [% LxERP.t8("The installation is currently unlocked.") %]
+  [% LxERP.t8("Everyone can log in.") %]
 </p>
 
 <p>
- [% LxERP.t8("If you lock the system normal users won't be able to log in.") %]
- [% LxERP.t8("The administration area is always accessible.") %]
+  [% LxERP.t8("If you lock the system normal users won't be able to log in.") %]
+  [% LxERP.t8("The administration area is always accessible.") %]
 </p>
 
 <p><a href="[% SELF.url_for(action='lock_system') %]" class="button">[% LxERP.t8("Lock System") %]</a></p>

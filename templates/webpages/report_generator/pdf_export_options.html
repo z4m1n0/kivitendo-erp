@@ -74,22 +74,22 @@
 
    <tr>
     <td align="right">[% 'Top' | $T8 %]</td>
-    <td><input name="report_generator_pdf_options_margin_top" size="4" value="[% HTML.escape(default_ymargin) %]"> cm</td>
+    <td><input type="text" name="report_generator_pdf_options_margin_top" size="4" value="[% HTML.escape(default_ymargin) %]"> cm</td>
    </tr>
 
    <tr>
     <td align="right">[% 'Left' | $T8 %]</td>
-    <td><input name="report_generator_pdf_options_margin_left" size="4" value="[% HTML.escape(default_xmargin) %]"> cm</td>
+    <td><input type="text" name="report_generator_pdf_options_margin_left" size="4" value="[% HTML.escape(default_xmargin) %]"> cm</td>
    </tr>
 
    <tr>
     <td align="right">[% 'Bottom' | $T8 %]</td>
-    <td><input name="report_generator_pdf_options_margin_bottom" size="4" value="[% HTML.escape(default_ymargin) %]"> cm</td>
+    <td><input type="text" name="report_generator_pdf_options_margin_bottom" size="4" value="[% HTML.escape(default_ymargin) %]"> cm</td>
    </tr>
 
    <tr>
     <td align="right">[% 'Right' | $T8 %]</td>
-    <td><input name="report_generator_pdf_options_margin_right" size="4" value="[% HTML.escape(default_xmargin) %]"> cm</td>
+    <td><input type="text" name="report_generator_pdf_options_margin_right" size="4" value="[% HTML.escape(default_xmargin) %]"> cm</td>
    </tr>
 
    <tr>
@@ -119,7 +119,7 @@
 
     <tr>
      <td align="right">[% 'Copies' | $T8 %]</td>
-     <td><input name="report_generator_pdf_options_copies" size="4" value="[% HTML.escape(copies) %]"></td>
+     <td><input type="text" name="report_generator_pdf_options_copies" size="4" value="[% HTML.escape(copies) %]"></td>
     </tr>
    [% END %]
   </table>

@@ -1,6 +1,7 @@
-[%- USE T8 %]
+[% USE T8 %]
 [% USE HTML %]
-[% USE L %][%- USE LxERP -%]
+[% USE L %]
+[% USE LxERP %]
 <h1>[% title %]</h1>
 
 [% SET all_active = 1 %][% FOREACH row = DUNNINGS %][% IF !row.active %][% SET all_active = 0 %][% LAST %][% END %][% END %]
@@ -17,30 +18,30 @@
   <p>[% 'The columns &quot;Dunning Duedate&quot;, &quot;Total Fees&quot; and &quot;Interest&quot; show data for the previous dunning created for this invoice.' | $T8 %]</p>
 
   <table width="100%" id="dunning_invoice_list">
-   <th class="listheading" colspan="2">[% 'Current / Next Level' | $T8 %]</th>
+   <th colspan="2">[% 'Current / Next Level' | $T8 %]</th>
 
-   <th class="listheading">
+   <th>
     [% L.checkbox_tag('selectall_active', checkall='INPUT[name*=active_]', checked=all_active) %]
     <label for="selectall_active">[% 'Active?' | $T8 %]</label>
    </th>
 
-   <th class="listheading">
+   <th>
     [% L.checkbox_tag('selectall_email', checkall='INPUT[name*=email_]', checked=all_email) %]
     <label for="selectall_email">[% 'eMail?' | $T8 %]</label>
    </th>
 
-   <th class="listheading">[% 'Customername' | $T8 %]</th>
-   <th class="listheading">[% 'Language' | $T8 %]</th>
-   <th class="listheading">[% 'Invno.' | $T8 %]</th>
-   <th class="listheading">[% 'Invdate' | $T8 %]</th>
-   <th class="listheading">[% 'Inv. Duedate' | $T8 %]</th>
-   <th class="listheading">[% 'Amount' | $T8 %]</th>
-   <th class="listheading">[% 'Open Amount' | $T8 %]</th>
-   <th class="listheading">[% 'Dunning Duedate' | $T8 %]</th>
-   <th class="listheading">[% 'Total Fees' | $T8 %]</th>
-   <th class="listheading">[% 'Interest' | $T8 %]</th>
+   <th>[% 'Customername' | $T8 %]</th>
+   <th>[% 'Language' | $T8 %]</th>
+   <th>[% 'Invno.' | $T8 %]</th>
+   <th>[% 'Invdate' | $T8 %]</th>
+   <th>[% 'Inv. Duedate' | $T8 %]</th>
+   <th>[% 'Amount' | $T8 %]</th>
+   <th>[% 'Open Amount' | $T8 %]</th>
+   <th>[% 'Dunning Duedate' | $T8 %]</th>
+   <th>[% 'Total Fees' | $T8 %]</th>
+   <th>[% 'Interest' | $T8 %]</th>
    [% IF l_include_direct_debit %]
-    <th class="listheading">[% 'direct debit' | $T8 %]</th>
+    <th>[% 'direct debit' | $T8 %]</th>
    [% END %]
 
    <!-- Ausgabe der einzelnen Zeilen -->
@@ -70,11 +71,11 @@
      </td>
      <td><input type="hidden" name="invdate_[% loop.count %]" size="6" value="[% HTML.escape(row.transdate) %]">[% HTML.escape(row.transdate) %]</td>
      <td><input type="hidden" name="inv_duedate_[% loop.count %]" size="6" value="[% HTML.escape(row.duedate) %]">[% HTML.escape(row.duedate) %]</td>
-     <td align="right"><input type="hidden" name="amount_[% loop.count %]" size="6" value="[% HTML.escape(row.amount) %]">[% HTML.escape(row.amount) %]</td>
-     <td align="right"><input type="hidden" name="open_amount_[% loop.count %]" size="6" value="[% HTML.escape(row.open_amount) %]">[% HTML.escape(row.open_amount) %]</td>
+     <td><input type="hidden" name="amount_[% loop.count %]" size="6" value="[% HTML.escape(row.amount) %]">[% HTML.escape(row.amount) %]</td>
+     <td><input type="hidden" name="open_amount_[% loop.count %]" size="6" value="[% HTML.escape(row.open_amount) %]">[% HTML.escape(row.open_amount) %]</td>
      <td>[% HTML.escape(row.dunning_duedate) %]</td>
-     <td align="right"><input type="hidden" name="fee_[% loop.count %]" size="6" value="[% HTML.escape(row.fee) %]">[% HTML.escape(row.fee) %]</td>
-     <td align="right"><input type="hidden" name="interest_[% loop.count %]" size="6" value="[% HTML.escape(row.interest) %]">[% HTML.escape(row.interest) %]</td>
+     <td><input type="hidden" name="fee_[% loop.count %]" size="6" value="[% HTML.escape(row.fee) %]">[% HTML.escape(row.fee) %]</td>
+     <td><input type="hidden" name="interest_[% loop.count %]" size="6" value="[% HTML.escape(row.interest) %]">[% HTML.escape(row.interest) %]</td>
      [% IF l_include_direct_debit %]
      <td>
       [% IF row.direct_debit %][% LxERP.t8("yes") %][% ELSE %][% LxERP.t8("no") %][% END %]

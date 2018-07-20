@@ -1,5 +1,5 @@
-[%- USE T8 %]
-[%- USE L %]
+[% USE T8 %]
+[% USE L %]
 [% USE HTML %]
 <h1>[% title %]</h1>
 
@@ -30,21 +30,21 @@ $(function() {
 <input type="hidden" name="rndgain_accno_id"   value="[% HTML.escape(rndgain_accno_id) %]">
 <input type="hidden" name="rndloss_accno_id"   value="[% HTML.escape(rndloss_accno_id) %]">
 
+<div class="wrapper">
 
+<div class="col">
 
-<div class="cols">
-  <div class="col">
-  <table class="tbl-horizontal">
-    <caption>[% 'Main Preferences' | $T8 %]
-    </caption>
-   <tbody>
+<table class="tbl-horizontal">
+  <caption>[% 'Main Preferences' | $T8 %]</caption>
+  <colgroup><col class="wi-mediumsmall"><col class="wi-wide"></colgroup>
+  <tbody>
     <tr>
       <th> [% 'Account Number' | $T8 %] </th>
-      <td> <input id="accno" name="accno" size="20" value="[% HTML.escape(accno) %]"> </td>
+      <td><input id="accno" name="accno" type="text" size="10" class="wi-small" value="[% HTML.escape(accno) %]"></td>
     </tr>
     <tr>
       <th> [% 'Description' | $T8 %] </th>
-      <td> <input id="description" name="description" size="40" value="[% HTML.escape(description) %]"> </td>
+      <td><input id="description" name="description" type="text" size="40" class="wi-wide" value="[% HTML.escape(description) %]"></td>
     </tr>
     <tr>
       <th> [% 'Chart Type' | $T8 %] </th>
@@ -54,171 +54,169 @@ $(function() {
                               title_key => 'name',
                               value_key => 'value',
                               default => selected_charttype,
-                              disabled => '1') %]
+                              disabled => '1',
+                              class = 'wi-wide') %]
               [% L.hidden_tag('charttype', selected_charttype) %]
           [% ELSE %]
               [% L.select_tag('charttype',
                               all_charttypes,
                               title_key => 'name',
                               value_key => 'value',
-                              default => selected_charttype) %]
+                              default => selected_charttype,
+                              class = 'wi-wide') %]
           [% END %] </td>
     </tr>
     <tr>
-    <th>[% 'Account Type' | $T8 %]</th>
-    <td><select name="category" id="AccountType">[% select_category %]</select></td>
+      <th>[% 'Account Type' | $T8 %]</th>
+      <td><select name="category" id="AccountType" class="wi-wide">[% select_category %]</select></td>
     </tr>
-
-[% IF ChartTypeIsAccount %]
-
+    [% IF ChartTypeIsAccount %]
     <tr>
-    <th>[% 'Is this a summary account to record' | $T8 %]</th>
-    <td>
-      [% L.radio_button_tag('summary_account', value => 'AR', disabled => AccountIsPosted, checked  => AR) %]
-      [% 'AR' | $T8 %]<br>
-      [% L.radio_button_tag('summary_account', value => 'AP', disabled => AccountIsPosted, checked  => AP) %]
-      [% 'AP' | $T8 %]<br>
-      [% L.radio_button_tag('summary_account', value => 'IC', disabled => AccountIsPosted, checked  => IC) %]
-      [% 'Inventory' | $T8 %]<br>
-      [% L.radio_button_tag('summary_account', value => '', disabled => AccountIsPosted) %]
-      [% 'No summary account' | $T8 %]
+      <th>[% 'Is this a summary account to record' | $T8 %]</th>
+      <td>
+        [% L.radio_button_tag('summary_account', value => 'AR', disabled => AccountIsPosted, checked  => AR) %]
+        [% 'AR' | $T8 %]<br>
+        [% L.radio_button_tag('summary_account', value => 'AP', disabled => AccountIsPosted, checked  => AP) %]
+        [% 'AP' | $T8 %]<br>
+        [% L.radio_button_tag('summary_account', value => 'IC', disabled => AccountIsPosted, checked  => IC) %]
+        [% 'Inventory' | $T8 %]<br>
+        [% L.radio_button_tag('summary_account', value => '', disabled => AccountIsPosted) %]
+        [% 'No summary account' | $T8 %]
 
-      [% IF AccountIsPosted %]
-        [% IF AR %] [% L.hidden_tag('AR', 'AR') %] [% END %]
-        [% IF AP %] [% L.hidden_tag('AP', 'AP') %] [% END %]
-        [% IF IC %] [% L.hidden_tag('IC', 'IC') %] [% END %]
-      [% END %]
+        [% IF AccountIsPosted %]
+          [% IF AR %] [% L.hidden_tag('AR', 'AR') %] [% END %]
+          [% IF AP %] [% L.hidden_tag('AP', 'AP') %] [% END %]
+          [% IF IC %] [% L.hidden_tag('IC', 'IC') %] [% END %]
+        [% END %]
 
-      [% IF AccountIsPosted %]
-        [% IF AR_amount %] [% L.hidden_tag('AR_amount', 'AR_amount') %] [% END %]
-        [% IF AR_paid   %] [% L.hidden_tag('AR_paid',   'AR_paid')   %] [% END %]
-        [% IF AR_tax    %] [% L.hidden_tag('AR_tax',    'AR_tax')    %] [% END %]
-        [% IF AP_amount %] [% L.hidden_tag('AP_amount', 'AP_amount') %] [% END %]
-        [% IF AP_paid   %] [% L.hidden_tag('AP_paid',   'AP_paid')   %] [% END %]
-        [% IF AP_tax    %] [% L.hidden_tag('AP_tax',    'AP_tax')    %] [% END %]
-        [%- SET DIS = ' disabled="disabled"' %]
-      [% END %]
-
+        [% IF AccountIsPosted %]
+          [% IF AR_amount %] [% L.hidden_tag('AR_amount', 'AR_amount') %] [% END %]
+          [% IF AR_paid   %] [% L.hidden_tag('AR_paid',   'AR_paid')   %] [% END %]
+          [% IF AR_tax    %] [% L.hidden_tag('AR_tax',    'AR_tax')    %] [% END %]
+          [% IF AP_amount %] [% L.hidden_tag('AP_amount', 'AP_amount') %] [% END %]
+          [% IF AP_paid   %] [% L.hidden_tag('AP_paid',   'AP_paid')   %] [% END %]
+          [% IF AP_tax    %] [% L.hidden_tag('AP_tax',    'AP_tax')    %] [% END %]
+          [% SET DIS = ' disabled="disabled"' %]
+        [% END %]
       </td>
     </tr>
-    </tbody>
-  </table>
+  </tbody>
+</table>
 
-   <h3 class="caption">
-    [% 'Taxkeys and Taxreport Preferences' | $T8 %]
-  </h3>
-  <div class="long-desc small">
+<h3 class="caption">[% 'Taxkeys and Taxreport Preferences' | $T8 %]</h3>
+<div class="long-desc small">
   <p>[% 'Note: Taxkeys must have a "valid from" date, and will not behave correctly without.' | $T8 %]</p>
-  </div>
+</div>
 
-    <table class="tbl-plain">
-    <thead>
-      <tr>
-        <th>[% 'Taxkey' | $T8 %]</th>
-        <th>[% 'valid from' | $T8 %]</th>
-        [% IF feature_ustva %]<th>[% 'pos_ustva' | $T8 %]</th>[% END %]
-        <th>[% 'delete' | $T8 %] ? </th>
-      </tr>
-      </thead>
-      <tbody>
-[% FOREACH tk = ACCOUNT_TAXKEYS %]
-      <tr>
-[% IF tk.id %]
-        <td>
-          <input type="hidden" name="taxkey_id_[% tk.runningnumber %]" value="[% tk.id %]">
-          <select name="taxkey_tax_[% tk.runningnumber %]" class="wi-wider">[% tk.selecttaxkey %]</select>
-        </td>
-        <td>
-          <input name="taxkey_startdate_[% tk.runningnumber %]" value="[% HTML.escape(tk.startdate) %]" type="text" class="wi-date">
-        </td>
-        [% IF feature_ustva %]
-          <td>
-            <select name="taxkey_pos_ustva_[% tk.runningnumber %]" class="wi-wider">[% tk.select_tax %]</select>
-          </td>
-        [% END %]
-        <td class="center">
-          <input name="taxkey_del_[% tk.runningnumber %]" type="checkbox" value="delete">
-        </td>
-[% ELSE %]
-        <td>
-          <input type="hidden" name="taxkey_id_[% tk.runningnumber %]" value="NEW">
-          <select name="taxkey_tax_[% tk.runningnumber %]" class="wi-wider">[% tk.selecttaxkey %]</select>
-        </td>
-        <td>
-          <input name="taxkey_startdate_[% tk.runningnumber %]" value="[% HTML.escape(tk.startdate) %]" type="text" class="wi-date">
-        </td>
-        [% IF feature_ustva %]
-        <td>
-          <select name="taxkey_pos_ustva_[% tk.runningnumber %]" class="wi-wider">[% tk.select_tax %]</select>
-        </td>
-        [% END %]
-        <td>&nbsp;</td>
+<table class="tbl-horizontal">
+  <thead>
+    <tr>
+      <th>[% 'Taxkey' | $T8 %]</th>
+      <th>[% 'valid from' | $T8 %]</th>
+      [% IF feature_ustva %]<th>[% 'pos_ustva' | $T8 %]</th>[% END %]
+      <th>[% 'delete' | $T8 %]? </th>
+    </tr>
+  </thead>
+  <tbody>
+    [% FOREACH tk = ACCOUNT_TAXKEYS %]
+    <tr>
+      [% IF tk.id %]
+      <td>
+        <input type="hidden" name="taxkey_id_[% tk.runningnumber %]" value="[% tk.id %]">
+        <select name="taxkey_tax_[% tk.runningnumber %]" class="wi-wider">[% tk.selecttaxkey %]</select>
+      </td>
+      <td><input name="taxkey_startdate_[% tk.runningnumber %]" value="[% HTML.escape(tk.startdate) %]" type="text" class="wi-date"></td>
+      [% IF feature_ustva %]
+      <td>
+        <select name="taxkey_pos_ustva_[% tk.runningnumber %]" class="wi-wider">[% tk.select_tax %]</select>
+      </td>
+      [% END %]
+      <td class="center">
+        <input name="taxkey_del_[% tk.runningnumber %]" type="checkbox" value="delete">
+      </td>
+  [% ELSE %]
+      <td>
+        <input type="hidden" name="taxkey_id_[% tk.runningnumber %]" value="NEW">
+        <select name="taxkey_tax_[% tk.runningnumber %]" class="wi-wider">[% tk.selecttaxkey %]</select>
+      </td>
+      <td><input name="taxkey_startdate_[% tk.runningnumber %]" value="[% HTML.escape(tk.startdate) %]" type="text" class="wi-date"></td>
+      [% IF feature_ustva %]
+      <td>
+        <select name="taxkey_pos_ustva_[% tk.runningnumber %]" class="wi-wider">[% tk.select_tax %]</select>
+      </td>
+      [% END %]
+      <td>&nbsp;</td>
+  [% END %]
+    </tr>
 [% END %]
-      </tr>
-[% END %]
-    </tbody>
-    </table>
+  </tbody>
+</table>
 
-  <table class="tbl-horizontal">
+
+<table class="tbl-horizontal">
   <caption>[% 'Report and misc. Preferences' | $T8 %]</caption>
-        [% IF feature_erfolgsrechnung %]
-          <tr>
-            <th>[% 'Erfolgsrechnung' | $T8 %]</th>
-            <td><select name="pos_er" class="wi-wide">[% select_er %]</select></td>
-          </tr>
-        [% END %]
-        [% IF feature_eurechnung %]
-          <tr>
-            <th>[% 'EUER' | $T8 %]</th>
-            <td><select name="pos_eur" class="wi-wide">[% select_eur %]</select></td>
-          </tr>
-          <tr>
-            <th>[% 'BWA' | $T8 %]</th>
-            <td><select name="pos_bwa" class="wi-wide">[% select_bwa %]</select></td>
-          </tr>
-        [% END %]
-        [% #IF feature_balance %]
-          <!-- UPDATE: Diese Steuerfunktion hat keine Auswirkung in der Bilanz und wird erstmal deaktiviert. -->
-          <!--
-          <tr>
-            <th>[% 'Bilanz' | $T8 %]</th>
-            <td colspan="3"><select name="pos_bilanz">[% select_bilanz %]</select></td>
-          </tr>
-         -->
-        [% #END %]
-        [% IF feature_datev %]
-          <tr>
-            <th>[% 'Datevautomatik' | $T8 %]</th>
-            <td><input name="datevautomatik" type="checkbox" value="T" [% IF datevautomatik %]checked [% END %]>[% 'If checked the taxkey will not be exported in the DATEV Export, but only IF chart taxkeys differ from general ledger taxkeys' | $T8 %] </td>
-          </tr>
-        [% END %]
-        <tr>
-          <th>[% 'Folgekonto' | $T8 %]</th>
-          <td>
-            <select name="new_chart_id" class="wi-wide">[% selectnewaccount %]</select>
-            [% 'Valid from' | $T8 %]
-            <input name="valid_from" value="[% valid_from %]" type="text" class="wi-mediumsmall">
-          </td>
-        </tr>
-  </table>
-
-
+  <colgroup><col class="wi-mediumsmall"><col class="wi-wide"></colgroup>
+  <tbody>
+  [% IF feature_erfolgsrechnung %]
+    <tr>
+      <th>[% 'Erfolgsrechnung' | $T8 %]</th>
+      <td><select name="pos_er" class="wi-wider">[% select_er %]</select></td>
+    </tr>
+  [% END %]
+  [% IF feature_eurechnung %]
+    <tr>
+      <th>[% 'EUER' | $T8 %]</th>
+      <td><select name="pos_eur" class="wi-wider">[% select_eur %]</select></td>
+    </tr>
+    <tr>
+      <th>[% 'BWA' | $T8 %]</th>
+      <td><select name="pos_bwa" class="wi-wider">[% select_bwa %]</select></td>
+    </tr>
+  [% END %]
+  [% #IF feature_balance %]
+    <!-- UPDATE: Diese Steuerfunktion hat keine Auswirkung in der Bilanz und wird erstmal deaktiviert. -->
+    <!--
+    <tr>
+      <th>[% 'Bilanz' | $T8 %]</th>
+      <td colspan="3"><select name="pos_bilanz">[% select_bilanz %]</select></td>
+    </tr>
+   -->
+  [% #END %]
+  [% IF feature_datev %]
+    <tr>
+      <th>[% 'Datevautomatik' | $T8 %]</th>
+      <td><input name="datevautomatik" type="checkbox" value="T" [% IF datevautomatik %]checked [% END %]>[% 'If checked the taxkey will not be exported in the DATEV Export, but only IF chart taxkeys differ from general ledger taxkeys' | $T8 %] </td>
+    </tr>
+  [% END %]
+  <tr>
+    <th>[% 'Folgekonto' | $T8 %]</th>
+    <td>
+      <select name="new_chart_id" class="wi-wider">[% selectnewaccount %]</select><br>
+      [% 'Valid from' | $T8 %]
+      <input name="valid_from" value="[% valid_from %]" type="text" class="wi-mediumsmall">
+    </td>
+  </tr>
+  </tbody>
+</table>
 [% END %]
 
-  </div>
+</div><!-- /.col -->
 
 <div class="col" style="width:30.0em;">
+
 
 <h3 class="caption">[% 'Include in drop-down menus' | $T8 %]</h3>
 <div class="long-description small"><p>[% 'Changes in this block are only sensible if the account is NOT a summary account AND there exists one valid taxkey. To select both Receivables and Payables only make sense for Payment / Receipt (i.e. account cash).' | $T8 %]</p>
   <p>
     [% 'Changes to Receivables and Payables are only possible if no transactions to this account are posted yet.' | $T8 %]
     [% 'The changing of tax-o-matic account is NOT recommended, but if you do so please also (re)configure booking groups and reconfigure ALL charts which point to this tax-o-matic account. ' | $T8 %]</p>
-</div>
-<table class="tbl-plain" style="width:80%">
+</div><!-- /.long-description -->
+
+
+<table class="tbl-horizontal">
+  <colgroup><col class="wi-normal"><col class="wi-normal"></colgroup>  </colgroup>
   <tbody>
     <tr>
-      <th></th>
       <td><b>[% 'Receivables' | $T8 %]</b><br>
         [% L.radio_button_tag('AR_include_in_dropdown', value => 'AR_amount', disabled => AccountIsPosted, checked  => AR_amount) %]
         [% 'Revenue' | $T8 %] <br>
@@ -240,7 +238,6 @@ $(function() {
         [% 'do not include' | $T8 %]      </td>
     </tr>
     <tr>
-      <th></th>
       <td><b>[% 'Parts Inventory' | $T8 %]</b><br>
         <input name="IC_sale" type="checkbox" value="IC_sale"[% HTML.escape(IC_sale) %]>
         [% 'Revenue' | $T8 %] <br>
@@ -260,7 +257,7 @@ $(function() {
     </tr>
   </tbody>
 </table>
-</div>
+</div><!-- /.col -->
 
 </div>
 

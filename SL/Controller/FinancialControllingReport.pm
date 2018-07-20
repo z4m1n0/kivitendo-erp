@@ -49,8 +49,7 @@ sub prepare_report {
   my $report      = SL::ReportGenerator->new(\%::myconfig, $::form);
   $self->{report} = $report;
 
-  my @columns     = qw(customer globalprojectnumber globalproject_type transaction_description ordnumber net_amount delivered_amount delivered_amount_p billed_amount billed_amount_p paid_amount paid_amount_p
-                       billable_amount billable_amount_p other_amount);
+  my @columns     = qw(customer globalprojectnumber globalproject_type transaction_description ordnumber net_amount delivered_amount delivered_amount_p billed_amount billed_amount_p paid_amount paid_amount_p billable_amount billable_amount_p other_amount);
   my @sortable    = qw(ordnumber transdate customer globalprojectnumber globalproject_type transaction_description );
   $self->{number_columns} = [ qw(net_amount billed_amount billed_amount_p delivered_amount delivered_amount_p paid_amount paid_amount_p other_amount billable_amount billable_amount_p) ];
 

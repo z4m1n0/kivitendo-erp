@@ -74,7 +74,7 @@ h1{
   line-height: @font-size-h1 ;
 }
 
-// PENDENT: mit Child-Kombinator > versehen wenn fertig 
+// PENDENT: mit Child-Kombinator > versehen wenn fertig
 #content h1{
   z-index: @zindex-h1; //hps:12
   position: fixed;
@@ -86,10 +86,7 @@ h1{
   padding: 0.4em 0.5em 0.6em 0.5em ;
 
 }
-#login h1{
-  color: #000 ;
-  background: none ;
-}
+
 
 // --------------
 // .LISTTOP (SAME AS H1 -> DEPRACETED/OBSOLETE)
@@ -141,6 +138,24 @@ h3{
   color: @headings-color ;
   padding-left: 0 ;
 }
+.wrapper h3 {
+  margin-top: 1.0em ;
+}
+
+
+// --------------------------------------
+// RECORD-TITLE (e.g. Customer Name, Article Name)
+// --------------------------------------
+// This is just a try
+
+div.record-title{
+  width: 100% ;
+  font-size: 140% ;
+  display: block;
+  overflow: hidden ;
+  font-weight: bold ;
+  margin: 0.8em 2.0em 1.0em 0.2em ;
+}
 
 
 
@@ -154,12 +169,10 @@ a {
   &:link,
   &:visited,
   &:active {
-      color: #000000;
-
+    color: #000000;
   }
   &:hover {
-      color: #FE5F14;
-
+    color: #FE5F14;
   }
 
   // Special classes
@@ -186,22 +199,99 @@ a {
   }
 
   // --------------
-  // Buttons (Link as Buttons outside a FORM)
+  // Buttons (Link/Anchor as button outside or even inside a FORM)
   //
   &.button {
-    .mx-button
-    // PENDENT!
-    &.inline{
+    .mx-button ;
     
+    // PENDENT!
+    &.inline { }
+    &.below { clear: both !important; }
+    
+    // Toggle (for filter panels e.g.)
+    &.toggle {
+      // PENDENT: mit Bildern versehen, sieht schöner aus
+      &.off::after{ content: " &#8680;"; content: " →"; padding-right: 1.0em; }
+      &.on::after { content: " &#8681;"; content: " ↓"; padding-right: 1.0em; }
+      &.with-panel{
+        margin-bottom: 0 ;
+        border-bottom: none;
+        border-bottom-left-radius: 0px ;
+        border-bottom-right-radius: 0px ;
+      }
+    } // /.toggle
+    
+    
+    
+    // STANDARD colors
+    &:link,
+    &:visited {
+      color: @btn-default-color ;
+      background-color: @btn-default-bg ;
+      border-color: @btn-default-color ;     
     }
-    &.below{
-      clear: both !important;
+    &:hover,
+    &.hover{
+      background-color: @btn-default-hover-bg;
+      border-color: @btn-default-hover-border ;
+      color: @btn-default-hover-color;
     }
-    .wi-wider{ width: @wi-wider ; }
-  }
+    &:active,
+    &.active{
+      background-color: @btn-default-active-bg;
+      border-color: @btn-default-active-border ;
+      color: @btn-default-active-color;
+    }
+    &.toggle:hover,
+    &.toggle.hover{
+      background-color: @btn-neutral-bg !important;
+      border-color: @btn-neutral-border  !important ;
+      color: #000000;
+    }    
+    
+    
+    
+    // NEUTRAL (no Submission)
+    &.neutral {
+      
+      &:link,
+      &:visited {
+        background-color: @btn-neutral-bg;
+        border-color: @btn-neutral-border ;
+        color: @btn-neutral-color;
+      }
+      &:hover,
+      &-hover{
+        background-color: @btn-neutral-hover-bg;
+        border-color: @btn-neutral-hover-border ;
+        color: @btn-neutral-hover-color;
+      }
+      &:active,
+      &-active{
+        background-color: @btn-neutral-active-bg;
+        border-color: @btn-neutral-active-border ;
+        color: @btn-neutral-active-color;
+      }
+      &toggle:hover{
+        background-color: @btn-neutral-bg !important;
+        border-color: @btn-neutral-border !important ;
+        color: #000000;
+      }
 
-}
-// /a (Links)
+    }
+   
+    &.wi-tiny { 
+      width: auto ; 
+      padding: 0.16em 0.2em 0.1em 0.2em;
+      margin: -0.3em 0 0 0.2em;
+      display: inline-block;
+      font-size: 84% ;
+    }      
+    
+    
+  } // /.button
+
+} // /a (Links)
 
 
 
@@ -219,14 +309,15 @@ a {
 div,
 span {
 
-  &.wi-smallest     { width:     @wi-smallest    ; } //   2.0em
-  &.wi-verysmall    { width:     @wi-small       ; } //   4.0em
-  &.wi-small        { width:     @wi-small       ; } //   8.8em
-  &.wi-mediumsmall  { width:     @wi-mediumsmall ; } //   8.8em
-  &.wi-normal       { width:     @wi-normal      ; } //  12.0em
-  &.wi-wide         { min-width: @wi-wide        ; } //  18.0em
-  &.wi-wider        { min-width: @wi-wider       ; } //  24.0em
-  &.wi-verywide     { min-width: @wi-verywide    ; } //  36.0em
+  &.wi-smallest     { width:     @div-wi-smallest    ; } //   2.0em
+  &.wi-verysmall    { width:     @div-wi-small       ; } //   4.0em
+  &.wi-small        { width:     @div-wi-small       ; } //   8.8em
+  &.wi-mediumsmall  { width:     @div-wi-mediumsmall ; } //   8.8em
+  &.wi-normal       { width:     @div-wi-normal      ; } //  12.0em
+  &.wi-lightwide    { width:     @div-wi-lightwide   ; } //  12.0em
+  &.wi-wide         { min-width: @div-wi-wide        ; } //  18.0em
+  &.wi-wider        { min-width: @div-wi-wider       ; } //  24.0em
+  &.wi-verywide     { min-width: @div-wi-verywide    ; } //  36.0em
 
 }
 
@@ -238,13 +329,18 @@ div.long-description,
 div.long-desc,
 div.longdescription,
 div.longdesc {
-  font-size: @font-size-base ;
+  font-size: @font-size-smaller ;
 
   &.small {
     font-size: @font-size-smaller ;
   }
   p {
     margin: 0 0 0.6em 0;
+  }
+  ul,
+  ol {
+    margin-top: 0 ;
+    li { font-size: @font-size-smaller ; }
   }
 }
 
@@ -271,11 +367,31 @@ div.select-item{
   width: auto ;
   height: auto;
   padding: 0.4em 3.0em 0.4em 0.8em;
-  border: 1px #ccc solid; 
+  border: 1px #ccc solid;
+  border-radius: 0.2em ;
+  background-color: #ddd;
+  margin: 0.8em 2.0em 0 1.2em !important;
+  
+  input,
+  select{
+    margin-left: 0.6em ;
+  }
+  span.label{ 
+    float: left ; 
+    font-size: @font-size-small ;
+    }
+}
+
+table.jump-to {
+  &.right { float: right; }
+
+  border: 1px #ccc solid;
   border-radius: 0.2em ;
   background-color: #ddd;
   margin: 0.8em 2.0em 0 1.2em !important;
 }
+
+
 
 
 
@@ -290,12 +406,14 @@ div.description{
   padding: 0 0 0.6em 0 ;
 
   // Dimensions
-  &.wi-verysmall    { width: @wi-verysmall   ; }
-  &.wi-small        { width: @wi-small       ; }
-  &.wi-mediumsmall  { width: @wi-mediumsmall ; }
-  &.wi-normal       { width: @wi-normal      ; }
-  &.wi-wide         { width: @wi-wide        ; }
-  &.wi-verywide     { width: @wi-verywide    ; }
+  &.wi-verysmall    { width: @div-wi-verysmall   ; }
+  &.wi-small        { width: @div-wi-small       ; }
+  &.wi-mediumsmall  { width: @div-wi-mediumsmall ; }
+  &.wi-normal       { width: @div-wi-normal      ; }
+  &.wi-wide         { width: @div-wi-wide        ; }
+  &.wi-lightwide    { width: @div-wi-lightwide   ; }
+  &.wi-wider        { width: @div-wi-wider       ; }
+  &.wi-verywide     { width: @div-wi-verywide    ; }
 
 }
 
@@ -303,15 +421,15 @@ div.description{
 // same as pad-wrapper & cols
 // PENDENT: Mixin fuer Padding, Margin etc. anlegen
 div.instructions {
-	background-color: @instructionbox-bg;
-	border:           @instructionbox-border;
-	border-radius:    @contentbox-radius ;
-	max-width: 70% ;
-	.mx-contentbox-properties ;
-	color: #4C4C4C;
-	font-size: 80%;
-	
-	p { width: 30.0em }
+  background-color: @instructionbox-bg;
+  border:           @instructionbox-border;
+  border-radius:    @contentbox-radius ;
+  max-width: 70% ;
+  .mx-contentbox-properties ;
+  color: #4C4C4C;
+  font-size: 80%;
+
+  p { width: 30.0em }
 }
 
 
@@ -320,14 +438,64 @@ div.instructions {
 // Wrapper
 //
 
-// Wrapper for padding
-.pad-wrapper {
+// Wrapper for padding & columns
+.wrapper {
   overflow: hidden;
   //padding: 0.8em 2.0em 0 1.4em !important;
   padding: 0 ;
   margin: @contentbox-margin;
   clear: both;
+
+  &.test{  background-color: #FFE67C;  }
+
+  .tbl-horizontal,
+  .tbl-plain {
+    float: left ;
+  }
+
+  // --------------
+  // Columns
+  //
+  // DIV or TABLE
+  .col {
+    &.test{
+      background-color: #FFD7BA;
+      border: 1px #6CF solid;
+    }
+    &.wi-small       { width: @div-wi-small     ; }
+    &.wi-mediumsmall { width: @div-wi-mediumsmall; }
+    &.wi-normal      { width: @div-wi-normal     ; }
+    &.wi-wide        { width: @div-wi-wide       ; }
+    &.wi-lightwide   { width: @div-wi-lightwide  ; }
+    &.wi-wider       { width: @div-wi-wider      ; }
+    &.wi-verywide    { width: @div-wi-verywide   ; }
+
+    .tbl-horizontal,
+    .tbl-plain {
+      float: none ;
+      clear: left ;
+    }
+  }
+  &> p{
+    max-width: 36.0em ;
+    overflow: hidden ;
+    font-size: @font-size-smaller ;
+    line-height: 140%;
+    color: @gray-darker ;
+    padding-bottom: 1.0em ;
+  }
 }
+
+// --------------
+// Centered Elements
+//
+
+.center{
+  margin: auto;
+}
+
+
+
 // PENDENT: Neue Loesung
 .accent{
   div.label{
@@ -355,20 +523,60 @@ div.instructions {
 
 // FORM-ADDITION
 .form-addition{
-  border: 1px #999 solid; 
-  background-color: #dedede; 
+  border: 1px #999 solid;
+  background-color: #dedede;
   border-radius: 0.6em;
   padding: @contentbox-padding ;
-  margin: auto ;
+  margin: 1.6em 1.0em 1.6em 1.0em !important ;
   width: 96% !important ;
-  
+  overflow: hidden ;
+
   h3,
   table caption,
   div.list h4 {
     color: #666 !important;
+    margin-top: 0.6em;
   }
-  
+  div.list h4 {
+    padding: 1.2em 0 0.2em 0.0em !important;
+  }
+  div.list{
+    min-width: 130px ;
+    max-width: 180px ;
+  }
+
 }
+.wrapper.formaddition {
+  margin: 1.6em 1.0em 1.6em 1.0em !important ;
+}
+
+
+// FILTER-TOGGLE-PANEL
+.filter-toggle-panel{
+  display: block;
+  max-width: 60% ;
+  min-width: 30% ; 
+  overflow: hidden;
+  padding: 1.0em ;
+  margin: 0 1.0em 2.0em 0 ;
+  background-color: #ccc;
+  border-color: #666 ;
+  border-width: 1px;
+  border-style: solid ;
+  border-bottom-left-radius: 5px ;
+  border-bottom-right-radius: 5px ;
+  border-top-right-radius: 5px ;
+  background-color: #ccc ;
+  margin-top: -1px ;
+  
+  .buttons{
+    clear: left ;
+    padding: 0 ;
+  }
+}
+
+
+
 
 
 // --------------
@@ -418,52 +626,75 @@ pre.filecontent {
 
 
 // --------------
-// Messages (Depraceted)
+// Messages (Simple Style)
 //
 
 .message {
-
-  // General
-  width: 80% ;
-  font-size: 80% ;
-  line-height: 110% ;
-  margin: 0 auto 1.0em auto ;
-  padding: 0.4em ;
-  border-radius: 0.6em;
-
-  &_ok,
   &_error,
-  &_hint {
-    padding: 0.5em;
+  &_warning,
+  &_hint,
+  &_info,
+  &_ok, {
+    // General
+    min-width: 26.0em ;
+    max-width: 88% ;
+    width: auto;
+    display: block;
+    overflow: hidden;
+    margin: 0.2em 1.0em 0.8em 1.0em ;
+    padding: 0.6em 0.8em ;
+    border-radius: 0.6em;
     border-style: solid;
-    border-width: thin;
+    border-width: 1px;
+    font-size: 80% ;
     font-weight: normal;
+    line-height: 110% ;
     text-align: left;
-  }
-  &_ok {
-    color: black;
-  }
-  &_hint {
-    color: #288DCE;
-    background-color: #CED7EE; 
-    border: 1px #3C72A7 solid; 
+    white-space: normal;
     
+      // PENDENT: wieso wird in einem DIV-Container nochmals ein Paragraf mit der gleichen Klasse ausgegeben?
+    &>.message {
+      &_error,
+      &_warning,
+      &_hint,
+      &_info,
+      &_ok{
+        display: none;
+      }
+    }
+  }
+  &_error {
+    color:            @message_error_text;
+    background-color: @message_error_bg;
+    border-color:     @message_error_border;
+  }
+  &_warning {
+    color:            @message_warning_text;
+    background-color: @message_warning_bg;
+    border-color:     @message_warning_border;
+  }
+  &_hint,
+  &_info {
+    color:            @message_hint_text;
+    background-color: @message_hint_bg;
+    border-color:     @message_hint_border;
+
     h4 { color: #288DCE ; }
     p  { color: #288DCE ; }
   }
-  &_error {
-    background-color: #CC0000;
-    color: white;
+  &_ok {
+    color:            @message_ok_text;
+    background-color: @message_ok_bg;
+    border-color:     @message_ok_border;
   }
-  
+
+
+
   &.attention{
     font-size: 10pt;
-    border: 1px #E5700A solid; 
-    background-color: #FFE7B6; 
-    padding: 0.4em 0.8em;
-    margin: 1.0em 0 0.6em 0 ;
-    border-radius: 0.6em;
-    
+    border-color: #E5700A;
+    background-color: #FFE7B6;
+
     h4 { color: #CD4E00 ; }
     p  { color: #630    ; }
   }
@@ -471,70 +702,148 @@ pre.filecontent {
   h4{
     font-weight: bold;
     font-size: 110%;
-    margin: 0.4em 0 0.2em 0 ; 
-    padding: 0;   
-  }
-  p{
-    margin: 0 0 0.6em 0 ; 
+    margin: 0.4em 0 0.2em 0 ;
     padding: 0;
   }
+  p{
+    margin: 0 0 0.6em 0 ;
+    padding: 0;
+  }
+  
 }
+
+body > div.login .message{
+  width: 30.0em !important;
+  text-align: center ;
+  margin: 0 auto 1.0em auto ;
+}
+
 
 
 // --------------
 // Flash Messages
 //
 
-.flash_message{
+.flash_message {
   margin: @message-margin;
   padding: @message-padding;
   border-radius: 0.3em;
-  font-size: 88% ;
-  width: auto !important;
+  border-style: solid ;
+  border-width: 1px ;
+  font-size: 80% ;
+  max-width: 56.0em !important;
   overflow: hidden ;
-
-  a.icon-close{
-    font-size: 80% ;
-    float: right ;
-    padding: 0 0.2em 0 0.2em ;
-    margin: 0 ;
-    border-radius: 0.22em ;
+  // General (apears two times within a .flash:message)
+  
+  // Buttons (Details & Close)
+  a.button.wi-tiny {
+    font-size: 76% ;
+    padding: 0 0.2em 0 0.2em ;   
+    margin: 0 0.4em 0 0.4em  ;
+    width: auto ;
+    background-color: transparent;
   }
+  a.icon-close {
+    //display: block ;
+  }
+  
+  div.button-container,
+  div.icon-container  {
+    overflow: hidden ;
+    width: 12% ;
+    float: right ;
+    
+    a.icon-close {
+      float: right ;
+    }
+    span.display {
+      float: right !important;
+      display: block;
+      width: auto ;
+      text-align: right ;
+      margin: 0 ; 
+      padding: 0;
+      a.button { }
+    } 
+  } // /div.icon-container
+  
+  div.message-container {
+    overflow: hidden ;
+    width: 86% ;
+    float: left ;
+    
+    &>span.flash_title {
+      display: block;
+      float: left ;
+      width: auto ;
+    }
+    &>div.flash_notification {
+      display: block;
+      float: left ;
+      max-width: 80% ;
+      width: auto ;
+    
+      span.content {
+        float: left ;
+        display: block;
+        width: 100% ;
+      }
+      div.detail {
+        display: block;
+        clear: both ; 
+        padding-top: 0.9em ;
+      
+        span {
+          display: block;
+          width: 94%; 
+          float: right;
+        }
+        a.button.wi-tiny{
+          display: block ; 
+          float: left ;
+          margin-left: 0 ;  
+        }    
+      }  
+    } // /.div.flash_notification
+  
+  } // /div.message-container
+  
+
 
   &.flash_message_error {
-    background-color: @flash_message_error_bg;
-    border: @flash_message_error_border;
-    color: @flash_message_error_text;
-    a.icon-close {
-      border: @flash_message_error_border;
-      color: @flash_message_error_text;
+    background-color: @message_error_bg;
+    border-color: @message_error_border;
+    color: @message_error_text;
+    a.button.wi-tiny {
+      border: @message_error_border !important;
+      color: @message_error_text;
     }
   }
   &.flash_message_ok {
-    background-color: @flash_message_ok_bg;
-    border: @flash_message_ok_border;
-    color: @flash_message_ok_text;
-    a.icon-close {
-      border: @flash_message_ok_border;
-      color: @flash_message_ok_text;
+    background-color: @message_ok_bg;
+    border: @message_ok_border;
+    color: @message_ok_text;
+    a.button.wi-tiny {
+      border: @message_ok_border;
+      color: @message_ok_text;
     }
   }
   &.flash_message_warning {
-    background-color: @flash_message_warning_bg;
-    border: @flash_message_warning_border;
-    color: @flash_message_warning_text;
-    a.icon-close {
-      border: @flash_message_warning_border;
-      color: @flash_message_warning_text;
+    background-color: @message_warning_bg;
+    border-color: @message_warning_border;
+    color: @message_warning_text;
+    a.button.wi-tiny {
+      border: @message_warning_border;
+      color: @message_warning_text;
     }
   }
   &.flash_message_info {
-    background-color: @flash_message_info_bg;
-    border: @flash_message_info_border;
-    color: @flash_message_info_text;
-    a.icon-close {
-      border: @flash_message_info_border;
-      color: @flash_message_info_text;
+    background-color: @message_info_bg;
+    border: @message_info_border;
+    color: @message_info_text;
+    a.button.wi-tiny {
+      border: @message_info_border;
+      color: @message_info_text;
     }
   }
 
@@ -542,7 +851,7 @@ pre.filecontent {
     font-weight: bold;
     float: left;
     display: block ;
-    padding-right: 1.0em ; 
+    padding-right: 1.0em ;
   }
   .flash_notification{
     float: left;
@@ -643,10 +952,43 @@ span.dimmed-text {
 // --------------------------------------
 
 hr {
-    background-color: #006400;
+    background-color: #79B61B; // #006400
     border: none;
-    color: #79B61B;
-    height: 2px;
+    //color: #79B61B;
+    height: 1px; 
+}
+
+ul,
+ol {
+  font-size: @font-size-base ;
+
+  li {
+    font-size: @font-size-small ;
+  }
+}
+.wrapper .col{
+  ul {
+    list-style:circle inside;
+    padding: 0 ;
+    margin: 0 ;
+    li{
+      padding: 0 0 0 -0.6em ;
+      margin: 0 0 0 0 ;
+    }
+  }
+}
+
+
+// --------------------------------------
+// DEPRACETED STUFF (BUT WILL IT BE AVAILABLE FOR A LONGER TIME?)
+// --------------------------------------
+// PENDENT: Programmmaesig loesen, vor allem primitive Ueberschriften und "Not records Found"-Meldungen
+
+#content {
+  &>p { margin: 0.6em 2.0em 1.0em 1.0em }
+  &>p.message_hint { 
+    margin: 0.6em 2.0em 1.0em 1.0em 
+  }
 }
 
 

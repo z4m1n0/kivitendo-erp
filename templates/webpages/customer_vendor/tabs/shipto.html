@@ -18,12 +18,12 @@
   %]
 </div>
 
-<div class="pad-wrapper">
+<div class="wrapper">
 
 <div class="item">
 
 
-<table id="shipto_table" class="tbl-horizontal col">
+<table id="shipto_table" class="tbl-horizontal">
   <caption>[% 'Name and address' | $T8 %]</caption>
   <tbody>
     <tr>
@@ -68,7 +68,7 @@
 </table>
 
 
-<table class="tbl-horizontal col">
+<table class="tbl-horizontal">
   <caption>[% 'Communication' | $T8 %]</caption>
   <tbody>
     <tr>
@@ -105,7 +105,7 @@
 
   </div><!-- /.item -->
 
-</div><!-- /.pad-wrapper -->
+</div><!-- /.wrapper -->
 
 [% L.button_tag('submitInputButton(this);', LxERP.t8('Delete Shipto'), name = 'action_delete_shipto', class = 'submit') %]
 [% IF ( !SELF.shipto.shipto_id ) %]

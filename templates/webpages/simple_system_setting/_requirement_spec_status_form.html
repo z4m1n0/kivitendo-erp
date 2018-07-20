@@ -1,16 +1,16 @@
 [%- USE LxERP -%]
 [%- USE L -%]
-[% SET style="width: 250px" %]
-<div class="pad-wrapper">
+
+<div class="wrapper">
   <table class="tbl-horizontal">
     <tbody>
       <tr>
         <td> [% LxERP.t8("Name") %] </td>
-        <td> [% L.select_tag("object.name", SELF.valid_names, default=SELF.object.name, style=style) %] </td>
+        <td> [% L.select_tag("object.name", SELF.valid_names, default=SELF.object.name, class="wi-wide") %] </td>
       </tr>
       <tr>
         <td> [% LxERP.t8("Description") %] </td>
-        <td> [% L.input_tag("object.description", SELF.object.description, style=style, "data-validate"="required", "data-title"=LxERP.t8("Description")) %] </td>
+        <td> [% L.input_tag("object.description", SELF.object.description, "data-validate"="required", "data-title"=LxERP.t8("Description"), class="wi-wide") %] </td>
       </tr>
     </tbody>
   </table>

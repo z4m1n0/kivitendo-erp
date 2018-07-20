@@ -1,22 +1,22 @@
-[%- USE T8 %]
-[%- USE HTML %]
-[%- USE LxERP %]
-[%- USE L %]
-[%- IF is_req_quo || is_pur_ord %]
-  [%- SET allow_invoice=1 %]
-[%- ELSIF is_sales_quo && INSTANCE_CONF.get_allow_sales_invoice_from_sales_quotation %]
-  [%- SET allow_invoice=1 %]
-[%- ELSIF is_sales_ord && INSTANCE_CONF.get_allow_sales_invoice_from_sales_order %]
-  [%- SET allow_invoice=1 %]
-[%- ELSE %]
-  [%- SET allow_invoice=0 %]
-[%- END %]
+[% USE T8 %]
+[% USE HTML %]
+[% USE LxERP %]
+[% USE L %]
+[% IF is_req_quo || is_pur_ord %]
+  [% SET allow_invoice=1 %]
+[% ELSIF is_sales_quo && INSTANCE_CONF.get_allow_sales_invoice_from_sales_quotation %]
+  [% SET allow_invoice=1 %]
+[% ELSIF is_sales_ord && INSTANCE_CONF.get_allow_sales_invoice_from_sales_order %]
+  [% SET allow_invoice=1 %]
+[% ELSE %]
+  [% SET allow_invoice=0 %]
+[% END %]
 
 <div class="wrapper" style="width:100%">
 
 
 [% IF show_weight %]
-<table class="tbl-plain col">
+<table class="tbl-plain">
   <tbody>
     <tr>
       <th> [% 'Total weight' | $T8 %] </th>
@@ -28,7 +28,7 @@
 
 
 [% IF is_sales %]
-<table class="tbl-plain col">
+<table class="tbl-plain">
 	<tbody>
 		<tr>
 			<th> [% 'Ertrag' | $T8 %] </th>
@@ -49,9 +49,9 @@
 
 
 <div class="col">
-  [%- IF taxaccounts %]
+  [% IF taxaccounts %]
     <input type="hidden" name="taxincluded_changed_by_user" id="taxincluded_changed_by_user" value="[% taxincluded_changed_by_user ? '1' : '0' %]">
-    <input type="checkbox" name="taxincluded" class="checkbox" onclick="document.getElementById('taxincluded_changed_by_user').value = '1';" value="1"[% IF taxincluded %] checked[% END %]>
+    <input type="checkbox" name="taxincluded" onclick="document.getElementById('taxincluded_changed_by_user').value = '1';" value="1"[% IF taxincluded %] checked[% END %]>
     <b>[% 'Tax Included' | $T8 %]</b>
   [% END %]
 </div>
@@ -59,19 +59,19 @@
 
 <table class="tbl-plain col-right">
   <tbody>
-    [%- IF NOT taxincluded %] 
+    [% IF NOT taxincluded %] 
     <tr>
       <th>[% 'Subtotal' | $T8 %]</th>
       <td>[% LxERP.format_amount(invsubtotal, 2) %]</td>
     </tr>
-    [%- END %] 
+    [% END %] 
     [% tax %] 
-    [%- IF rounding %] 
+    [% IF rounding %] 
     <tr>
       <th>[% 'Rounding' | $T8 %]</th>
       <td>[% LxERP.format_amount(rounding, 2) %]</td>
     </tr>
-    [%- END %] 
+    [% END %] 
     <tr>
       <th>[% 'Total' | $T8 %]</th>
       <td>
@@ -91,9 +91,9 @@
 
 
 
-[%- PROCESS 'webdav/_list.html' %]
+[% PROCESS 'webdav/_list.html' %]
 <div id="ui-tabs-1">
- [%- LxERP.t8("Loading...") %]
+ [% LxERP.t8("Loading...") %]
 </div>
 
 
@@ -109,7 +109,7 @@
 [% END %]
 
 <div id="shipto_inputs" class="hidden">
- [%- PROCESS 'common/_ship_to_dialog.html' %]
+ [% PROCESS 'common/_ship_to_dialog.html' %]
 </div>
 
 <div id="email_inputs" class="hidden"></div>
@@ -122,5 +122,5 @@
 
 <div id="shipto_dialog" class="hidden"></div>
 <div id="print_dialog" class="hidden">
- [%- PROCESS 'common/_print_dialog.html' %]
+ [% PROCESS 'common/_print_dialog.html' %]
 </div>

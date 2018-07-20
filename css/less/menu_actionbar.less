@@ -130,8 +130,8 @@
         position: absolute;
         top: 0;
         right: 0;
-        width: 14px;
-        height: 15px;
+        width: 24px !important;
+        height: 25px !important;
         border: 1px @actionbar-border-color solid;
         border-left: none;
         border-top-right-radius: 0.3em ;
@@ -139,18 +139,18 @@
         padding: 4px;
         background-color: @actionbar-bg ;
 
-        &:after{
-          content: "";
-          width: 0;
-          height: 0;
-          position: absolute;
-          right: 8px;
-          top: 50%;
-          margin-top: -3px;
-          border-width: 3px 3px 0 3px;
-          border-style: solid;
-          border-color: black transparent;
-        }
+//         &:after{
+//           content: "";
+//           width: 0;
+//           height: 0;
+//           position: absolute;
+//           right: 8px;
+//           top: 50%;
+//           margin-top: -3px;
+//           border-width: 3px 3px 0 3px;
+//           border-style: solid;
+//           border-color: black transparent;
+//         }
 
         &:hover{ color: #FE5F14; }
 
@@ -194,7 +194,7 @@
     // Combobox active
     &.active {
       div.layout-actionbar-combobox-head{
-        height: 29px ;
+        height: 29px;
         border-bottom: none !important ;
         
         div { 
@@ -207,7 +207,7 @@
           background-color: @actionbar-bg-active !important ; 
           border-bottom-right-radius: 0 !important;
           border-bottom: none;
-          height: 24px ;
+          height: 30px !important ;
         }
       
       }

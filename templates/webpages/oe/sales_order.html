@@ -1,8 +1,8 @@
-[%- USE T8 %]
-[%- USE HTML %]
-[%- USE L %]
-[%- USE LxERP %]
-[%- PROCESS 'amcvar/render_inputs_block.html' %]
+[% USE T8 %]
+[% USE HTML %]
+[% USE L %]
+[% USE LxERP %]
+[% PROCESS 'amcvar/render_inputs_block.html' %]
 
 <div class="full-width">
 <div class="buttons positions">
@@ -38,27 +38,27 @@
       </colgroup> 
     <thead>
    <tr>
-[%- FOREACH header = HEADER %]
- [%- IF header.display %]
+[% FOREACH header = HEADER %]
+ [% IF header.display %]
     <th>[% header.value %]</th>
- [%- END %]
-[%- END %]
+ [% END %]
+[% END %]
    </tr>
    </thead>
    <tbody>
-[%- FOREACH row = ROWS %]
+[% FOREACH row = ROWS %]
      <tr>
- [%- FOREACH row1 = row.ROW1 %]
+ [% FOREACH row1 = row.ROW1 %]
       <td style="[% IF row1.align %]text-align:[% row1.align %];[% END %][% IF row1.nowrap %]white-space:nowrap;[% END %]"[% IF row1.class %] class="[% row1.class %]"[% END %]>
         [% row1.value %]
       </td>
- [%- END %]
+ [% END %]
      </tr>
      <tr style="display:none">
       <td>
- [%- FOREACH hidden = row.HIDDENS %]
+ [% FOREACH hidden = row.HIDDENS %]
       [% hidden.value %]
- [%- END %]
+ [% END %]
       </td>
      </tr>
      <tr id="row2.[% loop.count %]" [% UNLESS show_details %]style="display:none;"[% END %]>
@@ -76,34 +76,34 @@
  [%# process editable cvars  %]
  <table class="row2-cvars-table">
    <tr>
-   [%- FOREACH row2 = row.ROW2 %]
-     [%- SET show = ((row2.render_options.var.flag_editable || !row2.render_options.hide_non_editable ) && row2.render_options.valid && !row2.render_options.partsgroup_filtered) %]
-     [%- IF row2.cvar && show %]
-       [%- IF row2.line_break %]
+   [% FOREACH row2 = row.ROW2 %]
+     [% SET show = ((row2.render_options.var.flag_editable || !row2.render_options.hide_non_editable ) && row2.render_options.valid && !row2.render_options.partsgroup_filtered) %]
+     [% IF row2.cvar && show %]
+       [% IF row2.line_break %]
          </tr><tr>
-       [%- END %]
+       [% END %]
      <th>
        [% row2.description %]
      </th>
      <td>
        [% PROCESS cvar_inputs cvar = row2.render_options %]
      </td>
-     [%- END %]
-   [%- END %]
+     [% END %]
+   [% END %]
    </tr>
  </table>
 
  [%# process non editable cvars extra to not disturb the table layout (this will be hidden inputs) %]
- [%- FOREACH row2 = row.ROW2 %]
-   [%- SET hide = (!row2.render_options.var.flag_editable && row2.render_options.hide_non_editable) %]
-   [%- IF row2.cvar && hide %]
+ [% FOREACH row2 = row.ROW2 %]
+   [% SET hide = (!row2.render_options.var.flag_editable && row2.render_options.hide_non_editable) %]
+   [% IF row2.cvar && hide %]
      [% PROCESS cvar_inputs cvar = row2.render_options %]
-   [%- END %]
- [%- END %]
+   [% END %]
+ [% END %]
 
       </td>
      </tr>
-[%- END %]
+[% END %]
     </tbody>
   </table>
 </div>

@@ -2,7 +2,8 @@
 [%- USE L -%]
 [%- USE HTML -%]
 [%- SET orphaned = SELF.object.orphaned %]
-<div class="pad-wrapper">
+<div class="wrapper">
+  <div class="col">
   <table class="tbl-horizontal">
     <tbody>
       <tr>
@@ -11,12 +12,13 @@
       </tr>
       <tr>
         <th> [% LxERP.t8("Factor") %] </th>
-        <td> [% IF orphaned %] [% L.input_tag("object.factor_as_number", LxERP.t8(SELF.object.factor_as_number), "data-validate"="required", "data-title"=LxERP.t8("Factor")) %] [% ELSE %] [% HTML.escape(SELF.object.factor_as_number) %] [% END %] </td>
+        <td> [% IF orphaned %] [% L.input_tag("object.factor_as_number", LxERP.t8(SELF.object.factor_as_number), "data-validate"="required", "data-title"=LxERP.t8("Factor")) %] [% ELSE %] <span>[% HTML.escape(SELF.object.factor_as_number) %]</span> [% END %] </td>
       </tr>
     </tbody>
   </table>
-</div>
 
 [% UNLESS orphaned %]
-<p> [% LxERP.t8("Note: the object is already in use. Therefore some values cannot be changed.") %] </p>
+<div class="long-description" style="float:none;"><p> [% LxERP.t8("Note: the object is already in use. Therefore some values cannot be changed.") %] </p></div>
 [% END %]
+</div>
+</div>

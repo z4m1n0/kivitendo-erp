@@ -1,12 +1,12 @@
-[%- USE L %]
-[%- USE HTML %]
-[%- USE T8 %]
-[%- USE LxERP %]
-[%- USE P -%]
+[% USE L %]
+[% USE HTML %]
+[% USE T8 %]
+[% USE LxERP %]
+[% USE P %]
 
 <h1>[% title | html %]</h1>
 
-[%- INCLUDE 'common/flash.html' %]
+[% INCLUDE 'common/flash.html' %]
 
 <form method="post" action="[% script | html %]" id="form">
 
@@ -59,26 +59,26 @@
  
 <ul>
 	<li><a href="#ui-tabs-basic-data">[% 'Basic Data' | $T8 %]</a></li>
-	[%- IF INSTANCE_CONF.get_webdav %] 
+	[% IF INSTANCE_CONF.get_webdav %] 
 	<li><a href="#ui-tabs-webdav">[% 'WebDAV' | $T8 %]</a></li>
-	[%- END %] 
-	[%- IF id AND INSTANCE_CONF.get_doc_storage %] 
+	[% END %] 
+	[% IF id AND INSTANCE_CONF.get_doc_storage %] 
 	<li><a href="controller.pl?action=File/list&file_type=document&object_type=purchase_invoice&object_id=[% HTML.url(id) %]">[% 'Documents' | $T8 %]</a></li>
 	<li><a href="controller.pl?action=File/list&file_type=attachment&object_type=purchase_invoice&object_id=[% HTML.url(id) %]">[% 'Attachments' | $T8 %]</a></li>
-	[%- END %] 
-	[%- IF id %] 
-    [%- IF AUTH.assert('record_links', 1) %] 
+	[% END %] 
+	[% IF id %] 
+    [% IF AUTH.assert('record_links', 1) %] 
 	<li><a href="controller.pl?action=RecordLinks/ajax_list&object_model=PurchaseInvoice&object_id=[% HTML.url(id) %]">[% 'Linked Records' | $T8 %]</a></li>
-    [%- END %] 
+    [% END %] 
 	<li><a href="[% 'controller.pl?action=AccTrans/list_transactions&trans_id=' _ HTML.url(id) | html %]">[% LxERP.t8('Transactions') %]</a></li>
-	[%- END %] 
+	[% END %] 
 </ul>
 
 <div id="ui-tabs-basic-data">
 
-<div class="cols">
+<div class="wrapper">
 
-<table class="tbl-horizontal col">
+<table class="tbl-horizontal">
   <caption>[% 'Vendor & Order' | $T8 %]</caption>
 	<tbody>
 		<tr>
@@ -89,12 +89,12 @@
 			<th>[% LxERP.t8("Credit Limit") %]</th>
 			<td> [% creditlimit | html %]; [% LxERP.t8("Remaining") %] <span class="plus[% creditremaining_plus %]">[% creditremaining | html %]</span> </td>
 		</tr>
-		[%- IF invoice_obj.sepa_exports.as_list.size %] 
+		[% IF invoice_obj.sepa_exports.as_list.size %] 
 		<tr>
 			<th>[% LxERP.t8("SEPA exports") %]</th>
 			<td> [% FOREACH export = invoice_obj.sepa_exports.as_list %] <a href="sepa.pl?action=bank_transfer_edit&vc=vendor&id=[% HTML.url(export.id) %]">[% HTML.escape(export.id) %]</a> [% UNLESS loop.last %], [% END %] [% END %] </td>
 		</tr>
-		[%- END %] 
+		[% END %] 
 		<tr>
 			<th>[% 'Currency' | $T8 %]</th>
 			<td>[% L.select_tag("currency", currencies, default=currency, value_key="name", title_key="name") %]</td>
@@ -118,16 +118,16 @@
 		[% END %] 
 		<tr>
 			<td></td>
-			<th><input name="taxincluded" class="checkbox" type="checkbox" value="1" [% if ( taxincluded ) %]checked[% end %]>[% 'Tax Included' | $T8 %]</th>
+			<th><input name="taxincluded" type="checkbox" value="1" [% if ( taxincluded ) %]checked[% end %]>[% 'Tax Included' | $T8 %]</th>
 		</tr>
 		<tr>
 			<td></td>
-			<th><input name="direct_debit" class="checkbox" type="checkbox" value="1" [% if (direct_debit) %]checked[% end %]> [% 'direct debit' | $T8 %]</th>
+			<th><input name="direct_debit" type="checkbox" value="1" [% if (direct_debit) %]checked[% end %]> [% 'direct debit' | $T8 %]</th>
 		</tr>
 	</tbody>
 </table>
 
-<table class="tbl-horizontal col">
+<table class="tbl-horizontal">
   <caption>[% 'Notes' | $T8 %]</caption>
 	<tbody>
 		<tr>
@@ -141,7 +141,7 @@
 	</tbody>
 </table>
 
-<table class="tbl-horizontal col">
+<table class="tbl-horizontal">
   <caption>[% 'Number & Dates' | $T8 %]</caption>
 	<tbody>
 		<tr>
@@ -191,7 +191,7 @@
         <input type="hidden" name="tax_[% i %]" value="[% temp = " tax"_ i %][% $temp | html %]">
 			</td>
 			<td class="numeric"> 
-        <input name="amount_[% i %]" size="10" value="[% temp = " amount_"_ i %][% $temp | html %]" class="numeric wi-small">
+        <input type="text" name="amount_[% i %]" size="10" value="[% temp = " amount_"_ i %][% $temp | html %]" class="numeric wi-small">
 			</td>
 			<td class="numeric"> [% temp = "tax_"_ i %][% $temp | html %] </td>
 			<td> 
@@ -242,17 +242,17 @@
 			</td>
 			<td> 
 			  [% temp = "source_"_ i %] 
-        [% IF( changeable ) %]  <input name="[% temp %]" size="11" value="[% $temp | html %]">
+        [% IF( changeable ) %]  <input type="text" name="[% temp %]" size="11" value="[% $temp | html %]">
         [% ELSE %] [% $temp | html %]  <input type="hidden" name="[% temp %]" value="[% $temp | html %]">[% END %] 	
 			</td>
 			<td> 
 				[% temp = "memo_"_ i %] 
-        [% IF( changeable ) %] <input name="[% temp %]" size="11" value="[% $temp | html %]">
+        [% IF( changeable ) %] <input type="text" name="[% temp %]" size="11" value="[% $temp | html %]">
 			  [% ELSE %] [% $temp | html %] <input type="hidden" name="[% temp %]" value="[% $temp | html %]"> [% END %] 
 			</td>
 			<td> 
         [% temp = "paid_"_ i %] 
-        [% IF( changeable ) %]  <input name="[% temp %]" size="11" value="[% $temp | html %]" onblur="check_right_number_format(this);">
+        [% IF( changeable ) %]  <input type="text" name="[% temp %]" size="11" value="[% $temp | html %]" onblur="check_right_number_format(this);">
         [% ELSE %] [% $temp | html %] <input type="hidden" name="[% temp %]" value="[% $temp | html %]"> [% END %] 
 			</td>
 			<td> 
@@ -263,7 +263,7 @@
 			  [% temp = "exchangerate_"_ i %] 
 			  [% temp_forex = "forex_"_ i %] 
 			  [% IF( $temp_forex || !changeable ) %] [% $temp | html %] <input type="hidden" name="[% temp %]" value="[% $temp | html %]">
-			  [% ELSE %]  <input name="[% temp %]" size="11" value="[% $temp | html %]"> [% END %] 
+			  [% ELSE %]  <input type="text" name="[% temp %]" size="11" value="[% $temp | html %]"> [% END %] 
 			  <input type="hidden" name="[% temp_forex %]" value="[% $temp_forex | html %]">
 			</td>
 			[% END %] 
@@ -315,6 +315,6 @@
 </div>
 
 
-<script type='text/javascript'>
+<script type="text/javascript">
  $('#ap_set_to_paid_missing').click(function(){ $('input[name^="paid_"]:last').val('[% LxERP.format_amount(paid_missing, 2) %]') });
 </script>

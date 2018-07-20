@@ -1,25 +1,27 @@
-[% USE HTML %][% USE L %][% USE LxERP %]
+[% USE HTML %]
+[% USE L %]
+[% USE LxERP %]
 
 <h1>[% FORM.title %]</h1>
 
-[%- INCLUDE "common/flash.html" %]
+[% INCLUDE "common/flash.html" %]
 
 [% LIST_ACTION     = 'list_invoices' %]
-[%- PROCESS 'mass_invoice_create_print_from_do/_filter.html' filter=SELF.invoice_models.filtered.laundered %]
+[% PROCESS 'mass_invoice_create_print_from_do/_filter.html' filter=SELF.invoice_models.filtered.laundered %]
 
 [% IF noshow == 1 %]
 [% invoices = SELF.invoice_models.get;
    MODELS          = SELF.invoice_models %]
-[%- IF !invoices.size %]
+[% IF !invoices.size %]
  <p>
-  [%- LxERP.t8("There are currently no open invoices, or none matches your filter conditions.") %]
+  [% LxERP.t8("There are currently no open invoices, or none matches your filter conditions.") %]
  </p>
-[%- ELSE %]
+[% ELSE %]
 
  <form method="post" action="controller.pl" id="report_form">
   <table width="100%">
    <thead>
-    <tr class="listheading">
+    <tr>
      <th>[% L.checkbox_tag("", id="check_all", checkall="[data-checkall=1]") %]</th>
      <th>[% L.sortable_table_header("transdate") %]</th>
      <th>[% L.sortable_table_header("reqdate") %]</th>
@@ -31,7 +33,7 @@
    </thead>
 
    <tbody>
-    [%- FOREACH invoice = invoices %]
+    [% FOREACH invoice = invoices %]
      [% invoice_id = invoice.id
         delivery_order    = invoice.delivery_order %]
      <tr class="listrow">
@@ -49,7 +51,7 @@
       <td>[% HTML.escape(invoice.customer.name) %]</td>
       <td>[% HTML.escape(SELF.make_shipto_title(invoice.shipto || delivery_order.custom_shipto)) %]</td>
      </tr>
-    [%- END %]
+    [% END %]
    </tbody>
   </table>
 
@@ -75,5 +77,5 @@
    </p>
   </div>
  [% END %]
-[%- END %]
-[%- END %]
+[% END %]
+[% END %]

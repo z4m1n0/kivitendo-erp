@@ -18,8 +18,8 @@ sub pre_content {
   my $left  = join '', map { $_->pre_content } @{ $_[0]->left  || [] };
   my $right = join '', map { $_->pre_content } @{ $_[0]->right || [] };
 
-  SL::Presenter->get->html_tag('div', $left, class => 'layout-split-left')
-  .'<div class="layout-split-right">' . $right;
+  SL::Presenter->get->html_tag('div', $left, id => 'layout-split-left')
+  .'<div id="layout-split-right">' . $right;
 }
 
 sub post_content {

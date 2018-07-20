@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <link href="../style.css" rel="stylesheet">
+
+  <script type="text/javascript" src="/js/jquery.js"></script>
+  <script type="text/javascript" src="/js/common.js"></script>
+  <script type="text/javascript" src="/js/namespace.js"></script>
+  <script type="text/javascript" src="/js/kivi.js"></script>
+  <script type="text/javascript" src="/js/locale/de.js"></script>
+  <script type="text/javascript" src="/js/jquery-ui.js"></script>
+  <script type="text/javascript" src="/js/kivi.QuickSearch.js"></script>
+  <script type="text/javascript" src="/js/kivi.ActionBar.js"></script>
+  <script type="text/javascript" src="/js/kivi.Draft.js"></script>
+  <script type="text/javascript" src="/js/kivi.File.js"></script>
+  <script type="text/javascript" src="/js/kivi.SalesPurchase.js"></script>
+  <script type="text/javascript" src="/js/kivi.Part.js"></script>
+  <script type="text/javascript" src="/js/ckeditor/ckeditor.js"></script>
+  <script type="text/javascript" src="/js/ckeditor/adapters/jquery.js"></script>
+  <script type="text/javascript" src="/js/kivi.io.js"></script>
+  <script type="text/javascript" src="/js/autocomplete_customer.js"></script>
+  <script type="text/javascript" src="/js/client_js.js"></script>
+  <script type="text/javascript" src="/js/jquery.cookie.js"></script>
+  <script type="text/javascript" src="/js/jquery.checkall.js"></script>
+  <script type="text/javascript" src="/js/jquery.download.js"></script>
+  <script type="text/javascript" src="/js/jquery/jquery.form.js"></script>
+  <script type="text/javascript" src="/js/jquery/fixes.js"></script>
+  <script type="text/javascript" src="/js/jquery/jquery.tooltipster.min.js"></script>
+  <script type="text/javascript" src="/js/jquery/ui/i18n/jquery.ui.datepicker-de.js"></script>
+  <script type="text/javascript" src="/js/jquery.multiselect2side.js"></script>
+  <script type="text/javascript" src="/js/jquery.selectboxes.js">
+ 
+ </script>
+ 
+  <title>Spezielle Formular-Elemente</title>
+</head>
+<body class="developing">
+<header>
+  <h1>Spezielle Formular-Elemente</h1>
+	<nav><a href="index.html" title="Zur Übersicht bzw. Inhaltsverzeichnis">Zum Index</a></nav>
+</header>
+<form action="#">
+
+<div class="wrapper">
+
+
+<div class="col">
+<h2>ms2side (.ms2side / MultiSelect2Side)</h2>
+
+<div class="ms2side">
+  <p>Folgende Elemente können einer Gruppe zugeordnet werden:</p>
+  <!-- vormals:.clearfix -->
+  <select name="group_usersms2side__orig" multiple="" id="group_users" style="display: none;">
+    <option value="2">Element 2</option>
+    <option value="1">Element 1</option>
+  </select>
+  <script type="text/javascript">
+    $().ready(function() {
+      $('#group_users').multiselect2side({ moveOptions: false, labeldx: "Gruppenmitglieder", labelsx: "Alle BenutzerInnen" });
+    });
+  </script>
+  <div class="ms2side__div">
+    <div class="ms2side__select">
+      <div class="ms2side__header">
+        Alle verfügbaren Elemente
+      </div>
+      <select title="Alle BenutzerInnen" name="group_usersms2side__sx" id="group_usersms2side__sx" size="undefined" multiple="multiple">
+        <option value="2">Element 2</option>
+        <option value="1">Element 1</option>
+      </select>
+    </div>
+    <div class="ms2side__options" style="padding-top: 7.333333492279053px;">
+      <p class="AddOne ms2side__hide" title="Add Selected">›</p>
+      <p class="AddAll" title="Add All">»</p>
+      <p class="RemoveOne ms2side__hide" title="Remove Selected">‹</p>
+      <p class="RemoveAll ms2side__hide" title="Remove All">«</p>
+    </div>
+    <div class="ms2side__select">
+      <div class="ms2side__header">
+        Zugeordnete Elemente
+      </div>
+      <select title="Gruppenmitglieder" name="group_usersms2side__dx" id="group_usersms2side__dx" size="undefined" multiple="multiple">
+      </select>
+    </div>
+    <span id="group_usersms2side_hidden" style="display: none;"></span>
+  </div>
+  <script type="text/javascript">
+    $().ready(function() {
+      $('#group_clients').multiselect2side({ moveOptions: false, labeldx: "Mandanten, für die diese Gruppe gültig ist", labelsx: "Alle Mandanten" });
+    });
+  </script>
+
+</div>
+
+<div class="buttons">
+  <a class="button neutral" href="#">Zurück</a>
+  <input value="Speichern" type="button">
+</div>
+
+</div>
+
+
+
+<div class="col wi-wide">
+<h2>Boxes (.boxes)</h2>
+<div class="boxes">
+	<h3 title="Select/Deselect all"><input title="Select/Deselect" value="1" name="dummy1" type="checkbox" id="dummy1">
+		<label for="dummy1">Überschrift (Select all)</label>
+		<script type="text/javascript">$('#dummy1').checkall('.checkallgroup1');</script>
+	</h3>
+	<div>
+		<input value="1" class="checkallgroup1" id="group_rights_map_customer_vendor_edit" name="group.rights_map.customer_vendor_edit" type="checkbox">
+		<label for="group_rights_map_customer_vendor_edit">Option 1</label>
+	</div>
+	<div>
+		<input value="1" id="group_rights_map_customer_vendor_all_edit" class="checkallgroup1" name="group.rights_map.customer_vendor_all_edit" type="checkbox">
+		<label for="group_rights_map_customer_vendor_all_edit">Option 2</label>
+	</div>
+	<div>
+		<input value="1" name="group.rights_map.part_service_assembly_edit" id="group_rights_map_part_service_assembly_edit" type="checkbox" class="checkallgroup1">
+		<label for="group_rights_map_part_service_assembly_edit">Option 3</label>
+	</div>
+	<div>
+		<input value="1" name="group.rights_map.part_service_assembly_details" id="group_rights_map_part_service_assembly_details" class="checkallgroup1" type="checkbox">
+		<label for="group_rights_map_part_service_assembly_details">Option 4</label>
+	</div>
+	<div>
+		<input value="1" id="group_rights_map_project_edit" type="checkbox" name="group.rights_map.project_edit" class="checkallgroup1">
+		<label for="group_rights_map_project_edit">Option 4</label>
+	</div>
+</div>
+</div>
+
+
+</div><!-- /.wrapper -->
+
+
+
+<div class="form-addition">
+	<h3 class="h4">In Bericht aufnehmen</h3>
+	<div class="list col">
+		<h4> Numbers &amp; IDs </h4>
+		<div>
+			<input name="l_id" id="l_id" type="checkbox" value="Y">
+			<label for="l_id"> Buchungsnummer </label>
+		</div>
+		<div>
+			<input name="l_customernumber" id="l_customernumber" type="checkbox" value="Y" checked="">
+			<label for="l_customernumber"> Kundennummer </label>
+		</div>
+		<div>
+			<input name="l_taxnumber" id="l_taxnumber" type="checkbox" value="Y">
+			<label for="l_taxnumber"> Steuernummer </label>
+		</div>
+		<div>
+			<input name="l_invnumber" id="l_invnumber" type="checkbox" value="Y">
+			<label for="l_invnumber"> Rechnungen </label>
+		</div>
+	</div>
+	<div class="list col">
+		<h4> Kunde </h4>
+		<div>
+			<input name="l_name" id="l_name" type="checkbox" value="Y" checked="">
+			<label for="l_name"> Kundenname </label>
+		</div>
+		<div>
+			<input name="l_contact" id="l_contact" type="checkbox" value="Y" checked="">
+			<label for="l_contact"> Kontakt </label>
+		</div>
+	</div>
+	<div class="list col">
+		<h4> Adresse </h4>
+		<div>
+			<input name="l_street" id="l_street" type="checkbox" value="Y" checked="">
+			<label for="l_street"> Straße </label>
+		</div>
+		<div>
+			<input name="l_zipcode" id="l_zipcode" type="checkbox" value="Y" checked="">
+			<label for="l_zipcode"> PLZ </label>
+		</div>
+		<div>
+			<input name="l_city" id="l_city" type="checkbox" value="Y" checked="">
+			<label for="l_city"> Stadt </label>
+		</div>
+		<div>
+			<input name="l_country" id="l_country" type="checkbox" value="Y" checked="">
+			<label for="l_country"> Land </label>
+		</div>
+		<div>
+			<input name="l_gln" id="l_gln" type="checkbox" value="Y" checked="">
+			<label for="l_gln"> GLN </label>
+		</div>
+	</div>
+	<div class="list col">
+		<h4> Benutzerdefinierte Variablen </h4>
+<!-- PENDENT: bessere Loesung suchen -->
+		<input type="checkbox" name="l_cvar_Geburtsdatum" id="l_cvar_Geburtsdatum" value="Y">
+		<label for="l_cvar_Geburtsdatum">Geburtsdatum</label>
+	</div>
+</div>
+
+
+<div class="wrapper">
+
+
+<div class="filter_toggle" style="display: block;">
+	<a href="#" onclick="javascript:$(&quot;.filter_toggle&quot;).toggle()" class="button toggle off neutral">Filter zeigen</a> Aktiv, Gültig 
+</div>
+<div class="filter_toggle" style="display: none;">
+	<a href="#" onclick="javascript:$(&quot;.filter_toggle&quot;).toggle()" class="button toggle on neutral with-panel">Filter verbergen</a> 
+	<div class="filter-toggle-panel">
+		<table id="filter_table" class="tbl-horizontal">
+			<caption>Projekt</caption>
+			<tbody>
+				<tr>
+					<th>Nummer</th>
+					<td><input id="filter_projectnumber_substr_ilike" value="" class="wi-normal" name="filter.projectnumber:substr::ilike" type="text">
+					</td>
+				</tr>
+				<tr>
+					<th>Beschreibung</th>
+					<td><input id="filter_description_substr_ilike" value="" name="filter.description:substr::ilike" class="wi-normal initial_focus" type="text">
+					</td>
+				</tr>
+				<tr>
+					<th>Kunde</th>
+					<td><input type="text" class="wi-normal" name="filter.customer.name:substr::ilike" id="filter_customer_name_substr_ilike" value="">
+					</td>
+				</tr>
+				<tr>
+					<th>Projekttyp</th>
+					<td> 
+					<select id="filter_project_type_id" class="wi-normal" name="filter.project_type_id">
+						<option value=""></option>
+						<option value="1">Standard</option>
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<th>Projektstatus</th>
+					<td> 
+					<select id="filter_project_status_id" class="wi-normal" name="filter.project_status_id">
+						<option value=""></option>
+						<option value="1">Akquise</option>
+						<option value="2">In Planung</option>
+					</select>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<table class="tbl-horizontal">
+			<caption>In Bericht aufnehmen</caption>
+			<tbody>
+				<tr>
+					<td> 
+					<select style="width: 200px" name="filter.active" id="filter_active">
+						<option selected="" value="active">Aktiv</option>
+						<option value="inactive">Inaktiv</option>
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<td> 
+					<select id="filter_valid" style="width: 200px" name="filter.valid">
+						<option value="valid" selected="">Gültig</option>
+						<option value="invalid">Ungültig</option>
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<td> 
+					<select id="filter_status" style="width: 200px" name="filter.status">
+						<option value="all">Alle</option>
+						<option value="orphaned">Nie benutzt</option>
+					</select>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="buttons">
+			<input type="button" onclick="$(&quot;#search_form&quot;).resetForm()" class="neutral" value="Zurücksetzen">
+		</div>
+	</div>
+<!-- /.filter_panel -->
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+</form>
+</body>
+</html>

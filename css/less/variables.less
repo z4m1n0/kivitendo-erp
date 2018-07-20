@@ -134,64 +134,157 @@
 
 // --------------
 // Standard Dimensions
-// Only for Form elements and Table Cells
+// Only for Containers like DIV, TABLE, TH, TD, COL, P
 //
-// Form elements: INPUT, SELECT & TEXTAREA
 // Table cells:   COL, TD, TH, DIV
 //
 
-@wi-smallest:           2.6em ; // one or two ciphers
-@wi-verysmall:          5.0em ;
-@wi-small:              7.0em ;
-@wi-mediumsmall:        9.0em ;
-@wi-normal:            12.0em ;
-@wi-lightwide:         14.0em ; // min-width
-@wi-wide:              18.0em ; // min-width
-@wi-wider:             24.0em ; // min-width
-@wi-verywide:          36.0em ; // min-width
+@wi-smallest:       41.6px ;    //2.6em ; // one or two ciphers
+@wi-verysmall:      80.0px ;    //5.0em ;
+@wi-small:          128px ; //    8.0em ; // Date 2018/06/06
+@wi-mediumsmall:    160px ; //  10.0em ;
+@wi-normal:         208px ; //   13.0em ;
+@wi-lightwide:      256px ; //   16.0em ; // min-width
+@wi-wide:           320px ; //   20.0em ; // min-width
+@wi-wider:          384px ; //   24.0em ; // min-width
+@wi-verywide:       576px ; //  36.0em ; // min-width
 
 
 
 // --------------
-// Dimensions for Table Colums (TH, TD & Col)
+// Dimensions for DIVs
 //
 
-@tcol-wi-smallest:     (@wi-smallest) ;
-@tcol-wi-verysmall:    (@wi-verysmall   + 1.0em) ;
-@tcol-wi-small:        (@wi-small       + 0.6em) ;
-@tcol-wi-mediumsmall:  (@wi-mediumsmall + 0.6em) ;
-@tcol-wi-normal:       (@wi-normal      + 1.0em) ;
-@tcol-wi-lightwide:    (@wi-lightwide   + 1.0em) ;
-@tcol-wi-wide:         (@wi-wide)                ; // min-width
-@tcol-wi-wider:        (@wi-wider)               ; // min-width
-@tcol-wi-verywide:     (@wi-verywide)            ; // min-width
+@div-wi-smallest:     (@wi-smallest    ) ;
+@div-wi-verysmall:    (@wi-verysmall   ) ;
+@div-wi-small:        (@wi-small       ) ;
+@div-wi-mediumsmall:  (@wi-mediumsmall ) ;
+@div-wi-normal:       (@wi-normal      ) ;
+@div-wi-lightwide:    (@wi-lightwide   ) ;
+@div-wi-wide:         (@wi-wide        ) ; // min-width
+@div-wi-wider:        (@wi-wider       ) ; // min-width
+@div-wi-verywide:     (@wi-verywide    ) ; // min-width
+
+
+// --------------
+// Dimensions for Table Colums (TH, TD & Col)
+// 
+
+@tcol-wi-smallest:     (@wi-smallest    ) ;
+@tcol-wi-verysmall:    (@wi-verysmall   ) ;
+@tcol-wi-small:        (@wi-small       ) ;
+@tcol-wi-mediumsmall:  (@wi-mediumsmall ) ;
+@tcol-wi-normal:       (@wi-normal      ) ;
+@tcol-wi-lightwide:    (@wi-lightwide   ) ;
+@tcol-wi-wide:         (@wi-wide        ) ; // min-width
+@tcol-wi-wider:        (@wi-wider       ) ; // min-width
+@tcol-wi-verywide:     (@wi-verywide    ) ; // min-width
+
+// --------------
+// Dimensions for Tables with combination Table column widths
+//
+
+@table-wi-small-small:            (@tcol-wi-small       + @tcol-wi-small        ) ;
+@table-wi-small-mediumsmall:      (@tcol-wi-small       + @tcol-wi-mediumsmall  ) ;
+@table-wi-small-normal:           (@tcol-wi-small       + @tcol-wi-normal       ) ;
+@table-wi-small-lightwide:        (@tcol-wi-small       + @tcol-wi-lightwide    ) ;
+@table-wi-small-wide:             (@tcol-wi-small       + @tcol-wi-wide         ) ;
+@table-wi-mediumsmall-lightwide:  (@tcol-wi-mediumsmall + @tcol-wi-lightwide    ) ;
+@table-wi-mediumsmall-wide:       (@tcol-wi-mediumsmall + @tcol-wi-wide         ) ;
+@table-wi-normal-mediumsmall:     (@tcol-wi-normal      + @tcol-wi-mediumsmall  ) ;
+@table-wi-normal-lightwide:       (@tcol-wi-normal      + @tcol-wi-lightwide    ) ;
+@table-wi-normal-wide:            (@tcol-wi-normal      + @tcol-wi-wide         ) ;
+@table-wi-normal-wider:           (@tcol-wi-normal      + @tcol-wi-wider        ) ; 
+@table-wi-lightwide-wide:         (@tcol-wi-lightwide   + @tcol-wi-wide         ) ; 
+@table-wi-lightwide-wider:        (@tcol-wi-lightwide   + @tcol-wi-wider        ) ; 
+
+
+
+
+
+
 
 // --------------
 // Dimensions for Form elements
 //
 
+@diff-input-select: 36px ; //1.6em ;
+
 // Input elements
-@input-wi-smallest:     (@wi-smallest) ;
-@input-wi-verysmall:    (@wi-verysmall   - 1.0em) ;
-@input-wi-small:        (@wi-small       - 0.6em) ;
-@input-wi-mediumsmall:  (@wi-mediumsmall - 0.6em) ;
-@input-wi-normal:       (@wi-normal      - 0.6em) ;
-@input-wi-lightwide:    (@wi-lightwide   - 0.6em) ;
-@input-wi-wide:         (@wi-wide)                ; // min-width
-@input-wi-wider:        (@wi-wider)               ; // min-width
-@input-wi-verywide:     (@wi-verywide)            ; // min-width
+
+@input-wi-smallest:     (@wi-smallest  ) ;
+@input-wi-verysmall:    (@wi-verysmall ) ;
+@input-wi-small:        (@wi-small       - @diff-input-select) ;
+@input-wi-mediumsmall:  (@wi-mediumsmall - @diff-input-select) ;
+@input-wi-normal:       (@wi-normal      - @diff-input-select) ;
+@input-wi-lightwide:    (@wi-lightwide   - @diff-input-select) ;
+@input-wi-wide:         (@wi-wide)       - @diff-input-select ; // min-width
+@input-wi-wider:        (@wi-wider)      - @diff-input-select ; // min-width
+@input-wi-verywide:     (@wi-verywide)   - @diff-input-select ; // min-width
 
 // Select elements
-@select-wi-smallest:    (@wi-smallest             ) ;
-@select-wi-verysmall:   (@wi-verysmall            ) ;
-@select-wi-small:       (@wi-small                ) ;
-@select-wi-mediumsmall: (@wi-mediumsmall + 0.2em  ) ;
-@select-wi-normal:      (@wi-normal      + 0.1em  ) ;
-@select-wi-lightwide:   (@wi-lightwide            ) ;
-@select-wi-wide:        (@wi-wide        + 0.66em ) ; // min-width
-@select-wi-wider:       (@wi-wider       + 0.66em ) ; // min-width
-@select-wi-verywide:    (@wi-verywide             ) ; // min-width
 
+@select-wi-smallest:    (@wi-smallest    ) ;
+@select-wi-verysmall:   (@wi-verysmall   ) ;
+@select-wi-small:       (@wi-small       - @diff-input-select ) ;
+@select-wi-mediumsmall: (@wi-mediumsmall - @diff-input-select ) ;
+@select-wi-normal:      (@wi-normal      - @diff-input-select ) ;
+@select-wi-lightwide:   (@wi-lightwide   - @diff-input-select ) ;
+@select-wi-wide:        (@wi-wide        - @diff-input-select ) ; // min-width
+@select-wi-wider:       (@wi-wider       - @diff-input-select ) ; // min-width
+@select-wi-verywide:    (@wi-verywide    - @diff-input-select ) ; // min-width
+
+
+
+// Textarea elements with standard dimensions
+
+@textarea-wi-normal:      (@wi-normal      - @diff-input-select ) ;
+@textarea-wi-lightwide:   (@wi-lightwide   - @diff-input-select ) ;
+@textarea-wi-wide:        (@wi-wide        - @diff-input-select ) ; // min-width
+@textarea-wi-wider:       (@wi-wider       - @diff-input-select ) ; // min-width
+@textarea-wi-verywide:    (@wi-verywide    - @diff-input-select ) ; // min-width
+
+// Textarea elements with combined dimensions
+@diff-input-textarea-combined: 1px ; //1.6em ;
+@textarea-wi-small-small:       (((@wi-small + @wi-small)       - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-small-mediumsmall: (((@wi-small + @wi-mediumsmall) - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-small-normal:      (((@wi-small + @wi-normal)      - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-small-lightwide:   (((@wi-small + @wi-lightwide)   - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-small-wide:        (((@wi-small + @wi-wide)        - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-small-wider:       (((@wi-small + @wi-wider)       - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-small-verywide:    (((@wi-small + @wi-verywide)    - @diff-input-select) - @diff-input-textarea-combined) ;
+
+@textarea-wi-mediumsmall-small:        (((@wi-mediumsmall + @wi-small)         - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-mediumsmall-mediumsmall:  (((@wi-mediumsmall + @wi-mediumsmall)   - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-mediumsmall-normal:       (((@wi-mediumsmall + @wi-normal)        - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-mediumsmall-lightwide:    (((@wi-mediumsmall + @wi-lightwide)     - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-mediumsmall-wide:         (((@wi-mediumsmall + @wi-wide)          - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-mediumsmall-wider:        (((@wi-mediumsmall + @wi-wider)         - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-mediumsmall-verywide:     (((@wi-mediumsmall + @wi-verywide)      - @diff-input-select) - @diff-input-textarea-combined) ;
+
+@textarea-wi-normal-small:        (((@wi-normal + @wi-small)         - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-normal-mediumsmall:  (((@wi-normal + @wi-mediumsmall)   - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-normal-normal:       (((@wi-normal + @wi-normal)        - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-normal-lightwide:    (((@wi-normal + @wi-lightwide)     - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-normal-wide:         (((@wi-normal + @wi-wide)          - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-normal-wider:        (((@wi-normal + @wi-wider)         - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-normal-verywide:     (((@wi-normal + @wi-verywide)      - @diff-input-select) - @diff-input-textarea-combined) ;
+
+@textarea-wi-lightwide-small:       (((@wi-lightwide + @wi-small)         - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-lightwide-mediumsmall: (((@wi-lightwide + @wi-mediumsmall)   - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-lightwide-normal:      (((@wi-lightwide + @wi-normal)        - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-lightwide-lightwide:   (((@wi-lightwide + @wi-lightwide)     - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-lightwide-wide:        (((@wi-lightwide + @wi-wide)          - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-lightwide-wider:       (((@wi-lightwide + @wi-wider)         - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-lightwide-verywide:    (((@wi-lightwide + @wi-verywide)      - @diff-input-select) - @diff-input-textarea-combined) ;
+
+@textarea-wi-wide-small:        (((@wi-wide + @wi-small)         - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-wide-mediumsmall:  (((@wi-wide + @wi-mediumsmall)   - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-wide-normal:       (((@wi-wide + @wi-normal)        - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-wide-lightwide:    (((@wi-wide + @wi-lightwide)     - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-wide-wide:         (((@wi-wide + @wi-wide)          - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-wide-wider:        (((@wi-wide + @wi-wider)         - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-wide-verywide:     (((@wi-wide + @wi-verywide)      - @diff-input-select) - @diff-input-textarea-combined) ;
 
 
 
@@ -211,12 +304,12 @@
 //
 // like Wrappers, Colums Containers, Flash-Messages and Record Selection
 
-@contentbox-margin:     1.0em 1.0em 1.0em 1.0em ;
+@contentbox-margin:     1.0em 1.0em 0.0em 1.0em ;
 @contentbox-padding:    0 1.0em 1.0em 1.0em ;
 @contentbox-radius:     0.3em ;
 
 @message-margin:        1.0em 2.0em 0.6em 1.0em ;
-@message-padding:       0.6em 1.6em 0.5em 0.6em ;
+@message-padding:       0.6em 0.6em 0.5em 0.6em ;
 
 @instructionbox-bg:     #E6E6E6 ;
 @instructionbox-border: 1px #808080 solid ;
@@ -243,8 +336,8 @@
 // Font family
 //
 
-@font-family-sans-serif:  Verdana, "Helvetica Neue", Helvetica, Arial, sans-serif;
-@font-family-serif:       Georgia, "Times New Roman", Times, serif;
+@font-family-sans-serif:  Verdana, "Helvetica Neue", Helvetica, Arial, sans-serif ;
+@font-family-serif:       Georgia, "Times New Roman", Times, serif ;
 @font-family-monospace:   Monaco, Menlo, Consolas, "Courier New", monospace;
 @font-family-base:        @font-family-sans-serif;
 
@@ -255,6 +348,7 @@
 
 @font-size-base:          12pt; // vorh.14px
 @font-size-large:         ceil(@font-size-base * 1.25); //  ~18px
+@font-size-medium:        ceil(@font-size-base * 1.0 ); //  ~18px
 @font-size-small:         ceil(@font-size-base * 0.85); //  ~11px
 @font-size-smaller:       ceil(@font-size-base * 0.76); //  ~12px
 
@@ -344,10 +438,40 @@
 // --------------------------------------
 
 @btn-font-weight:                normal;
+// -------------------
+// Standard-Button (with Submission)
+// 
+// Standard
+@btn-default-color:              #5562B2;
+@btn-default-bg:                 #99CCFF;
+@btn-default-border:             #5562B2;
+// Hover
+@btn-default-hover-color:              #ffffff;
+@btn-default-hover-bg:                 #5562B2;
+@btn-default-hover-border:             #99CCFF;
+// Active
+@btn-default-active-color:              #ffffff;
+@btn-default-active-bg:                 #757EFF;
+@btn-default-active-border:             #5562B2;
 
-@btn-default-color:              #333;
-@btn-default-bg:                 #fff;
-@btn-default-border:             #ccc;
+// -------------------
+// Neutral-Button (NO Submission)
+// 
+// Standard
+@btn-neutral-color:              #666666;
+@btn-neutral-bg:                 #cdcdcd;
+@btn-neutral-border:             #666666;
+// Hover
+@btn-neutral-hover-color:              #000000;
+@btn-neutral-hover-bg:                 #BBBBBB;
+@btn-neutral-hover-border:             #666666;
+// Active
+@btn-neutral-active-color:              #3C72A7;
+@btn-neutral-active-bg:                 #9BC6EE;
+@btn-neutral-active-border:             #3C72A7;
+
+
+
 
 @btn-primary-color:              #fff;
 @btn-primary-bg:                 @brand-primary;
@@ -498,7 +622,7 @@
 
 @menu_bg:               #fff ;
 @menu_link:             #000 ;
-@menu_link_bg:          #EBEBEB ; // display:block
+@menu_link_bg:          #ebebeb ; // display:block
 @menu_link_hover:       #000 ;
 @menu_link_hover_bg:    #ebebeb ;
 @menu_link_hover_deco:  underline ;
@@ -516,12 +640,12 @@
 // --------------
 // Context-Menu (layout-actionbar)
 //
-@actionbar-bg:                  #BCEC6D;
-@actionbar-bg-active:           #BCEC6D;
-@actionbar-font-color:          #1A920F;
-@actionbar-font-color-active:   #1A920F;
-@actionbar-border-color:        #30B21E;
-@actionbar-border-color-active: #21AF20;
+@actionbar-bg:                  #bcec6d;
+@actionbar-bg-active:           #bcec6d;
+@actionbar-font-color:          #1a920f;
+@actionbar-font-color-active:   #1a920f;
+@actionbar-border-color:        #30b21e;
+@actionbar-border-color-active: #21af20;
 
 
 
@@ -562,35 +686,28 @@
 // --------------------------------------
 
 // --------------
-// Message Old-Style
-//
-
-@message_error_bg :            #000 ;
-@message_error_border :        #000 ;
-@message_error_text :          #000 ;
-@message_ok_bg :               #000 ;
-@message_ok_border :           #000 ;
-@message_ok_text :             #000 ;
-@message_hint_bg :             #000 ;
-@message_hint_border :         #000 ;
-@message_hint_text :           #000 ;
-
-// --------------
 // Flash Messages
 //
-
-@flash_message_error_bg:       #FFD6D6 ;
-@flash_message_error_border:   1px solid #AE0014 ;
-@flash_message_error_text:     #AE0014 ;
-@flash_message_warning_bg:     #FFE8C7 ;
-@flash_message_warning_border: 1px solid #FF6600 ;
-@flash_message_warning_text:   #FF6600 ;
-@flash_message_info_bg:        #DCF2FF ;
-@flash_message_info_border:    1px solid #4690FF ;
-@flash_message_info_text:      #4690FF ;
-@flash_message_ok_bg:          #ADFFB6 ;
-@flash_message_ok_border:      1px solid #007F0F ;
-@flash_message_ok_text:        #007F0F ;
+// Error
+@message_error_bg:       #FFD6D6 ;
+@message_error_border:   1px solid #ae0014 ;
+@message_error_text:     #AE0014 ;
+// OK
+@message_ok_bg:          #C9EE8E ;
+@message_ok_border:      1px solid #088604 ;
+@message_ok_text:        #088604 ;
+// Info & Hint
+@message_info_bg:        #BEE1E6 ;
+@message_info_border:    1px solid #0039c1 ;
+@message_info_text:      #0039C1 ;
+// Warning
+@message_warning_bg:     #F6D972 ;
+@message_warning_border: 1px solid #6D613E ;
+@message_warning_text:   #6D613E ;
+// Hint (like Info above, just to make it sure working)
+@message_hint_bg:        @message_info_bg ;
+@message_hint_border:    @message_info_border ;
+@message_hint_text:      @message_info_text ;
 
 
 

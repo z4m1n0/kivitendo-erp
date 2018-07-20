@@ -1,15 +1,12 @@
-[%- USE T8 %]
-[%- USE HTML %]
+[% USE T8 %]
+[% USE HTML %]
+
 <h1>[% 'Your TODO list' | $T8 %]</h1>
 
- [%- IF !todo_list %]
- <p>
-  [% 'There are no items on your TODO list at the moment.' | $T8 %]
- </p>
+[% IF !todo_list %]
+  <p>[% 'There are no items on your TODO list at the moment.' | $T8 %]</p>
 
- [%- ELSE %]
+[% ELSE %]
+  [% todo_list %]
 
- [%- todo_list %]
-
- [%- END %]
-
+[% END %]

@@ -1,5 +1,5 @@
-[%- USE T8 %]
-[%- USE HTML %]
+[% USE T8 %]
+[% USE HTML %]
 <h1>[% title %]</h1>
 
  <form name="Form">
@@ -14,14 +14,14 @@
     <td>
 
      <table>
-      <tr class="listheading">
-       <th class="listheading">&nbsp;</th>
-       [%- FOREACH col = HEADER %]
-       <th nowrap class="listheading"><a href="[% HTML.escape(col.callback) %]">[% col.column_title %]</a></th>
-       [%- END %]
+      <tr>
+       <th>&nbsp;</th>
+       [% FOREACH col = HEADER %]
+       <th><a href="[% HTML.escape(col.callback) %]">[% col.column_title %]</a></th>
+       [% END %]
       </tr>
 
-      [%- FOREACH row = VENDOR %]
+      [% FOREACH row = VENDOR %]
       <tr class="listrow[% loop.count % 2 %]">
        <td><button type="button" onclick="vendor_selected('[% loop.count %]')">Auswahl</button></td>
        <td>
@@ -36,7 +36,7 @@
 <!--         [% HTML.escape(row.description) %] -->
 <!--        </td> -->
       </tr>
-      [%- END %]
+      [% END %]
      </table>
 
     </td>

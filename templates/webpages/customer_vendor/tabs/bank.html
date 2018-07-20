@@ -4,8 +4,8 @@
 [% USE L %] 
 
 <div id="bank">
-  <div class="cols">
-    <table class="tbl-horizontal col">
+  <div class="wrapper">
+    <table class="tbl-horizontal">
       <caption> [% 'Bank Account' | $T8 %] </caption>
       <tbody>
         <tr>
@@ -22,7 +22,7 @@
         </tr>
       </tbody>
     </table>
-    <table class="tbl-horizontal col">
+    <table class="tbl-horizontal">
       <caption> [% 'Bank' | $T8 %] </caption>
       <tbody>
         <tr>
@@ -40,7 +40,7 @@
       </tbody>
     </table>
     [%- IF ( SELF.is_customer ) %] 
-    <table class="tbl-horizontal col">
+    <table class="tbl-horizontal">
       <caption> [% 'Mandator' | $T8 %] </caption>
       <tbody>
         <tr>

@@ -1,5 +1,5 @@
-[%- USE T8 %]
-[%- USE HTML %]
+[% USE T8 %]
+[% USE HTML %]
 <h1>[% title %]</h1>
 
  <form name="Form">
@@ -14,15 +14,15 @@
     <td>
 
      <table>
-      <tr class="listheading">
+      <tr>
        [% FOREACH col = HEADER %]
-        <th nowrap class="listheading">[% col.column_title %]</a></th>
+        <th>[% col.column_title %]</a></th>
        [% END %]
       </tr>
 
       [% FOREACH row = VARIABLES %]
        <tr class="listrow[% loop.count % 2 %]">
-        <td>[% HTML.escape(row.description) %]:</td><td><input id="[% row.name %]" name="[% row.name %]" value=""></td>
+        <td>[% HTML.escape(row.description) %]:</td><td><input type="text" id="[% row.name %]" name="[% row.name %]" value=""></td>
         <td>[% HTML.escape(row.unit) %]</td>
        </tr>
       [% END %]
@@ -36,9 +36,9 @@
 
  <script type="text/javascript">
    function calculate_qty() {
-[%- FOREACH row = VARIABLES %]
+[% FOREACH row = VARIABLES %]
      var [% row.name %] = parse_amount('[% MYCONFIG.numberformat %]', document.getElementsByName("[% row.name %]")[0].value);
-[%- END %]
+[% END %]
      var result = [% formel %];
      result = number_format(result, 2, '[% MYCONFIG.numberformat %]');
      window.opener.document.getElementsByName(document.Form.input_name.value)[0].value = result;

@@ -86,7 +86,7 @@ body {
     top: 68px ;
     left: auto ;
     right: 0.2em ;
-    margin: 0 0 0 0;
+    margin: 0 0.4em 0 0;
     padding: 0;
     background: none;
 
@@ -112,7 +112,7 @@ body {
     overflow: hidden;
     display: block;
     width: 100%;
-    background-color: #efefef;
+    background-color: #fff;
   }
 
 
@@ -127,7 +127,7 @@ body {
   // Container with Columns (including clear-break)
   //
 
-  .cols,
+  .wrapper,
   .cols-no-padding{
     clear: both;
     overflow: hidden;
@@ -146,9 +146,10 @@ body {
       p { font-size: 10pt; }
     }
     .col,
-    .col-left{
+    .col-left,
+    .tbl-horizontal{
       float: left;
-      margin-right: 1.2em;
+      margin-right: 1.8em;
     }
     .col-right{
       float: right;
@@ -170,13 +171,13 @@ body {
   // /.cols
 
   // columns-container with padding
-  .cols {
-    margin: @contentbox-margin ;
-
-    &.test .col {
-      border: 1px #6CF solid;
-    }
-  }
+//   .cols {
+//     margin: @contentbox-margin ;
+//
+//     &.test .col {
+//       border: 1px #6CF solid;
+//     }
+//   }
 
 
 
@@ -186,15 +187,14 @@ body {
   // --------------------------------------
 
   // only for seldom exceptions
+  // PENDENT: genauer anschauen
   .col{
     display: block;
     overflow: hidden;
     float: left;
     margin-right: 3.0em;
 
-    &.test {
-      border: 1px #6CF solid;
-    }
+    &.test { }
 
     div label {
       font-size: 10pt;
@@ -233,16 +233,10 @@ body {
   //  um gleichmaessig ueber den Wrapper gespannt zu sein.
   //  PENDENT: braucht es eventuell nicht
   .wrapper{
-    overflow: hidden;
-    margin: 0 ;
-    padding: 0;
-    display: block;
-    width: 100%;
 
     .col,
     .col-left {
       float: left;
-      padding-right: 2.0em ;
     }
     .col-right {
       float: right;

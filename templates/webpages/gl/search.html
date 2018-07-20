@@ -8,14 +8,14 @@
 
 <input type="hidden" name="sort" value="datesort">
 
-<div class="cols">
+<div class="wrapper">
 
-<table class="tbl-horizontal col">
+<table class="tbl-horizontal">
 	<tbody>
 		<tr>
 			<th> [% 'Reference / Invoice Number' | $T8 %] </th>
 			<td> 
-			<input name="reference" class="wi-normal" class="wi-normal initial_focus" type="text">
+			<input name="reference" class="wi-normal initial_focus" type="text">
 			</td>
 		</tr>
 		<tr>
@@ -59,9 +59,9 @@
 		<tr>
 			<th> [% 'Filter date by' | $T8 %] </th>
 			<td> 
-			<input name="datesort" class="radio" type="radio" value="transdate" checked>
+			<input name="datesort" type="radio" value="transdate" checked>
 			[% 'Transdate' | $T8 %] <br>
-			<input name="datesort" class="radio" type="radio" value="gldate">
+			<input name="datesort" type="radio" value="gldate">
 			[% 'Gldate' | $T8 %] </td>
 		</tr>
 		<tr>
@@ -82,103 +82,101 @@
 </div><!-- /.cols -->
 
 
-<div class="cols form-addition">
+<div class="wrapper form-addition">
 
 <h3>[% 'Include in Report' | $T8 %]</h3>
 
 
-<div class="list col">
+<div class="list">
   <h4>[% 'Scope' | $T8 %]</h4>
-	<p> <input name="category" class="radio" type="radio" value="X" checked> [% 'All' | $T8 %]</p>
-	<p> <input name="category" class="radio" type="radio" value="A"> [% 'Asset' | $T8 %]</p>
-	<p> <input name="category" class="radio" type="radio" value="L"> [% 'Liability' | $T8 %]</p>
-	<p> <input name="category" class="radio" type="radio" value="I"> [% 'Revenue' | $T8 %]</p>
-	<p> <input name="category" class="radio" type="radio" value="E"> [% 'Expense' | $T8 %]</p>
+	<p> <input name="category" type="radio" value="X" checked> [% 'All' | $T8 %]</p>
+	<p> <input name="category" type="radio" value="A"> [% 'Asset' | $T8 %]</p>
+	<p> <input name="category" type="radio" value="L"> [% 'Liability' | $T8 %]</p>
+	<p> <input name="category" type="radio" value="I"> [% 'Revenue' | $T8 %]</p>
+	<p> <input name="category" type="radio" value="E"> [% 'Expense' | $T8 %]</p>
 </div>
 
 
 
-<table class="tbl-plain col">
-  <caption>[% 'Transaction Details' | $T8 %]</caption>
+<table class="tbl-plain">
+	<caption>
+		[% 'Transaction Details' | $T8 %]
+	</caption>
 	<tbody>
 		<tr>
-			<td> 
-			<input name="l_transdate" class="checkbox" type="checkbox" value="Y" checked>
-			[% 'Transdate' | $T8 %]</td>
+			<td>
+				<input name="l_transdate" type="checkbox" value="Y" checked> [% 'Transdate' | $T8 %]
+			</td>
 		</tr>
 		<tr>
-			<td> 
-			<input name="l_gldate" class="checkbox" type="checkbox" value="Y" checked>
-			[% 'Gldate' | $T8 %]</td>
+			<td>
+				<input name="l_gldate" type="checkbox" value="Y" checked> [% 'Gldate' | $T8 %]
+			</td>
 		</tr>
 		<tr>
-			<td> 
-			<input name="l_id" class="checkbox" type="checkbox" value="Y">
-			[% 'ID' | $T8 %]</td>
+			<td>
+				<input name="l_id" type="checkbox" value="Y"> [% 'ID' | $T8 %]
+			</td>
 		</tr>
 		<tr>
-			<td> 
-			<input name="l_reference" class="checkbox" type="checkbox" value="Y" checked>
-			[% 'Reference' | $T8 %]</td>
+			<td>
+				<input name="l_reference" type="checkbox" value="Y" checked> [% 'Reference' | $T8 %]
+			</td>
 		</tr>
 		<tr>
-			<td> 
-			<input name="l_source" class="checkbox" type="checkbox" value="Y" checked>
-			[% 'Source' | $T8 %]</td>
+			<td>
+				<input name="l_source" type="checkbox" value="Y" checked> [% 'Source' | $T8 %]
+			</td>
 		</tr>
 		<tr>
-			<td> 
-			<input name="l_description" class="checkbox" type="checkbox" value="Y" checked>
-			[% 'Description' | $T8 %]</td>
+			<td>
+				<input name="l_description" type="checkbox" value="Y" checked> [% 'Description' | $T8 %]
+			</td>
 		</tr>
 		<tr>
-			<td> 
-			<input name="l_notes" class="checkbox" type="checkbox" value="Y">
-			[% 'Notes' | $T8 %]</td>
+			<td>
+				<input name="l_notes" type="checkbox" value="Y"> [% 'Notes' | $T8 %]
+			</td>
 		</tr>
 	</tbody>
 </table>
 
 
-<table class="tbl-plain col">
+
+
+<table class="tbl-plain">
   <caption>[% 'Accounts' | $T8 %] & [% 'Sum' | $T8 %]</caption>
 	<tbody>
 		<tr>
 			<td> 
-			<input name="l_debit" class="checkbox" type="checkbox" value="Y" checked>
-			[% 'Debit' | $T8 %]</td>
+			<input name="l_debit" type="checkbox" value="Y" checked> [% 'Debit' | $T8 %]</td>
 		</tr>
 		<tr>
 			<td> 
-			<input name="l_credit" class="checkbox" type="checkbox" value="Y" checked>
-			[% 'Credit' | $T8 %]</td>
+			<input name="l_credit" type="checkbox" value="Y" checked> [% 'Credit' | $T8 %]</td>
 		</tr>
 		<tr>
 			<td> 
-			<input name="l_accno" class="checkbox" type="checkbox" value="Y" checked>
-			[% 'Account' | $T8 %]</td>
+			<input name="l_accno" type="checkbox" value="Y" checked> [% 'Account' | $T8 %]</td>
 		</tr>
 		<tr>
 			<td> 
-			<input name="l_subtotal" class="checkbox" type="checkbox" value="Y">
-			[% 'Subtotal' | $T8 %]</td>
+			<input name="l_subtotal" type="checkbox" value="Y"> [% 'Subtotal' | $T8 %]</td>
 		</tr>
 	</tbody>
 </table>
 
 
-<table class="tbl-plain col">
+<table class="tbl-plain">
   <caption>[% 'Divers' | $T8 %]</caption>
 	<tbody>
 		<tr>
 			<td> 
-			<input name="l_projectnumbers" class="checkbox" type="checkbox" value="Y">
-			[% 'Project Number' | $T8 %]</td>
+			<input name="l_projectnumbers" type="checkbox" value="Y"> [% 'Project Number' | $T8 %]</td>
 		</tr>
 		<tr>
 			<td> 
-			<input name="l_employee" class="checkbox" type="checkbox" value="Y">
-			[% 'Employee' | $T8 %]</td>
+			<input name="l_employee" type="checkbox" value="Y"> [% 'Employee' | $T8 %]</td>
 		</tr>
 	</tbody>
 </table>

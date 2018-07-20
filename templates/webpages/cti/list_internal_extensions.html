@@ -1,4 +1,5 @@
-[%- USE HTML %][%- USE LxERP -%]
+[% USE HTML %]
+[% USE LxERP %]
 <body>
 
 <h1>[% HTML.escape(title) %]</h1>
@@ -8,17 +9,17 @@
 
 [% ELSE %]
  <table>
-  <tr class="listheading">
+  <tr>
    <th>[% LxERP.t8("Name") %]</th>
    <th>[% LxERP.t8("Phone extension") %]</th>
   </tr>
 
-  [%- FOREACH extension = SELF.internal_extensions %]
+  [% FOREACH extension = SELF.internal_extensions %]
    <tr class="listrow">
     <td>[% HTML.escape(extension.name) %]</td>
     <td><a href="[% HTML.escape(extension.call_link) %]" class="cti_call_action">[% HTML.escape(extension.phone_extension) %]</a></td>
    </tr>
-  [%- END %]
+  [% END %]
  </table>
 [% END %]
 </body>

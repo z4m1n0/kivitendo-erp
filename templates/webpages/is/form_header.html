@@ -1,8 +1,9 @@
-[%- USE T8 %]
-[%- USE HTML %]
-[%- USE LxERP %]
-[%- USE L %][%- USE P -%]
-[%- SET follow_up_trans_info = invnumber _ ' (' _ customer_obj.name _ ')' %]
+[% USE T8 %]
+[% USE HTML %]
+[% USE LxERP %]
+[% USE L %]
+[% USE P %]
+[% SET follow_up_trans_info = invnumber _ ' (' _ customer_obj.name _ ')' %]
 <script type="text/javascript" src="js/common.js"></script>
 <script type="text/javascript" src="js/delivery_customer_selection.js"></script>
 <script type="text/javascript" src="js/calculate_qty.js"></script>
@@ -10,9 +11,9 @@
 
 <form method="post" id='form' name="invoice" action="[% script %]">
 
-[%- FOREACH key = HIDDENS %]
+[% FOREACH key = HIDDENS %]
 <input type="hidden" name="[% HTML.escape(key) %]" id="[% HTML.escape(key) %]" value="[% HTML.escape($key)  %]">
-[%- END %]
+[% END %]
 <input type="hidden" name="follow_up_trans_id_1" id="follow_up_trans_id_1" value="[% id %]">
 <input type="hidden" name="follow_up_trans_type_1" id="follow_up_trans_type_1" value="sales_invoice">
 <input type="hidden" name="follow_up_trans_info_1" id="follow_up_trans_info_1" value="[% HTML.escape(follow_up_trans_info) %]">
@@ -21,62 +22,62 @@
 
 <h1>[% title %]</h1>
 
-[%- IF saved_message != '' %]<p>[% saved_message %]</p>[%- END %]
+[% IF saved_message != '' %]<p>[% saved_message %]</p>[% END %]
 
-[%- INCLUDE 'common/flash.html' %]
-[%- INCLUDE 'generic/set_longdescription.html' %]
+[% INCLUDE 'common/flash.html' %]
+[% INCLUDE 'generic/set_longdescription.html' %]
 
 <div id="is_tabs" class="tabwidget">
  <ul class="ui-tabs-nav">
   <li><a href="#ui-tabs-basic-data" class="ui-tabs">[% 'Basic Data' | $T8 %]</a></li>
-[%- IF INSTANCE_CONF.get_webdav %]
+[% IF INSTANCE_CONF.get_webdav %]
   <li><a href="#ui-tabs-webdav">[% 'WebDAV' | $T8 %]</a></li>
-[%- END %]
-[%- IF id %]
-  [%- IF INSTANCE_CONF.get_doc_storage %]
+[% END %]
+[% IF id %]
+  [% IF INSTANCE_CONF.get_doc_storage %]
   <li><a href="controller.pl?action=File/list&file_type=document&object_type=invoice&object_id=[% HTML.url(id) %]">[% 'Documents' | $T8 %]</a></li>
   <li><a href="controller.pl?action=File/list&file_type=attachment&object_type=invoice&object_id=[% HTML.url(id) %]">[% 'Attachments' | $T8 %]</a></li>
-  [%- END %]
-  [%- IF AUTH.assert('record_links', 1) %]
+  [% END %]
+  [% IF AUTH.assert('record_links', 1) %]
   <li><a href="controller.pl?action=RecordLinks/ajax_list&object_model=Invoice&object_id=[% HTML.url(id) %]">[% 'Linked Records' | $T8 %]</a></li>
-  [%- END %]
-  [%- IF AUTH.assert('invoice_edit', 1) %]
+  [% END %]
+  [% IF AUTH.assert('invoice_edit', 1) %]
   <li><a href="[% 'controller.pl?action=AccTrans/list_transactions&trans_id=' _ HTML.url(id) | html %]">[% LxERP.t8('Transactions') %]</a></li>
-  [%- END %]
-[%- END %]
+  [% END %]
+[% END %]
  </ul>
 
 <div id="ui-tabs-basic-data" class="ui-tabs-panel">
 
-  <div class="cols">
+  <div class="wrapper">
 
-  <table class="tbl-horizontal col">
+  <table class="tbl-horizontal">
     <caption>[% 'Customer &amp; Order' | $T8 %]</caption>
     <tbody>
     <tr>
       <th>[% 'Customer' | $T8 %]</th>
       <td>
-       [% P.customer_vendor_picker("customer_id", customer_id, type="customer", style="width: 250px", class="initial_focus", onchange="\$('#update_button').click()") %]
+       [% P.customer_vendor_picker("customer_id", customer_id, type="customer", class="wi-wide", class="initial_focus", onchange="\$('#update_button').click()") %]
        [% L.button_tag("show_vc_details('customer')", LxERP.t8('Details (one letter abbreviation)')) %]
        [% L.hidden_tag("previous_customer_id", customer_id) %]
        [% L.hidden_tag("customer_pricegroup_id", customer_pricegroup_id) %]
       </td>
     </tr>
-  [%- IF ALL_CONTACTS.size %]
+  [% IF ALL_CONTACTS.size %]
     <tr>
       <th>[% 'Contact Person' | $T8 %]</th>
       <td>
-        [% L.select_tag('cp_id', ALL_CONTACTS, default = cp_id, value_key = 'cp_id', title_key = 'full_name_dep', with_empty = 1, style = 'width: 250px') %]
+        [% L.select_tag('cp_id', ALL_CONTACTS, default = cp_id, value_key = 'cp_id', title_key = 'full_name_dep', with_empty = 1, class="wi-wide") %]
       </td>
     </tr>
-  [%- END %]
+  [% END %]
     <tr>
       <th>[% 'Shipping Address' | $T8 %]</th>
       <td>
-       [%- IF ALL_SHIPTO.size %]
+       [% IF ALL_SHIPTO.size %]
         [% shiptos = [ [ "", LxERP.t8("No/individual shipping address") ] ] ;
-           L.select_tag('shipto_id', shiptos.import(ALL_SHIPTO), default=shipto_id, value_key='shipto_id', title_key='displayable_id', style='width: 250px') %]
-       [%- END %]
+           L.select_tag('shipto_id', shiptos.import(ALL_SHIPTO), default=shipto_id, value_key='shipto_id', title_key='displayable_id', class="wi-wide") %]
+       [% END %]
        [% L.button_tag("kivi.SalesPurchase.edit_custom_shipto()", LxERP.t8("Custom shipto")) %]
       </td>
     </tr>
@@ -87,7 +88,7 @@
         <span class="plus[% IF is_credit_remaining_negativ %]0[% ELSE %]1[% END %]">[% LxERP.format_amount(creditremaining,0 ,'0') %]</span>
       </td>
     </tr>
-  [%- IF max_dunning_level || dunning_description  %]
+  [% IF max_dunning_level || dunning_description  %]
     <tr>
       <th>[% LxERP.t8("Dunning status") %]</th>
       <td>
@@ -104,8 +105,8 @@
        [% END %]
       </td>
     </tr>
-  [%- END %]
-  [%- IF invoice_obj.sepa_exports.as_list.size %]
+  [% END %]
+  [% IF invoice_obj.sepa_exports.as_list.size %]
     <tr>
       <th>[% LxERP.t8("SEPA exports") %]</th>
       <td>
@@ -115,13 +116,13 @@
        [% END %]
       </td>
     </tr>
-  [%- END %]
-  [%- IF business %]
+  [% END %]
+  [% IF business %]
     <tr>
       <th>[% 'Customer type' | $T8 %]</th>
       <td>[% business %]; [% 'Trade Discount' | $T8 %] [% LxERP.format_amount(tradediscount * 100) %] %</td>
     </tr>
-  [%- END %]
+  [% END %]
     <tr>
       <th>[% 'Record in' | $T8 %]</th>
       <td>
@@ -129,40 +130,40 @@
         <input type="hidden" name="selectAR" value="[% selectAR | html %]">
       </td>
     </tr>
-  [%- IF currencies %]
+  [% IF currencies %]
     <tr>
       <th>[% 'Currency' | $T8 %]</th>
       <td>[% currencies %]</td>
     </tr>
-  [%- END %]
+  [% END %]
   <!--PENDENT: Hardcoded! Ist das korrekt? hps-->
     <tr>
       <th>[% 'Steuersatz' | $T8 %]</th>
       <td>
-        [% L.select_tag('taxzone_id', ( id ? ALL_TAXZONES : ALL_ACTIVE_TAXZONES) , default = taxzone_id, title_key = 'description', disabled = (id ? 1 : 0), style='width: 250px', onchange = "document.getElementById('update_button').click();") %]
-  [%- IF id %]
+        [% L.select_tag('taxzone_id', ( id ? ALL_TAXZONES : ALL_ACTIVE_TAXZONES) , default = taxzone_id, title_key = 'description', disabled = (id ? 1 : 0), class='wi-wide', onchange = "document.getElementById('update_button').click();") %]
+  [% IF id %]
       <input type='hidden' name='taxzone_id' value='[% taxzone_id %]'>
-  [%- END %]
+  [% END %]
       </td>
     </tr>
 
-  [%- IF taxaccounts %]
+  [% IF taxaccounts %]
     <tr>
       <th>[% 'Tax Included' | $T8 %]</th>
       <td>
        <input type="hidden" name="taxincluded_changed_by_user" id="taxincluded_changed_by_user" value="[% taxincluded_changed_by_user ? '1' : '0' %]">
-       <input name="taxincluded" onclick="document.getElementById('taxincluded_changed_by_user').value = '1';" class="checkbox" type="checkbox" [% IF taxincluded %]checked[% END %]>
+       <input name="taxincluded" onclick="document.getElementById('taxincluded_changed_by_user').value = '1';" type="checkbox" [% IF taxincluded %]checked[% END %]>
       </td>
     </tr>
-  [%- END %]
-  [%- IF ALL_DEPARTMENTS %]
+  [% END %]
+  [% IF ALL_DEPARTMENTS %]
     <tr>
       <th>[% 'Department' | $T8 %]</th>
       <td>
         [% L.select_tag('department_id', ALL_DEPARTMENTS, default = department_id, title_key = 'description', with_empty = 1, style = 'width:250px') %]
       </td>
     </tr>
-  [%- END %]
+  [% END %]
     <tr style='display:none'>
       <td>
         <input type="hidden" name="fxgain_accno" value="[% fxgain_accno %]">
@@ -171,70 +172,70 @@
         <input type="hidden" name="rndloss_accno" value="[% rndloss_accno %]">
       </td>
     </tr>
-  [%- IF show_exchangerate %]
+  [% IF show_exchangerate %]
     <tr>
       <th>[% 'Exchangerate' | $T8 %]</th>
       <td>
-       [%- IF forex %]
+       [% IF forex %]
         [% LxERP.format_amount(exchangerate, 2) %]
-       [%- ELSE %]
-        <input name="exchangerate" size="10" value="[% HTML.escape(LxERP.format_amount(exchangerate)) %]">
-       [%- END %]
+       [% ELSE %]
+        <input type="text" name="exchangerate" size="10" value="[% HTML.escape(LxERP.format_amount(exchangerate)) %]">
+       [% END %]
       </td>
     </tr>
-  [%- END %]
+  [% END %]
     <tr>
       <th>[% 'Shipping Point' | $T8 %]</th>
-      <td><input size='35' name="shippingpoint" value="[% HTML.escape(shippingpoint) %]"></td>
+      <td><input type="text" class="wi-wide" name="shippingpoint" value="[% HTML.escape(shippingpoint) %]"></td>
     </tr>
     <tr>
       <th>[% 'Ship via' | $T8 %]</th>
-      <td><input size='35' name="shipvia" value="[% HTML.escape(shipvia) %]"></td>
+      <td><input type="text" class="wi-wide" name="shipvia" value="[% HTML.escape(shipvia) %]"></td>
     </tr>
     <tr>
       <th>[% 'Transaction description' | $T8 %]</th>
-      <td><input size='35' name="transaction_description" id="transaction_description" value="[% HTML.escape(transaction_description) %]"></td>
+      <td><input type="text" class="wi-wide" name="transaction_description" id="transaction_description" value="[% HTML.escape(transaction_description) %]"></td>
     </tr>
     </tbody>
   </table>
 
-  <table class="tbl-horizontal col">
+  <table class="tbl-horizontal">
     <caption>[% 'Payment / Delivery Options' | $T8 %]</caption>
     <tbody>
     <tr>
       <th>
         [% 'Payment Terms' | $T8 %]<br>
-        [% L.select_tag('payment_id', payment_terms, default = payment_id, title_key = 'description', with_empty = 1, style="width: 250px") %]
+        [% L.select_tag('payment_id', payment_terms, default = payment_id, title_key = 'description', with_empty = 1, class="wi-wide") %]
         <script type='text/javascript'>$('#payment_id').change(function(){ kivi.SalesPurchase.set_duedate_on_reference_date_change("invdate"); })</script>
       </th>
     </tr>
     <tr>
       <th>
         [% 'Delivery Terms' | $T8 %]<br>
-        [% L.select_tag('delivery_term_id', ALL_DELIVERY_TERMS, default = delivery_term_id, with_empty = 1, title_key = 'description', style = 'width: 250px') %]
+        [% L.select_tag('delivery_term_id', ALL_DELIVERY_TERMS, default = delivery_term_id, with_empty = 1, title_key = 'description', class="wi-wide") %]
       </th>
     </tr>
     <tr>
-      <th>[% 'direct debit' | $T8 %] [%- L.checkbox_tag('direct_debit', 'checked', direct_debit) %]</th>
+      <th>[% 'direct debit' | $T8 %] [% L.checkbox_tag('direct_debit', 'checked', direct_debit) %]</th>
     </tr>
     <tr>
       <th class="caption">[% 'Notes (will appear on hard copy)' | $T8 %]</th>
     </tr>
     <tr>
       <td>
-        [% L.textarea_tag("notes", notes, wrap="soft", style="width:300px; height:84px;", class="texteditor") %]
+        [% L.textarea_tag("notes", notes, wrap="soft", class="wi-wide", style="height:84px;", class="texteditor") %]
       </td>
     </tr>
      <tr>
       <th>
         [% 'Internal Notes' | $T8 %]<br>
-        <textarea name="intnotes" rows="[% rows %]" cols="35">[% intnotes %]</textarea>
+        <textarea name="intnotes" rows="[% rows %]" class="wi-wide">[% intnotes %]</textarea>
       </th>
     </tr>
   </tbody>
 </table>
 
-  <table class="tbl-horizontal col">
+  <table class="tbl-horizontal">
     <caption>[% 'Dates &amp; Numbers' | $T8 %]</caption>
     <tbody>
     <tr>
@@ -243,14 +244,14 @@
         [% L.select_tag('employee_id', ALL_EMPLOYEES, default = employee_id, title_key = 'safe_name') %]
       </td>
     </tr>
-[%- IF ALL_SALESMEN.size %]
+[% IF ALL_SALESMEN.size %]
     <tr>
       <th>[% 'Salesman' | $T8 %]</th>
       <td colspan="2">
         [% L.select_tag('salesman_id', ALL_SALESMEN, default = (salesman_id ? salesman_id : employee_id), title_key = 'safe_name') %]
       </td>
     </tr>
-[%- END %]
+[% END %]
 
     <tr>
       <th>&nbsp;</th>
@@ -258,26 +259,26 @@
       <th>[% 'Number' | $T8 %]</th>
     </tr>
 
-[%- IF is_type_credit_note %]
+[% IF is_type_credit_note %]
     <tr>
       <th>[% 'Credit Note' | $T8 %]</th>
       ,<!-- <th>[% 'Credit Note Number' | $T8 %]</th> -->
       <td>[% L.date_tag('invdate', invdate, onchange='kivi.SalesPurchase.set_duedate_on_reference_date_change("invdate")') %]</td>
-      <td><input name="invnumber" id="invnumber" value="[% HTML.escape(invnumber) %]"></td>
+      <td><input type="text" name="invnumber" id="invnumber" value="[% HTML.escape(invnumber) %]"></td>
     </tr>
     <tr>
       <th>[% 'Invoice' | $T8 %]</th>
       <td>&nbsp;</td>
-      <td><input name="invnumber_for_credit_note" id="invnumber_for_credit_note" value="[% HTML.escape(invnumber_for_credit_note) %]"></td>
+      <td><input type="text" name="invnumber_for_credit_note" id="invnumber_for_credit_note" value="[% HTML.escape(invnumber_for_credit_note) %]"></td>
     </tr>
     <tr>
     </tr>
-[%- ELSE %]
+[% ELSE %]
     <tr>
       <th>[% 'Invoice' | $T8 %]</th>
       <!-- <th>[% 'Invoice Date' | $T8 %]</th> -->
      <td>[% L.date_tag('invdate', invdate, onchange='kivi.SalesPurchase.set_duedate_on_reference_date_change("invdate")') %]</td>
-      <td><input size='11' name="invnumber" id="invnumber" value="[% HTML.escape(invnumber) %]"></td>
+      <td><input type="text" size='11' name="invnumber" id="invnumber" value="[% HTML.escape(invnumber) %]"></td>
     </tr>
     <tr>
     </tr>
@@ -292,9 +293,9 @@
     <tr>
       <th>[% 'Delivery Order Number' | $T8 %]</th>
       <td></td>
-      <td><input name="donumber" id="donumber" value="[% HTML.escape(donumber) %]"></td>
+      <td><input type="text" name="donumber" id="donumber" value="[% HTML.escape(donumber) %]"></td>
     </tr>
-[%- END %]
+[% END %]
     <tr>
       <th>[% 'Delivery Date' | $T8 %]</th>
       <td>[% L.date_tag('deliverydate', deliverydate) %]</td>
@@ -304,7 +305,7 @@
       <th>[% 'Order' | $T8 %]</th>
       <!-- <th>[% 'Order Date' | $T8 %]</th> -->
       <td>[% L.date_tag('orddate', orddate) %]</td>
-      <td><input name="ordnumber" id="ordnumber" value="[% HTML.escape(ordnumber) %]"></td>
+      <td><input type="text" name="ordnumber" id="ordnumber" value="[% HTML.escape(ordnumber) %]"></td>
     </tr>
     <tr>
     </tr>
@@ -312,20 +313,20 @@
       <th>[% 'Quotation' | $T8 %]</th>
       <!-- <th>[% 'Quotation Date' | $T8 %]</th> -->
       <td>[% L.date_tag('quodate', quodate) %]</td>
-      <td><input name="quonumber" id="quonumber" value="[% HTML.escape(quonumber) %]"></td>
+      <td><input type="text" name="quonumber" id="quonumber" value="[% HTML.escape(quonumber) %]"></td>
     </tr>
     <tr>
     </tr>
     <tr>
       <th>[% 'Customer Order Number' | $T8 %]</th>
       <td>&nbsp;</td>
-      <td><input name="cusordnumber" id="cusordnumber" value="[% HTML.escape(cusordnumber) %]"></td>
+      <td><input type="text" name="cusordnumber" id="cusordnumber" value="[% HTML.escape(cusordnumber) %]"></td>
     </tr>
     <tr>
       <th>[% 'Project' | $T8 %]</th>
       <td></td>
      <td>
-        [%- L.select_tag('globalproject_id', ALL_PROJECTS, title_key = 'projectnumber', default = globalproject_id, with_empty = '1', onChange = "document.getElementById('update_button').click();") %]
+        [% L.select_tag('globalproject_id', ALL_PROJECTS, title_key = 'projectnumber', default = globalproject_id, with_empty = '1', onChange = "document.getElementById('update_button').click();") %]
       </td>
     </tr>
     </tbody>

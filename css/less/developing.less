@@ -1,0 +1,90 @@
+// ----------------------------------------------------------------------------
+//
+// Developing-Section
+//
+// ----------------------------------------------------------------------------
+// DESCRIPTION:
+// This LESS-file is just for us developers.
+// Don't be ashamed to disable the rendering of the following LESS/CSS-Code
+// in the file style.less.
+//
+//
+// CONTENTS:
+// -
+// -
+// -
+// -
+// ----------------------------------------------------------------------------
+
+
+body.developing{
+
+  &>header{
+     background-color: @h1-bg-color; 
+     display: block;
+     overflow: hidden;
+    h1{
+      float: left;
+      color: @h1-text-color ;
+      padding: 1.0em;
+    }
+    nav{
+      float: right;
+      padding: 1.0em;
+      a:link,
+      a:visited {
+        color: white ;
+      }
+    }
+  }
+
+  p{
+    width: 40.0em ;
+  }
+
+
+
+  .wrapper{
+  
+    .tbl-horizontal{
+      border: 1px black solid !important;
+      border-collapse: collapse; 
+      
+      caption,th { padding-left: 0.6em ; } 
+      &.test,
+      &.test-plain{ 
+        th{
+          //border: 1px black solid !important;
+          padding-left: 0.3em;
+        }
+        td{
+          //border: 1px black solid ;
+          display: block;
+          overflow: visible;
+          border-bottom: 1px #666 solid ;
+        }
+        tr:last-child td { border: none ;}
+        
+      }
+    } 
+    
+    &.clear{
+      .tbl-horizontal{
+        clear: both ;
+      }
+    }
+    
+    div.test-box{
+      font-size: 80% ;
+      overflow: visible;
+      padding: 0.3em 0.5em ;
+      background-color: #9D9E9D;
+      float: left;
+      border: 1px #000 dotted ;
+    }
+  
+  
+  } // /.wrapper
+
+
+} // /body.developing

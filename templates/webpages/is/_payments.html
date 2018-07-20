@@ -58,7 +58,7 @@
 
      <td>
        [% IF $changeable %]
-         <input name="source_[% i %]" size="11" value="[% $source %]">
+         <input type="text" name="source_[% i %]" size="11" value="[% $source %]">
        [% ELSE %]
          <input type="hidden" name="source_[% i %]" value="[% $source %]">[% $source %]
        [% END %]
@@ -66,7 +66,7 @@
 
      <td>
        [% IF $changeable %]
-         <input name="memo_[% i %]" size="11" value="[% $memo %]">
+         <input type="text" name="memo_[% i %]" size="11" value="[% $memo %]">
        [% ELSE %]
          <input type="hidden" name="memo_[% i %]" value="[% $memo %]">[% $memo %]
        [% END %]
@@ -74,7 +74,7 @@
 
      <td>
        [% IF $changeable %]
-         <input name="paid_[% i %]" size="11" value="[% LxERP.format_amount($paid, 2, 1) %]">
+         <input type="text" name="paid_[% i %]" size="11" value="[% LxERP.format_amount($paid, 2, 1) %]">
        [% ELSE %]
          <input type="hidden" name="paid_[% i %]" value="[% LxERP.format_amount($paid, 2, 1) %]">
          [% LxERP.format_amount($paid, 2, 1) %]
@@ -95,7 +95,7 @@
           [% LxERP.format_amount($forex, 2) %]
         [% ELSE %]
           [% IF $changeable %]
-            <input name="exchangerate_[% i %]" size="10" value="[% LxERP.format_amount($exchangerate, 2, 1) %]">
+            <input type="text" name="exchangerate_[% i %]" size="10" value="[% LxERP.format_amount($exchangerate, 2, 1) %]">
           [% ELSE %]
             <input type="hidden" name="exchangerate_[% i %]" value="[% LxERP.format_amount($exchangerate, 2, 1) %]">
             [% LxERP.format_amount($exchangerate, 2, 1) %]
