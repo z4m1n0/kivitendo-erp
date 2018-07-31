@@ -1,6 +1,6 @@
 namespace('kivi.Order', function(ns) {
   ns.check_cv = function() {
-    if ($('#type').val() == 'sales_order') {
+    if ($('#type').val() == 'sales_order' || $('#type').val() == 'sales_quotation' ) {
       if ($('#order_customer_id').val() === '') {
         alert(kivi.t8('Please select a customer.'));
         return false;
@@ -35,22 +35,22 @@ namespace('kivi.Order', function(ns) {
     return true;
   };
 
-  ns.save = function(warn_on_duplicates) {
-    if (!ns.check_cv()) return;
-    if (warn_on_duplicates && !ns.check_save_duplicate_parts()) return;
-
-    var data = $('#order_form').serializeArray();
-    data.push({ name: 'action', value: 'Order/save' });
-
-    $.post("controller.pl", data, kivi.eval_json_result);
+  ns.check_valid_reqdate = function() {
+    if ($('#order_reqdate').val() === '') {
+      alert(kivi.t8('Please select a delivery date.'));
+      return false;
+    } else {
+      return true;
+    }
   };
 
-  ns.save_and_delivery_order = function(warn_on_duplicates) {
+  ns.save = function(action, warn_on_duplicates, warn_on_reqdate) {
     if (!ns.check_cv()) return;
     if (warn_on_duplicates && !ns.check_save_duplicate_parts()) return;
+    if (warn_on_reqdate    && !ns.check_valid_reqdate()) return;
 
     var data = $('#order_form').serializeArray();
-    data.push({ name: 'action', value: 'Order/save_and_delivery_order' });
+    data.push({ name: 'action', value: 'Order/' + action });
 
     $.post("controller.pl", data, kivi.eval_json_result);
   };
@@ -104,16 +104,35 @@ namespace('kivi.Order', function(ns) {
 
   var email_dialog;
 
+  ns.setup_send_email_dialog = function() {
+    kivi.SalesPurchase.show_all_print_options_elements();
+    kivi.SalesPurchase.show_print_options_elements([ 'sendmode', 'media', 'copies', 'remove_draft' ], false);
+
+    $('#print_options_form table').first().remove().appendTo('#email_form_print_options');
+
+    var to_focus = $('#email_form_to').val() === '' ? 'to' : 'subject';
+    $('#email_form_' + to_focus).focus();
+  };
+
+  ns.finish_send_email_dialog = function() {
+    kivi.SalesPurchase.show_all_print_options_elements();
+
+    $('#email_form_print_options table').first().remove().prependTo('#print_options_form');
+    return true;
+  };
+
   ns.show_email_dialog = function(html) {
-    var id            = 'jqueryui_popup_dialog';
+    var id            = 'send_email_dialog';
     var dialog_params = {
       id:     id,
       width:  800,
-      height: 500,
+      height: 600,
+      title:  kivi.t8('Send email'),
       modal:  true,
+      beforeClose: kivi.Order.finish_send_email_dialog,
       close: function(event, ui) {
         email_dialog.remove();
-      },
+      }
     };
 
     $('#' + id).remove();
@@ -122,6 +141,8 @@ namespace('kivi.Order', function(ns) {
     email_dialog.html(html);
     email_dialog.dialog(dialog_params);
 
+    kivi.Order.setup_send_email_dialog();
+
     $('.cancel').click(ns.close_email_dialog);
 
     return true;
@@ -129,13 +150,18 @@ namespace('kivi.Order', function(ns) {
 
   ns.send_email = function() {
     var data = $('#order_form').serializeArray();
-    data = data.concat($('#email_form').serializeArray());
+    data = data.concat($('[name^="email_form."]').serializeArray());
+    data = data.concat($('[name^="print_options."]').serializeArray());
     data.push({ name: 'action', value: 'Order/send_email' });
     $.post("controller.pl", data, kivi.eval_json_result);
   };
 
   ns.close_email_dialog = function() {
     email_dialog.dialog("close");
+  };
+
+  ns.set_number_in_title = function(elt) {
+    $('#nr_in_title').html($(elt).val());
   };
 
   ns.reload_cv_dependant_selections = function() {
@@ -434,6 +460,7 @@ namespace('kivi.Order', function(ns) {
   };
 
   ns.price_chooser_item_row = function(clicked) {
+    if (!ns.check_cv()) return;
     var row = $(clicked).parents("tbody").first();
     var item_id_dom = $(row).find('[name="orderitem_ids[+]"]');
 
@@ -514,16 +541,118 @@ namespace('kivi.Order', function(ns) {
     kivi.io.close_dialog();
   };
 
+  ns.show_periodic_invoices_config_dialog = function() {
+    if ($('#type').val() !== 'sales_order') return;
+
+    kivi.popup_dialog({
+      url: 'controller.pl?action=Order/show_periodic_invoices_config_dialog',
+      data: { type       : $('#type').val(),
+              id         : $('#id').val(),
+              config     : $('#order_periodic_invoices_config').val(),
+              customer_id: $('#order_customer_id').val(),
+              transdate  : $('#order_transdate').val(),
+              language_id: $('#language_id').val()
+            },
+      id: 'jq_periodic_invoices_config_dialog',
+      load: kivi.reinit_widgets,
+      dialog: {
+        title: kivi.t8('Edit the configuration for periodic invoices'),
+        width:  800,
+        height: 650
+      }
+    });
+    return true;
+  };
+
+  ns.close_periodic_invoices_config_dialog = function() {
+    $('#jq_periodic_invoices_config_dialog').dialog('close');
+  };
+
+  ns.assign_periodic_invoices_config = function() {
+    var data = $('[name="Form"]').serializeArray();
+    data.push({ name: 'type',   value: $('#type').val() });
+    data.push({ name: 'action', value: 'Order/assign_periodic_invoices_config' });
+    $.post("controller.pl", data, kivi.eval_json_result);
+  };
+
+  ns.check_save_active_periodic_invoices = function() {
+    var type = $('#type').val();
+    if (type !== 'sales_order') return true;
+
+    var active = false;
+    $.ajax({
+      url: 'controller.pl',
+      data: { action: 'Order/get_has_active_periodic_invoices',
+              type  : type,
+              id    : $('#id').val(),
+              config: $('#order_periodic_invoices_config').val(),
+      },
+      method: "GET",
+      async: false,
+      dataType: 'text',
+      success: function(val){
+        active = val;
+      }
+    });
+
+    if (active == 1) {
+      return confirm(kivi.t8('This sales order has an active configuration for periodic invoices. If you save then all subsequently created invoices will contain those changes as well, but not those that have already been created. Do you want to continue?'));
+    }
+
+    return true;
+  };
+
+  ns.show_vc_details_dialog = function() {
+    if (!ns.check_cv()) return;
+    var vc;
+    var vc_id;
+    var title;
+    if ($('#type').val() == 'sales_order' || $('#type').val() == 'sales_quotation' ) {
+      vc    = 'customer';
+      vc_id = $('#order_customer_id').val();
+      title = kivi.t8('Customer details');
+    } else {
+      vc    = 'vendor';
+      vc_id = $('#order_vendor_id').val();
+      title = kivi.t8('Vendor details');
+    }
+
+    kivi.popup_dialog({
+      url: 'controller.pl',
+      data: { action: 'Order/show_customer_vendor_details_dialog',
+              type  : $('#type').val(),
+              vc    : vc,
+              vc_id : vc_id
+            },
+      id: 'jq_customer_vendor_details_dialog',
+      dialog: {
+        title: title,
+        width:  800,
+        height: 650
+      }
+    });
+    return true;
+  };
+
+  ns.show_calculate_qty_dialog = function(clicked) {
+    var row = $(clicked).parents("tbody").first();
+    var input_id = $(row).find('[name="order.orderitems[].qty_as_number"]').attr('id');
+    var formula_id = $(row).find('[name="formula[+]"]').attr('id');
+
+    calculate_qty_selection_dialog("", input_id, "", formula_id);
+    return true;
+  }
+
 });
 
 $(function(){
-  if ($('#type').val() == 'sales_order') {
+  if ($('#type').val() == 'sales_order' || $('#type').val() == 'sales_quotation' ) {
     $('#order_customer_id').change(kivi.Order.reload_cv_dependant_selections);
   } else {
     $('#order_vendor_id').change(kivi.Order.reload_cv_dependant_selections);
   }
 
-  if ($('#type').val() == 'sales_order') {
+  if ($('#type').val() == 'sales_order' || $('#type').val() == 'sales_quotation' ) {
     $('#add_item_parts_id').on('set_item:PartPicker', function(e,o) { $('#add_item_sellprice_as_number').val(kivi.format_amount(o.sellprice, -2)) });
   } else {
     $('#add_item_parts_id').on('set_item:PartPicker', function(e,o) { $('#add_item_sellprice_as_number').val(kivi.format_amount(o.lastcost, -2)) });

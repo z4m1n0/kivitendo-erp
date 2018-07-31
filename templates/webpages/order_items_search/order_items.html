@@ -2,21 +2,21 @@
 [% USE LxERP %]
 [% USE T8 %]
 [% USE L %]
-
-[% SET size=50 %]
+[% USE P %]
 [% SET show_images=0 %]
 
 <h1>[% title %]</h1>
 <div class="wrapper">
+
+<!-- PENDENT: Filter toggle panel einbauen -->
 [% 'Filter' | $T8 %]:
 <form id="filter" name="filter" method="post" action="controller.pl">
 
- 
 <table class="tbl-horizontal text">
 	<tbody>
 		<tr>
 			<th>[% 'Customer' | $T8 %]</th>
-			<td>[% L.customer_vendor_picker('filter.order.customer.id', FORM.customer_id, type='customer', class='filter wi-lightwide') %]</td>
+			<td>[% P.customer_vendor.picker('filter.order.customer.id', FORM.customer_id, type='customer', class='filter wi-lightwide') %]</td>
 		</tr>
 		<tr>
 			<th>[% 'Part' | $T8 %]</th>

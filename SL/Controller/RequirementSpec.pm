@@ -324,8 +324,8 @@ sub setup {
   my ($self) = @_;
 
   $::auth->assert('requirement_spec_edit');
-  $::request->{layout}->use_stylesheet("${_}.css") for qw(jquery.contextMenu);
-  $::request->{layout}->use_javascript("${_}.js")  for qw(jquery.jstree jquery/jquery.contextMenu jquery/jquery.hotkeys requirement_spec ckeditor/ckeditor ckeditor/adapters/jquery kivi.Part autocomplete_customer);
+  $::request->{layout}->use_stylesheet("${_}.css") for qw(jquery.contextMenu requirement_spec);
+  $::request->{layout}->use_javascript("${_}.js")  for qw(jquery.jstree jquery/jquery.contextMenu jquery/jquery.hotkeys requirement_spec ckeditor/ckeditor ckeditor/adapters/jquery kivi.Part kivi.CustomerVendor);
   $self->init_visible_section;
 
   return 1;
@@ -490,9 +490,9 @@ sub prepare_report {
   if (!$is_template) {
     %column_defs = (
       %column_defs,
-      customer      => { raw_data => sub { $self->presenter->customer($_[0]->customer, display => 'table-cell', callback => $callback) },
+      customer      => { raw_data => sub { $_[0]->customer->presenter->customer(display => 'table-cell', callback => $callback) },
                          sub      => sub { $_[0]->customer->name } },
-      projectnumber => { raw_data => sub { $self->presenter->project($_[0]->project, display => 'table-cell', callback => $callback) },
+      projectnumber => { raw_data => sub { $_[0]->project ? $_[0]->project->presenter->project(display => 'table-cell', callback => $callback) : '' },
                          sub      => sub { $_[0]->project_id ? $_[0]->project->projectnumber : '' } },
       status        => { sub      => sub { $_[0]->status->description } },
       type          => { sub      => sub { $_[0]->type->description } },
@@ -555,7 +555,7 @@ sub render_pasted_text_block {
       ->hide('#text-block-list-empty');
   }
 
-  my $node       = $self->presenter->requirement_spec_text_block_jstree_data($text_block);
+  my $node       = $text_block->presenter->jstree_data;
   my $front_back = $text_block->output_position == 0 ? 'front' : 'back';
   $self->js
     ->jstree->create_node('#tree', "#tb-${front_back}", 'last', $node)
@@ -577,7 +577,7 @@ sub set_default_filter_args {
 sub render_pasted_section {
   my ($self, $item, $parent_id) = @_;
 
-  my $node = $self->presenter->requirement_spec_item_jstree_data($item);
+  my $node = $item->presenter->jstree_data;
   $self->js
     ->jstree->create_node('#tree', $parent_id ? "#fb-${parent_id}" : '#sections', 'last', $node)
     ->jstree->open_node(  '#tree', $parent_id ? "#fb-${parent_id}" : '#sections');

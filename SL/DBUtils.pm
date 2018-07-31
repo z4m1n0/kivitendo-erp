@@ -392,6 +392,13 @@ sub like {
   return "%" . SL::Util::trim($string // '') . "%";
 }
 
+sub role_is_superuser {
+  my ($dbh, $login)  = @_;
+  my ($is_superuser) = $dbh->selectrow_array(qq|SELECT usesuper FROM pg_user WHERE usename = ?|, undef, $login);
+
+  return $is_superuser;
+}
+
 1;
 
 
@@ -429,10 +436,10 @@ SL::DBUTils.pm: All about database connections in kivitendo
 =head1 DESCRIPTION
 
 DBUtils provides wrapper functions for low level database retrieval. It saves
-you the trouble of mucking around with statement handles for small databse
+you the trouble of mucking around with statement handles for small database
 queries and does exception handling in the common cases for you.
 
-Query and retrieval function share the parameter scheme:
+Query and retrieval functions share the parameter scheme:
 
   query_or_retrieval(C<FORM, DBH, QUERY[, BINDVALUES]>)
 
@@ -593,24 +600,24 @@ is passed as binding values to execute.
 
 =item selectrow_query FORM,DBH,QUERY,ARRAY
 
-Prepares and executes a query using DBUtils functions, retireves the first row
+Prepares and executes a query using DBUtils functions, retrieves the first row
 from the database, and returns it as an arrayref of the first row.
 
 =item selectfirst_hashref_query FORM,DBH,QUERY,ARRAY
 
-Prepares and executes a query using DBUtils functions, retireves the first row
+Prepares and executes a query using DBUtils functions, retrieves the first row
 from the database, and returns it as a hashref of the first row.
 
 =item selectall_hashref_query FORM,DBH,QUERY,ARRAY
 
-Prepares and executes a query using DBUtils functions, retireves all data from
+Prepares and executes a query using DBUtils functions, retrieves all data from
 the database, and returns it in hashref mode. This is slightly confusing, as
 the data structure will actually be a reference to an array, containing
 hashrefs for each row.
 
 =item selectall_as_map FORM,DBH,QUERY,KEY_COL,VALUE_COL,ARRAY
 
-Prepares and executes a query using DBUtils functions, retireves all data from
+Prepares and executes a query using DBUtils functions, retrieves all data from
 the database, and creates a hash from the results using KEY_COL as the column
 for the hash keys and VALUE_COL for its values.
 

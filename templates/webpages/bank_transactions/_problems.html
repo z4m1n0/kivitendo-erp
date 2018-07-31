@@ -3,7 +3,7 @@
 [% USE HTML %]
 [% USE P %]
 
-<h3> [% LxERP.t8("Warnings and errors") %] </h3>
+<h3>[% LxERP.t8("Warnings and errors") %]</h3>
 <p class="message_info"> 
   [% LxERP.t8("Bank transactions with errors have not been posted.") %] <br>
   [% LxERP.t8("Bank transactions that either only have warnings or no message at all have been posted.") %] 
@@ -25,7 +25,7 @@
 	</thead>
 	<tbody>
 		[% FOREACH problem = SELF.problems %] 
-		<tr class="listrow[% IF problem.result == 'error' %]_error[% END %]">
+		<tr[% IF problem.result == 'error' %]class="row_error"[% END %]>
 			<td>
 			  [% IF problem.result == 'error' %]
           [% LxERP.t8("Error") %]
@@ -34,7 +34,8 @@
 			  [% END %]
 			</td>
 			<td> 
-			  [% FOREACH invoice = problem.invoices %] [% P.invoice(invoice) %] 
+			  [% FOREACH invoice = problem.invoices %] 
+          [% invoice.presenter.invoice %] 
           [% UNLESS loop.last %]<br>[% END %] 
 			  [% END %]</td>
 			<td>[% HTML.escape(problem.bank_transaction.transdate.to_kivitendo) %]</td>

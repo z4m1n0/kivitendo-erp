@@ -3,8 +3,14 @@ package SL::PriceSource;
 use strict;
 use parent 'SL::DB::Object';
 use Rose::Object::MakeMethods::Generic (
-  scalar => [ qw(record_item record) ],
-  'array --get_set_init' => [ qw(all_price_sources) ],
+  scalar => [ qw(record_item record fast) ],
+  'scalar --get_set_init' => [ qw(
+    best_price best_discount
+  ) ],
+  'array --get_set_init' => [ qw(
+    all_price_sources
+    available_prices available_discounts
+  ) ],
 );
 
 use List::UtilsBy qw(min_by max_by);
@@ -16,46 +22,62 @@ sub init_all_price_sources {
   my ($self) = @_;
 
   [ map {
-    $_->new(record_item => $self->record_item, record => $self->record)
+    $self->price_source_by_class($_);
   } SL::PriceSource::ALL->all_enabled_price_sources ]
+}
+
+sub price_source_by_class {
+  my ($self, $class) = @_;
+  return unless $class;
+
+  $self->{price_source_by_name}{$class} //=
+    $class->new(record_item => $self->record_item, record => $self->record, fast => $self->fast);
 }
 
 sub price_from_source {
   my ($self, $source) = @_;
-  my ($source_name, $spec) = split m{/}, $source, 2;
+  return empty_price() if !$source;
 
-  my $class = SL::PriceSource::ALL->price_source_class_by_name($source_name);
+  ${ $self->{price_from_source} //= {} }{$source} //= do {
+    my ($source_name, $spec) = split m{/}, $source, 2;
+    my $class = SL::PriceSource::ALL->price_source_class_by_name($source_name);
+    my $source_object = $self->price_source_by_class($class);
 
-  return $class
-    ? $class->new(record_item => $self->record_item, record => $self->record)->price_from_source($source, $spec)
-    : empty_price();
+    $source_object
+      ? $source_object->price_from_source($source, $spec)
+      : empty_price();
+  }
 }
 
 sub discount_from_source {
   my ($self, $source) = @_;
-  my ($source_name, $spec) = split m{/}, $source, 2;
+  return empty_discount() if !$source;
 
-  my $class = SL::PriceSource::ALL->price_source_class_by_name($source_name);
+  ${ $self->{discount_from_source} //= {} }{$source} //= do {
+    my ($source_name, $spec) = split m{/}, $source, 2;
+    my $class = SL::PriceSource::ALL->price_source_class_by_name($source_name);
+    my $source_object = $self->price_source_by_class($class);
 
-  return $class
-    ? $class->new(record_item => $self->record_item, record => $self->record)->discount_from_source($source, $spec)
-    : empty_discount();
+    $source_object
+      ? $source_object->discount_from_source($source, $spec)
+      : empty_discount();
+  }
 }
 
-sub available_prices {
-  map { $_->available_prices } $_[0]->all_price_sources;
+sub init_available_prices {
+  [ map { $_->available_prices } $_[0]->all_price_sources ];
 }
 
-sub available_discounts {
-  return if $_[0]->record_item->part->not_discountable;
-  map { $_->available_discounts } $_[0]->all_price_sources;
+sub init_available_discounts {
+  return [] if $_[0]->record_item->part->not_discountable;
+  [ map { $_->available_discounts } $_[0]->all_price_sources ];
 }
 
-sub best_price {
+sub init_best_price {
   min_by { $_->price } max_by { $_->priority } grep { $_->price > 0 } grep { $_ } map { $_->best_price } $_[0]->all_price_sources;
 }
 
-sub best_discount {
+sub init_best_discount {
   max_by { $_->discount } max_by { $_->priority } grep { $_->discount } grep { $_ } map { $_->best_discount } $_[0]->all_price_sources;
 }
 
@@ -231,7 +253,18 @@ opens the price field to manual changes.
 A special empty discount that does not change the previously entered discount
 and opens the discount field to manual changes.
 
+=item C<fast>
+
+If set to true, indicates that calls may skip doing intensive work and instead
+return a price or discount flagged as unknown. The caller must be prepared to
+deal with those.
+
+Typically this is intended to delay expensive calculations until they can be
+done in a second batch pass. If the information is already present, it is still
+encouraged that implementations return the correct values.
+
 =back
+
 
 =head1 SEE ALSO
 
@@ -323,6 +356,17 @@ It would be great to have this now with better framework.
 Large records (30 positions or more) in combination with complicated price
 sources run into n+1 problems. There should be an extra hook that allows price
 source implementations to make bulk calculations before the actual position loop.
+
+=item *
+
+Prices have defined information channels for missing and invalid, but it would
+be deriable to have more information flow. For example a limited offer might
+expire in three days while the record is valid for 20 days. THis mismatch is
+impossible to resolve automatically, but informing the user about it would be a
+nice thing.
+
+This can also extend to diagnostics on class level, where implementations can
+call attention to likely misconfigurations.
 
 =back
 

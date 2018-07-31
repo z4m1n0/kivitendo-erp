@@ -1,7 +1,7 @@
-[%- USE T8 %]
-[%- USE HTML %]
-[%- USE LxERP %]
-[%- USE L %]
+[% USE T8 %]
+[% USE HTML %]
+[% USE LxERP %]
+[% USE L %]
 
 <div id="contacts">
 
@@ -15,7 +15,7 @@
     empty_title = LxERP.t8('New contact'),
     value_key = 'cp_id',
     title_key = 'full_name',
-    onchange = "kivi.CustomerVendor.selectContact({onFormSet: function(){ contactsMapWidget.testInputs(); local_reinit_widgets(); }});",
+    onchange = "kivi.CustomerVendor.selectContact({onFormSet: function(){ contactsMapWidget.testInputs(); kivi.reinit_widgets(); }});",
   )%]
 </div>
 
@@ -120,9 +120,9 @@
 </table>
 
 <table class="tbl-horizontal">
+  <caption>[% 'Communication' | $T8 %]</caption>
   <tbody>
     <tr>
-      <th colspan="2" class="caption">[% 'Communication' | $T8 %]</th>
     </tr>
     <tr>
       <th>[% 'E-mail' | $T8 %]</th>
@@ -164,12 +164,12 @@
       <th>[% 'Private E-mail' | $T8 %]</th>
       <td>[% L.input_tag('contact.cp_privatemail', SELF.contact.cp_privatemail, class="wi-wide") %]</td>
     </tr>
-
   </tbody>
 </table>
 
 <div class="buttons">
-  [% L.button_tag('submitInputButton(this);', LxERP.t8('Delete Contact'), name = 'action_delete_contact', class = 'submit') %]
+  [% L.button_tag('submitInputButton("delete_contact");', LxERP.t8('Delete Contact'),) %]
+
   [% IF ( !SELF.contact.cp_id ) %]
   <script type="text/javascript">
     $('#action_delete_contact').hide();

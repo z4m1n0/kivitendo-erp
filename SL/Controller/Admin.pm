@@ -12,10 +12,12 @@ use SL::Common ();
 use SL::DB::AuthUser;
 use SL::DB::AuthGroup;
 use SL::DB::Printer;
+use SL::DBUtils ();
 use SL::Helper::Flash;
 use SL::Locale::String qw(t8);
 use SL::System::InstallationLock;
 use SL::User;
+use SL::Version;
 use SL::Layout::AdminLogin;
 
 use Rose::Object::MakeMethods::Generic
@@ -401,19 +403,24 @@ sub action_create_dataset_login {
 
 sub action_create_dataset {
   my ($self) = @_;
-  $self->create_dataset_form;
+
+  my %superuser = $self->check_database_superuser_privileges(no_credentials_not_an_error => 1);
+  $self->create_dataset_form(superuser => \%superuser);
 }
 
 sub action_do_create_dataset {
   my ($self) = @_;
 
+  my %superuser = $self->check_database_superuser_privileges;
+
   my @errors;
   push @errors, t8("Dataset missing!")          if !$::form->{db};
   push @errors, t8("Default currency missing!") if !$::form->{defaultcurrency};
+  push @errors, $superuser{error}               if !$superuser{have_privileges} && $superuser{error};
 
   if (@errors) {
     flash('error', @errors);
-    return $self->create_dataset_form;
+    return $self->create_dataset_form(superuser => \%superuser);
   }
 
   $::form->{encoding} = 'UNICODE';
@@ -445,7 +452,7 @@ sub action_do_delete_dataset {
 
   if (@errors) {
     flash('error', @errors);
-    return $self->create_dataset_form;
+    return $self->delete_dataset_form;
   }
 
   User->new->dbdelete($::form);
@@ -572,7 +579,7 @@ sub setup_client {
   my ($self) = @_;
 
   $self->client(SL::DB::Manager::AuthClient->get_default || $self->all_clients->[0]) if !$self->client;
-  $::auth->set_client($self->client->id);
+  $::auth->set_client($self->client->id) if $self->client;
 }
 
 #
@@ -589,8 +596,8 @@ sub use_multiselect_js {
 sub login_form {
   my ($self, %params) = @_;
   $::request->layout(SL::Layout::AdminLogin->new);
-  my $version         = $::form->read_version;
-  $self->render('admin/adminlogin', title => t8('kivitendo v#1 administration', $version), %params, version => $version);
+  my $version         = SL::Version->get_version;
+  $self->render('admin/adminlogin', title => t8('kivitendo v#1 administration', $version), %params, version => $version );
 }
 
 sub edit_user_form {
@@ -645,7 +652,7 @@ sub create_dataset_form {
   $::form->{feature_eurechnung}      = $defaults->feature_eurechnung(1);
   $::form->{feature_ustva}           = $defaults->feature_ustva(1);
 
-  $self->render('admin/create_dataset', title => (t8('Database Administration') . " / " . t8('Create Dataset')));
+  $self->render('admin/create_dataset', title => (t8('Database Administration') . " / " . t8('Create Dataset')), superuser => $params{superuser});
 }
 
 sub delete_dataset_form {
@@ -697,5 +704,56 @@ sub is_user_used_for_task_server {
   return join ', ', sort_by { lc } map { $_->name } @{ SL::DB::Manager::AuthClient->get_all(where => [ task_server_user_id => $user->id ]) };
 }
 
+sub check_database_superuser_privileges {
+  my ($self, %params) = @_;
+
+  my %dbconnect_form = %{ $::form };
+  my %result         = (
+    username => $dbconnect_form{dbuser},
+    password => $dbconnect_form{dbpasswd},
+  );
+
+  my $check_privileges = sub {
+    my $dbh = SL::DBConnect->connect($dbconnect_form{dbconnect}, $result{username}, $result{password}, SL::DBConnect->get_options);
+    return (error => $::locale->text('The credentials (username & password) for connecting database are wrong.')) if !$dbh;
+
+    my $is_superuser = SL::DBUtils::role_is_superuser($dbh, $result{username});
+
+    $dbh->disconnect;
+
+    return (have_privileges => $is_superuser);
+  };
+
+  User::dbconnect_vars(\%dbconnect_form, $dbconnect_form{dbdefault});
+
+  %result = (
+    %result,
+    $check_privileges->(),
+  );
+
+  if (!$result{have_privileges}) {
+    $result{username} = $::form->{database_superuser_user};
+    $result{password} = $::form->{database_superuser_password};
+
+    if ($::form->{database_superuser_user}) {
+      %result = (
+        %result,
+        $check_privileges->(),
+      );
+    }
+  }
+
+  if ($result{have_privileges}) {
+    $::auth->set_session_value(database_superuser_username => $result{username}, database_superuser_password => $result{password});
+    return %result;
+  }
+
+  $::auth->delete_session_value(qw(database_superuser_username database_superuser_password));
+
+  return ()                                                                            if !$::form->{database_superuser_user} && $params{no_credentials_not_an_error};
+  return (%result, error => $::locale->text('No superuser credentials were entered.')) if !$::form->{database_superuser_user};
+  return %result                                                                       if $result{error};
+  return (%result, error => $::locale->text('The database user \'#1\' does not have superuser privileges.', $result{username}));
+}
 
 1;

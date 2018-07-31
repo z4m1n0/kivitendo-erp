@@ -45,6 +45,7 @@ use SL::HTML::Restrict;
 use SL::TransNumber;
 use SL::Util qw(trim);
 use SL::DB;
+use SL::Presenter::Part qw(type_abbreviation classification_abbreviation separate_abbreviation);
 use Carp;
 
 use strict;
@@ -246,7 +247,7 @@ sub all_parts {
   );
 
   # if the join condition in these blocks are met, the column
-  # of the scecified table will gently override (coalesce actually) the original value
+  # of the specified table will gently override (coalesce actually) the original value
   # use it to conditionally coalesce values from subtables
   my @column_override = (
     #  column name,   prefix,  joins_needed,  nick name (in case column is named like another)
@@ -313,7 +314,11 @@ sub all_parts {
 
   # special case smart search
   if ($form->{all}) {
-    $form->{"l_$_"} = 1 for qw(partnumber description unit sellprice lastcost cvar_packaging linetotal);
+    $form->{"l_$_"}       = 1 for qw(partnumber description unit sellprice lastcost linetotal);
+    $form->{l_service}    = 1 if $form->{searchitems} eq 'service'    || $form->{searchitems} eq '';
+    $form->{l_assembly}   = 1 if $form->{searchitems} eq 'assembly'   || $form->{searchitems} eq '';
+    $form->{l_part}       = 1 if $form->{searchitems} eq 'part'       || $form->{searchitems} eq '';
+    $form->{l_assortment} = 1 if $form->{searchitems} eq 'assortment' || $form->{searchitems} eq '';
     push @where_tokens, "p.partnumber ILIKE ? OR p.description ILIKE ?";
     push @bind_vars,    (like($form->{all})) x 2;
   }
@@ -640,8 +645,8 @@ sub get_parts {
     }
 
     $j++;
-    $form->{"type_and_classific_$j"} = $::request->presenter->type_abbreviation($ref->{part_type}).
-                                       $::request->presenter->classification_abbreviation($ref->{classification_id});
+    $form->{"type_and_classific_$j"} = type_abbreviation($ref->{part_type}).
+                                       classification_abbreviation($ref->{classification_id});
     $form->{"id_$j"}          = $ref->{id};
     $form->{"partnumber_$j"}  = $ref->{partnumber};
     $form->{"description_$j"} = $ref->{description};
@@ -938,11 +943,11 @@ sub prepare_parts_for_printing {
     my $id = $form->{"${prefix}${i}"};
     next unless $id;
     my $prt = $parts_by_id{$id};
-    my $type_abbr = $::request->presenter->type_abbreviation($prt->part_type);
+    my $type_abbr = type_abbreviation($prt->part_type);
     push @{ $template_arrays{part_type}         }, $prt->part_type;
     push @{ $template_arrays{part_abbreviation} }, $type_abbr;
-    push @{ $template_arrays{type_and_classific}}, $type_abbr.$::request->presenter->classification_abbreviation($prt->classification_id);
-    push @{ $template_arrays{separate}  },  $::request->presenter->separate_abbreviation($prt->classification_id);
+    push @{ $template_arrays{type_and_classific}}, $type_abbr . classification_abbreviation($prt->classification_id);
+    push @{ $template_arrays{separate}  }, separate_abbreviation($prt->classification_id);
   }
 
   $main::lxdebug->leave_sub();

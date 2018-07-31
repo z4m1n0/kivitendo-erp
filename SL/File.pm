@@ -8,8 +8,10 @@ use Clone qw(clone);
 use SL::File::Backend;
 use SL::File::Object;
 use SL::DB::History;
+use SL::DB::ShopImage;
 use SL::DB::File;
 use SL::Helper::UserPreferences;
+use SL::Controller::Helper::ThumbnailCreator qw(file_probe_type);
 use SL::JSON;
 
 use constant RENAME_OK          => 0;
@@ -70,6 +72,7 @@ sub get_all_versions {
   foreach my $fileobj (@fileobjs) {
     $main::lxdebug->message(LXDebug->DEBUG2(), "obj=" . $fileobj . " id=" . $fileobj->id." versions=".$fileobj->version_count);
     my $maxversion = $fileobj->version_count;
+    $fileobj->version($maxversion);
     push @versionobjs, $fileobj;
     if ($maxversion > 1) {
       for my $version (2..$maxversion) {
@@ -160,8 +163,8 @@ sub _delete {
   }
   if ($backend->delete(%params)) {
     my $do_delete = 0;
-    if ( $params{last} || $params{all_but_notlast} ) {
-      if ( $backend->get_version_count > 0 ) {
+    if ( $params{last} || $params{version} || $params{all_but_notlast} ) {
+      if ( $backend->get_version_count(%params) > 0 ) {
         $params{dbfile}->mtime(DateTime->now_local);
         $params{dbfile}->save;
       } else {
@@ -217,6 +220,8 @@ sub _save {
         title          => $params{title},
         description    => $params{description},
       );
+      $file->itime($params{mtime})    if $params{mtime};
+      $params{itime} = $params{mtime} if $params{mtime};
     }
   } else {
     $exists = 1;
@@ -233,13 +238,30 @@ sub _save {
     # load itime for new file
     $file->save->load;
   }
-  $main::lxdebug->message(LXDebug->DEBUG2(), "backend3=" .$file->backend);
+
+  $file->mtime(DateTime->now_local) unless $params{mtime};
+  $file->mtime($params{mtime}     ) if     $params{mtime};
+
   my $backend = $self->_get_backend($file->backend);
   $params{dbfile} = $file;
   $backend->save(%params);
 
-  $file->mtime(DateTime->now_local);
   $file->save;
+  #ShopImage
+  if($file->object_type eq "shop_image"){
+    my $image_content = $params{file_contents};
+    my $thumbnail = file_probe_type($image_content);
+    my $shopimage = SL::DB::ShopImage->new();
+    $shopimage->assign_attributes(
+                                  file_id                => $file->id,
+                                  thumbnail_content      => $thumbnail->{thumbnail_img_content},
+                                  org_file_height        => $thumbnail->{file_image_height},
+                                  org_file_width         => $thumbnail->{file_image_width},
+                                  thumbnail_content_type => $thumbnail->{thumbnail_img_content_type},
+                                  object_id              => $file->object_id,
+                                 );
+    $shopimage->save;
+  }
   if ($params{file_type} eq 'document' && $params{source} ne 'created') {
     SL::DB::History->new(
       addition    => 'IMPORT',
@@ -307,7 +329,7 @@ sub sync_from_backend {
   return unless $params{file_type};
   my $file = SL::DB::File->new;
   $file->file_type($params{file_type});
-  my $backend = $self->_get_backend(dbfile => $file->backend);
+  my $backend = $self->_get_backend($self->_get_backend_by_file_type($file));
   return unless $backend;
   $backend->sync_from_backend(%params);
 }

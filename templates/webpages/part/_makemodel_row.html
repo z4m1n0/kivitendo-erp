@@ -1,20 +1,20 @@
-[%- USE T8 %]
-[%- USE L %]
-[%- USE HTML %]
-[%- USE LxERP %]
-<tr>
-  <td class="center">
+[% USE T8 %]
+[% USE L %]
+[% USE HTML %]
+[% USE LxERP %]
+
+<tr class="listrow makemodel_row">
+  <td class="center" style="display:none">
     [% L.hidden_tag("makemodels[+].make", makemodel.make) %]
-    [% L.hidden_tag("makemodels[].id"   , makemodel.id) %]
-    [%- L.button_tag("kivi.Part.delete_makemodel_row(this)",
-                     LxERP.t8("X")) %] [% # , confirm=LxERP.t8("Are you sure?")) %]
+    [% L.hidden_tag("makemodels[].id"   , makemodel.id)   %]
+    [% L.button_tag("kivi.Part.delete_makemodel_row(this)", LxERP.t8("X")) %] [% # , confirm=LxERP.t8("Are you sure?")) %]
   </td>
-  <td> <span name="position" class="numeric">[% HTML.escape(makemodel.sortorder) %]</span> </td>
-  <td> <img src="image/updown.png" alt="[%- LxERP.t8('reorder item') %]" class="dragdrop"> </td>
-  <td> [% makemodel.vendor.vendornumber | html %] </td>
-  <td> [% makemodel.vendor.name         | html %] </td>
-  <td> [% L.input_tag('makemodels[].model', makemodel.model, size=30 ) %] </td>
-  <td> [% L.input_tag('makemodels[].lastcost_as_number', makemodel.lastcost_as_number, size=15 , class="reformat_number numeric") %] </td>
+  <td><span name="position" class="numeric">[% HTML.escape(makemodel.sortorder) %]</span></td>
+  <td><img src="image/updown.png" alt="[% LxERP.t8('reorder item') %]" class="dragdrop"></td>
+  <td>[% makemodel.vendor.vendornumber | html %]</td>
+  <td>[% makemodel.vendor.name         | html %]</td>
+  <td>[% L.input_tag('makemodels[].model', makemodel.model, class='wi-normal' ) %] </td>
+  <td>[% L.input_tag('makemodels[].lastcost_as_number', makemodel.lastcost_as_number, class='reformat_number numeric wi-normal') %] </td>
   <td>
     [% L.hidden_tag('makemodels[].lastupdate' , makemodel.lastupdate.to_kivitendo) %]
     [% makemodel.lastupdate.to_kivitendo | html %]

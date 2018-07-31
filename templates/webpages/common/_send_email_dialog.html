@@ -24,8 +24,12 @@
 <table class="tbl-horizontal">
 	<tbody>
 		<tr>
-			<th> [% LxERP.t8("Recipients") %] </th>
-			<td> [% L.input_tag("email_form.to", email_form.to, size="80") %] <span class="interactive cursor-pointer" onclick="$('[data-toggle-recipients=1]').toggle()" data-toggle-recipients="1">[+]</span> <span class="interactive cursor-pointer hidden" onclick="$('[data-toggle-recipients=1]').toggle()" data-toggle-recipients="1">[-]</span> </td>
+			<th>[% LxERP.t8("Recipients") %] </th>
+			<td>
+			  [% L.input_tag("email_form.to", email_form.to, size="80") %] 
+			  <span class="interactive cursor-pointer" onclick="$('[data-toggle-recipients=1]').toggle()" data-toggle-recipients="1">[+]</span> 
+			  <span class="interactive cursor-pointer hidden" onclick="$('[data-toggle-recipients=1]').toggle()" data-toggle-recipients="1">[-]</span> 
+			</td>
 		</tr>
 		<tr class="hidden" data-toggle-recipients="1">
 			<th>[% LxERP.t8("Cc") %]</th>
@@ -48,11 +52,11 @@
 		[% IF INSTANCE_CONF.get_doc_storage %] 
       <tr>
 			<th>[% LxERP.t8("Send printout of record") %]</th>
-			<td> [% SET no_file_label = have_files ? LxERP.t8("Don't include a printout of the record with the email, only selected files") : LxERP.t8("Don't include a printout of the record with the email") ; options = [ [ "normal", LxERP.t8("Create and send a new printout for this record") ], [ "old_file", LxERP.t8("Send the last printout created for this record") ], [ "no_file", no_file_label ], ] ; L.select_tag("email_form.attachment_policy", options, onchange="kivi.SalesPurchase.activate_send_email_actions_regarding_printout()") %] </td>
+			<td>[% SET no_file_label = have_files ? LxERP.t8("Don't include a printout of the record with the email, only selected files") : LxERP.t8("Don't include a printout of the record with the email") ; options = [ [ "normal", LxERP.t8("Create and send a new printout for this record") ], [ "old_file", LxERP.t8("Send the last printout created for this record") ], [ "no_file", no_file_label ], ] ; L.select_tag("email_form.attachment_policy", options, onchange="kivi.SalesPurchase.activate_send_email_actions_regarding_printout()") %] </td>
 		</tr>
 		[% END %] 
 		<tr>
-			<th> [% IF !INSTANCE_CONF.get_doc_storage %] [% LxERP.t8("Attachment name") %] [% END %] </th>
+			<th>[% IF !INSTANCE_CONF.get_doc_storage %] [% LxERP.t8("Attachment name") %] [% END %] </th>
 			<td>[% L.input_tag("email_form.attachment_filename", email_form.attachment_filename, size="80") %]</td>
 		</tr>
 		[% IF INSTANCE_CONF.get_doc_storage %] 
@@ -66,7 +70,7 @@
 
 <div id="email_form_print_options"></div>
 
-<p>
-  [% L.button_tag("kivi.SalesPurchase.send_email()", LxERP.t8("Send email")) %]
+<div class="buttons">
+  [% L.button_tag(email_form.js_send_function, LxERP.t8("Send email")) %]
   [% L.button_tag("\$('#send_email_dialog').dialog('close');", LxERP.t8("Abort")) %]
-</p>
+</div>

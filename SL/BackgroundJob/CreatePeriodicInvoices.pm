@@ -61,11 +61,14 @@ sub run {
       push @invoices_to_print, $data if $config->print;
       push @invoices_to_email, $data if $config->send_email;
 
-      # last;
+      my $inactive_ordnumber = $config->disable_one_time_config;
+      if ($inactive_ordnumber) {
+        # disable one time configs and skip eventual invoices
+        _log_msg("Order " . $inactive_ordnumber . " deavtivated \n");
+        push @disabled_orders, $inactive_ordnumber;
+        last;
+      }
     }
-    # disable one time configs (periodicity is only one time).
-    my $inactive_ordnumber = $config->disable_one_time_config;
-    push @disabled_orders, $inactive_ordnumber if $inactive_ordnumber;
   }
 
   foreach my $inv ( @invoices_to_print ) { $self->_print_invoice($inv); }
@@ -397,10 +400,15 @@ sub _email_invoice {
       );
     }
 
+    my $global_bcc = SL::DB::Default->get->global_bcc;
+
     for my $recipient (@recipients) {
       my $mail             = Mailer->new;
+      $mail->{record_id}   = $data->{invoice}->id,
+      $mail->{record_type} = 'invoice',
       $mail->{from}        = $data->{config}->email_sender || $::lx_office_conf{periodic_invoices}->{email_from};
       $mail->{to}          = $recipient;
+      $mail->{bcc}         = $global_bcc;
       $mail->{subject}     = $data->{config}->email_subject;
       $mail->{message}     = $data->{config}->email_body;
       $mail->{attachments} = [{

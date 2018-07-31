@@ -1,8 +1,8 @@
 [% USE L %]
+[% USE P %]
 [% USE HTML %]
 [% USE T8 %]
 [% USE LxERP %]
-[% USE P %]
 
 <h1>[% title | html %]</h1>
 
@@ -60,11 +60,11 @@
 <ul>
 	<li><a href="#ui-tabs-basic-data">[% 'Basic Data' | $T8 %]</a></li>
 	[% IF INSTANCE_CONF.get_webdav %] 
-	<li><a href="#ui-tabs-webdav">[% 'WebDAV' | $T8 %]</a></li>
+    <li><a href="#ui-tabs-webdav">[% 'WebDAV' | $T8 %]</a></li>
 	[% END %] 
 	[% IF id AND INSTANCE_CONF.get_doc_storage %] 
-	<li><a href="controller.pl?action=File/list&file_type=document&object_type=purchase_invoice&object_id=[% HTML.url(id) %]">[% 'Documents' | $T8 %]</a></li>
-	<li><a href="controller.pl?action=File/list&file_type=attachment&object_type=purchase_invoice&object_id=[% HTML.url(id) %]">[% 'Attachments' | $T8 %]</a></li>
+    <li><a href="controller.pl?action=File/list&file_type=document&object_type=purchase_invoice&object_id=[% HTML.url(id) %]">[% 'Documents' | $T8 %]</a></li>
+    <li><a href="controller.pl?action=File/list&file_type=attachment&object_type=purchase_invoice&object_id=[% HTML.url(id) %]">[% 'Attachments' | $T8 %]</a></li>
 	[% END %] 
 	[% IF id %] 
     [% IF AUTH.assert('record_links', 1) %] 
@@ -83,7 +83,7 @@
 	<tbody>
 		<tr>
 			<th>[% 'Vendor' | $T8 %]</th>
-			<td> [% P.customer_vendor_picker("vendor_id", vendor_id, type="vendor", style="width: 300px", onchange="\$('#update_button').click()") %] [% L.button_tag("show_vc_details('vendor')", LxERP.t8('Details (one letter abbreviation)')) %] [% L.hidden_tag("previous_vendor_id", vendor_id) %] </td>
+			<td> [% P.customer_vendor.picker("vendor_id", vendor_id, type="vendor", style="width: 300px", onchange="\$('#update_button').click()") %] [% L.button_tag("show_vc_details('vendor')", LxERP.t8('Details (one letter abbreviation)')) %] [% L.hidden_tag("previous_vendor_id", vendor_id) %] </td>
 		</tr>
 		<tr>
 			<th>[% LxERP.t8("Credit Limit") %]</th>
@@ -186,7 +186,7 @@
 		<tr>
 			<td> 
         [% SET selected_chart_id = "AP_amount_chart_id_"_ i %] 
-        [% P.chart_picker("AP_amount_chart_id_" _ i, $selected_chart_id, style="width:400px;", type="AP_amount", class=(initial_focus == 'row_' _ i ? "initial_focus" : "")) %] 
+        [% P.chart.picker("AP_amount_chart_id_" _ i, $selected_chart_id, style="width:400px;", type="AP_amount", class=(initial_focus == 'row_' _ i ? "initial_focus" : "")) %] 
         [% L.hidden_tag("previous_AP_amount_chart_id_" _ i, $selected_chart_id) %] 
         <input type="hidden" name="tax_[% i %]" value="[% temp = " tax"_ i %][% $temp | html %]">
 			</td>
@@ -206,11 +206,11 @@
 		[% END %] 
 	</tbody>
 	<tfoot> 
-	<tr>
-		<td> [% P.chart_picker('AP_chart_id', AP_chart_id, style="width: 400px", type="AP") %] </td>
-		<tD class="numeric">[% invtotal | html %]</tD>
-		<td colspan="3"></td>
-	</tr>
+    <tr>
+      <td> [% P.chart.picker('AP_chart_id', AP_chart_id, style="width: 400px", type="AP") %] </td>
+      <tD class="numeric">[% invtotal | html %]</tD>
+      <td colspan="3"></td>
+    </tr>
 	</tfoot> 
 </table>
 
@@ -226,7 +226,7 @@
 			<th>[% 'Amount' | $T8 %]</th>
 			<th></th>
 			[% IF ( !defaultcurrency || (currency != defaultcurrency) ) %] 
-			<th>[% 'Exch' | $T8 %]</th>
+        <th>[% 'Exch' | $T8 %]</th>
 			[% END %] 
 			<th>[% 'Account' | $T8 %]</th>
 			<th>[% 'Project Number' | $T8 %]</th>
@@ -252,20 +252,24 @@
 			</td>
 			<td> 
         [% temp = "paid_"_ i %] 
-        [% IF( changeable ) %]  <input type="text" name="[% temp %]" size="11" value="[% $temp | html %]" onblur="check_right_number_format(this);">
-        [% ELSE %] [% $temp | html %] <input type="hidden" name="[% temp %]" value="[% $temp | html %]"> [% END %] 
+        [% IF( changeable ) %]
+          <input name="[% temp %]" data-validate="number" value="[% $temp | html %]" size="11" class="numeric">
+        [% ELSE %]
+          [% $temp | html %]
+          <input type="hidden" name="[% temp %]" value="[% $temp | html %]">
+        [% END %] 
 			</td>
 			<td> 
 			  [% IF changeable && loop.last && paid_missing > 0 %] <input type="button" id="ap_set_to_paid_missing" value="[% " set to paid missing" | $t8 %]"> [% END %] 
 			</td>
 			[% IF ( !defaultcurrency || (currency != defaultcurrency) ) %] 
-			<td> 
-			  [% temp = "exchangerate_"_ i %] 
-			  [% temp_forex = "forex_"_ i %] 
-			  [% IF( $temp_forex || !changeable ) %] [% $temp | html %] <input type="hidden" name="[% temp %]" value="[% $temp | html %]">
-			  [% ELSE %]  <input type="text" name="[% temp %]" size="11" value="[% $temp | html %]"> [% END %] 
-			  <input type="hidden" name="[% temp_forex %]" value="[% $temp_forex | html %]">
-			</td>
+        <td> 
+          [% temp = "exchangerate_"_ i %] 
+          [% temp_forex = "forex_"_ i %] 
+          [% IF( $temp_forex || !changeable ) %] [% $temp | html %] <input type="hidden" name="[% temp %]" value="[% $temp | html %]">
+          [% ELSE %]  <input type="text" name="[% temp %]" size="11" value="[% $temp | html %]"> [% END %] 
+          <input type="hidden" name="[% temp_forex %]" value="[% $temp_forex | html %]">
+        </td>
 			[% END %] 
 			<td> 
   			[% temp = "AP_paid_"_ i %] 
@@ -287,7 +291,9 @@
 		<th class="right">[% 'Total' | $T8 %]</th>
 		<td class="numeric">[% LxERP.format_amount(totalpaid, 2) | html %]</td>
 		<td></td>
-    [% IF ( !defaultcurrency || (currency != defaultcurrency) ) %] <th></th>[% END %] 
+    [% IF ( !defaultcurrency || (currency != defaultcurrency) ) %] 
+      <th></th>
+    [% END %] 
 		<td></td>
 		<td></td>
 	</tr>
@@ -297,7 +303,9 @@
 		<th class="right">[% 'Missing amount' | $T8 %]</th>
 		<td class="numeric">[% LxERP.format_amount(paid_missing, 2) | html %]</td>
 		<td></td>
-    [% IF ( !defaultcurrency || (currency != defaultcurrency) ) %] <th></th>[% END %] 
+    [% IF ( !defaultcurrency || (currency != defaultcurrency) ) %]
+      <th></th>
+    [% END %] 
 		<td></td>
 		<td></td>
 	</tr>

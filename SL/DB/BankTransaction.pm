@@ -42,6 +42,7 @@ sub linked_invoices {
   foreach my $record_link (@{ $record_links }) {
     push @linked_invoices, SL::DB::Manager::Invoice->find_by(id => $record_link->to_id)->invnumber         if $record_link->to_table eq 'ar';
     push @linked_invoices, SL::DB::Manager::PurchaseInvoice->find_by(id => $record_link->to_id)->invnumber if $record_link->to_table eq 'ap';
+    push @linked_invoices, SL::DB::Manager::GLTransaction->find_by(id => $record_link->to_id)->reference   if $record_link->to_table eq 'gl';
   }
 
   return [ @linked_invoices ];
@@ -53,7 +54,7 @@ sub is_batch_transaction {
 
 
 sub get_agreement_with_invoice {
-  my ($self, $invoice) = @_;
+  my ($self, $invoice, %params) = @_;
 
   carp "get_agreement_with_invoice needs an invoice object as its first argument"
     unless ref($invoice) eq 'SL::DB::Invoice' or ref($invoice) eq 'SL::DB::PurchaseInvoice';
@@ -69,8 +70,10 @@ sub get_agreement_with_invoice {
     depositor_matches           => 2,
     exact_amount                => 4,
     exact_open_amount           => 4,
-    invnumber_in_purpose        => 2,
-    own_invnumber_in_purpose    => 5,
+    invoice_in_purpose          => 2,
+    own_invoice_in_purpose      => 5,
+    invnumber_in_purpose        => 1,
+    own_invnumber_in_purpose    => 4,
     # overpayment                 => -1, # either other invoice is more likely, or several invoices paid at once
     payment_before_invoice      => -2,
     payment_within_30_days      => 1,
@@ -109,18 +112,27 @@ sub get_agreement_with_invoice {
   $invoice->{datediff} = $datediff;
 
   # compare amount
-  if (abs(abs($invoice->amount) - abs($self->amount)) < 0.01) {
+  if (abs(abs($invoice->amount) - abs($self->amount)) < 0.01 &&
+        $::form->format_amount(\%::myconfig,abs($invoice->amount),2) eq
+        $::form->format_amount(\%::myconfig,abs($self->amount),2)
+      ) {
     $agreement += $points{exact_amount};
     $rule_matches .= 'exact_amount(' . $points{'exact_amount'} . ') ';
   }
 
   # compare open amount, preventing double points when open amount = invoice amount
-  if ( $invoice->amount != $invoice->open_amount && abs(abs($invoice->open_amount) - abs($self->amount)) < 0.01) {
+  if ( $invoice->amount != $invoice->open_amount && abs(abs($invoice->open_amount) - abs($self->amount)) < 0.01 &&
+         $::form->format_amount(\%::myconfig,abs($invoice->amount_less_skonto),2) eq
+         $::form->format_amount(\%::myconfig,abs($self->amount),2)
+       ) {
     $agreement += $points{exact_open_amount};
     $rule_matches .= 'exact_open_amount(' . $points{'exact_open_amount'} . ') ';
   }
 
-  if ( $invoice->skonto_date && abs(abs($invoice->amount_less_skonto) - abs($self->amount)) < 0.01) {
+  if ( $invoice->skonto_date && abs(abs($invoice->amount_less_skonto) - abs($self->amount)) < 0.01 &&
+         $::form->format_amount(\%::myconfig,abs($invoice->amount_less_skonto),2) eq
+         $::form->format_amount(\%::myconfig,abs($self->amount),2)
+       ) {
     $agreement += $points{skonto_exact_amount};
     $rule_matches .= 'skonto_exact_amount(' . $points{'skonto_exact_amount'} . ') ';
     $invoice->{skonto_type} = 'with_skonto_pt';
@@ -132,11 +144,21 @@ sub get_agreement_with_invoice {
   my $squashed_purpose = $self->purpose;
   $squashed_purpose =~ s/ //g;
   if (length($invnumber) > 4 && $squashed_purpose =~ /$invnumber/ && $invoice->is_sales){
-    $agreement += $points{own_invnumber_in_purpose};
-    $rule_matches .= 'own_invnumber_in_purpose(' . $points{'own_invnumber_in_purpose'} . ') ';
+    $agreement      += $points{own_invoice_in_purpose};
+    $rule_matches   .= 'own_invoice_in_purpose(' . $points{'own_invoice_in_purpose'} . ') ';
   } elsif (length($invnumber) > 3 && $squashed_purpose =~ /$invnumber/ ) {
-    $agreement += $points{invnumber_in_purpose};
-    $rule_matches .= 'invnumber_in_purpose(' . $points{'invnumber_in_purpose'} . ') ';
+    $agreement      += $points{invoice_in_purpose};
+    $rule_matches   .= 'invoice_in_purpose(' . $points{'invoice_in_purpose'} . ') ';
+  } else {
+    # only check number part of invoice number
+    $invnumber      =~ s/[A-Za-z_]+//g;
+    if (length($invnumber) > 4 && $squashed_purpose =~ /$invnumber/ && $invoice->is_sales){
+      $agreement    += $points{own_invnumber_in_purpose};
+      $rule_matches .= 'own_invnumber_in_purpose(' . $points{'own_invnumber_in_purpose'} . ') ';
+    } elsif (length($invnumber) > 3 && $squashed_purpose =~ /$invnumber/ ) {
+      $agreement    += $points{invnumber_in_purpose};
+      $rule_matches .= 'invnumber_in_purpose(' . $points{'invnumber_in_purpose'} . ') ';
+    }
   }
 
   #check sign
@@ -221,7 +243,10 @@ sub get_agreement_with_invoice {
   }
 
   # if there is exactly one non-executed sepa_export_item for the invoice
-  if ( my $seis = $invoice->find_sepa_export_items({ executed => 0 }) ) {
+  my $seis = $params{sepa_export_items}
+           ? [ grep { $invoice->id == ($invoice->is_sales ? $_->ar_id : $_->ap_id) } @{ $params{sepa_export_items} } ]
+           : $invoice->find_sepa_export_items({ executed => 0 });
+  if ($seis) {
     if (scalar @$seis == 1) {
       my $sei = $seis->[0];
 
@@ -303,6 +328,16 @@ Example:
   my $bt      = SL::DB::Manager::BankTransaction->find_by(id => 522);
   my $invoice = SL::DB::Manager::Invoice->find_by(invnumber => '198');
   my ($agreement,rule_matches) = $bt->get_agreement_with_invoice($invoice);
+
+=item C<linked_invoices>
+
+Returns an array of record names (invoice number or gl reference)
+which are linked for this bank transaction.
+
+Returns an empty array ref if no links are found.
+Usage:
+ croak("No linked records at all") unless @{ $bt->linked_invoices() };
+
 
 =back
 

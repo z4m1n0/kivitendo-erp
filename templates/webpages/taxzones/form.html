@@ -1,8 +1,13 @@
-[%- USE HTML -%][%- USE LxERP -%][%- USE L -%][%- USE T8 -%]<h1>[% HTML.escape(title) %]</h1>
-[% SET style="width: 400px" %]
+[% USE HTML %]
+[% USE LxERP %]
+[% USE L %]
+[% USE P %]
+[% USE T8 %]
+
+<h1>[% HTML.escape(title) %]</h1>
 
 <form action="controller.pl" method="post" id="form">
-[%- L.hidden_tag("id", SELF.config.id) %]
+[% L.hidden_tag("id", SELF.config.id) %]
 
 <div class="wrapper">
 
@@ -16,21 +21,21 @@
     <tr>
       <th>[% 'Revenue' | $T8 %] [% HTML.escape(bg.description) %]</th>
       [% IF NOT SELF.config.id %]
-      <td>[% L.chart_picker('income_accno_id_' _ bg.id, SELF.defaults.income_accno_id, choose=1, type='IC_income,IC_sale', style=style) %]</td>
+        <td>[% P.chart.picker('income_accno_id_' _ bg.id, SELF.defaults.income_accno_id, choose=1, type='IC_income,IC_sale', class='wi-wide') %]</td>
       [% ELSIF SELF.config.id AND SELF.config.orphaned %]
-      <td>[% L.chart_picker('income_accno_id_' _ bg.id, CHARTLIST.${bg.id}.income_accno_id, choose=1, type='IC_income,IC_sale', style=style) %]</td>
+        <td>[% P.chart.picker('income_accno_id_' _ bg.id, CHARTLIST.${bg.id}.income_accno_id, choose=1, type='IC_income,IC_sale', class='wi-wide') %]</td>
       [% ELSE %]
-      <td>[% CHARTLIST.${bg.id}.income_accno_description %]</td>
+        <td>[% CHARTLIST.${bg.id}.income_accno_description %]</td>
       [% END %]
     </tr>
     <tr>
       <th>[% 'Expense' | $T8 %] [% HTML.escape(bg.description) %]</th>
       [% IF NOT SELF.config.id %]
-      <td>[% L.chart_picker('expense_accno_id_' _ bg.id, SELF.defaults.expense_accno_id, choose=1, type='IC_expense,IC_cogs', style=style) %]</td>
+        <td>[% P.chart.picker('expense_accno_id_' _ bg.id, SELF.defaults.expense_accno_id, choose=1, type='IC_expense,IC_cogs', class='wi-wide') %]</td>
       [% ELSIF SELF.config.id AND SELF.config.orphaned %]
-      <td>[% L.chart_picker('expense_accno_id_' _ bg.id, CHARTLIST.${bg.id}.expense_accno_id, choose=1, type='IC_expense,IC_cogs', style=style) %]</td>
+        <td>[% P.chart.picker('expense_accno_id_' _ bg.id, CHARTLIST.${bg.id}.expense_accno_id, choose=1, type='IC_expense,IC_cogs', class='wi-wide') %]</td>
       [% ELSE %]
-      <td>[% CHARTLIST.${bg.id}.expense_accno_description %]</td>
+        <td>[% CHARTLIST.${bg.id}.expense_accno_description %]</td>
       [% END %]
     </tr>
     [% END %]
@@ -41,5 +46,5 @@
   </tbody>
 </table>
 
-</div>
+</div><!-- /.wrapper -->
 </form>

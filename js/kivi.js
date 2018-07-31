@@ -8,6 +8,11 @@ namespace("kivi", function(ns) {
     m:   1,
     d:   0
   };
+  ns._time_format = {
+    sep: ':',
+    h: 0,
+    m: 1,
+  };
   ns._number_format = {
     decimalSep:  ',',
     thousandSep: '.'
@@ -22,6 +27,13 @@ namespace("kivi", function(ns) {
       ns._date_format[res[4].substr(0, 1)] = 2;
     }
 
+    res = (params.times || "").match(/^([hm]+)([^a-z])([hm]+)$/);
+    if (res) {
+      ns._time_format                      = { sep: res[2] };
+      ns._time_format[res[1].substr(0, 1)] = 0;
+      ns._time_format[res[3].substr(0, 1)] = 1;
+    }
+
     res = (params.numbers || "").match(/^\d*([^\d]?)\d+([^\d])\d+$/);
     if (res)
       ns._number_format = {
@@ -31,12 +43,61 @@ namespace("kivi", function(ns) {
   };
 
   ns.parse_date = function(date) {
+    if (date === undefined)
+      return undefined;
+
+    if (date === '')
+      return null;
+
+    if (date === '0' || date === '00')
+      return new Date();
+
     var parts = date.replace(/\s+/g, "").split(ns._date_format.sep);
-    date     = new Date(
-      ((parts[ ns._date_format.y ] || 0) * 1) || (new Date()).getFullYear(),
-       (parts[ ns._date_format.m ] || 0) * 1 - 1, // Months are 0-based.
-       (parts[ ns._date_format.d ] || 0) * 1
-    );
+    var today = new Date();
+
+    // without separator?
+    // assume fixed pattern, and extract parts again
+    if (parts.length == 1) {
+      date  = parts[0];
+      parts = date.match(/../g);
+      if (date.length == 8) {
+        parts[ns._date_format.y] += parts.splice(ns._date_format.y + 1, 1)
+      }
+      else
+      if (date.length == 6 || date.length == 4) {
+      }
+      else
+      if (date.length == 1 || date.length == 2) {
+        parts = []
+        parts[ ns._date_format.y ] = today.getFullYear();
+        parts[ ns._date_format.m ] = today.getMonth() + 1;
+        parts[ ns._date_format.d ] = date;
+      }
+      else {
+        return undefined;
+      }
+    }
+
+    if (parts.length == 3) {
+      var year = +parts[ ns._date_format.y ] || 0 * 1 || (new Date()).getFullYear();
+      if (year > 9999)
+        return undefined;
+      if (year < 100) {
+        year += year > 70 ? 1900 : 2000;
+      }
+      date = new Date(
+        year,
+        (parts[ ns._date_format.m ] || (today.getMonth() + 1)) * 1 - 1, // Months are 0-based.
+        (parts[ ns._date_format.d ] || today.getDate()) * 1
+      );
+    } else if (parts.length == 2) {
+      date = new Date(
+        (new Date()).getFullYear(),
+        (parts[ (ns._date_format.m > ns._date_format.d) * 1 ] || (today.getMonth() + 1)) * 1 - 1, // Months are 0-based.
+        (parts[ (ns._date_format.d > ns._date_format.m) * 1 ] || today.getDate()) * 1
+      );
+    } else
+      return undefined;
 
     return isNaN(date.getTime()) ? undefined : date;
   };
@@ -52,24 +113,74 @@ namespace("kivi", function(ns) {
     return parts.join(ns._date_format.sep);
   };
 
+  ns.parse_time = function(time) {
+    var now = new Date();
+
+    if (time === undefined)
+      return undefined;
+
+    if (time === '')
+      return null;
+
+    if (time === '0')
+      return now;
+
+    // special case 1: military time in fixed "hhmm" format
+    if (time.length == 4) {
+      var res = time.match(/(\d\d)(\d\d)/);
+      if (res) {
+        now.setHours(res[1], res[2]);
+        return now;
+      } else {
+        return undefined;
+      }
+    }
+
+    var parts = time.replace(/\s+/g, "").split(ns._time_format.sep);
+    if (parts.length == 2) {
+      for (var idx in parts) {
+        if (Number.isNaN(Number.parseInt(parts[idx])))
+          return undefined;
+      }
+      now.setHours(parts[ns._time_format.h], parts[ns._time_format.m]);
+      return now;
+    } else
+      return undefined;
+  }
+
+  ns.format_time = function(date) {
+    if (isNaN(date.getTime()))
+      return undefined;
+
+    var parts = [ "", "" ]
+    parts[ ns._time_format.h ] = date.getHours().toString().padStart(2, '0');
+    parts[ ns._time_format.m ] = date.getMinutes().toString().padStart(2, '0');
+    return parts.join(ns._time_format.sep);
+  };
+
   ns.parse_amount = function(amount) {
-    if ((amount === undefined) || (amount === ''))
-      return 0;
+    if (amount === undefined)
+      return undefined;
+
+    if (amount === '')
+      return null;
 
     if (ns._number_format.decimalSep == ',')
       amount = amount.replace(/\./g, "").replace(/,/g, ".");
 
-    amount = amount.replace(/[\',]/g, "")
+    amount = amount.replace(/[\',]/g, "");
 
     // Make sure no code wich is not a math expression ends up in eval().
     if (!amount.match(/^[0-9 ()\-+*/.]*$/))
-      return 0;
+      return undefined;
+
+    amount = amount.replace(/^0+(\d+)/, '$1');
 
     /* jshint -W061 */
     try {
       return eval(amount);
     } catch (err) {
-      return 0;
+      return undefined;
     }
   };
 
@@ -157,41 +268,39 @@ namespace("kivi", function(ns) {
   };
 
   ns.focus_ckeditor_when_ready = function(element) {
-    $(element).ckeditor(function() { ns.focus_ckeditor(element); });
+    $(element).data('ckeditorInstance').on('instanceReady', function() { ns.focus_ckeditor(element); });
   };
 
   ns.focus_ckeditor = function(element) {
-    var editor   = $(element).ckeditorGet();
-		var editable = editor.editable();
-
-		if (editable.is('textarea')) {
-			var textarea = editable.$;
-
-			if (CKEDITOR.env.ie)
-				textarea.createTextRange().execCommand('SelectAll');
-			else {
-				textarea.selectionStart = 0;
-				textarea.selectionEnd   = textarea.value.length;
-			}
-
-			textarea.focus();
-
-		} else {
-			if (editable.is('body'))
-				editor.document.$.execCommand('SelectAll', false, null);
-
-			else {
-				var range = editor.createRange();
-				range.selectNodeContents(editable);
-				range.select();
-			}
-
-			editor.forceNextSelectionCheck();
-			editor.selectionChange();
-
-      editor.focus();
-		}
+    $(element).data('ckeditorInstance').focus();
   };
+
+  ns.selectall_ckeditor = function(element) {
+    var editor   = $(element).ckeditorGet();
+    var editable = editor.editable();
+    if (editable.is('textarea')) {
+      var textarea = editable.$;
+
+      if (CKEDITOR.env.ie)
+        textarea.createTextRange().execCommand('SelectAll');
+      else {
+        textarea.selectionStart = 0;
+        textarea.selectionEnd   = textarea.value.length;
+      }
+    } else {
+      if (editable.is('body'))
+        editor.document.$.execCommand('SelectAll', false, null);
+
+      else {
+        var range = editor.createRange();
+        range.selectNodeContents(editable);
+        range.select();
+      }
+
+      editor.forceNextSelectionCheck();
+      editor.selectionChange();
+    }
+  }
 
   ns.init_tabwidget = function(element) {
     var $element   = $(element);
@@ -200,7 +309,10 @@ namespace("kivi", function(ns) {
 
     if (elementId) {
       var cookieName      = 'jquery_ui_tab_'+ elementId;
-      tabsParams.active   = $.cookie(cookieName);
+      if (!window.location.hash) {
+        // only activate if there's no hash to overwrite it
+        tabsParams.active   = $.cookie(cookieName);
+      }
       tabsParams.activate = function(event, ui) {
         var i = ui.newTab.parent().children().index(ui.newTab);
         $.cookie(cookieName, i);
@@ -222,20 +334,20 @@ namespace("kivi", function(ns) {
       entities:      false,
       language:      'de',
       removePlugins: 'resize',
-      toolbar:       buttons
-    }
+      extraPlugins:  'inline_resize',
+      toolbar:       buttons,
+      disableAutoInline: true,
+      title:         false
+    };
 
-    var style = $e.prop('style');
-    $(['width', 'height']).each(function(idx, prop) {
-      var matches = (style[prop] || '').match(/(\d+)px/);
-      if (matches && (matches.length > 1))
-        config[prop] = matches[1];
-    });
+    config.height = $e.height();
+    config.width  = $e.width();
 
-    $e.ckeditor(config);
+    var editor = CKEDITOR.inline($e.get(0), config);
+    $e.data('ckeditorInstance', editor);
 
     if ($e.hasClass('texteditor-autofocus'))
-      $e.ckeditor(function() { ns.focus_ckeditor($e); });
+      editor.on('instanceReady', function() { ns.focus_ckeditor($e); });
   };
 
   ns.reinit_widgets = function() {
@@ -244,15 +356,12 @@ namespace("kivi", function(ns) {
     });
 
     if (ns.Part) ns.Part.reinit_widgets();
+    if (ns.CustomerVendor) ns.CustomerVendor.reinit_widgets();
+    if (ns.Validator) ns.Validator.reinit_widgets();
 
     if (ns.ProjectPicker)
       ns.run_once_for('input.project_autocomplete', 'project_picker', function(elt) {
         kivi.ProjectPicker($(elt));
-      });
-
-    if (ns.CustomerVendorPicker)
-      ns.run_once_for('input.customer_vendor_autocomplete', 'customer_vendor_picker', function(elt) {
-        kivi.CustomerVendorPicker($(elt));
       });
 
     if (ns.ChartPicker)
@@ -319,8 +428,8 @@ namespace("kivi", function(ns) {
   };
 
   // Return a function object by its name (a string). Works both with
-  // global functions (e.g. "check_right_date_format") and those in
-  // namespaces (e.g. "kivi.t8").
+  // global functions (e.g. "focus_by_name") and those in namespaces (e.g.
+  // "kivi.t8").
   // Returns null if the object is not found.
   ns.get_function_by_name = function(name) {
     var parts = name.match("(.+)\\.([^\\.]+)$");
@@ -465,6 +574,14 @@ namespace("kivi", function(ns) {
       console.log('No duplicate IDs found :)');
   };
 
+  ns.validate_form = function(selector) {
+    if (!kivi.Validator) {
+      console.log('kivi.Validator is not loaded');
+    } else {
+      return kivi.Validator.validate_all(selector);
+    }
+  };
+
   // Verifies that at least one checkbox matching the
   // "checkbox_selector" is actually checked. If not, an error message
   // is shown, and false is returned. Otherwise (at least one of them
@@ -480,60 +597,21 @@ namespace("kivi", function(ns) {
     return false;
   };
 
-  // Performs various validation steps on the descendants of
-  // 'selector'. Elements that should be validated must have an
-  // attribute named "data-validate" which is set to a space-separated
-  // list of tests to perform. Additionally, the attribute
-  // "data-title" must be set to a human-readable name of the field
-  // that can be shown as part of an error message.
-  //
-  // Supported validation tests are:
-  // - "required": the field must be set (its .val() must not be empty)
-  //
-  // The validation will abort and return "false" as soon as
-  // validation routine fails.
-  //
-  // The function returns "true" if all validations succeed for all
-  // elements.
-  ns.validate_form = function(selector) {
-    var validate_field = function(elt) {
-      var $elt  = $(elt);
-      var tests = $elt.data('validate').split(/ +/);
-      var info  = {
-        title: $elt.data('title'),
-        value: $elt.val(),
-      };
+  ns.switch_areainput_to_textarea = function(id) {
+    var $input = $('#' + id);
+    if (!$input.length)
+      return;
 
-      for (var test_idx in tests) {
-        var test = tests[test_idx];
+    var $area = $('<textarea></textarea>');
 
-        if (test === "required") {
-          if ($elt.val() === '') {
-            alert(kivi.t8("The field '#{title}' must be set.", info));
-            return false;
-          }
+    $area.prop('rows', 3);
+    $area.prop('cols', $input.prop('size') || 40);
+    $area.prop('name', $input.prop('name'));
+    $area.prop('id',   $input.prop('id'));
+    $area.val($input.val());
 
-        } else {
-          var error = "kivi.validate_form: unknown test '" + test + "' for element ID '" + $elt.prop('id') + "'";
-          console.error(error);
-          alert(error);
-
-          return false;
-        }
-      }
-
-      return true;
-    };
-
-    selector = selector || '#form';
-    var ok   = true;
-    var to_check = $(selector + ' [data-validate]').toArray();
-
-    for (var to_check_idx in to_check)
-      if (!validate_field(to_check[to_check_idx]))
-        return false;
-
-    return true;
+    $input.parent().replaceWith($area);
+    $area.focus();
   };
 });
 

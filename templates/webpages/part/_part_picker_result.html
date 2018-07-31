@@ -1,8 +1,8 @@
-[%- USE T8 %]
-[%- USE HTML %]
-[%- USE L %]
-[%- USE P %]
-[%- USE LxERP %]
+[% USE T8 %]
+[% USE HTML %]
+[% USE L %]
+[% USE P %]
+[% USE LxERP %]
 
 [%# L.dump(SELF.parts) %]
 
@@ -11,14 +11,17 @@
   <input type="hidden" class="part_picker_id" value="[% part.id %]">
   <input type="hidden" class="part_picker_partnumber" value="[% part.partnumber %]">
   <input type="hidden" class="part_picker_description" value="[% part.displayable_name %]">
+  <input type="hidden" class="part_picker_ean" value="[% part.ean %]">
   <input type="hidden" class="part_picker_unit" value="[% part.unit %]">
+
   <span class="ppp_block_number">[% part.partnumber | html %]</span>
+  <span class="ppp_block_ean">[% part.ean | html %]</span>
   <span class="ppp_block_description">[% part.description | html %]</span>
   <div style="clear:both;"></div>
   <span class="ppp_block_sellprice">[% 'Sellprice' | $T8 %]: [% part.sellprice_as_number | html %]</span>
-  <span class="ppp_block_description">[% P.typeclass_abbreviation(part) %]</span>
+  <span class="ppp_block_description">[% part.presenter.typeclass_abbreviation %]</span>
 </div>
-[%- END %]
+[% END %]
 
 [% FOREACH part = SELF.parts %]
   [% PROCESS part_block %]

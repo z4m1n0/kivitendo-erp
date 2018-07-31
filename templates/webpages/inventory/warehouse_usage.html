@@ -10,6 +10,7 @@
 [% INCLUDE 'common/flash.html' %]
 
 <form name="Form" method="post" action="controller.pl" id="form">
+
 <div class="wrapper">
 
 <table class="tbl-horizontal col">
@@ -72,7 +73,7 @@
 </table>
  
 <table class="tbl-horizontal col">
-<caption>[% 'Storage & Article' | $T8 %]</caption>
+  <caption>[% 'Storage & Article' | $T8 %]</caption>
 	<tbody>
 		<tr>
 			<th>[% 'Warehouse' | $T8 %]</th>
@@ -87,35 +88,30 @@
 		</tr>
 		<tr>
 			<th>[% 'Bin' | $T8 %]</th>
-			<td>
-        <select name="bin_id" id="bin_id" class="wi-normal">
-			</select>
-			</td>
+			<td><select name="bin_id" id="bin_id" class="wi-normal"></select></td>
 		</tr>
 		<tr>
 			<th>[% 'Part Number' | $T8 %]</th>
-			<td><input type="text" name="partnumber" class="wi-normal">
-			</td>
+			<td><input type="text" name="partnumber" class="wi-normal"></td>
 		</tr>
 		<tr>
 			<th>[% 'Part Description' | $T8 %]</th>
-			<td><input type="text" name="description" class="wi-normal">
-			</td>
+			<td><input type="text" name="description" class="wi-normal"></td>
 		</tr>
 		[% IF PARTSCLASSIFICATIONS %] 
-		<tr>
-			<td> [% L.select_tag('partsclassification',PARTSCLASSIFICATION,title_key="partsclassification",  class='wi-normal') %] </td>
-		</tr>
+      <tr>
+        <th>[% 'Part Classification' | $T8 %]</th>
+        <td>[% L.select_tag('partsclassification',PARTSCLASSIFICATION,title_key="partsclassification", class='wi-normal') %]</td>
+      </tr>
 		[% END %] 
 		<tr>
 			<th>[% 'Charge Number' | $T8 %]</th>
-			<td><input type="text" name="chargenumber" class="wi-normal">
-			</td>
+			<td><input type="text" name="chargenumber" class="wi-normal"></td>
 		</tr>
 		[% IF INSTANCE_CONF.get_show_bestbefore %] 
 		<tr>
 			<th>[% 'Best Before' | $T8 %]</th>
-			<td> [% L.date_tag('bestbefore') %] </td>
+			<td>[% L.date_tag('bestbefore') %]</td>
 		</tr>
 		[% END %] 
 	</tbody>

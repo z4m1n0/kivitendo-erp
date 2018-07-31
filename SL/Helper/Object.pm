@@ -76,11 +76,11 @@ sub delegate {
       die "invalid args handling '$params->{args}'" unless defined $target_code;
 
       eval "
-        sub $caller::$method {
+        sub ${caller}::$method {
           $pre_context $target_code$method_joiner$target_method$args_string; $post_context
         }
         1;
-      " or die "could not create $caller::$method: $@";
+      " or die "could not create ${caller}::$method: $@";
     }
   }
 }

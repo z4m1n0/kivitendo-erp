@@ -4,7 +4,7 @@
 [% USE L %]
 [% USE P %]
 
-[%# Determine which shipping address to show if the delivery order has been shipped already. %]
+[% # Determine which shipping address to show if the delivery order has been shipped already. %]
 [% IF delivered;
   SET shipto_label = [];
   IF shipto_id;
@@ -50,7 +50,7 @@ END ; %]
 [% INCLUDE 'generic/set_longdescription.html' %]
 
 [% IF ERRORS && ERRORS.size %]
-<p><font color="#ff0000">[% ERRORS.join('<br>') %]</font></p><!-- PENDENT: Message-Style -->
+  <p class="message message_error">[% ERRORS.join('<br>') %]</p>
 [% END %]
 
 <form id="form" method="post" name="do" action="do.pl">
@@ -92,21 +92,21 @@ END ; %]
 <input type="hidden" name="queued" id="queued" value="[% HTML.escape(queued) %]">
 <input type="hidden" name="saved_donumber" id="saved_donumber" value="[% HTML.escape(saved_donumber) %]">
 [% IF delivered %]
-<input type="hidden" name="shipto_id" id="shipto_id" value="[% HTML.escape(shipto_id) %]">
-<input type="hidden" name="shiptocity" id="shiptocity" value="[% HTML.escape(shiptocity) %]">
-<input type="hidden" name="shiptocontact" id="shiptocontact" value="[% HTML.escape(shiptocontact) %]">
-<input type="hidden" name="shiptocp_gender" id="shiptocp_gender" value="[% HTML.escape(shiptocp_gender) %]">
-<input type="hidden" name="shiptocountry" id="shiptocountry" value="[% HTML.escape(shiptocountry) %]">
-<input type="hidden" name="shiptogln" id="shiptogln" value="[% HTML.escape(shiptogln) %]">
-<input type="hidden" name="shiptodepartment_1" id="shiptodepartment_1" value="[% HTML.escape(shiptodepartment_1) %]">
-<input type="hidden" name="shiptodepartment_2" id="shiptodepartment_2" value="[% HTML.escape(shiptodepartment_2) %]">
-<input type="hidden" name="shiptoemail" id="shiptoemail" value="[% HTML.escape(shiptoemail) %]">
-<input type="hidden" name="shiptofax" id="shiptofax" value="[% HTML.escape(shiptofax) %]">
-<input type="hidden" name="shiptoname" id="shiptoname" value="[% HTML.escape(shiptoname) %]">
-<input type="hidden" name="shiptophone" id="shiptophone" value="[% HTML.escape(shiptophone) %]">
-<input type="hidden" name="shiptostreet" id="shiptostreet" value="[% HTML.escape(shiptostreet) %]">
-<input type="hidden" name="shiptozipcode" id="shiptozipcode" value="[% HTML.escape(shiptozipcode) %]">
-<input type="hidden" name="shiptocp_gender" id="shiptocp_gender" value="[% HTML.escape(shiptocp_gender) %]">
+  <input type="hidden" name="shipto_id" id="shipto_id" value="[% HTML.escape(shipto_id) %]">
+  <input type="hidden" name="shiptocity" id="shiptocity" value="[% HTML.escape(shiptocity) %]">
+  <input type="hidden" name="shiptocontact" id="shiptocontact" value="[% HTML.escape(shiptocontact) %]">
+  <input type="hidden" name="shiptocp_gender" id="shiptocp_gender" value="[% HTML.escape(shiptocp_gender) %]">
+  <input type="hidden" name="shiptocountry" id="shiptocountry" value="[% HTML.escape(shiptocountry) %]">
+  <input type="hidden" name="shiptogln" id="shiptogln" value="[% HTML.escape(shiptogln) %]">
+  <input type="hidden" name="shiptodepartment_1" id="shiptodepartment_1" value="[% HTML.escape(shiptodepartment_1) %]">
+  <input type="hidden" name="shiptodepartment_2" id="shiptodepartment_2" value="[% HTML.escape(shiptodepartment_2) %]">
+  <input type="hidden" name="shiptoemail" id="shiptoemail" value="[% HTML.escape(shiptoemail) %]">
+  <input type="hidden" name="shiptofax" id="shiptofax" value="[% HTML.escape(shiptofax) %]">
+  <input type="hidden" name="shiptoname" id="shiptoname" value="[% HTML.escape(shiptoname) %]">
+  <input type="hidden" name="shiptophone" id="shiptophone" value="[% HTML.escape(shiptophone) %]">
+  <input type="hidden" name="shiptostreet" id="shiptostreet" value="[% HTML.escape(shiptostreet) %]">
+  <input type="hidden" name="shiptozipcode" id="shiptozipcode" value="[% HTML.escape(shiptozipcode) %]">
+  <input type="hidden" name="shiptocp_gender" id="shiptocp_gender" value="[% HTML.escape(shiptocp_gender) %]">
 [% END %]
 <input type="hidden" name="show_details" id="show_details" value="[% HTML.escape(show_details) %]">
 <input type="hidden" name="taxincluded" id="taxincluded" value="[% HTML.escape(taxincluded) %]">
@@ -127,250 +127,242 @@ END ; %]
   <caption>[% 'Customer & Order Information' | $T8 %]</caption>
   <colgroup><col class="wi-mediumsmall"><col class="wi-normal"></colgroup>
   <tbody>
-  <tr>
-    <th>[% IF is_customer %][% 'Customer' | $T8 %][% ELSE %][% 'Vendor' | $T8 %][% END %]</th>
-    <td>
-     [% IF RO %]
-      [% P.hidden_tag(vc_id, $vc_id) %]
-      [% HTML.escape(VC_OBJ.name) %]
-     [% ELSE %]
-      [% P.customer_vendor_picker(vc_id, $vc_id, type=vc, class="fixed_width wi-wide", onchange="\$('#update_button').click()") %]
-     [% END %]
-     [% P.hidden_tag("previous_" _ vc_id, $vc_id) %]
-     [% P.button_tag("show_vc_details('" _ HTML.escape(vc) _ "')", LxERP.t8("Details (one letter abbreviation)")) %]
-    </td>
-  </tr>
-  [% IF ALL_CONTACTS.size %]
-  <tr>
-    <th>[% 'Contact Person' | $T8 %]</th>
-    <td>
-    [% IF delivered %]
-      <input type="hidden" name="cp_id" value="[% HTML.escape(cp_id) %]">
-      [% IF cp_id == row.cp_id %]
-        [% HTML.escape(row.cp_name) %][% IF row.cp_abteilung %] ([% HTML.escape(row.cp_abteilung) %])[% END -%]
+    <tr>
+      <th>[% IF is_customer %][% 'Customer' | $T8 %][% ELSE %][% 'Vendor' | $T8 %][% END %]</th>
+      <td>
+        [% IF RO %]
+          [% P.hidden_tag(vc_id, $vc_id) %]
+          [% HTML.escape(VC_OBJ.name) %]
+        [% ELSE %]
+          [% P.customer_vendor.picker(vc_id, $vc_id, type=vc, class="fixed_width wi-wide", onchange="\$('#update_button').click()") %]
+        [% END %]
+        [% P.hidden_tag("previous_" _ vc_id, $vc_id) %]
+        [% P.button_tag("show_vc_details('" _ HTML.escape(vc) _ "')", LxERP.t8("Details (one letter abbreviation)")) %]
+      </td>
+    </tr>
+    [% IF ALL_CONTACTS.size %]
+    <tr>
+      <th>[% 'Contact Person' | $T8 %]</th>
+      <td>
+      [% IF delivered %]
+        <input type="hidden" name="cp_id" value="[% HTML.escape(cp_id) %]">
+        [% IF cp_id == row.cp_id %]
+          [% HTML.escape(row.cp_name) %][% IF row.cp_abteilung %] ([% HTML.escape(row.cp_abteilung) %])[% END -%]
+        [% END %]
+      [% ELSE %]
+        [% L.select_tag('cp_id', ALL_CONTACTS, default = cp_id, value_key = 'cp_id', title_key = 'full_name_dep', with_empty = 1, class='wi-wide') %]
       [% END %]
-    [% ELSE %]
-      [% L.select_tag('cp_id', ALL_CONTACTS, default = cp_id, value_key = 'cp_id', title_key = 'full_name_dep', with_empty = 1, class='wi-wide') %]
+      </td>
+    </tr>
     [% END %]
-    </td>
-  </tr>
-  [% END %]
-
-  <tr>
-    <th>[% 'Shipping Address' | $T8 %]</th>
-    <td>
-    [% IF delivered %]
-    [% HTML.escape(shipto_label.join('; ')) %]
-    [% ELSE %]
-     [% IF ALL_SHIPTO.size %]
-      [% shiptos = [ [ "", LxERP.t8("No/individual shipping address") ] ] ;
-         L.select_tag('shipto_id', shiptos.import(ALL_SHIPTO), default=shipto_id, value_key='shipto_id', title_key='displayable_id', style='width: 250px') %]
-     [% END %]
-     [% L.button_tag("kivi.SalesPurchase.edit_custom_shipto()", LxERP.t8("Custom shipto"), class='button neutral below wi-wide') %]
+    <tr>
+      <th>[% 'Shipping Address' | $T8 %]</th>
+      <td>
+        [% IF delivered %]
+          [% HTML.escape(shipto_label.join('; ')) %]
+        [% ELSE %]
+          [% IF ALL_SHIPTO.size %]
+            [% shiptos = [ [ "", LxERP.t8("No/individual shipping address") ] ] ;
+               L.select_tag('shipto_id', shiptos.import(ALL_SHIPTO), default=shipto_id, value_key='shipto_id', title_key='displayable_id', style='width: 250px') %]
+          [% END %]
+          [% L.button_tag("kivi.SalesPurchase.edit_custom_shipto()", LxERP.t8("Custom shipto"), class='button neutral below wi-wide') %]
+        [% END %]
+      </td>
+    </tr>
+    [% IF business %]
+      <tr>
+        <th>[% IF is_customer %][% 'Customer type' | $T8 %][% ELSE %][% 'Vendor type' | $T8 %][% END %]</th>
+        <td>[% HTML.escape(business) %]<!-- PENDENT: Behandlung von Text in Formular-Tabellen -->  </td>
+      </tr>
     [% END %]
-    </td>
-  </tr>
-
-  [% IF business %]
-  <tr>
-   <th>[% IF is_customer %][% 'Customer type' | $T8 %][% ELSE %][% 'Vendor type' | $T8 %][% END %]</th>
-   <td>[% HTML.escape(business) %]<!-- PENDENT: Behandlung von Text in Formular-Tabellen -->  </td>
-  </tr>
-  [% END %]
-
-  [% IF max_dunning_level %]
-  <tr>
-   <th>[% 'Max. Dunning Level' | $T8 %]</th>
-   <td>
-    <b>[% HTML.escape(max_dunning_level) %]</b>; [% 'Dunning Amount' | $T8 %]:
-    <b>[% HTML.escape(LxERP.format_amount(dunning_amount, 2)) %]</b>
-   </td>
-  </tr>
-  [% END %]
-
-
- [% IF ALL_DEPARTMENTS.size %]
- <tr>
-  <th>[% 'Department' | $T8 %]</th>
-  <td>
-    [% IF ( delivered ) %]
-      [% L.hidden_tag('department_id', department_id) %]
-    [% ELSE %]
-      [% L.select_tag('department_id', ALL_DEPARTMENTS, default = department_id, title_key = 'description', with_empty = 1, style = 'width: 250px', disabled = delivered )%]
+    [% IF max_dunning_level %]
+      <tr>
+        <th>[% 'Max. Dunning Level' | $T8 %]</th>
+        <td>
+          <b>[% HTML.escape(max_dunning_level) %]</b>; [% 'Dunning Amount' | $T8 %]:
+          <b>[% HTML.escape(LxERP.format_amount(dunning_amount, 2)) %]</b>
+        </td>
+      </tr>
     [% END %]
- </td>
- </tr>
- [% END %]
-
- <tr>
-  <th>[% 'Shipping Point' | $T8 %]</th>
-  <td><input type="text" name="shippingpoint" class="wi-wide" value="[% HTML.escape(shippingpoint) %]"[% RO %]></td>
- </tr>
-
- <tr>
-  <th>[% 'Ship via' | $T8 %]</th>
-  <td><input type="text" name="shipvia" class="wi-wide" value="[% HTML.escape(shipvia) %]"[% RO %]></td>
- </tr>
-
- <tr>
-  <th>[% 'Transaction description' | $T8 %]</th>
-  <td><input type="text" name="transaction_description" id="transaction_description" class="wi-wide" value="[% HTML.escape(transaction_description) %]"[% RO %]></td>
- </tr>
-</tbody>
+    [% IF ALL_DEPARTMENTS.size %]
+      <tr>
+        <th>[% 'Department' | $T8 %]</th>
+        <td>
+          [% IF ( delivered ) %]
+            [% L.hidden_tag('department_id', department_id) %]
+          [% ELSE %]
+            [% L.select_tag('department_id', ALL_DEPARTMENTS, default = department_id, title_key = 'description', with_empty = 1, style = 'width: 250px', disabled = delivered )%]
+          [% END %]
+        </td>
+      </tr>
+    [% END %]
+    <tr>
+      <th>[% 'Shipping Point' | $T8 %]</th>
+      <td><input type="text" name="shippingpoint" class="wi-wide" value="[% HTML.escape(shippingpoint) %]"[% RO %]></td>
+    </tr>
+    <tr>
+      <th>[% 'Ship via' | $T8 %]</th>
+      <td><input type="text" name="shipvia" class="wi-wide" value="[% HTML.escape(shipvia) %]"[% RO %]></td>
+    </tr>
+    <tr>
+      <th>[% 'Transaction description' | $T8 %]</th>
+      <td>[% L.input_tag("transaction_description", transaction_description, size=35, "data-validate"=(INSTANCE_CONF.get_require_transaction_description_ps ? 'required' : ''), readonly=delivered) %]</td>
+    </tr>
+  </tbody>
 </table>
 
 
 
 <table class="tbl-horizontal col">
-<caption>[% 'Delivery Terms' | $T8 %]</caption>
-<tbody>
-  <tr>
-    <td>[% L.select_tag('delivery_term_id', ALL_DELIVERY_TERMS, default=delivery_term_id, with_empty=1, title_key='description', class='wi-wide') %]</td>
- </tr>
-  <tr>
-    <th class="caption"> [% 'Notes' | $T8 %] </th>
-  </tr>
-  <tr>
-    <td>
-    [% IF delivered %]
-      [% L.hidden_tag("notes", notes) %]
-      <div style="width: 350px; height: 150px; border: 1px solid black">[% P.restricted_html(notes) %]</div>
-    [% ELSE %]
-      [% L.textarea_tag("notes", notes, wrap="soft", style="width: 300px; height: 150px", class="texteditor") %]
-    [% END %]
-    </td>
-  </tr>
-  <tr>
-    <td>
-      [% 'Internal Notes' | $T8 %]<br>
-      [% IF delivered %][% SET RO=' readonly' %][% END %]
-      <textarea name="intnotes" rows="[% LxERP.numtextrows(intnotes, 35, 8, 2) %]" class="wi-wide" wrap="soft"[% RO %]>[% HTML.escape(intnotes) %]</textarea>
-    </td>
-  </tr>
-</tbody>
+  <caption>[% 'Delivery Terms' | $T8 %]</caption>
+  <tbody>
+    <tr>
+      <td>[% L.select_tag('delivery_term_id', ALL_DELIVERY_TERMS, default=delivery_term_id, with_empty=1, title_key='description', class='wi-wide') %]</td>
+   </tr>
+    <tr>
+      <th class="caption"> [% 'Notes' | $T8 %] </th>
+    </tr>
+    <tr>
+      <td>
+        [% IF delivered %]
+          [% L.hidden_tag("notes", notes) %]
+          <div style="width: 350px; height: 150px; border: 1px solid black">[% P.restricted_html(notes) %]</div>
+        [% ELSE %]
+          [% L.textarea_tag("notes", notes, wrap="soft", style="width: 300px; height: 150px", class="texteditor") %]
+        [% END %]
+      </td>
+    </tr>
+    <tr>
+      <td>
+        [% 'Internal Notes' | $T8 %]<br>
+        [% IF delivered %][% SET RO=' readonly' %][% END %]
+        <textarea name="intnotes" rows="[% LxERP.numtextrows(intnotes, 35, 8, 2) %]" class="wi-wide" wrap="soft"[% RO %]>[% HTML.escape(intnotes) %]</textarea>
+      </td>
+    </tr>
+  </tbody>
 </table>
 
 
 <table class="tbl-horizontal">
-<caption>[% 'Status & Handling' | $T8 %]</caption>
-<tbody>
- <tr>
-   <th>[% 'Transfer Status' | $T8 %]</th>
-  <td>
-   [% IF delivered %]
+  <caption>[% 'Status & Handling' | $T8 %]</caption>
+  <tbody>
+    <tr>
+      <th>[% 'Transfer Status' | $T8 %]</th>
+      <td>
+        [% IF delivered %]
+          [% IF is_customer %]
+            [% 'transferred out' | $T8 %]
+          [% ELSE %]
+            [% 'transferred in' | $T8 %]
+          [% END %]
+        [% ELSE %]
+          [% IF is_customer %]
+            [% 'not transferred out yet' | $T8 %]
+          [% ELSE %]
+            [% 'not transferred in yet' | $T8 %]
+          [% END %]
+        [% END %]
+      </td>
+      </tr>
+    <tr>
+      <th>[% 'Status' | $T8 %]</th>
+      <td>
+        [% IF closed %][% 'Closed' | $T8 %][% ELSE %][% 'Open' | $T8 %][% END %]
+        <input type="hidden" name="delivered" value="[% HTML.escape(delivered) %]">
+     </td>
+    </tr>
+    <tr>
+      <th>[% 'Employee' | $T8 %]</th>
+      <td>
+        [% IF delivered %]
+          <input type="hidden" name="employee_id" value="[% HTML.escape(employee_id) %]">
+          [% FOREACH row = ALL_EMPLOYEES %]
+            [% IF row.id == employee_id %]
+              [% IF row.name %]
+                [% HTML.escape(row.name) %]
+              [% ELSE %]
+                [% HTML.escape(row.login) %]
+              [% END %]
+            [% END %]
+          [% END %]
+        [% ELSE %]
+          [% L.select_tag('employee_id', ALL_EMPLOYEES, default = employee_id, title_key = 'safe_name') %]
+        [% END %]
+      </td>
+    </tr>
     [% IF is_customer %]
-    [% 'transferred out' | $T8 %]
-    [% ELSE %]
-    [% 'transferred in' | $T8 %]
+      [% IF salesman_id %]
+        [% SET the_salesman_id = salesman_id %]
+      [% ELSE %]
+        [% SET the_salesman_id = employee_id %]
+      [% END %]
+      <tr>
+        <th>[% 'Salesman' | $T8 %]</th>
+        <td>
+          [% IF delivered %]
+            <input type="hidden" name="salesman_id" value="[% HTML.escape(salesman_id) %]">
+            [% FOREACH row = ALL_SALESMEN %]
+              [% IF row.id == the_salesman_id %]
+               [% IF row.name %]
+                 [% HTML.escape(row.name) %][% ELSE %][% HTML.escape(row.login) %]
+               [% END %]
+             [% END %]
+            [% END %]
+          [% ELSE %]
+            [% L.select_tag('salesman_id', ALL_SALESMEN, default = (salesman_id ? salesman_id : employee_id), title_key = 'safe_name') %]
+          [% END %]
+        </td>
+      </tr>
     [% END %]
-   [% ELSE %]
+    <tr>
+      <th class="caption" colspan="2">[% 'IDs & Dates' | $T8 %]</th>
+    </tr>
+    <tr>
+      <th>[% 'Delivery Order Number' | $T8 %]</th>
+      <td><input type="text" name="donumber" id="donumber" class="wi-mediumsmall" value="[% HTML.escape(donumber) %]"[% RO %]></td>
+    </tr>
+    <tr>
+      <th>[% 'Order Number' | $T8 %]</th>
+      <td><input type="text" name="ordnumber" id="ordnumber" class="wi-mediumsmall" value="[% HTML.escape(ordnumber) %]"[% RO %]></td>
+    </tr>
+    <tr>
+      <th>[% IF is_customer %][% 'Customer Order Number' | $T8 %][% ELSE %][% 'Vendor Order Number' | $T8 %][% END %]</th>
+      <td><input type="text" name="cusordnumber" id="cusordnumber" class="wi-mediumsmall" value="[% HTML.escape(cusordnumber) %]"[% RO %]></td>
+    </tr>
+   <tr>
+      <th>[% 'Project Number' | $T8 %]</th>
+      <td>
+        [% IF delivered %]
+          <input type="hidden" name="globalproject_id" value="[% HTML.escape(globalproject_id) %]">
+          [% FOREACH row = ALL_PROJECTS %]
+            [% IF globalproject_id == row.id %][% HTML.escape(row.projectnumber) %][% END %]
+          [% END %]
+        [% ELSE %]
+          <select name="globalproject_id" class="wi-mediumsmall">
+            <option></option>
+            [% FOREACH row = ALL_PROJECTS %]
+              <option value="[% HTML.escape(row.id) %]"[% IF globalproject_id == row.id %] selected[% END %]>[% HTML.escape(row.projectnumber) %]</option>
+            [% END %]
+          </select>
+        [% END %]
+      </td>
+    </tr>
+    <tr>
+      <th>[% 'Delivery Order Date' | $T8 %]</th>
+      <td> [% L.date_tag('transdate', transdate, readonly => delivered, class='wi-small') %] </td>
+    </tr>
+    <tr>
+      <th>[% 'Reqdate' | $T8 %]</th>
+      <td> [% L.date_tag('reqdate', reqdate, readonly => delivered, class='wi-small') %] </td>
+    </tr>
     [% IF is_customer %]
-    [% 'not transferred out yet' | $T8 %]
-    [% ELSE %]
-    [% 'not transferred in yet' | $T8 %]
+      <tr>
+        <th>[% 'Insert Date' | $T8 %]</th>
+        <td>[% insertdate %]</td>
+      </tr>
     [% END %]
-   [% END %]
-  </td>
-  </tr>
-  <tr>
-    <th>[% 'Status' | $T8 %]</th>
-    <td>
-      [% IF closed %][% 'Closed' | $T8 %][% ELSE %][% 'Open' | $T8 %][% END %]
-      <input type="hidden" name="delivered" value="[% HTML.escape(delivered) %]">
-  </td>
- </tr>
- <tr>
-  <th>[% 'Employee' | $T8 %]</th>
-  <td>
-   [% IF delivered %]
-   <input type="hidden" name="employee_id" value="[% HTML.escape(employee_id) %]">
-   [% FOREACH row = ALL_EMPLOYEES %]
-   [% IF row.id == employee_id %][% IF row.name %][% HTML.escape(row.name) %][% ELSE %][% HTML.escape(row.login) %][% END %][% END %]
-   [% END %]
-   [% ELSE %]
-     [% L.select_tag('employee_id', ALL_EMPLOYEES, default = employee_id, title_key = 'safe_name') %]
-   [% END %]
-  </td>
- </tr>
-
- [% IF is_customer %]
-   [% IF salesman_id %]
-     [% SET the_salesman_id = salesman_id %]
-   [% ELSE %]
-     [% SET the_salesman_id = employee_id %]
-   [% END %]
- <tr>
-  <th>[% 'Salesman' | $T8 %]</th>
-  <td>
-   [% IF delivered %]
-   <input type="hidden" name="salesman_id" value="[% HTML.escape(salesman_id) %]">
-   [% FOREACH row = ALL_SALESMEN %]
-   [% IF row.id == the_salesman_id %][% IF row.name %][% HTML.escape(row.name) %][% ELSE %][% HTML.escape(row.login) %][% END %][% END %]
-   [% END %]
-   [% ELSE %]
-    [% L.select_tag('salesman_id', ALL_SALESMEN, default = (salesman_id ? salesman_id : employee_id), title_key = 'safe_name') %]
-   [% END %]
-  </td>
- </tr>
- [% END %]
-
-<tr>
-  <th class="caption" colspan="2">[% 'IDs & Dates' | $T8 %]</th>
-</tr>
-
- <tr>
-  <th>[% 'Delivery Order Number' | $T8 %]</th>
-  <td><input type="text" name="donumber" id="donumber" class="wi-mediumsmall" value="[% HTML.escape(donumber) %]"[% RO %]></td>
- </tr>
-
- <tr>
-  <th>[% 'Order Number' | $T8 %]</th>
-  <td><input type="text" name="ordnumber" id="ordnumber" class="wi-mediumsmall" value="[% HTML.escape(ordnumber) %]"[% RO %]></td>
- </tr>
-
- <tr>
-  <th>[% IF is_customer %][% 'Customer Order Number' | $T8 %][% ELSE %][% 'Vendor Order Number' | $T8 %][% END %]</th>
-  <td><input type="text" name="cusordnumber" id="cusordnumber" class="wi-mediumsmall" value="[% HTML.escape(cusordnumber) %]"[% RO %]></td>
- </tr>
-
- <tr>
-  <th>[% 'Project Number' | $T8 %]</th>
-  <td>
-   [% IF delivered %]
-     <input type="hidden" name="globalproject_id" value="[% HTML.escape(globalproject_id) %]">
-     [% FOREACH row = ALL_PROJECTS %]
-       [% IF globalproject_id == row.id %][% HTML.escape(row.projectnumber) %][% END %]
-     [% END %]
-   [% ELSE %]
-   <select name="globalproject_id" class="wi-mediumsmall">
-    <option></option>
-    [% FOREACH row = ALL_PROJECTS %]
-      <option value="[% HTML.escape(row.id) %]"[% IF globalproject_id == row.id %] selected[% END %]>[% HTML.escape(row.projectnumber) %]</option>
-    [% END %]
-   </select>
-   [% END %]
-  </td>
- </tr>
-
-
- <tr>
-  <th>[% 'Delivery Order Date' | $T8 %]</th>
-  <td> [% L.date_tag('transdate', transdate, readonly => delivered, class='wi-small') %] </td>
- </tr>
-
- <tr>
-  <th>[% 'Reqdate' | $T8 %]</th>
-  <td> [% L.date_tag('reqdate', reqdate, readonly => delivered, class='wi-small') %] </td>
- </tr>
-
- [% IF is_customer %]
- <tr>
-  <th>[% 'Insert Date' | $T8 %]</th>
-  <td>[% insertdate %]</td>
- </tr>
- [% END %]
-
-</tbody>
+  </tbody>
 </table>
 
 </div>
+

@@ -44,6 +44,7 @@ use SL::DB::Customer;
 use SL::RP;
 use SL::Iconv;
 use SL::Locale::String qw(t8);
+use SL::Presenter::Tag;
 use SL::ReportGenerator;
 use Data::Dumper;
 use List::MoreUtils qw(any);
@@ -143,7 +144,7 @@ sub report {
   );
 
   $::form->{title} = $title{$::form->{report}};
-  $::request->{layout}->add_javascripts('autocomplete_customer.js');
+  $::request->{layout}->add_javascripts('kivi.CustomerVendor.js');
   $::request->{layout}->add_javascripts('autocomplete_project.js');
   $::form->{fromdate} = DateTime->today->truncate(to => 'year')->to_kivitendo;
   $::form->{todate} = DateTime->today->truncate(to => 'year')->add(years => 1)->add(days => -1)->to_kivitendo;
@@ -629,7 +630,7 @@ sub generate_trial_balance {
   my $attachment_basename = $locale->text('trial_balance');
   my $report              = SL::ReportGenerator->new(\%myconfig, $form);
 
-  my @hidden_variables    = qw(fromdate todate year method);
+  my @hidden_variables    = qw(fromdate todate year method department_id);
 
   my $href                = build_std_url('action=generate_trial_balance', grep { $form->{$_} } @hidden_variables);
 
@@ -1008,7 +1009,7 @@ sub aging {
   my @columns = qw(statement ct invnumber transdate duedate amount open);
 
   my %column_defs = (
-    'statement' => { raw_header_data => $::request->presenter->checkbox_tag("checkall", checkall => '[name^=statement_]'), 'visible' => $form->{ct} eq 'customer' ? 'HTML' : 0, align => "center" },
+    'statement' => { raw_header_data => SL::Presenter::Tag::checkbox_tag("checkall", checkall => '[name^=statement_]'), 'visible' => $form->{ct} eq 'customer' ? 'HTML' : 0, align => "center" },
     'ct'        => { 'text' => $form->{ct} eq 'customer' ? $locale->text('Customer') : $locale->text('Vendor'), },
     'invnumber' => { 'text' => $locale->text('Invoice'), },
     'transdate' => { 'text' => $locale->text('Date'), },
@@ -1023,8 +1024,7 @@ sub aging {
   $report->set_options('std_column_visibility' => 1);
   $report->set_columns(%column_defs);
   $report->set_column_order(@columns);
-
-  my @hidden_variables = qw(todate customer vendor arap title ct fordate reporttype department);
+  my @hidden_variables = qw(todate customer vendor arap title ct fordate reporttype department fromdate);
   $report->set_export_options('generate_' . ($form->{arap} eq 'ar' ? 'ar' : 'ap') . '_aging', @hidden_variables);
 
   my @options;

@@ -34,7 +34,7 @@
           <td><input type="text" name=datentraegernr size=5 maxlength=3 value="[% datentraegernr %]"></td>
         </tr>
         <tr>
-          <td><input type="hidden" name="kne" value="1"></td>
+          <td></td>
           <td></td>
 
           <td>[% 'Abrechnungsnummer' | $T8 %]</td>
@@ -47,7 +47,14 @@
 
           <td><input name=exporttype type=radio value=1> [% 'Export Stammdaten' | $T8 %]</td>
           <td></td>
-        </td>
+        </tr>
+        <tr>
+          <td><input name=exportformat type=radio class=radio value=csv checked> [% 'CSV' | $T8 %]</td>
+          <td></td>
+
+          <td><input name=exportformat type=radio class=radio value=kne> [% 'KNE' | $T8 %]</td>
+          <td></td>
+        </tr>
       </table>
     </td>
   </tr>

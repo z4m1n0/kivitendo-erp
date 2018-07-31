@@ -32,6 +32,7 @@ use strict;
 
 use SL::DBUtils;
 use SL::DATEV::KNEFile;
+use SL::DATEV::CSV;
 use SL::DB;
 use SL::HTML::Util ();
 use SL::Locale::String qw(t8);
@@ -214,6 +215,26 @@ sub trans_id {
   return $self->{trans_id};
 }
 
+sub warnings {
+  my $self = shift;
+
+  if (@_) {
+    $self->{warnings} = [@_];
+  } else {
+   return $self->{warnings};
+  }
+}
+
+sub use_pk {
+ my $self = shift;
+
+ if (@_) {
+   $self->{use_pk} = $_[0];
+ }
+
+ return $self->{use_pk};
+}
+
 sub accnofrom {
  my $self = shift;
 
@@ -345,7 +366,53 @@ sub kne_export {
 }
 
 sub csv_export {
-  die 'not yet implemented';
+  my ($self) = @_;
+  my $result;
+
+  die 'no exporttype set!' unless $self->has_exporttype;
+
+  if ($self->exporttype == DATEV_ET_BUCHUNGEN) {
+
+    $self->generate_datev_data(from_to => $self->fromto);
+    return if $self->errors;
+
+    my $datev_csv = SL::DATEV::CSV->new(
+      datev_lines  => $self->generate_datev_lines,
+      from         => $self->from,
+      to           => $self->to,
+      locked       => $self->locked,
+    );
+
+
+    my $filename = "EXTF_DATEV_kivitendo" . $self->from->ymd() . '-' . $self->to->ymd() . ".csv";
+
+    my $csv = Text::CSV_XS->new({
+                binary       => 1,
+                sep_char     => ";",
+                always_quote => 1,
+                eol          => "\r\n",
+              }) or die "Cannot use CSV: ".Text::CSV_XS->error_diag();
+
+    my $csv_file = IO::File->new($self->export_path . '/' . $filename, '>:encoding(cp1252)') or die "Can't open: $!";
+    $csv->print($csv_file, $_) for @{ $datev_csv->header };
+    $csv->print($csv_file, $_) for @{ $datev_csv->lines  };
+    $csv_file->close;
+    $self->{warnings} = $datev_csv->warnings;
+
+    return { download_token => $self->download_token, filenames => $filename };
+
+  } elsif ($self->exporttype == DATEV_ET_STAMM) {
+    die 'will never be implemented';
+    # 'Background: Export should only contain non
+    #  DATEV-Charts and DATEV import will only
+    #  import new Charts.'
+  } elsif ($self->exporttype == DATEV_ET_CSV) {
+    $result = $self->csv_export_for_tax_accountant;
+  } else {
+    die 'unrecognized exporttype';
+  }
+
+  return $result;
 }
 
 sub obe_export {
@@ -362,6 +429,15 @@ sub fromto {
 
 sub _sign {
   $_[0] <=> 0;
+}
+
+sub locked {
+ my $self = shift;
+
+ if (@_) {
+   $self->{locked} = $_[0];
+ }
+ return $self->{locked};
 }
 
 sub generate_datev_data {
@@ -410,23 +486,34 @@ sub generate_datev_data {
 
   my %all_taxchart_ids = selectall_as_map($form, $self->dbh, qq|SELECT DISTINCT chart_id, TRUE AS is_set FROM tax|, 'chart_id', 'is_set');
 
+  my $ar_accno = "c.accno";
+  my $ap_accno = "c.accno";
+  if ( $self->use_pk ) {
+    $ar_accno = "CASE WHEN ac.chart_link = 'AR' THEN ct.customernumber ELSE c.accno END as accno";
+    $ap_accno = "CASE WHEN ac.chart_link = 'AP' THEN ct.vendornumber   ELSE c.accno END as accno";
+  }
+
   my $query    =
     qq|SELECT ac.acc_trans_id, ac.transdate, ac.gldate, ac.trans_id,ar.id, ac.amount, ac.taxkey, ac.memo,
          ar.invnumber, ar.duedate, ar.amount as umsatz, ar.deliverydate, ar.itime::date,
          ct.name, ct.ustid, ct.customernumber AS vcnumber, ct.id AS customer_id, NULL AS vendor_id,
-         c.accno, c.description AS accname, c.taxkey_id as charttax, c.datevautomatik, c.id, ac.chart_link AS link,
+         $ar_accno, c.description AS accname, c.taxkey_id as charttax, c.datevautomatik, c.id, ac.chart_link AS link,
          ar.invoice,
          t.rate AS taxrate, t.taxdescription,
          'ar' as table,
          tc.accno AS tax_accno, tc.description AS tax_accname,
          ar.department_id,
-         ar.notes
+         ar.notes,
+         project.projectnumber as projectnumber, project.description as projectdescription,
+         department.description as departmentdescription
        FROM acc_trans ac
        LEFT JOIN ar          ON (ac.trans_id    = ar.id)
        LEFT JOIN customer ct ON (ar.customer_id = ct.id)
        LEFT JOIN chart c     ON (ac.chart_id    = c.id)
        LEFT JOIN tax t       ON (ac.tax_id      = t.id)
        LEFT JOIN chart tc    ON (t.chart_id     = tc.id)
+       LEFT JOIN department  ON (department.id  = ar.department_id)
+       LEFT JOIN project     ON (project.id     = ar.globalproject_id)
        WHERE (ar.id IS NOT NULL)
          AND $fromto
          $trans_id_filter
@@ -439,19 +526,23 @@ sub generate_datev_data {
        SELECT ac.acc_trans_id, ac.transdate, ac.gldate, ac.trans_id,ap.id, ac.amount, ac.taxkey, ac.memo,
          ap.invnumber, ap.duedate, ap.amount as umsatz, ap.deliverydate, ap.itime::date,
          ct.name, ct.ustid, ct.vendornumber AS vcnumber, NULL AS customer_id, ct.id AS vendor_id,
-         c.accno, c.description AS accname, c.taxkey_id as charttax, c.datevautomatik, c.id, ac.chart_link AS link,
+         $ap_accno, c.description AS accname, c.taxkey_id as charttax, c.datevautomatik, c.id, ac.chart_link AS link,
          ap.invoice,
          t.rate AS taxrate, t.taxdescription,
          'ap' as table,
          tc.accno AS tax_accno, tc.description AS tax_accname,
          ap.department_id,
-         ap.notes
+         ap.notes,
+         project.projectnumber as projectnumber, project.description as projectdescription,
+         department.description as departmentdescription
        FROM acc_trans ac
        LEFT JOIN ap        ON (ac.trans_id  = ap.id)
        LEFT JOIN vendor ct ON (ap.vendor_id = ct.id)
        LEFT JOIN chart c   ON (ac.chart_id  = c.id)
        LEFT JOIN tax t     ON (ac.tax_id    = t.id)
        LEFT JOIN chart tc    ON (t.chart_id     = tc.id)
+       LEFT JOIN department  ON (department.id  = ap.department_id)
+       LEFT JOIN project     ON (project.id     = ap.globalproject_id)
        WHERE (ap.id IS NOT NULL)
          AND $fromto
          $trans_id_filter
@@ -470,12 +561,15 @@ sub generate_datev_data {
          'gl' as table,
          tc.accno AS tax_accno, tc.description AS tax_accname,
          gl.department_id,
-         gl.notes
+         gl.notes,
+         '' as projectnumber, '' as projectdescription,
+         department.description as departmentdescription
        FROM acc_trans ac
        LEFT JOIN gl      ON (ac.trans_id  = gl.id)
        LEFT JOIN chart c ON (ac.chart_id  = c.id)
        LEFT JOIN tax t   ON (ac.tax_id    = t.id)
        LEFT JOIN chart tc    ON (t.chart_id     = tc.id)
+       LEFT JOIN department  ON (department.id  = gl.department_id)
        WHERE (gl.id IS NOT NULL)
          AND $fromto
          $trans_id_filter
@@ -789,9 +883,6 @@ sub datetofour {
 
   my ($day, $month, $year) = split(/\./, $date);
 
-  if ($day =~ /^0/) {
-    $day = substr($day, 1, 1);
-  }
   if (length($month) < 2) {
     $month = "0" . $month;
   }
@@ -918,6 +1009,7 @@ sub generate_datev_lines {
 
     if ($trans_lines >= 2) {
 
+      # Personenkontenerweiterung: accno has already been replaced if use_pk was set
       $datev_data{'gegenkonto'} = $transaction->[$haben]->{'accno'};
       $datev_data{'konto'}      = $transaction->[$soll]->{'accno'};
       if ($transaction->[$haben]->{'invnumber'} ne "") {
@@ -925,6 +1017,8 @@ sub generate_datev_lines {
       }
       $datev_data{datum} = $transaction->[$haben]->{'transdate'};
       $datev_data{waehrung} = 'EUR';
+      $datev_data{kost1} = $transaction->[$haben]->{'departmentdescription'};
+      $datev_data{kost2} = $transaction->[$haben]->{'projectdescription'};
 
       if ($transaction->[$haben]->{'name'} ne "") {
         $datev_data{buchungstext} = $transaction->[$haben]->{'name'};
@@ -936,7 +1030,6 @@ sub generate_datev_lines {
         $datev_data{belegfeld2} = $transaction->[$haben]->{'duedate'};
       }
     }
-
     $datev_data{umsatz} = abs($umsatz); # sales invoices without tax have a different sign???
 
     # Dies ist die einzige Stelle die datevautomatik auswertet. Was soll gesagt werden?
@@ -957,7 +1050,7 @@ sub generate_datev_lines {
       $datev_data{buchungsschluessel} = $taxkey;
     }
 
-    push(@datev_lines, \%datev_data);
+    push(@datev_lines, \%datev_data) if $datev_data{umsatz};
   }
 
   # example of modifying export data:
@@ -1312,6 +1405,40 @@ sub csv_export_for_tax_accountant {
   return { download_token => $self->download_token, filenames => \@filenames };
 }
 
+sub check_vcnumbers_are_valid_pk_numbers {
+  my ($self) = @_;
+
+  # better use a class variable and set this in sub new (also needed in DATEV::CSV)
+  # calculation is also a bit more sane in sub check_valid_length_of_accounts
+  my $length_of_accounts = length(SL::DB::Manager::Chart->get_first(where => [charttype => 'A'])->accno) // 4;
+  my $pk_length = $length_of_accounts + 1;
+  my $query = <<"SQL";
+   SELECT customernumber AS vcnumber FROM customer WHERE customernumber !~ '^[[:digit:]]{$pk_length}\$'
+   UNION
+   SELECT vendornumber   AS vcnumber FROM vendor   WHERE vendornumber   !~ '^[[:digit:]]{$pk_length}\$'
+   LIMIT 1;
+SQL
+  my ($has_non_pk_accounts)  = selectrow_query($::form, SL::DB->client->dbh, $query);
+  return defined $has_non_pk_accounts ? 0 : 1;
+}
+
+
+sub check_valid_length_of_accounts {
+  my ($self) = @_;
+
+  my $query = <<"SQL";
+  SELECT DISTINCT char_length (accno) FROM chart WHERE charttype='A' AND id in (select chart_id from acc_trans);
+SQL
+
+  my $accno_length = selectall_hashref_query($::form, SL::DB->client->dbh, $query);
+  if (1 < scalar @$accno_length) {
+    $::form->error(t8("Invalid combination of ledger account number length." .
+                      " Mismatch length of #1 with length of #2. Please check your account settings. ",
+                      $accno_length->[0]->{char_length}, $accno_length->[1]->{char_length}));
+  }
+  return 1;
+}
+
 sub DESTROY {
   clean_temporary_directories();
 }
@@ -1509,6 +1636,28 @@ Example:
   #                  ]
   # };
 
+
+=item check_vcnumbers_are_valid_pk_numbers
+
+Returns 1 if all vcnumbers are suitable for the DATEV export, 0 if not.
+
+Finds the default length of charts (e.g. 4), adds 1 for the pk chart length
+(e.g. 5), and checks the database for any customers or vendors whose customer-
+or vendornumber doesn't consist of only numbers with exactly that length. E.g.
+for a chart length of four "10001" would be ok, but not "10001b" or "1000".
+
+All vcnumbers are checked, obsolete customers or vendors aren't exempt.
+
+There is also no check for the typical customer range 10000-69999 and the
+typical vendor range 70000-99999.
+
+=item check_valid_length_of_accounts
+
+Returns 1 if all currently booked accounts have only one common number length domain (e.g. 4 or 6).
+Will throw an error if more than one distinct size is detected.
+The error message gives a short hint with the value of the (at least)
+two mismatching number length domains.
+
 =back
 
 =head1 ATTRIBUTES
@@ -1556,6 +1705,11 @@ correctly.
 =item accnoto
 
 Set boundary account numbers for the export. Only useful for a stammdaten export.
+
+=item locked
+
+Boolean if the transactions are locked (read-only in kivitenod) or not.
+Default value is false
 
 =back
 
@@ -1637,6 +1791,7 @@ OBE export is currently not implemented.
 =head1 SEE ALSO
 
 L<SL::DATEV::KNEFile>
+L<SL::DATEV::CSV>
 
 =head1 AUTHORS
 

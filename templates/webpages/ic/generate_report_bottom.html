@@ -8,28 +8,28 @@
 <table class="tbl-list">
   <thead>
     <tr>
-     <th class="center">[% 'TypAbbreviation' | $T8  %]</th>
+     <th>[% 'TypAbbreviation' | $T8  %]</th>
      <th>[% 'Description'     | $T8  %]</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-     <td class="center">[% 'Part (typeabbreviation)'       | $T8 %]</td>
-     <td>               [% 'Part'                          | $T8 %]</td>
+     <td>[% 'Part (typeabbreviation)'       | $T8 %]</td>
+     <td>[% 'Part'                          | $T8 %]</td>
     </tr>
     <tr>
-     <td class="center">[% 'Assembly (typeabbreviation)'   | $T8 %]</td>
-     <td>               [% 'Assembly'                      | $T8 %]</td>
+     <td>[% 'Assembly (typeabbreviation)'   | $T8 %]</td>
+     <td>[%'Assembly'                       | $T8 %]</td>
     </tr>
     <tr>
-     <td class="center">[% 'Service (typeabbreviation)'    | $T8 %]</td>
-     <td>               [% 'Service'                       | $T8 %]</td>
+     <td>[% 'Service (typeabbreviation)'    | $T8 %]</td>
+     <td>[%'Service'                        | $T8 %]</td>
     </tr>
     [% IF INSTANCE_CONF.get_feature_experimental %]
-    <tr>
-     <td class="center">[% 'Assortment (typeabbreviation)' | $T8 %]</td>
-     <td>               [% 'Assortment'                    | $T8 %]</td>
-    </tr>
+      <tr>
+       <td>[% 'Assortment (typeabbreviation)' | $T8 %]</td>
+       <td>[%'Assortment'                     | $T8 %]</td>
+      </tr>
     [% END %]
   </tbody>
 </table>
@@ -37,27 +37,21 @@
 <table class="tbl-list">
   <thead>
     <tr>
-     <th class="center">[% 'PartClassAbbreviation' | $T8  %]</th>
-     <th>               [% 'Description'           | $T8  %]</th>
+     <th>[% 'PartClassAbbreviation' | $T8  %]</th>
+     <th>[% 'Description'           | $T8  %]</th>
     </tr>
   </thead>
   <tbody>
   [% FOREACH part_classification = PART_CLASSIFICATIONS %]
     <tr>
-     <td class="center">[% part_classification.abbreviation | $T8 %]</td>
-     <td>               [% part_classification.description  | $T8 %]</td>
+     <td>[% part_classification.abbreviation | $T8 %]</td>
+     <td>[% part_classification.description  | $T8 %]</td>
     </tr>
   [% END %]
   </tbody>
 </table>
 
-
-
 </div>
-
-
-
-
 
 <form method="post" action="controller.pl" id="new_form">
  <input name="callback" type="hidden" value="[% HTML.escape(callback) %]">

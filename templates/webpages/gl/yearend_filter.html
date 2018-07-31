@@ -1,22 +1,22 @@
-[%- USE HTML %]
-[%- USE T8 %]
-[%- USE L %]
-[%- USE LxERP %]
+[% USE HTML %]
+[% USE T8 %]
+[% USE L %]
+[% USE LxERP %]
 
 <h1>[% title | html %]</h1>
 
-[%- PROCESS 'common/flash.html' %]
+[% INCLUDE 'common/flash.html' %]
 
 <form id='filter_form'>
 
-<p class="attention">[% 'Attention: Here will be generated a lot of CB/OB transactions.' | $T8 %]</p>
+<p class="message_warning">[% 'Attention: Here will be generated a lot of CB/OB transactions.' | $T8 %]</p>
 
 <table class="tbl-horizontal">
   <thead>
   <tr>
     <th>&nbsp;</th>
-    <th colspan="2">[% 'CB Transactions' | $T8 %]</th>
-    <th colspan="2">[% 'OB Transactions' | $T8 %]</th>
+    <th>[% 'CB Transactions' | $T8 %]</th>
+    <th>[% 'OB Transactions' | $T8 %]</th>
   </tr>
   </thead>
   <tbody>
@@ -41,4 +41,5 @@
   </tr>
   </tbody>
 </table>
+
 </form>

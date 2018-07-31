@@ -21,11 +21,10 @@
 [% L.hidden_tag('follow_up_rowcount', 1) %]
 <input type="hidden" name="lastmtime" value="[% HTML.escape(lastmtime) %]">
 
-[% IF saved_message %]<p>[% saved_message | html  %]</p>[% END %]
+[% IF saved_message %]<p class="message_info">[% saved_message | html  %]</p>[% END %]
 
 <div class="tabwidget">
 
- 
 <ul>
 	<li><a href="#ui-tabs-basic-data">[% 'Basic Data' | $T8 %]</a></li>
 	[% IF id %] 
@@ -44,136 +43,134 @@
 
 <div class="wrapper">
 
-<table class="tbl-horizontal">
-  <caption>[% 'Customer &amp; Order' | $T8 %]</caption>
-  <tbody>
-    <tr>
-      <th>[% 'Customer' | $T8 %]</th>
-      <td>
-       [% P.customer_vendor_picker("customer_id", customer_id, type="customer", style="width: 300px", class=(initial_focus == 'customer_id' ? "initial_focus" : ""), onchange="\$('#update_button').click()") %]
-       [% L.button_tag("show_vc_details('customer')", LxERP.t8('Details (one letter abbreviation)')) %]
-       [% L.hidden_tag("previous_customer_id", customer_id) %]
-       [% L.hidden_tag('terms', terms) %]
-     </td>
-    </tr>
-    [% IF max_dunning_level || invoice_obj.dunning_config_id  %]
-    <tr>
-      <th>[% LxERP.t8("Dunning status") %]</th>
-      <td>
-        [% IF invoice_obj.dunning_config_id %]
-        <span class="dunned_invoice">[% LxERP.t8("This invoice's dunning level: #1", invoice_obj.dunning_config.dunning_description) %]</span>
-          [% IF max_dunning_level %]<br>[% END %]
-        [% END %]
-        [% IF max_dunning_level %]
-        <span class="customer_dunning_level">
-          [% LxERP.t8("Customer's current maximum dunning level: #1", max_dunning_level) %] <br>
-          [% LxERP.t8("Dunned open amount: #1", LxERP.format_amount(dunning_amount, 2)) %]
-        </span>
-       [% END %]
-      </td>
-    </tr>
-    [% END %]
-    <tr>
-      <th>[% LxERP.t8("Credit Limit") %]</th>
-      <td>
-       [% LxERP.format_amount(creditlimit, 0) %][% L.hidden_tag('creditlimit', LxERP.format_amount(creditlimit, 0)) %];
-       [% LxERP.t8("Remaining") %]
-       <span class="plus[% creditremaining < 0 ? 0 : 1 %]">[% LxERP.format_amount(creditremaining, 0) %][% L.hidden_tag('creditremaining', LxERP.format_amount(creditremaining, 0)) %]</span>
-      </td>
-    </tr>
-    [% IF invoice_obj.sepa_exports.as_list.size %]
-    <tr>
-      <th>[% LxERP.t8("SEPA exports") %]</th>
-      <td>
-       [% FOREACH export = invoice_obj.sepa_exports.as_list %]
-        <a href="sepa.pl?action=bank_transfer_edit&vc=customer&id=[% HTML.url(export.id) %]">[% HTML.escape(export.id) %]</a>
-        [% UNLESS loop.last %], [% END %]
-       [% END %]
-      </td>
-    </tr>
-    [% END %]
-    <tr>
-      <th>[% 'Currency' | $T8 %]</th>
-      <td>[% L.select_tag("currency", currencies, default=currency, value_key="name", title_key="name") %]</td>
-      [% L.hidden_tag('defaultcurrency', defaultcurrency) %]
-      [% L.hidden_tag('fxgain_accno', fxgain_accno) %]
-      [% L.hidden_tag('fxloss_accno', fxloss_accno) %]
-      [% L.hidden_tag('forex', forex) %]
-      [% IF show_exch %]
-        <!-- PENDENT: Testen und Design ggf. anpassen -->
-        &nbsp; [% 'Exchangerate' | $T8 %]: 
-        [% IF forex %]
-          [% L.hidden_tag('exchangerate', LxERP.format_amount(exchangerate, 5)) %][% LxERP.format_amount(exchangerate, 5) %]
-        [% ELSE %]
-          [% L.input_tag('exchangerate', LxERP.format_amount(exchangerate, 5), size=10) %]
-        [% END %]
-      [% END %]
-    </tr>
-    [% IF ALL_DEPARTMENTS %]
+  <table class="tbl-horizontal">
+    <caption>[% 'Customer &amp; Order' | $T8 %]</caption>
+    <tbody>
       <tr>
-        <th>[% 'Department' | $T8 %]</th>
-        <td>[% L.select_tag('department_id', ALL_DEPARTMENTS, default = department_id, title_key = 'description', with_empty = 1) %]</td>
+        <th>[% 'Customer' | $T8 %]</th>
+        <td>
+         [% P.customer_vendor.picker("customer_id", customer_id, type="customer", style="width: 300px", class=(initial_focus == 'customer_id' ? "initial_focus" : ""), onchange="\$('#update_button').click()") %]
+         [% L.button_tag("show_vc_details('customer')", LxERP.t8('Details (one letter abbreviation)')) %]
+         [% L.hidden_tag("previous_customer_id", customer_id) %]
+         [% L.hidden_tag('terms', terms) %]
+       </td>
       </tr>
-    [% END %]
-    <tr>
-      <th></th>
-      <td>[% L.checkbox_tag('taxincluded', checked=taxincluded) %] <label for="taxincluded">[% 'Tax Included' | $T8 %]</label></td>
-    </tr>
-    <tr>
-      <th></th>
-      <td>[% L.checkbox_tag('direct_debit', checked=direct_debit) %] <label for="direct_debit">[% 'direct debit' | $T8 %]</label></td>
-    </tr>
-  </tbody>
-</table>
+      [% IF max_dunning_level || invoice_obj.dunning_config_id  %]
+      <tr>
+        <th>[% LxERP.t8("Dunning status") %]</th>
+        <td>
+          [% IF invoice_obj.dunning_config_id %]
+          <span class="dunned_invoice">[% LxERP.t8("This invoice's dunning level: #1", invoice_obj.dunning_config.dunning_description) %]</span>
+            [% IF max_dunning_level %]<br>[% END %]
+          [% END %]
+          [% IF max_dunning_level %]
+          <span class="customer_dunning_level">
+            [% LxERP.t8("Customer's current maximum dunning level: #1", max_dunning_level) %] <br>
+            [% LxERP.t8("Dunned open amount: #1", LxERP.format_amount(dunning_amount, 2)) %]
+          </span>
+         [% END %]
+        </td>
+      </tr>
+      [% END %]
+      <tr>
+        <th>[% LxERP.t8("Credit Limit") %]</th>
+        <td>
+         [% LxERP.format_amount(creditlimit, 0) %][% L.hidden_tag('creditlimit', LxERP.format_amount(creditlimit, 0)) %];
+         [% LxERP.t8("Remaining") %]
+         <span class="plus[% creditremaining < 0 ? 0 : 1 %]">[% LxERP.format_amount(creditremaining, 0) %][% L.hidden_tag('creditremaining', LxERP.format_amount(creditremaining, 0)) %]</span>
+        </td>
+      </tr>
+      [% IF invoice_obj.sepa_exports.as_list.size %]
+      <tr>
+        <th>[% LxERP.t8("SEPA exports") %]</th>
+        <td>
+         [% FOREACH export = invoice_obj.sepa_exports.as_list %]
+          <a href="sepa.pl?action=bank_transfer_edit&vc=customer&id=[% HTML.url(export.id) %]">[% HTML.escape(export.id) %]</a>
+          [% UNLESS loop.last %], [% END %]
+         [% END %]
+        </td>
+      </tr>
+      [% END %]
+      <tr>
+        <th>[% 'Currency' | $T8 %]</th>
+        <td>[% L.select_tag("currency", currencies, default=currency, value_key="name", title_key="name") %]</td>
+        [% L.hidden_tag('defaultcurrency', defaultcurrency) %]
+        [% L.hidden_tag('fxgain_accno', fxgain_accno) %]
+        [% L.hidden_tag('fxloss_accno', fxloss_accno) %]
+        [% L.hidden_tag('forex', forex) %]
+        [% IF show_exch %]
+          <!-- PENDENT: Testen und Design ggf. anpassen -->
+          &nbsp; [% 'Exchangerate' | $T8 %]: 
+          [% IF forex %]
+            [% L.hidden_tag('exchangerate', LxERP.format_amount(exchangerate, 5)) %][% LxERP.format_amount(exchangerate, 5) %]
+          [% ELSE %]
+            [% L.input_tag('exchangerate', LxERP.format_amount(exchangerate, 5), size=10) %]
+          [% END %]
+        [% END %]
+      </tr>
+      [% IF ALL_DEPARTMENTS %]
+        <tr>
+          <th>[% 'Department' | $T8 %]</th>
+          <td>[% L.select_tag('department_id', ALL_DEPARTMENTS, default = department_id, title_key = 'description', with_empty = 1) %]</td>
+        </tr>
+      [% END %]
+      <tr>
+        <th></th>
+        <td>[% L.checkbox_tag('taxincluded', checked=taxincluded) %] <label for="taxincluded">[% 'Tax Included' | $T8 %]</label></td>
+      </tr>
+      <tr>
+        <th></th>
+        <td>[% L.checkbox_tag('direct_debit', checked=direct_debit) %] <label for="direct_debit">[% 'direct debit' | $T8 %]</label></td>
+      </tr>
+    </tbody>
+  </table>
 
+  <table class="tbl-horizontal">
+    <caption>[% 'Notes' | $T8 %]</caption>
+    <tbody>
+      <tr>
+        <td>
+          <textarea name="notes" rows="[% rows %]" cols="30" wrap="soft">[% notes | html %]</textarea>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          [% 'Notes for customer' | $T8 %]<br>
+          <textarea name="intnotes" rows="[% rows %]" cols="30" wrap="soft" readonly>[% intnotes | html %]</textarea>
+        </th>
+      </tr>
+    </tbody>
+  </table>
 
-<table class="tbl-horizontal">
-  <caption>[% 'Notes' | $T8 %]</caption>
-  <tbody>
-    <tr>
-      <td>
-        <textarea name="notes" rows="[% rows %]" cols="30" wrap="soft">[% notes | html %]</textarea>
-      </td>
-    </tr>
-    <tr>
-      <th>
-        [% 'Notes for customer' | $T8 %]<br>
-        <textarea name="intnotes" rows="[% rows %]" cols="30" wrap="soft" readonly>[% intnotes | html %]</textarea>
-      </th>
-    </tr>
-  </tbody>
-</table>
-
-
-<table class="tbl-horizontal">
-  <caption>[% 'Dates &amp; Numbers' | $T8 %]</caption>
-  <tbody>
-    <tr>
-      <th>[% 'Salesperson' | $T8 %]</th>
-      <td>[% P.select_tag("employee_id", employees, default=employee_id, title_key='safe_name') %]</td>
-    </tr>
-    <tr>
-      <th>[% 'Invoice Number' | $T8 %]</th>
-      <td><input type="text" name="invnumber" size="11" value="[% invnumber | html %]"></td>
-    </tr>
-    <tr>
-      <th>[% 'Order Number' | $T8 %]</th>
-      <td><input type="text" name="ordnumber" size="11" value="[% ordnumber | html %]"></td>
-    </tr>
-    <tr>
-      <th>[% 'Invoice Date' | $T8 %]</th>
-      <td>[% L.date_tag('transdate', transdate) %]</td>
-    </tr>
-    <tr>
-      <th>[% 'Due Date' | $T8 %]</th>
-      <td>[% L.date_tag('duedate', duedate) %]</td>
-    </tr>
-    <tr>
-      <th>[% 'Project Number' | $T8 %]</th>
-      <td>[% L.select_tag('globalproject_id', ALL_PROJECTS, title_key = 'projectnumber', default = globalproject_id, with_empty = 1, onChange = "document.getElementById('update_button').click();") %]</td>
-    </tr>
-  </tbody>
-</table>
+  <table class="tbl-horizontal">
+    <caption>[% 'Dates &amp; Numbers' | $T8 %]</caption>
+    <tbody>
+      <tr>
+        <th>[% 'Salesperson' | $T8 %]</th>
+        <td>[% P.select_tag("employee_id", employees, default=employee_id, title_key='safe_name') %]</td>
+      </tr>
+      <tr>
+        <th>[% 'Invoice Number' | $T8 %]</th>
+        <td><input type="text" name="invnumber" size="11" value="[% invnumber | html %]"></td>
+      </tr>
+      <tr>
+        <th>[% 'Order Number' | $T8 %]</th>
+        <td><input type="text" name="ordnumber" size="11" value="[% ordnumber | html %]"></td>
+      </tr>
+      <tr>
+        <th>[% 'Invoice Date' | $T8 %]</th>
+        <td>[% L.date_tag('transdate', transdate) %]</td>
+      </tr>
+      <tr>
+        <th>[% 'Due Date' | $T8 %]</th>
+        <td>[% L.date_tag('duedate', duedate) %]</td>
+      </tr>
+      <tr>
+        <th>[% 'Project Number' | $T8 %]</th>
+        <td>[% L.select_tag('globalproject_id', ALL_PROJECTS, title_key = 'projectnumber', default = globalproject_id, with_empty = 1, onChange = "document.getElementById('update_button').click();") %]</td>
+      </tr>
+    </tbody>
+  </table>
 
 </div><!-- /.wrapper -->
 
@@ -203,7 +200,7 @@
   </tbody>
   <tfoot>
     <tr>
-      <td>[% P.chart_picker("AR_chart_id", AR_chart_id, style="width: 400px", type="AR") %]</td>
+      <td>[% P.chart.picker("AR_chart_id", AR_chart_id, style="width: 400px", type="AR") %]</td>
       <th class="numeric">[% LxERP.format_amount(invtotal, 2) | html %]</th>
         <input type="hidden" name="oldinvtotal" value="[% oldinvtotal %]">
         <input type="hidden" name="oldtotalpaid" value="[% oldtotalpaid %]">
@@ -256,7 +253,7 @@
       </td>
       <td class="numeric">
         [% IF row.changeable %]
-          <input type="text" name="paid_[% loop.count %]" type="text" class="wi-small numeric" value="[% row.paid ? LxERP.format_amount(row.paid, 2) : '' | html %]" onBlur="check_right_number_format(this)">
+          <input name="paid_[% loop.count %]" value="[% row.paid ? LxERP.format_amount(row.paid, 2) : '' | html %]" type="text" data-validate="number" class="numeric">
         [% ELSE %]
           [% row.paid | html %]<input type="hidden" name="paid_[% loop.count %]" value="[% row.paid ? LxERP.format_amount(row.paid, 2) : '' | html %]">
         [% END %]
@@ -297,23 +294,33 @@
     [% END %]
   </tbody>
   <tfoot>
-  <tr>
-    <td></td>
-    <td></td>
-    <th class="right">[% 'Total' | $T8 %]</th>
-    <td class="numeric">[% LxERP.format_amount(totalpaid, 2) | html %]</td>
-    <td></td><td></td><td></td>
-  </tr>
-  <tr>
-    <td></td>
-    <td></td>
-    <th class="right">[% 'Missing amount' | $T8 %]</th>
-    <td class="numeric">
-      [% LxERP.format_amount(paid_missing, 2) | html %]
-      <input type="hidden" name="paidaccounts" value="[% paidaccounts %]">
-    </td>
-    <td></td><td></td><td></td>
-  </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <th class="right">[% 'Total' | $T8 %]</th>
+      <td class="numeric">[% LxERP.format_amount(totalpaid, 2) | html %]</td>
+      <td></td>
+      [% IF show_exch %]
+        <td></td>
+      [% END %] 
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <th class="right">[% 'Missing amount' | $T8 %]</th>
+      <td class="numeric">
+        [% LxERP.format_amount(paid_missing, 2) | html %]
+        <input type="hidden" name="paidaccounts" value="[% paidaccounts %]">
+      </td>
+      <td></td>
+      [% IF show_exch %]
+        <td></td>
+      [% END %] 
+      <td></td>
+      <td></td>
+    </tr>
   </tfoot>
 </table>
 

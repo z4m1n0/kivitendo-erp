@@ -57,6 +57,7 @@ use SL::DB::Tax;
 use SL::DB::TaxZone;
 use SL::TransNumber;
 use SL::DB;
+use SL::Presenter::Part qw(type_abbreviation classification_abbreviation);
 use Data::Dumper;
 
 use strict;
@@ -434,7 +435,7 @@ sub invoice_details {
       }
       my $tax_rate = $taxrate * 100;
       push(@{ $form->{TEMPLATE_ARRAYS}->{tax_rate} }, qq|$tax_rate|);
-      if ($form->{"assembly_$i"}) {
+      if ($form->{"part_type_$i"} eq 'assembly') {
         $sameitem = "";
 
         # get parts and push them onto the stack
@@ -664,6 +665,13 @@ sub customer_details {
                                                     'trans_id' => $form->{customer_id});
   map { $form->{"vc_cvar_$_->{name}"} = $_->{value} } @{ $custom_variables };
 
+  if ($form->{cp_id}) {
+    $custom_variables = CVar->get_custom_variables(dbh      => $dbh,
+                                                   module   => 'Contacts',
+                                                   trans_id => $form->{cp_id});
+    $form->{"cp_cvar_$_->{name}"} = $_->{value} for @{ $custom_variables };
+  }
+
   $form->{cp_greeting} = GenericTranslations->get('dbh'              => $dbh,
                                                   'translation_type' => 'greetings::' . ($form->{cp_gender} eq 'f' ? 'female' : 'male'),
                                                   'language_id'      => $language_id,
@@ -674,18 +682,19 @@ sub customer_details {
 }
 
 sub post_invoice {
-  my ($self, $myconfig, $form, $provided_dbh, $payments_only) = @_;
+  my ($self, $myconfig, $form, $provided_dbh, %params) = @_;
   $main::lxdebug->enter_sub();
 
-  my $rc = SL::DB->client->with_transaction(\&_post_invoice, $self, $myconfig, $form, $provided_dbh, $payments_only);
+  my $rc = SL::DB->client->with_transaction(\&_post_invoice, $self, $myconfig, $form, $provided_dbh, %params);
 
   $::lxdebug->leave_sub;
   return $rc;
 }
 
 sub _post_invoice {
-  my ($self, $myconfig, $form, $provided_dbh, $payments_only) = @_;
+  my ($self, $myconfig, $form, $provided_dbh, %params) = @_;
 
+  my $payments_only = $params{payments_only};
   my $dbh = $provided_dbh || SL::DB->client->dbh;
   my $restricter = SL::HTML::Restrict->create;
 
@@ -858,9 +867,9 @@ sub _post_invoice {
 
       next if $payments_only;
 
-      if ($form->{"inventory_accno_$i"} || $form->{"assembly_$i"}) {
+      if ($form->{"inventory_accno_$i"} || $form->{"part_type_$i"} eq 'assembly') {
 
-        if ($form->{"assembly_$i"}) {
+        if ($form->{"part_type_$i"} eq 'assembly') {
           # record assembly item as allocated
           &process_assembly($dbh, $myconfig, $form, $position, $form->{"id_$i"}, $baseqty);
 
@@ -1136,6 +1145,8 @@ SQL
     }
   }
 
+  my %already_cleared = %{ $params{already_cleared} // {} };
+
   # record payments and offsetting AR
   if (!$form->{storno}) {
     for my $i (1 .. $form->{paidaccounts}) {
@@ -1165,9 +1176,16 @@ SQL
       # record AR
       $amount = $form->round_amount($form->{"paid_$i"} * $form->{exchangerate} + $diff, 2);
 
+      my $new_cleared = !$form->{"acc_trans_id_$i"}                                                       ? 'f'
+                      : !$already_cleared{$form->{"acc_trans_id_$i"}}                                     ? 'f'
+                      : $already_cleared{$form->{"acc_trans_id_$i"}}->{amount} != $form->{"paid_$i"} * -1 ? 'f'
+                      : $already_cleared{$form->{"acc_trans_id_$i"}}->{accno}  != $accno                  ? 'f'
+                      : $already_cleared{$form->{"acc_trans_id_$i"}}->{cleared}                           ? 't'
+                      :                                                                                     'f';
+
       if ($form->{amount}{ $form->{id} }{ $form->{AR} } != 0) {
         $query =
-        qq|INSERT INTO acc_trans (trans_id, chart_id, amount, transdate, tax_id, taxkey, project_id, chart_link)
+        qq|INSERT INTO acc_trans (trans_id, chart_id, amount, transdate, tax_id, taxkey, project_id, cleared, chart_link)
            VALUES (?, (SELECT id FROM chart WHERE accno = ?), ?, ?,
                    (SELECT tax_id
                     FROM taxkeys
@@ -1183,9 +1201,9 @@ SQL
                                      WHERE accno = ?)
                     AND startdate <= ?
                     ORDER BY startdate DESC LIMIT 1),
-                   ?,
+                   ?, ?,
                    (SELECT link FROM chart WHERE accno = ?))|;
-        @values = (conv_i($form->{"id"}), $form->{AR}, $amount, $form->{"datepaid_$i"}, $form->{AR}, conv_date($taxdate), $form->{AR}, conv_date($taxdate), $project_id, $form->{AR});
+        @values = (conv_i($form->{"id"}), $form->{AR}, $amount, $form->{"datepaid_$i"}, $form->{AR}, conv_date($taxdate), $form->{AR}, conv_date($taxdate), $project_id, $new_cleared, $form->{AR});
         do_query($form, $dbh, $query, @values);
       }
 
@@ -1194,7 +1212,7 @@ SQL
       my $gldate = (conv_date($form->{"gldate_$i"}))? conv_date($form->{"gldate_$i"}) : conv_date($form->current_date($myconfig));
 
       $query =
-      qq|INSERT INTO acc_trans (trans_id, chart_id, amount, transdate, gldate, source, memo, tax_id, taxkey, project_id, chart_link)
+      qq|INSERT INTO acc_trans (trans_id, chart_id, amount, transdate, gldate, source, memo, tax_id, taxkey, project_id, cleared, chart_link)
          VALUES (?, (SELECT id FROM chart WHERE accno = ?), ?, ?, ?, ?, ?,
                  (SELECT tax_id
                   FROM taxkeys
@@ -1210,10 +1228,10 @@ SQL
                                    WHERE accno = ?)
                   AND startdate <= ?
                   ORDER BY startdate DESC LIMIT 1),
-                 ?,
+                 ?, ?,
                  (SELECT link FROM chart WHERE accno = ?))|;
       @values = (conv_i($form->{"id"}), $accno, $form->{"paid_$i"}, $form->{"datepaid_$i"},
-                 $gldate, $form->{"source_$i"}, $form->{"memo_$i"}, $accno, conv_date($taxdate), $accno, conv_date($taxdate), $project_id, $accno);
+                 $gldate, $form->{"source_$i"}, $form->{"memo_$i"}, $accno, conv_date($taxdate), $accno, conv_date($taxdate), $project_id, $new_cleared, $accno);
       do_query($form, $dbh, $query, @values);
 
       # exchangerate difference
@@ -1612,6 +1630,15 @@ sub _post_payment {
 
   $old_form = save_form();
 
+  $query = <<SQL;
+    SELECT at.acc_trans_id, at.amount, at.cleared, c.accno
+    FROM acc_trans at
+    LEFT JOIN chart c ON (at.chart_id = c.id)
+    WHERE (at.trans_id = ?)
+SQL
+
+  my %already_cleared = selectall_as_map($form, $dbh, $query, 'acc_trans_id', [ qw(amount cleared accno) ], $form->{id});
+
   # Delete all entries in acc_trans from prior payments.
   if (SL::DB::Default->get->payments_changeable != 0) {
     $self->_delete_payments($form, $dbh);
@@ -1658,7 +1685,7 @@ sub _post_payment {
   ($form->{AR}) = selectfirst_array_query($form, $dbh, $query, conv_i($form->{id}));
 
   # Post the new payments.
-  $self->post_invoice($myconfig, $form, $dbh, 1);
+  $self->post_invoice($myconfig, $form, $dbh, payments_only => 1, already_cleared => \%already_cleared);
 
   restore_form($old_form);
 
@@ -2150,7 +2177,7 @@ sub get_customer {
   $ref = selectfirst_hashref_query($form, $dbh, $query, @values);
 
   delete $ref->{salesman_id} if !$ref->{salesman_id};
-  delete $ref->{payment_id}  if $form->{payment_id};
+  delete $ref->{payment_id}  if !$ref->{payment_id};
 
   map { $form->{$_} = $ref->{$_} } keys %$ref;
 
@@ -2346,8 +2373,8 @@ sub retrieve_item {
       push @{ $ref->{matches} ||= [] }, $::locale->text('EAN') . ': ' . $ref->{ean};
     }
 
-    $ref->{type_and_classific} = $::request->presenter->type_abbreviation($ref->{part_type}).
-                                 $::request->presenter->classification_abbreviation($ref->{classification_id});
+    $ref->{type_and_classific} = type_abbreviation($ref->{part_type}) .
+                                 classification_abbreviation($ref->{classification_id});
     if (! $ref->{used_for_sale} ) {
       $has_wrong_pclass = PCLASS_NOTFORSALE ;
       next;
@@ -2429,7 +2456,6 @@ sub retrieve_item {
     }
 
     $ref->{onhand} *= 1;
-
     push @{ $form->{item_list} }, $ref;
   }
   $sth->finish;

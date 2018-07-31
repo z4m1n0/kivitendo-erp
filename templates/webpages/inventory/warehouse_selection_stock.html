@@ -1,5 +1,6 @@
 [% USE T8 %]
 [% USE L %]
+[% USE P %]
 [% USE HTML %]
 [% USE LxERP %]
 
@@ -8,79 +9,80 @@
 [% INCLUDE 'common/flash.html' %]
 
 <form name="Form" method="post" action="controller.pl" id="form">
+
 <div class="wrapper">
 
-<table class="tbl-horizontal">
-  <colgroup> <col class="wi-mediumsmall"><col class="wi-verywide"> </colgroup> 
-  <tbody>
-    <tr>
-      <th>[% 'Part' | $T8 %]</th>
-      <td>[% L.part_picker('part_id', SELF.part, class='wi-wide') %]</td>
-    </tr>
-    <tr>
-      <th>[% 'Destination warehouse' | $T8 %]</th>
-      <td>
-        [% L.select_tag('warehouse_id', SELF.warehouses, default=SELF.warehouse.id, title_key='description', class='wi-wide below') %]
-        [% IF SELF.warehouse.id %]
-          [% L.select_tag('bin_id', SELF.warehouse.bins, default=SELF.bin.id, title_key='description', class='wi-wide below') %]
-        [% ELSE %]
-          <span id="bin_id"></span>
-        [% END %]
-        <span id="write_default_bin_span" style="display:none;" class="below">[% L.checkbox_tag('write_default_bin', label=LxERP.t8('Write bin to default bin in part?')) %]</span>
-        </td>
-    </tr>
-    <tr>
-      <th>[% 'Charge number' | $T8 %]</th>
-      <td>[% L.input_tag('chargenumber', FORM.chargenumber, class='wi-wide') %]</td>
-    </tr>
-    [% IF INSTANCE_CONF.get_show_bestbefore %]
+  <table class="tbl-horizontal">
+    <colgroup> <col class="wi-mediumsmall"><col class="wi-verywide"> </colgroup> 
+    <tbody>
       <tr>
-        <th>[% 'Best Before' | $T8 %]</th>
-        <td>[% L.date_tag('bestbefore', FORM.bestbefore) %]</td>
+        <th>[% 'Part' | $T8 %]</th>
+        <td>[% P.part.picker('part_id', SELF.part, class='wi-wide') %]</td>
       </tr>
-    [% END %]
-    <tr>
-     <th>[% 'EAN' | $T8 %]</th>
-     <td>[% L.input_tag('ean', FORM.ean, class='wi-wide') %]</td>
-    </tr>
-    <tr>
-      <th>[% 'Quantity' | $T8 %]</th>
-      <td>
-        [% L.input_tag('qty', LxERP.format_amount(FORM.qty), class='wi-verysmall') %]
-        [% IF SELF.part.unit %]
-          [% L.select_tag('unit_id', SELF.part.available_units, title_key='name', default=SELF.unit.id, class='wi-small') %]
-        [% ELSE %]
-          [% L.select_tag('unit_id', SELF.units, title_key='name', class='wi-small') %]
-        [% END %]
-      </td>
-    </tr>
-    <tr>
-      <th>[% 'Select type of transfer in' | $T8 %]</th>
-      <td>[% L.select_tag('transfer_type_id', TRANSFER_TYPES, title_key='description', class='wi-wide') %]</td>
-    </tr>
-    <tr>
-      <th>[% 'Optional comment' | $T8 %]</th>
-      <td>[% L.input_tag('comment', FORM.comment, class='wi-wide') %]</td>
-    </tr>
-  </tbody>
-</table>
+      <tr>
+        <th>[% 'Destination warehouse' | $T8 %]</th>
+        <td>
+          [% L.select_tag('warehouse_id', SELF.warehouses, default=SELF.warehouse.id, title_key='description', class='wi-wide below') %]
+          [% IF SELF.warehouse.id %]
+            [% L.select_tag('bin_id', SELF.warehouse.bins, default=SELF.bin.id, title_key='description', class='wi-wide below') %]
+          [% ELSE %]
+            <span id="bin_id"></span>
+          [% END %]
+          <span id="write_default_bin_span" style="display:none;" class="below">[% L.checkbox_tag('write_default_bin', label=LxERP.t8('Write bin to default bin in part?')) %]</span>
+        </td>
+      </tr>
+      <tr>
+        <th>[% 'Charge number' | $T8 %]</th>
+        <td>[% L.input_tag('chargenumber', FORM.chargenumber, class='wi-wide') %]</td>
+      </tr>
+      [% IF INSTANCE_CONF.get_show_bestbefore %]
+        <tr>
+          <th>[% 'Best Before' | $T8 %]</th>
+          <td>[% L.date_tag('bestbefore', FORM.bestbefore) %]</td>
+        </tr>
+      [% END %]
+      <tr>
+        <th>[% 'EAN' | $T8 %]</th>
+        <td>[% L.input_tag('ean', FORM.ean, class='wi-wide') %]</td>
+      </tr>
+      <tr>
+        <th>[% 'Quantity' | $T8 %]</th>
+        <td>
+          [% L.input_tag('qty', LxERP.format_amount(FORM.qty), class='wi-verysmall') %]
+          [% IF SELF.part.unit %]
+            [% L.select_tag('unit_id', SELF.part.available_units, title_key='name', default=SELF.unit.id, class='wi-small') %]
+          [% ELSE %]
+            [% L.select_tag('unit_id', SELF.units, title_key='name', class='wi-small') %]
+          [% END %]
+        </td>
+      </tr>
+      <tr>
+        <th>[% 'Select type of transfer in' | $T8 %]</th>
+        <td>[% L.select_tag('transfer_type_id', TRANSFER_TYPES, title_key='description', class='wi-wide') %]</td>
+      </tr>
+      <tr>
+        <th>[% 'Optional comment' | $T8 %]</th>
+        <td>[% L.input_tag('comment', FORM.comment, class='wi-wide') %]</td>
+      </tr>
+    </tbody>
+  </table>
 
-</div>
+</div><!-- /.wrapper -->
+
 </form>
 
 
 <div class="wrapper">
 
+  <div id="stock">
+    [% PROCESS 'inventory/_stock.html' %]
+  </div>
+  <div id="journal">
+    [% PROCESS 'inventory/_journal.html' journal=SELF.mini_journal %]
+  </div>
 
-<div id="stock">
-  [% PROCESS 'inventory/_stock.html' %]
-</div>
-<div id="journal">
-  [% PROCESS 'inventory/_journal.html' journal=SELF.mini_journal %]
-</div>
+</div><!-- /.wrapper -->
 
-
-</div>
 
 <script type="text/javascript">
   function reload_warehouse_selection () {

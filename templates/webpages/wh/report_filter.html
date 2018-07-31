@@ -14,18 +14,20 @@
   warehouses[0]['bins'][0] = new Array();
   warehouses[0]['bins'][0]['description'] = "---";
   warehouses[0]['bins'][0]['id'] = "";
-  [% USE WAREHOUSES_it = Iterator(WAREHOUSES) %][% FOREACH warehouse = WAREHOUSES_it %]
-  warehouses[[% WAREHOUSES_it.count %]] = new Array();
-  warehouses[[% WAREHOUSES_it.count %]]['id'] = [% warehouse.id %];
-  warehouses[[% WAREHOUSES_it.count %]]['bins'] = new Array();
-  warehouses[[% WAREHOUSES_it.count %]]['bins'][0] = new Array();
-  warehouses[[% WAREHOUSES_it.count %]]['bins'][0]['description'] = "---";
-  warehouses[[% WAREHOUSES_it.count %]]['bins'][0]['id'] = "";
-  [% USE BINS_it = Iterator(warehouse.BINS) %][% FOREACH bin = BINS_it %]
-  warehouses[[% WAREHOUSES_it.count %]]['bins'][[% BINS_it.count %]] = new Array();
-  warehouses[[% WAREHOUSES_it.count %]]['bins'][[% BINS_it.count %]]['description'] = "[% JavaScript.escape(bin.description) %]";
-  warehouses[[% WAREHOUSES_it.count %]]['bins'][[% BINS_it.count %]]['id'] = [% bin.id %];
-  [% END %]
+  [%- USE WAREHOUSES_it = Iterator(WAREHOUSES) %]
+  [%- FOREACH warehouse = WAREHOUSES_it %]
+    warehouses[[% WAREHOUSES_it.count %]] = new Array();
+    warehouses[[% WAREHOUSES_it.count %]]['id'] = [% warehouse.id %];
+    warehouses[[% WAREHOUSES_it.count %]]['bins'] = new Array();
+    warehouses[[% WAREHOUSES_it.count %]]['bins'][0] = new Array();
+    warehouses[[% WAREHOUSES_it.count %]]['bins'][0]['description'] = "---";
+    warehouses[[% WAREHOUSES_it.count %]]['bins'][0]['id'] = "";
+    [% USE BINS_it = Iterator(warehouse.BINS) %]
+    [% FOREACH bin = BINS_it %]
+      warehouses[[% WAREHOUSES_it.count %]]['bins'][[% BINS_it.count %]] = new Array();
+      warehouses[[% WAREHOUSES_it.count %]]['bins'][[% BINS_it.count %]]['description'] = "[% JavaScript.escape(bin.description) %]";
+      warehouses[[% WAREHOUSES_it.count %]]['bins'][[% BINS_it.count %]]['id'] = [% bin.id %];
+    [% END %]
   [% END %]
 
   function warehouse_selected(warehouse_id, bin_id) {
@@ -64,6 +66,7 @@
     warehouse_selected(0, 0);
     document.Form.partnumber.focus();
   });
+      
 --></script>
 
 <form method="post" name="Form" action="wh.pl" id="form">
@@ -98,7 +101,7 @@
 		</tr>
 		<tr>
 			<th>[% 'Parts Classification' | $T8 %]:</th>
-			<td>[% P.select_classification('classification_id',  class='wi-normal') %]</td>
+			<td>[% P.part.select_classification('classification_id', class='wi-normal') %]</td>
 		</tr>
 		<tr>
 			<th>[% 'Part Description' | $T8 %]:</th>
@@ -142,6 +145,9 @@
 
 <div class="form-addition">
 	<h3>[% 'Include in Report' | $T8 %]</h3>
+  <input name="l_partdescription" type="hidden" value="Y">
+  <input name="l_qty" type="hidden" value="Y">
+
 	<div class="list col">
 		<h4>[% 'Store & Articles' | $T8 %]</h4>
 		<input name="l_warehousedescription" id="l_warehousedescription" type="checkbox" value="Y" checked>
@@ -174,12 +180,5 @@
 </div>
 <!-- /.form-addition -->
 
-
-
-<input name="l_partdescription" type="hidden" value="Y">
-<input name="l_qty" type="hidden" value="Y">
-
-
-</div>
-
- </form>
+</div><!-- /.wrapper -->
+</form>

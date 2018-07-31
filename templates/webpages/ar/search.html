@@ -9,112 +9,109 @@
 
 <div class="wrapper">
 
-<div class="col">
-  <table class="tbl-horizontal">
+  <div class="col">
+    <table class="tbl-horizontal">
       <caption>[% 'Customer' | $T8 %]</caption>
-    <tbody>
-     <tr>
-      <th>[% 'Customer' | $T8 %]</th>
-      <td>[% L.input_tag("customer", customer, style=style, class="initial_focus") %]</td>
-     </tr>
-    <tr>
-     <th>[% 'Contact Person' | $T8 %]</th>
-     <td>[% L.input_tag("cp_name", '', style=style) %]</td>
-    </tr>
-     <tr>
-      <th>[% 'Department' | $T8 %]</th>
-      <td>[% L.select_tag('department_id', ALL_DEPARTMENTS, title_key = 'description', with_empty = 1, style=style) %]</td>
-     </tr>
-      <tr><th class="caption" colspan="2">[% 'Employee' | $T8 %]</th></tr>
-     <tr>
-      <th>[% 'Employee' | $T8 %]</th>
-      <td>[% L.select_tag('employee_id', ALL_EMPLOYEES, title_key = 'safe_name', with_empty = 1, style=style) %]</td>
-     </tr>
-    <tr>
-     <th>[% 'Salesman' | $T8 %]</th>
-     <td>[% L.select_tag('salesman_id', ALL_EMPLOYEES, title_key = 'safe_name', with_empty = 1, style=style) %]</td>
-     </tr>
-      <tr><th class="caption" colspan="2">[% 'Order' | $T8 %]</th></tr>
-     <tr>
-      <th>[% 'Transaction description' | $T8 %]</th>
-      <td>[% L.input_tag("transaction_description", "", style=style) %]</td>
-     </tr>
-     <tr>
-      <th>[% 'Notes' | $T8 %]</th>
-      <td>[% L.input_tag("notes", "", style=style) %]</td>
-     </tr>
-     <tr>
-      <th>[% 'Part Description' | $T8 %]</th>
-      <td>[% L.input_tag("parts_description", "", style=style) %]</td>
-     </tr>
-     <tr>
-      <th>[% 'Part Number' | $T8 %]</th>
-      <td>[% L.input_tag("parts_partnumber", "", style=style) %]</td>
-     </tr>
-  </tbody>
-  </table>
-</div>
+      <tbody>
+        <tr>
+          <th>[% 'Customer' | $T8 %]</th>
+          <td>[% L.input_tag("customer", customer, style=style, class="initial_focus") %]</td>
+        </tr>
+        <tr>
+          <th>[% 'Contact Person' | $T8 %]</th>
+          <td>[% L.input_tag("cp_name", '', style=style) %]</td>
+        </tr>
+        <tr>
+          <th>[% 'Department' | $T8 %]</th>
+          <td>[% L.select_tag('department_id', ALL_DEPARTMENTS, title_key = 'description', with_empty = 1, style=style) %]</td>
+        </tr>
+        <tr>
+          <th class="caption" colspan="2">[% 'Employee' | $T8 %]</th>
+        </tr>
+        <tr>
+          <th>[% 'Employee' | $T8 %]</th>
+          <td>[% L.select_tag('employee_id', ALL_EMPLOYEES, title_key = 'safe_name', with_empty = 1, style=style) %]</td>
+        </tr>
+        <tr>
+          <th>[% 'Salesman' | $T8 %]</th>
+          <td>[% L.select_tag('salesman_id', ALL_EMPLOYEES, title_key = 'safe_name', with_empty = 1, style=style) %]</td>
+        </tr>
+        <tr>
+          <th class="caption" colspan="2">[% 'Order' | $T8 %]</th>
+        </tr>
+        <tr>
+          <th>[% 'Transaction description' | $T8 %]</th>
+          <td>[% L.input_tag("transaction_description", "", style=style) %]</td>
+        </tr>
+        <tr>
+          <th>[% 'Notes' | $T8 %]</th>
+          <td>[% L.input_tag("notes", "", style=style) %]</td>
+        </tr>
+        <tr>
+          <th>[% 'Part Description' | $T8 %]</th>
+          <td>[% L.input_tag("parts_description", "", style=style) %]</td>
+        </tr>
+        <tr>
+          <th>[% 'Part Number' | $T8 %]</th>
+          <td>[% L.input_tag("parts_partnumber", "", style=style) %]</td>
+        </tr>
+      </tbody>
+    </table>
+  </div><!-- /.col -->
 
-<div class="col">
-  <table class="tbl-horizontal">
-    <caption>[% 'Record numbers and dates' | $T8 %]</caption>
-    <tbody>
-     <tr>
-      <th>[% 'Invoice Number' | $T8 %]</th>
-      <td>[% L.input_tag("invnumber", "", style=style) %]</td>
-     </tr>
-     <tr>
-      <th>[% 'Order Number' | $T8 %]</th>
-      <td>[% L.input_tag("ordnumber", "", style=style) %]</td>
-     </tr>
-     <tr>
-      <th>[% 'Customer Order Number' | $T8 %]</th>
-      <td>[% L.input_tag("cusordnumber", "", style=style) %]</td>
-     </tr>
-     <tr>
-      <th>[% 'Project Number' | $T8 %]</th>
-      <td>[% P.project_picker("project_id", project_id, style=style) %]</td>
-     </tr>
-    [% IF ALL_BUSINESS_TYPES.as_list.size > 0 %]
-     <tr>
-      <th>[% 'Customer type' | $T8 %]</th>
-      <td>[% L.select_tag("business_id", ALL_BUSINESS_TYPES, with_empty=1, title_key="description", style=style) %]</td>
-     </tr>
-    [% END %]
-     <tr>
-      <th>[% 'Invoice Date' | $T8 %]</th>
-      <td>
-       [% L.date_tag('transdatefrom') %]
-       [% 'Bis' | $T8 %]
-       [% L.date_tag('transdateto') %]
-     </td>
-    </tr>
-     <tr>
-      <th>[% 'Due Date' | $T8 %]</th>
-      <td>
-       [% L.date_tag('duedatefrom') %]
-       [% 'Bis' | $T8 %]
-       [% L.date_tag('duedateto') %]
-     </td>
-    </tr>
-    [% IF CT_CUSTOM_VARIABLES.size %]
-    <tr>
-      <th class="caption" colspan="2">[% 'Custom variables for module' | $T8 %]: [%'Customers and vendors' | $T8 %]</th>
-    </tr>
-    [% CT_CUSTOM_VARIABLES_FILTER_CODE %]
-    [% END %]
-   </tbody>
-   </table>
- <input type=hidden name=sort value=transdate>
-</div>
+  <div class="col">
+    <table class="tbl-horizontal">
+      <caption>[% 'Record numbers and dates' | $T8 %]</caption>
+      <tbody>
+        <tr>
+          <th>[% 'Invoice Number' | $T8 %]</th>
+          <td>[% L.input_tag("invnumber", "", style=style) %]</td>
+        </tr>
+        <tr>
+          <th>[% 'Order Number' | $T8 %]</th>
+          <td>[% L.input_tag("ordnumber", "", style=style) %]</td>
+        </tr>
+        <tr>
+          <th>[% 'Customer Order Number' | $T8 %]</th>
+          <td>[% L.input_tag("cusordnumber", "", style=style) %]</td>
+        </tr>
+        <tr>
+          <th>[% 'Project Number' | $T8 %]</th>
+          <td>[% P.project_picker("project_id", project_id, style=style) %]</td>
+        </tr>
+        [% IF ALL_BUSINESS_TYPES.as_list.size > 0 %] 
+          <tr>
+            <th>[% 'Customer type' | $T8 %]</th>
+            <td>[% L.select_tag("business_id", ALL_BUSINESS_TYPES, with_empty=1, title_key="description", style=style) %]</td>
+          </tr>
+        [% END %] 
+        <tr>
+          <th>[% 'Show only marked as paid invoices' | $T8 %]</th>
+          <td>[% L.checkbox_tag('show_marked_as_closed') %]</td>
+        </tr>
+        <tr>
+          <th>[% 'Invoice Date' | $T8 %]</th>
+          <td> [% L.date_tag('transdatefrom') %] [% 'Bis' | $T8 %] [% L.date_tag('transdateto') %] </td>
+        </tr>
+        <tr>
+          <th>[% 'Due Date' | $T8 %]</th>
+          <td> [% L.date_tag('duedatefrom') %] [% 'Bis' | $T8 %] [% L.date_tag('duedateto') %] </td>
+        </tr>
+        [% IF CT_CUSTOM_VARIABLES.size %] 
+          <tr>
+            <th class="caption" colspan="2">[% 'Custom variables for module' | $T8 %]: [%'Customers and vendors' | $T8 %]</th>
+          </tr>
+          [% CT_CUSTOM_VARIABLES_FILTER_CODE %] 
+        [% END %] 
+      </tbody>
+    </table>
+    <input type=hidden name=sort value=transdate>
+  </div><!-- /.col -->
 
 </div><!-- /.wrapper -->
 
 <div class="wrapper form-addition">
-
   <h3>[% 'Include in Report' | $T8 %]</h3>
-	
-
 	<div class="list col">
 		<h4>[% 'Status' | $T8 %]</h4>
 		<div>
@@ -178,7 +175,6 @@
 			<input name="l_country" id="l_country" type="checkbox"><label for="l_country">[% 'Country' | $T8 %]</label> 
 		</div>
 	</div>
-
 	<div class="list col">
 		<h4>[% 'Amounts' | $T8 %]</h4>
 		<div>
@@ -245,9 +241,7 @@
 			[% CT_CUSTOM_VARIABLES_INCLUSION_CODE %] 
 		</div>
 	</div>
-
 </div>
-<!-- /.wrapper ,form-addition -->
-
+<!-- /.wrapper.form-addition -->
 
 </form>

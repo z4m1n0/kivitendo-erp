@@ -2,23 +2,25 @@
 [%- USE HTML %]
 [%- USE LxERP %]
 [%- USE L %]
+[%- USE P %]
 
 <div id="assembly">
 
 [% L.hidden_tag('assembly_id', SELF.part.id) %]
+
 
 <table id="assembly_items" class="tbl-list">
   <caption>[% 'Assembly items' | $T8 %]</caption>
   <thead>
     <tr>
       <th style="display:none"></th>
-      [% IF SELF.orphaned %]
+      [% IF SELF.orphaned || AUTH.assert('assembly_edit', 1) %]
       <th class="img">
         <img src="image/close.png" alt="[% LxERP.t8('delete item') %]">
       </th>
       [% END %]
       <th>[% 'position' | $T8 %] </th>
-      [% IF SELF.orphaned %]
+      [% IF SELF.orphaned || AUTH.assert('assembly_edit', 1) %]
       <th style="img">
         <img src="image/updown.png" alt="[% LxERP.t8('reorder item') %]">
       </th>
@@ -52,12 +54,12 @@
   </tbody>
   <tfoot id="assembly_input">
     <tr>
-      [% IF SELF.orphaned %]
+      [% IF SELF.orphaned || AUTH.assert('assembly_edit', 1) %]
         <td></td>
         <td></td>
         <th>[% 'Part' | $T8 %]</th>
         <td colspan="4">
-          [% L.part_picker(
+          [% P.part.picker(
               'add_items[+].parts_id', 
               '', 
               class='wi-normal', 
@@ -80,7 +82,7 @@
       <td></td>
     </tr>
     <tr class="blank">
-      [% IF SELF.orphaned %]
+      [% IF SELF.orphaned || AUTH.assert('assembly_edit', 1) %]
         <td></td>
         <td></td>
       [% END %]

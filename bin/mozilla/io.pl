@@ -53,6 +53,7 @@ use SL::IC;
 use SL::IO;
 use SL::File;
 use SL::PriceSource;
+use SL::Presenter::Part;
 
 use SL::DB::Contact;
 use SL::DB::Customer;
@@ -308,8 +309,8 @@ sub display_row {
 
 
     $column_data{partnumber}    = $cgi->textfield(-name => "partnumber_$i",    -id => "partnumber_$i",    -size => 12, -value => $form->{"partnumber_$i"});
-    $column_data{type_and_classific} = $::request->presenter->type_abbreviation($form->{"part_type_$i"}).
-                                       $::request->presenter->classification_abbreviation($form->{"classification_id_$i"}) if $form->{"id_$i"};
+    $column_data{type_and_classific} = SL::Presenter::Part::type_abbreviation($form->{"part_type_$i"}).
+                                       SL::Presenter::Part::classification_abbreviation($form->{"classification_id_$i"}) if $form->{"id_$i"};
     $column_data{description} = (($rows > 1) # if description is too large, use a textbox instead
                                 ? $cgi->textarea( -name => "description_$i", -id => "description_$i", -default => $form->{"description_$i"}, -rows => $rows, -columns => 30)
                                 : $cgi->textfield(-name => "description_$i", -id => "description_$i",   -value => $form->{"description_$i"}, -size => 30))
@@ -317,9 +318,9 @@ sub display_row {
 
     my $qty_dec = ($form->{"qty_$i"} =~ /\.(\d+)/) ? length $1 : 2;
 
-    $column_data{qty}  = $cgi->textfield(-name => "qty_$i", -size => 5, -value => $form->format_amount(\%myconfig, $form->{"qty_$i"}, $qty_dec));
-    $column_data{qty} .= $cgi->button(-onclick => "calculate_qty_selection_window('qty_$i','alu_$i', 'formel_$i', $i)", -value => $locale->text('*/'))
-                       . $cgi->hidden(-name => "formel_$i", -value => $form->{"formel_$i"}) . $cgi->hidden("-name" => "alu_$i", "-value" => $form->{"alu_$i"})
+    $column_data{qty}  = $cgi->textfield(-name => "qty_$i", -size => 5, -class => "numeric", -value => $form->format_amount(\%myconfig, $form->{"qty_$i"}, $qty_dec));
+    $column_data{qty} .= $cgi->button(-onclick => "calculate_qty_selection_dialog('qty_$i', '', 'formel_$i', '')", -value => $locale->text('*/'))
+                       . $cgi->hidden(-name => "formel_$i", -value => $form->{"formel_$i"})
       if $form->{"formel_$i"};
 
     $column_data{ship} = '';
@@ -377,10 +378,10 @@ sub display_row {
     my $edit_discounts  = $main::auth->assert('edit_prices', 1) && !$::form->{"active_discount_source_$i"};
     $column_data{sellprice}   = (!$edit_prices)
                                 ? $cgi->hidden(   -name => "sellprice_$i", -id => "sellprice_$i", -value => $sellprice_value) . $sellprice_value
-                                : $cgi->textfield(-name => "sellprice_$i", -id => "sellprice_$i", -size => 10, -onBlur => "check_right_number_format(this)", -value => $sellprice_value);
+                                : $cgi->textfield(-name => "sellprice_$i", -id => "sellprice_$i", -size => 10, -class => "numeric", -value => $sellprice_value);
     $column_data{discount}    = (!$edit_discounts)
                                   ? $cgi->hidden(   -name => "discount_$i", -id => "discount_$i", -value => $discount_value) . $discount_value . ' %'
-                                  : $cgi->textfield(-name => "discount_$i", -id => "discount_$i", -size => 3, -value => $discount_value);
+                                  : $cgi->textfield(-name => "discount_$i", -id => "discount_$i", -size => 3, -"data-validate" => "number", -class => "numeric", -value => $discount_value);
 
     if ($is_delivery_order) {
       $column_data{stock_in_out} =  calculate_stock_in_out($i);
@@ -393,7 +394,7 @@ sub display_row {
       '-labels' => \%projectnumber_labels,
       '-default' => $form->{"project_id_$i"}
     ));
-    $column_data{reqdate}   = qq|<input name="reqdate_$i" size="11" onchange="check_right_date_format(this)" value="$form->{"reqdate_$i"}">|;
+    $column_data{reqdate}   = qq|<input name="reqdate_$i" size="11" data-validate="date" value="$form->{"reqdate_$i"}">|;
     $column_data{subtotal}  = sprintf qq|<input type="checkbox" name="subtotal_$i" value="1" %s>|, $form->{"subtotal_$i"} ? 'checked' : '';
 
 # begin marge calculations
@@ -479,7 +480,7 @@ sub display_row {
           $cgi->hidden("-name" => "price_new_$i", "-value" => $form->format_amount(\%myconfig, $form->{"price_new_$i"})),
           map { ($cgi->hidden("-name" => $_, "-id" => $_, "-value" => $form->{$_})); } map { $_."_$i" }
             (qw(bo price_old id inventory_accno bin partsgroup partnotes active_price_source active_discount_source
-                income_accno expense_accno listprice assembly taxaccounts ordnumber donumber transdate cusordnumber
+                income_accno expense_accno listprice part_type taxaccounts ordnumber donumber transdate cusordnumber
                 longdescription basefactor marge_absolut marge_percent marge_price_factor weight), @hidden_vars)
     );
 
@@ -507,6 +508,20 @@ sub display_row {
   $main::lxdebug->leave_sub();
 }
 
+sub setup_io_select_item_action_bar {
+  my %params = @_;
+
+  for my $bar ($::request->layout->get('actionbar')) {
+    $bar->add(
+      action => [
+        t8('Continue'),
+        submit    => [ '#form' ],
+        accesskey => 'enter',
+      ],
+    );
+  }
+}
+
 sub select_item {
   $main::lxdebug->enter_sub();
 
@@ -514,6 +529,8 @@ sub select_item {
   my $mode            = $params{mode}            || croak "Missing parameter 'mode'";
   my $pre_entered_qty = $params{pre_entered_qty} || 1;
   _check_io_auth();
+
+  setup_io_select_item_action_bar();
 
   my $previous_form = $::auth->save_form_in_session(form => $::form);
   $::form->{title}  = $::myconfig{item_multiselect} ?
@@ -1922,7 +1939,7 @@ sub setup_sales_purchase_print_options {
   $print_form->{printers}  = SL::DB::Manager::Printer->get_all_sorted;
   $print_form->{languages} = SL::DB::Manager::Language->get_all_sorted;
 
-  $print_form->{$_} = $::form->{$_} for qw(type media language_id printer_id);
+  $print_form->{$_} = $::form->{$_} for qw(type media language_id printer_id storno);
 
   return SL::Helper::PrintOptions->get_print_options(
     form    => $print_form,
@@ -1983,6 +2000,7 @@ sub show_sales_purchase_email_dialog {
     subject             => $::form->generate_email_subject,
     message             => $::form->generate_email_body,
     attachment_filename => $::form->generate_attachment_filename,
+    js_send_function    => 'kivi.SalesPurchase.send_email()',
   };
 
   my %files = _get_files_for_email_dialog();

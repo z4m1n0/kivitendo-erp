@@ -2,13 +2,15 @@
 [% USE HTML %]
 [% USE LxERP %]
 [% USE L %]
+[% USE P %]
 
-<div id="assortment">
+<div id="assortment" class="wrapper">
 
 [% L.hidden_tag('assortment_id', SELF.part.id) %]
 
 <table id="assortment_items" class="tbl-list">
   <caption>[% 'Assortment items' | $T8 %]</caption>
+  
   <thead>
     <tr>
       <th style="display:none"></th>
@@ -48,51 +50,50 @@
   </tbody>
 
   <tfoot id="assortment_input">
-
-  <tr>
-    [% IF SELF.orphaned %]
+    <tr>
+      [% IF SELF.orphaned %]
+        <td></td>
+        <td></td>
+        <td></td>
+        <td colspan="4">
+          [% P.part.picker('add_items[+].parts_id', '', class='wi-lightwide', multiple=1, id='assortment_picker', action={set_multi_items='kivi.Part.set_multi_assortment_items'}, placeholder=LxERP.t8('Search & add article')) %]
+          [% L.button_tag("kivi.Part.add_assortment_item()", LxERP.t8("Add")) %]
+          [% L.button_tag('$("#assortment_picker").data("part_picker").open_dialog()', LxERP.t8('Add multiple items')) %]
+          [% L.hidden_tag('add_items[].qty_as_number', 1) %]
+        </td>
+      [% ELSE %]
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      [% END %]
       <td></td>
       <td></td>
-      <td></td>
-      <td colspan="4">
-        [% L.part_picker('add_items[+].parts_id', '', class='wi-lightwide', multiple=1, id='assortment_picker', action={set_multi_items='kivi.Part.set_multi_assortment_items'}, placeholder=LxERP.t8('Search & add article')) %]
-        [% L.button_tag("kivi.Part.add_assortment_item()", LxERP.t8("Add")) %]
-        [% L.button_tag('$("#assortment_picker").data("part_picker").open_dialog()', LxERP.t8('Add multiple items')) %]
-        [% L.hidden_tag('add_items[].qty_as_number', 1) %]
-      </td>
-    [% ELSE %]
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    [% END %]
-    <td></td>
-    <td></td>
-    <td class="numeric" id="items_sellprice_sum">[% LxERP.format_amount(items_sellprice_sum, 2, 0) %]</td>
-    <td class="numeric" id="items_lastcost_sum" >[% LxERP.format_amount(items_lastcost_sum,  2, 0) %]</td>
-    <td class="numeric" id="items_sum_diff"     >[% LxERP.format_amount(items_sum_diff,      2, 0) %]</td>
-  </tr>
-
-  <tr class="blank">
-   [% IF SELF.orphaned %]
+      <td class="numeric" id="items_sellprice_sum">[% LxERP.format_amount(items_sellprice_sum, 2, 0) %]</td>
+      <td class="numeric" id="items_lastcost_sum" >[% LxERP.format_amount(items_lastcost_sum,  2, 0) %]</td>
+      <td class="numeric" id="items_sum_diff"     >[% LxERP.format_amount(items_sum_diff,      2, 0) %]</td>
+    </tr>
+    <tr class="blank">
+     [% IF SELF.orphaned %]
+       <td></td>
+       <td></td>
+     [% END %]
      <td></td>
      <td></td>
-   [% END %]
-   <td></td>
-   <td></td>
-   <td></td>
-   <td></td>
-   <td></td>
-   <td></td>
-   <td></td>
-   <td class="right">[% L.button_tag("kivi.Part.set_assortment_sellprice()", LxERP.t8("Set sellprice")) %]</td>
-   <td class="right">[% L.button_tag("kivi.Part.set_assortment_lastcost()",  LxERP.t8("Set lastcost"))  %]</td>
-   <td></td>
-  </tr>
+     <td></td>
+     <td></td>
+     <td></td>
+     <td></td>
+     <td></td>
+     <td class="right">[% L.button_tag("kivi.Part.set_assortment_sellprice()", LxERP.t8("Set sellprice")) %]</td>
+     <td class="right">[% L.button_tag("kivi.Part.set_assortment_lastcost()",  LxERP.t8("Set lastcost"))  %]</td>
+     <td></td>
+    </tr>
   </tfoot>
-</table>
+
+</table><!-- /#assortment.wrapper -->
 
 [% L.sortable_element('#assortment_rows') %]
 

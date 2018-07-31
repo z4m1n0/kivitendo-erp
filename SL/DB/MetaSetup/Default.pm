@@ -55,6 +55,7 @@ __PACKAGE__->meta->columns(
   doc_storage_for_attachments               => { type => 'text', default => 'Filesystem' },
   doc_storage_for_documents                 => { type => 'text', default => 'Filesystem' },
   doc_storage_for_images                    => { type => 'text', default => 'Filesystem' },
+  doc_storage_for_shopimages                => { type => 'text', default => 'Filesystem' },
   doc_webdav                                => { type => 'boolean', default => 'false' },
   dunning_ar                                => { type => 'integer' },
   dunning_ar_amount_fee                     => { type => 'integer' },
@@ -98,6 +99,7 @@ __PACKAGE__->meta->columns(
   normalize_vc_names                        => { type => 'boolean', default => 'true' },
   order_always_project                      => { type => 'boolean', default => 'false' },
   order_warn_duplicate_parts                => { type => 'boolean', default => 'true' },
+  order_warn_no_deliverydate                => { type => 'boolean', default => 'true' },
   parts_image_css                           => { type => 'text', default => 'border:0;float:left;max-width:250px;margin-top:20px:margin-right:10px;margin-left:10px;' },
   parts_listing_image                       => { type => 'boolean', default => 'true' },
   parts_show_image                          => { type => 'boolean', default => 'true' },
@@ -135,6 +137,9 @@ __PACKAGE__->meta->columns(
   signature                                 => { type => 'text' },
   sonumber                                  => { type => 'text' },
   sqnumber                                  => { type => 'text' },
+  stocktaking_bin_id                        => { type => 'integer' },
+  stocktaking_cutoff_date                   => { type => 'date' },
+  stocktaking_warehouse_id                  => { type => 'integer' },
   taxnumber                                 => { type => 'text' },
   templates                                 => { type => 'text' },
   transfer_default                          => { type => 'boolean', default => 'true' },
@@ -196,6 +201,16 @@ __PACKAGE__->meta->foreign_keys(
   requirement_spec_section_order_part => {
     class       => 'SL::DB::Part',
     key_columns => { requirement_spec_section_order_part_id => 'id' },
+  },
+
+  stocktaking_bin => {
+    class       => 'SL::DB::Bin',
+    key_columns => { stocktaking_bin_id => 'id' },
+  },
+
+  stocktaking_warehouse => {
+    class       => 'SL::DB::Warehouse',
+    key_columns => { stocktaking_warehouse_id => 'id' },
   },
 
   warehouse => {

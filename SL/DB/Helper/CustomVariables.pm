@@ -4,7 +4,7 @@ use strict;
 use Carp;
 use Data::Dumper;
 use List::Util qw(first);
-use List::UtilsBy qw(sort_by);
+use List::UtilsBy qw(partition_by);
 
 use constant META_CVARS => 'cvars_config';
 
@@ -84,22 +84,25 @@ sub make_cvar_by_configs {
     my $configs     = _all_configs(%params);
     my $cvars       = $self->custom_variables;
     my %cvars_by_config = map { $_->config_id => $_ } @$cvars;
+    my $invalids    = _all_invalids($self->${\ $self->meta->primary_key_columns->[0]->name }, $configs, %params);
+    my %invalids_by_config = map { $_->config_id => 1 } @$invalids;
 
     my @return = map(
       {
+        my $cvar;
         if ( $cvars_by_config{$_->id} ) {
-          $cvars_by_config{$_->id};
+          $cvar = $cvars_by_config{$_->id};
         }
         else {
-          my $cvar = _new_cvar($self, %params, config => $_);
+          $cvar = _new_cvar($self, %params, config => $_);
           $self->add_custom_variables($cvar);
-          $cvar;
         }
+        $cvar->{is_valid} = !$invalids_by_config{$_->id};
+        $cvar->{config}   = $_;
+        $cvar;
       }
       @$configs
     );
-
-    @return = sort_by { $_->config->sortkey } @return;
 
     return \@return;
   }
@@ -168,7 +171,17 @@ sub _all_configs {
 
   require SL::DB::CustomVariableConfig;
 
-  SL::DB::Manager::CustomVariableConfig->get_all_sorted($params{module} ? (query => [ module => $params{module} ]) : ());
+  my $cache  = $::request->cache("::SL::DB::Helper::CustomVariables::object_cache");
+
+  if (!$cache->{all}) {
+    my $configs = SL::DB::Manager::CustomVariableConfig->get_all_sorted;
+    $cache->{all}    =  $configs;
+    $cache->{module} = { partition_by { $_->module } @$configs };
+  }
+
+  return $params{module} && !ref $params{module} ? $cache->{module}{$params{module}}
+       : $params{module} &&  ref $params{module} ? [ map { @{ $cache->{module}{$_} // [] } } @{ $params{module} } ]
+       : $cache->{all};
 }
 
 sub _overload_by_module {
@@ -350,6 +363,32 @@ sub make_cvar_custom_filter {
 
       return @result;
     }
+  );
+}
+
+
+sub _all_invalids {
+  my ($trans_id, $configs, %params) = @_;
+
+  require SL::DB::CustomVariableValidity;
+
+  # easy 1: no trans_id, all valid by default.
+  return [] unless $trans_id;
+
+  # easy 2: no module in params? no validity
+  return [] unless $params{module};
+
+  my %wanted_modules = ref $params{module} ? map { $_ => 1 } @{ $params{module} } : ($params{module} => 1);
+  my @module_configs = grep { $wanted_modules{$_->module} } @$configs;
+
+  return [] unless @module_configs;
+
+  # nor find all entries for that and return
+  SL::DB::Manager::CustomVariableValidity->get_all(
+    query => [
+      config_id => [ map { $_->id } @module_configs ],
+      trans_id => $trans_id,
+    ]
   );
 }
 

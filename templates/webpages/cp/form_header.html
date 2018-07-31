@@ -1,7 +1,9 @@
 [% USE L %]
 [% USE HTML %]
 [% USE T8 %]
-[% USE LxERP %][% USE P %]
+[% USE LxERP %]
+[% USE P %]
+
 <form method="post" action="cp.pl" id="form">
 
 [% SET vc_id = vc _ '_id'
@@ -25,17 +27,17 @@
 	<tr>
 		<th>[% is_customer ? LxERP.t8('Customer') : LxERP.t8('Vendor') %]</th>
 		<td>
-		  [% P.customer_vendor_picker(vc_id, $vc_id, type=vc, class="initial_focus wi-wide") %]
+		  [% P.customer_vendor.picker(vc_id, $vc_id, type=vc, class="initial_focus wi-wide") %]
 		  [% P.hidden_tag("previous_" _ vc_id, $vc_id) %] 
 		</td>
 	</tr>
 	<tr>
 		<th>[% 'Address' | $T8 %]</th>
 		<td> 
-		  <span class="below">[% street | html %][% L.hidden_tag('street', street) %] &nbsp;</span>
-		  <span class="below">[% zipcode | html %][% L.hidden_tag('zipcode', zipcode) %] &nbsp;</span>
-      <span class="below">[% city | html %][% L.hidden_tag('city', city) %] &nbsp;</span>
-		  <span class="below">[% country | html %][% L.hidden_tag('country', country) %] &nbsp;</span>
+		  <span class="below">[% street | html %][% L.hidden_tag('street', street) %]</span>
+		  <span class="below">[% zipcode | html %][% L.hidden_tag('zipcode', zipcode) %]</span>
+      <span class="below">[% city | html %][% L.hidden_tag('city', city) %]</span>
+		  <span class="below">[% country | html %][% L.hidden_tag('country', country) %]</span>
 		</td>
 	</tr>
 	<tr>
@@ -87,17 +89,14 @@
   </tbody>
 </table>
 
-
-
-
 [% IF openinvoices_other_currencies %]
   <input type="hidden" name="openinvoices_other_currencies" value="[% openinvoices_other_currencies | html %]">
   <p class="message message_info"><b>[% 'Note' | $T8 %]:</b><br>
-  [% IF is_customer %]
-    [% LxERP.t8('There are #1 more open invoices for this customer with other currencies.', openinvoices_other_currencies) %]
-  [% ELSE %]
-    [% LxERP.t8('There are #1 more open invoices from this vendor with other currencies.',  openinvoices_other_currencies) %]
-  [% END %]
+    [% IF is_customer %]
+      [% LxERP.t8('There are #1 more open invoices for this customer with other currencies.', openinvoices_other_currencies) %]
+    [% ELSE %]
+      [% LxERP.t8('There are #1 more open invoices from this vendor with other currencies.',  openinvoices_other_currencies) %]
+    [% END %]
   </p>
 [% END %]
 </div>

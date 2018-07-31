@@ -77,7 +77,12 @@ sub export_bewegungsdaten {
   setup_datev_export2_action_bar();
 
   $::form->header;
-  $::form->{ALL_DEPARTMENTS} = SL::DB::Manager::Department->get_all;
+  $::form->{ALL_DEPARTMENTS} = SL::DB::Manager::Department->get_all_sorted;
+  $::form->{show_pk_option}  = SL::DATEV->new->check_vcnumbers_are_valid_pk_numbers;
+
+  # check if we have mismatching number length domains
+  SL::DATEV->new->check_valid_length_of_accounts;
+
   print $::form->parse_html_template('datev/export_bewegungsdaten');
 
   $::lxdebug->leave_sub;
@@ -101,7 +106,7 @@ sub export3 {
 
   my %data = (
     exporttype => $::form->{exporttype} ? DATEV_ET_STAMM : DATEV_ET_BUCHUNGEN,
-    format     => $::form->{kne}        ? DATEV_FORMAT_KNE : DATEV_FORMAT_OBE,
+    format     => $::form->{exportformat} eq 'kne' ? DATEV_FORMAT_KNE :  DATEV_FORMAT_CSV,
   );
 
   if ($::form->{exporttype} == DATEV_ET_STAMM) {
@@ -112,6 +117,8 @@ sub export3 {
       $::form->{zeitraum}, $::form->{monat}, $::form->{quartal},
       $::form->{transdatefrom}, $::form->{transdateto},
     );
+    $data{use_pk} = $::form->{use_pk};
+    $data{locked} = $::form->{locked};
   } else {
     die 'invalid exporttype';
   }
@@ -127,7 +134,7 @@ sub export3 {
     setup_datev_export3_action_bar(download_token => $datev->download_token);
 
     $::form->header;
-    print $::form->parse_html_template('datev/export3');
+    print $::form->parse_html_template('datev/export3', { WARNINGS => $datev->warnings });
   } else {
     $::form->error("Export schlug fehl.\n" . join "\n", $datev->errors);
   }
@@ -193,6 +200,9 @@ sub _get_dates {
 
   if ($mode eq "monat") {
     $fromdate = DateTime->new(day => 1, month => $month, year => DateTime->today->year);
+    # december export is usually in january/february
+    $fromdate = $fromdate->subtract(years => 1) if ($month == 12);
+
     $todate   = $fromdate->clone->add(months => 1)->add(days => -1);
   } elsif ($mode eq "quartal") {
     die 'quarter out of of bounds' if $quarter < 1 || $quarter > 4;

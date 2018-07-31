@@ -41,6 +41,7 @@ use SL::CVar;
 use SL::IC;
 use SL::Helper::Flash qw(flash);
 use SL::HTML::Util;
+use SL::Presenter::Part;
 use SL::ReportGenerator;
 
 #use SL::PE;
@@ -280,6 +281,8 @@ sub generate_report {
     description   => $locale->text('Part Description') . ": '$form->{description}'",
     make          => $locale->text('Make')             . ": '$form->{make}'",
     model         => $locale->text('Model')            . ": '$form->{model}'",
+    customername  => $locale->text('Customer')         . ": '$form->{customername}'",
+    customernumber=> $locale->text('Customer Part Number').": '$form->{customernumber}'",
     drawing       => $locale->text('Drawing')          . ": '$form->{drawing}'",
     microfiche    => $locale->text('Microfiche')       . ": '$form->{microfiche}'",
     l_soldtotal   => $locale->text('Qty in Selected Records'),
@@ -500,7 +503,7 @@ sub generate_report {
       $soldtotal                  = 0 if ($form->{sold});
     }
 
-    my $edit_link               = build_std_url('script=controller.pl', 'action=Part/edit', 'part.id=' . E($ref->{id}), 'callback');
+    my $edit_link               = build_std_url('script=controller.pl', 'action=Part/edit', 'part.id=' . E($ref->{id}));
     $row->{partnumber}->{link}  = $edit_link;
     $row->{description}->{link} = $edit_link;
 
@@ -556,8 +559,8 @@ sub generate_report {
     map { $row->{$_}{link} = $ref->{$_} } qw(drawing microfiche);
 
     $row->{notes}{data} = SL::HTML::Util->strip($ref->{notes});
-    $row->{type_and_classific}{data} = $::request->presenter->type_abbreviation($ref->{part_type}).
-                                       $::request->presenter->classification_abbreviation($ref->{classification_id});
+    $row->{type_and_classific}{data} = SL::Presenter::Part::type_abbreviation($ref->{part_type}).
+                                       SL::Presenter::Part::classification_abbreviation($ref->{classification_id});
 
     $report->add_data($row);
 

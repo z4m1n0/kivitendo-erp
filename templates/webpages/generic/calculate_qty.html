@@ -1,48 +1,53 @@
 [% USE T8 %]
 [% USE HTML %]
-<h1>[% title %]</h1>
 
- <form name="Form">
+<form name="CalcQtyForm" id="calc_qty_form_id">
+
+  <!-- <h1>[% #title %]</h1> --><!-- PENDENT: wieso wurde das entfernt? Braucht es hier keinen Titel? -->
 
   <input type="hidden" name="input_name" value="[% HTML.escape(input_name) %]">
   <input type="hidden" name="input_id" value="[% HTML.escape(input_id) %]">
 
-  <table width="100%">
-   <tr><td>[% 'Please insert object dimensions below.' | $T8 %]</td></tr>
-
-   <tr>
-    <td>
-
-     <table>
-      <tr>
-       [% FOREACH col = HEADER %]
-        <th>[% col.column_title %]</a></th>
-       [% END %]
-      </tr>
-
-      [% FOREACH row = VARIABLES %]
-       <tr class="listrow[% loop.count % 2 %]">
-        <td>[% HTML.escape(row.description) %]:</td><td><input type="text" id="[% row.name %]" name="[% row.name %]" value=""></td>
-        <td>[% HTML.escape(row.unit) %]</td>
+  <table class="tbl-list">
+    <caption>[% 'Please insert object dimensions below.' | $T8 %]</caption>
+    <thead>
+       <tr>
+         [% FOREACH col = HEADER %]
+           <th>[% col.column_title %]</a></th>
+         [% END %]
        </tr>
+    </thead>
+    <tbody>
+      [% FOREACH row = VARIABLES %]
+        <tr class="listrow[% loop.count % 2 %]">
+          <td>[% HTML.escape(row.description) %]:</td><td><input type="text" id="[% row.name %]" name="[% row.name %]" value=""></td>
+          <td>[% HTML.escape(row.unit) %]</td>
+        </tr>
       [% END %]
-     </table>
-
-    </td>
-   </tr>
+    </tbody>
   </table>
- <button type="button" onclick="calculate_qty()">[% 'Calculate' | $T8 %]</button>
- </form>
+
+  <div class="buttons">
+    <button type="button" onclick="calculate_qty()">[% 'Calculate' | $T8 %]</button>
+  </div>
+
+</form>
 
  <script type="text/javascript">
    function calculate_qty() {
-[% FOREACH row = VARIABLES %]
-     var [% row.name %] = parse_amount('[% MYCONFIG.numberformat %]', document.getElementsByName("[% row.name %]")[0].value);
-[% END %]
+
+    [% FOREACH row = VARIABLES %]
+      var [% row.name %] = parse_amount('[% MYCONFIG.numberformat %]', $('#calc_qty_form_id #[% row.name %]').val());
+    [% END %]
      var result = [% formel %];
      result = number_format(result, 2, '[% MYCONFIG.numberformat %]');
-     window.opener.document.getElementsByName(document.Form.input_name.value)[0].value = result;
-     self.close();
+     /* Every Element should be assigned by ID and not with NAME, modern Browsers handle that since 2006 or a bit later */
+     if (document.CalcQtyForm.input_id.value) {
+       document.getElementById(document.CalcQtyForm.input_id.value).value = result;
+     } else {
+       document.getElementsByName(document.CalcQtyForm.input_name.value)[0].value = result;
+     }
+     $('#calc_qty_dialog').dialog('close');
    }
 
    function parse_amount(numberformat, amount) {
@@ -82,4 +87,3 @@
      return arr_int[0] + sep + arr_int[1];
    }
  </script>
-

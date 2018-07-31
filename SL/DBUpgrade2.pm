@@ -98,11 +98,16 @@ sub parse_dbupdate_controls {
       _control_error($form, $file_name, sprintf($locale->text("Missing 'description' field."))) ;
     }
 
+    delete @{$control}{qw(depth applied)};
+
+    my @unknown_keys = grep { !m{^ (?: depends | description | file | ignore | locales | may_fail | priority | superuser_privileges | tag ) $}x } keys %{ $control };
+    if (@unknown_keys) {
+      _control_error($form, $file_name, sprintf($locale->text("Unknown control fields: #1", join(' ', sort({ lc $a cmp lc $b } @unknown_keys)))));
+    }
+
     $control->{"priority"}  *= 1;
     $control->{"priority"} ||= 1000;
     $control->{"file"}       = $file;
-
-    delete @{$control}{qw(depth applied)};
 
     $all_controls{$control->{"tag"}} = $control;
 
@@ -291,8 +296,12 @@ sub process_perl_script {
 sub process_file {
   my ($self, $dbh, $filename, $version_or_control) = @_;
 
-  return $filename =~ m/sql$/ ? $self->process_query(      $dbh, $filename, $version_or_control)
-                              : $self->process_perl_script($dbh, $filename, $version_or_control);
+  my $result = $filename =~ m/sql$/ ? $self->process_query(      $dbh, $filename, $version_or_control)
+                                    : $self->process_perl_script($dbh, $filename, $version_or_control);
+
+  $::lxdebug->log_time("DB upgrade script '${filename}' finished");
+
+  return $result;
 }
 
 sub unapplied_upgrade_scripts {
@@ -309,14 +318,6 @@ sub unapplied_upgrade_scripts {
   $sth->finish;
 
   return grep { !$_->{applied} } @all_scripts;
-}
-
-sub update2_available {
-  my ($self, $dbh) = @_;
-
-  my @unapplied_scripts = $self->unapplied_upgrade_scripts($dbh);
-
-  return !!@unapplied_scripts;
 }
 
 sub apply_admin_dbupgrade_scripts {
@@ -338,12 +339,16 @@ sub apply_admin_dbupgrade_scripts {
 
   print $self->{form}->parse_html_template("dbupgrade/header", { dbname => $::auth->{DB_config}->{db} });
 
+  $::lxdebug->log_time("DB upgrades commencing");
+
   foreach my $control (@unapplied_scripts) {
     $::lxdebug->message(LXDebug->DEBUG2(), "Applying Update $control->{file}");
     print $self->{form}->parse_html_template("dbupgrade/upgrade_message2", $control);
 
     $self->process_file($dbh, "sql/Pg-upgrade2-auth/$control->{file}", $control);
   }
+
+  $::lxdebug->log_time("DB upgrades finished");
 
   print $self->{form}->parse_html_template("dbupgrade/footer", { is_admin => 1 }) if $called_from_admin;
 
@@ -641,14 +646,6 @@ representations that can be applied in order.
 Returns a list if upgrade scripts (their internal hash representation)
 that haven't been applied to a database yet. C<$dbh> is an open handle
 to the database that is checked.
-
-Requires that the scripts have been parsed.
-
-=item C<update2_available $dbh>
-
-Returns trueish if at least one upgrade script hasn't been applied to
-a database yet. C<$dbh> is an open handle to the database that is
-checked.
 
 Requires that the scripts have been parsed.
 

@@ -85,7 +85,7 @@
 		</tr>
 		<tr>
 			<th>[% 'Partsgroup' | $T8 %]</th>
-			<td>[% P.select_tag("partsgroupd_id", ALL_PARTSGROUPS, title_key="partsgroup", with_empty=1, class='wi-wide') %]</td>
+			<td>[% P.select_tag("partsgroup_id", ALL_PARTSGROUPS, title_key="partsgroup", with_empty=1, class='wi-wide') %]</td>
 		</tr>
 	</tbody>
 </table>
@@ -147,7 +147,7 @@
 		</tr>
 		<tr>
 			<th>[% 'Project Number' | $T8 %]</th>
-			<td>[% P.project_picker("project_id", "", class='wi-small') %]</td>
+			<td>[% P.project.picker("project_id", "", class='wi-small') %]</td>
 		</tr>
 		<tr>
 			<th>[% 'Country' | $T8 %]</th>

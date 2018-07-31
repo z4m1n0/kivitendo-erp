@@ -4,35 +4,34 @@
 
 <br>
 Customer: with preselected id 822<br>
-[% L.customer_vendor_picker('customer_id', 822, type='customer') %]<br>
+[% P.customer_vendor.picker('customer_id', 822, type='customer') %]<br>
 
 <br><hr>
 Vendor: <br>
-[% L.customer_vendor_picker('vendor_id', '', type='vendor') %]<br>
+[% P.customer_vendor.picker('vendor_id', '', type='vendor') %]<br>
 
 <br><hr>
 customer with fat change<br>
-[% L.customer_vendor_picker('customer_id2', '', type='customer', fat_set_item=1) %]<br>
-<div>id from change <span id="change1"></span></div>
-<div>greeting from fat change <span id="change2"></span></div>
+[% P.customer_vendor.picker('customer_id2', '', type='customer', fat_set_item=1) %]<br>
+<div>id from change <span id='change1'></span></div>
+<div>greeting from fat change <span id='change2'></span></div>
 
 <br><hr>
 fat vendor with change<br>
-[% L.customer_vendor_picker('vendor_id2', '', type='vendor', fat_set_item=1) %]<br>
-<div>id  from change<span id="change3"></span></div>
-<div>greeting from fat change <span id="change4"></span></div>
+[% P.customer_vendor.picker('vendor_id2', '', type='vendor', fat_set_item=1) %]<br>
+<div>id  from change<span id='change3'></span></div>
+<div>greeting from fat change <span id='change4'></span></div>
 
 <br><hr>
 this one will be a reinit_widget after 4s:<br>
-<span id="vendor3" class="">
-<input id="vendor3_id" class="" type="hidden" name="vendor3_id" value="">
-<input id="vendor3_id_type" type="hidden" name="" value="vendor">
+<span id='vendor3' class="customer_vendor_picker">
+<input id="vendor3_id" class="" type="hidden" name="vendor3_id" value="" data-customer-vendor-picker-data="{&quot;type&quot;:&quot;vendor&quot;}">
 <input id="vendor3_id_name" type="text" name="" value="">
 </span>
 
 <br><hr>
 this should have three '-' before and after touching:<br>
----[% L.customer_vendor_picker('vendor5_id', '', type='vendor') %]---
+---[% P.customer_vendor.picker('vendor5_id', '', type='vendor') %]---
 
 
 <script type="text/javascript">

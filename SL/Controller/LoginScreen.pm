@@ -13,6 +13,7 @@ use SL::DB::AuthUser;
 use SL::DB::Employee;
 use SL::Locale::String qw(t8);
 use SL::User;
+use SL::Version;
 
 use Rose::Object::MakeMethods::Generic (
   'scalar --get_set_init' => [ qw(clients default_client_id) ],
@@ -57,7 +58,7 @@ sub action_login {
 
   %::myconfig      = $login ? $::auth->read_user(login => $login) : ();
   $::locale        = Locale->new($::myconfig{countrycode}) if $::myconfig{countrycode};
-  SL::Dispatcher::AuthHandler::User->new->handle(countrycode => $::myconfig{countrycode});
+  SL::Dispatcher::AuthHandler::User->new->handle;
 
   $::request->layout(SL::Layout::Dispatcher->new(style => $::myconfig{menustyle}));
 
@@ -178,7 +179,7 @@ sub init_default_client_id {
 sub show_login_form {
   my ($self, %params) = @_;
 
-  $self->render('login_screen/user_login', %params, version => $::form->read_version);
+  $self->render('login_screen/user_login', %params, version => SL::Version->get_version );
 }
 
 1;

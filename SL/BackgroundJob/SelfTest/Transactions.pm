@@ -15,7 +15,7 @@ sub run {
 
   $self->_setup;
 
-  $self->tester->plan(tests => 24);
+  $self->tester->plan(tests => 25);
 
   $self->check_konten_mit_saldo_nicht_in_guv;
   $self->check_bilanzkonten_mit_pos_eur;
@@ -41,6 +41,7 @@ sub run {
   $self->check_ar_paid_acc_trans;
   $self->check_ap_paid_acc_trans;
   $self->check_zero_amount_paid_but_datepaid_exists;
+  $self->check_orphaned_reconciliated_links;
 }
 
 sub _setup {
@@ -252,7 +253,7 @@ sub check_ap_paid {
   my ($self) = @_;
 
   my $query = qq|
-      select invnumber,paid,
+      select invnumber,paid,id,
             (select sum(amount) from acc_trans a left join chart c on (c.id = a.chart_id) where trans_id = ap.id and c.link like '%AP_paid%') as accpaid ,
             paid-(select sum(amount) from acc_trans a left join chart c on (c.id = a.chart_id) where trans_id = ap.id and c.link like '%AP_paid%') as diff
      from ap
@@ -268,7 +269,7 @@ sub check_ap_paid {
   $self->tester->ok(!$errors, "Vergleich ap paid mit acc_trans AP_paid");
   for my $paid_diff_ap (@{ $paid_diffs_ap }) {
      next if $paid_diff_ap->{diff} == 0;
-     $self->tester->diag("ap invnumber: $paid_diff_ap->{invnumber} : paid: $paid_diff_ap->{paid}    acc_paid= $paid_diff_ap->{accpaid}    diff: $paid_diff_ap->{diff}");
+     $self->tester->diag("ap invnumber: $paid_diff_ap->{invnumber} : ID :: ID :  $paid_diff_ap->{id}  : paid: $paid_diff_ap->{paid}    acc_paid= $paid_diff_ap->{accpaid}    diff: $paid_diff_ap->{diff}");
   }
 }
 
@@ -478,7 +479,7 @@ sub check_ap_acc_trans_amount {
   my $query = qq|
           select sum(ac.amount) as amount, ap.invnumber,ap.netamount
           from acc_trans ac left join ap on (ac.trans_id = ap.id)
-          WHERE ac.chart_link like '%AP_amount%'
+          WHERE ac.chart_link like '%AP_amount%' OR ac.chart_link like '%IC_cogs%'
           AND ac.transdate >= ? AND ac.transdate <= ?
           group by invnumber,trans_id,netamount having sum(ac.amount) <> ap.netamount*-1|;
 
@@ -620,6 +621,29 @@ sub check_zero_amount_paid_but_datepaid_exists {
     $self->tester->ok(1, "Kein Bezahl-Datum ohne Bezahl-Wert und ohne wirkliche Zahlungen gefunden (arap.datepaid, arap.paid konsistent).");
   }
 }
+
+sub check_orphaned_reconciliated_links {
+  my ($self) = @_;
+
+  my $query = qq|
+          SELECT purpose from bank_transactions
+          WHERE cleared is true
+          AND id not in (SELECT bank_transaction_id from reconciliation_links)
+          AND transdate >= ? AND transdate <= ?|;
+
+  my $bt_cleared_no_link = selectall_hashref_query($::form, $self->dbh, $query, $self->fromdate, $self->todate);
+
+  if ( scalar @{ $bt_cleared_no_link } > 0 ) {
+    $self->tester->ok(0, "Verwaiste abgeglichene Bankbewegungen gefunden. Bei folgenden Bankbewegungen ist die abgleichende Verknüpfung gelöscht worden:");
+
+    for my $bt_orphaned (@{ $bt_cleared_no_link }) {
+      $self->tester->diag("Verwendungszweck: $bt_orphaned->{purpose}");
+    }
+  } else {
+    $self->tester->ok(1, "Keine verwaisten Einträge in abgeglichenen Bankbewegungen.");
+  }
+}
+
 
 1;
 

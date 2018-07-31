@@ -8,6 +8,8 @@ use List::Util qw(max);
 use Scalar::Util qw(blessed);
 
 use SL::Presenter;
+use SL::Presenter::ALL;
+use SL::Presenter::Simple;
 use SL::Util qw(_hashify);
 
 use strict;
@@ -50,14 +52,18 @@ sub _call_presenter {
 
   my $presenter              = $::request->presenter;
 
-  if (!$presenter->can($method)) {
-    $::lxdebug->message(LXDebug::WARN(), "SL::Presenter has no method named '$method'!");
-    return '';
-  }
-
   splice @args, -1, 1, %{ $args[-1] } if @args && (ref($args[-1]) eq 'HASH');
 
-  $presenter->$method(@args);
+  if (my $sub = SL::Presenter::Simple->can($method)) {
+    return $sub->(@args);
+  }
+
+  if ($presenter->can($method)) {
+    return $presenter->$method(@args);
+  }
+
+  $::lxdebug->message(LXDebug::WARN(), "SL::Presenter has no method named '$method'!");
+  return;
 }
 
 sub name_to_id    { return _call_presenter('name_to_id',    @_); }
@@ -69,14 +75,13 @@ sub input_tag     { return _call_presenter('input_tag',     @_); }
 sub javascript    { return _call_presenter('javascript',    @_); }
 sub truncate      { return _call_presenter('truncate',      @_); }
 sub simple_format { return _call_presenter('simple_format', @_); }
-sub part_picker   { return _call_presenter('part_picker',   @_); }
-sub chart_picker  { return _call_presenter('chart_picker',  @_); }
-sub customer_vendor_picker   { return _call_presenter('customer_vendor_picker',   @_); }
-sub project_picker           { return _call_presenter('project_picker',           @_); }
 sub button_tag               { return _call_presenter('button_tag',               @_); }
 sub submit_tag               { return _call_presenter('submit_tag',               @_); }
 sub ajax_submit_tag          { return _call_presenter('ajax_submit_tag',          @_); }
-sub link                     { return _call_presenter('link',                     @_); }
+sub link                     { return _call_presenter('link_tag',                 @_); }
+sub input_number_tag         { return _call_presenter('input_number_tag',         @_); }
+sub textarea_tag             { return _call_presenter('textarea_tag',             @_); }
+sub date_tag                 { return _call_presenter('date_tag',                 @_); }
 
 sub _set_id_attribute {
   my ($attributes, $name, $unique) = @_;
@@ -89,17 +94,6 @@ sub img_tag {
   $options{alt} ||= '';
 
   return $self->html_tag('img', undef, %options);
-}
-
-sub textarea_tag {
-  my ($self, $name, $content, %attributes) = _hashify(3, @_);
-
-  _set_id_attribute(\%attributes, $name);
-  $attributes{rows}  *= 1; # required by standard
-  $attributes{cols}  *= 1; # required by standard
-  $content            = $content ? _H($content) : '';
-
-  return $self->html_tag('textarea', $content, %attributes, name => $name);
 }
 
 sub radio_button_tag {
@@ -159,26 +153,6 @@ sub stylesheet_tag {
   return $code;
 }
 
-my $date_tag_id_idx = 0;
-sub date_tag {
-  my ($self, $name, $value, %params) = _hashify(3, @_);
-
-  _set_id_attribute(\%params, $name);
-  my @onchange = $params{onchange} ? (onChange => delete $params{onchange}) : ();
-  my @classes  = $params{no_cal} || $params{readonly} ? () : ('datepicker');
-  push @classes, delete($params{class}) if $params{class};
-  my %class    = @classes ? (class => join(' ', @classes)) : ();
-
-  $::request->presenter->need_reinit_widgets($params{id});
-
-  return $self->input_tag(
-    $name, blessed($value) ? $value->to_lxoffice : $value,
-    size   => 11,
-    onchange => "check_right_date_format(this);",
-    %params,
-    %class, @onchange,
-  );
-}
 
 # simple version with select_tag
 sub vendor_selector {
@@ -279,9 +253,15 @@ sub areainput_tag {
   my $maxrows = delete $attributes{max_rows};
   my $rows    = $::form->numtextrows($value, $cols, $maxrows, $minrows);
 
-  return $rows > 1
-    ? $self->textarea_tag($name, $value, %attributes, rows => $rows, cols => $cols)
-    : $self->input_tag($name, $value, %attributes, size => $cols);
+  $attributes{id} ||= _tag_id();
+  my $id            = $attributes{id};
+
+  return $self->textarea_tag($name, $value, %attributes, rows => $rows, cols => $cols) if $rows > 1;
+
+  return '<span>'
+    . $self->input_tag($name, $value, %attributes, size => $cols)
+    . "<img src=\"image/edit-entry.png\" onclick=\"kivi.switch_areainput_to_textarea('${id}')\" style=\"margin-left: 2px;\">"
+    . '</span>';
 }
 
 sub multiselect2side {

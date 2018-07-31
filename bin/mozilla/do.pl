@@ -247,6 +247,7 @@ sub setup_do_action_bar {
         [ t8('Update'),
           submit    => [ '#form', { action => "update" } ],
           id        => 'update_button',
+          checks    => [ 'kivi.validate_form' ],
           accesskey => 'enter',
         ],
 
@@ -254,19 +255,19 @@ sub setup_do_action_bar {
         action => [
           t8('Save'),
           submit   => [ '#form', { action => "save" } ],
-          checks   => [ @req_trans_desc ],
+          checks   => [ 'kivi.validate_form' ],
           disabled => $::form->{delivered} ? t8('This record has already been delivered.') : undef,
         ],
         action => [
           t8('Save as new'),
           submit   => [ '#form', { action => "save_as_new" } ],
-          checks   => [ @req_trans_desc ],
+          checks   => [ 'kivi.validate_form' ],
           disabled => !$::form->{id},
         ],
         action => [
           t8('Mark as closed'),
           submit   => [ '#form', { action => "mark_closed" } ],
-          checks   => [ @req_trans_desc ],
+          checks   => [ 'kivi.validate_form' ],
           confirm  => t8('This will remove the delivery order from showing as open even if contents are not delivered. Proceed?'),
           disabled => !$::form->{id}    ? t8('This record has not been saved yet.')
                     : $::form->{closed} ? t8('This record has already been closed.')
@@ -289,28 +290,28 @@ sub setup_do_action_bar {
         action => [
           t8('Transfer out'),
           submit   => [ '#form', { action => "transfer_out" } ],
-          checks   => [ @req_trans_desc, @transfer_qty ],
+          checks   => [ 'kivi.validate_form', @transfer_qty ],
           disabled => $::form->{delivered} ? t8('This record has already been delivered.') : undef,
           only_if  => $is_customer,
         ],
         action => [
           t8('Transfer out via default'),
           submit   => [ '#form', { action => "transfer_out_default" } ],
-          checks   => [ @req_trans_desc ],
+          checks   => [ 'kivi.validate_form' ],
           disabled => $::form->{delivered} ? t8('This record has already been delivered.') : undef,
           only_if  => $is_customer && $::instance_conf->get_transfer_default,
         ],
         action => [
           t8('Transfer in'),
           submit   => [ '#form', { action => "transfer_in" } ],
-          checks   => [ @req_trans_desc, @transfer_qty ],
+          checks   => [ 'kivi.validate_form', @transfer_qty ],
           disabled => $::form->{delivered} ? t8('This record has already been delivered.') : undef,
           only_if  => !$is_customer,
         ],
         action => [
           t8('Transfer in via default'),
           submit   => [ '#form', { action => "transfer_in_default" } ],
-          checks   => [ @req_trans_desc ],
+          checks   => [ 'kivi.validate_form' ],
           disabled => $::form->{delivered} ? t8('This record has already been delivered.') : undef,
           only_if  => !$is_customer && $::instance_conf->get_transfer_default,
         ],
@@ -330,12 +331,12 @@ sub setup_do_action_bar {
         action => [
           t8('Print'),
           call   => [ 'kivi.SalesPurchase.show_print_dialog' ],
-          checks => [ @req_trans_desc ],
+          checks => [ 'kivi.validate_form' ],
         ],
         action => [
           t8('E Mail'),
           call   => [ 'kivi.SalesPurchase.show_email_dialog' ],
-          checks => [ @req_trans_desc ],
+          checks => [ 'kivi.validate_form' ],
         ],
       ], # end of combobox "Export"
 
@@ -354,6 +355,7 @@ sub setup_do_action_bar {
       ], # end if combobox "more"
     );
   }
+  $::request->layout->add_javascripts('kivi.Validator.js');
 }
 
 sub setup_do_search_action_bar {
@@ -365,9 +367,11 @@ sub setup_do_search_action_bar {
         t8('Search'),
         submit    => [ '#form' ],
         accesskey => 'enter',
+        checks    => [ 'kivi.validate_form' ],
       ],
     );
   }
+  $::request->layout->add_javascripts('kivi.Validator.js');
 }
 
 sub setup_do_orders_action_bar {
@@ -412,7 +416,7 @@ sub form_header {
   $form->get_lists("price_factors"  => "ALL_PRICE_FACTORS",
                    "business_types" => "ALL_BUSINESS_TYPES",
     );
-  $form->{ALL_DEPARTMENTS} = SL::DB::Manager::Department->get_all;
+  $form->{ALL_DEPARTMENTS} = SL::DB::Manager::Department->get_all_sorted;
 
   # Projects
   my @old_project_ids = uniq grep { $_ } map { $_ * 1 } ($form->{"globalproject_id"}, map { $form->{"project_id_$_"} } 1..$form->{"rowcount"});
@@ -460,7 +464,7 @@ sub form_header {
 
   $form->{follow_up_trans_info} = $form->{donumber} .'('. $form->{VC_OBJ}->name .')' if $form->{VC_OBJ};
 
-  $::request->{layout}->use_javascript(map { "${_}.js" } qw(kivi.File kivi.MassDeliveryOrderPrint kivi.SalesPurchase kivi.Part ckeditor/ckeditor ckeditor/adapters/jquery kivi.io autocomplete_customer));
+  $::request->{layout}->use_javascript(map { "${_}.js" } qw(kivi.File kivi.MassDeliveryOrderPrint kivi.SalesPurchase kivi.Part kivi.CustomerVendor kivi.Validator ckeditor/ckeditor ckeditor/adapters/jquery kivi.io));
 
   my @custom_hidden;
   push @custom_hidden, map { "shiptocvar_" . $_->name } @{ SL::DB::Manager::CustomVariableConfig->get_all(where => [ module => 'ShipTo' ]) };
@@ -650,7 +654,7 @@ sub search {
                                          "all" => 1 },
                    "business_types" => "ALL_BUSINESS_TYPES");
   $form->{ALL_EMPLOYEES} = SL::DB::Manager::Employee->get_all_sorted(query => [ deleted => 0 ]);
-  $form->{ALL_DEPARTMENTS} = SL::DB::Manager::Department->get_all;
+  $form->{ALL_DEPARTMENTS} = SL::DB::Manager::Department->get_all_sorted;
   $form->{title}             = $locale->text('Delivery Orders');
 
   setup_do_search_action_bar();
@@ -940,8 +944,8 @@ sub delete {
   my $form     = $main::form;
   my %myconfig = %main::myconfig;
   my $locale   = $main::locale;
-
-  if (DO->delete()) {
+  my $ret;
+  if ($ret = DO->delete()) {
     # saving the history
     if(!exists $form->{addition}) {
       $form->{snumbers} = qq|donumber_| . $form->{donumber};
@@ -954,7 +958,7 @@ sub delete {
     $::dispatcher->end_request;
   }
 
-  $form->error($locale->text('Cannot delete delivery order!'));
+  $form->error($locale->text('Cannot delete delivery order!') . $ret);
 
   $main::lxdebug->leave_sub();
 }
@@ -1027,7 +1031,8 @@ sub invoice {
 
   if ($form->{ordnumber}) {
     require SL::DB::Order;
-    if (my $order = SL::DB::Manager::Order->find_by(ordnumber => $form->{ordnumber})) {
+    my $vc_id  = $form->{type} =~ /^sales/ ? 'customer_id' : 'vendor_id';
+    if (my $order = SL::DB::Manager::Order->find_by(ordnumber => $form->{ordnumber}, $vc_id => $form->{"$vc_id"})) {
       $order->load;
       $form->{orddate} = $order->transdate_as_date;
       $form->{$_}      = $order->$_ for qw(payment_id salesman_id taxzone_id quonumber);

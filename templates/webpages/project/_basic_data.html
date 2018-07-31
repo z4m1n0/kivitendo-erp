@@ -3,6 +3,7 @@
 [% USE P %]
 [% USE HTML %]
 [% USE LxERP %]
+
 <div class="wrapper">
 
 <table class="tbl-horizontal">
@@ -26,7 +27,7 @@
 		<tr>
 			<th>[% 'Customer' | $T8 %]</th>
 			<td>
-        [% L.customer_vendor_picker('project.customer_id', SELF.project.customer_id, type='customer', fat_set_item=1, class='wi-wide', default=SELF.project.customer_id)%]
+        [% P.customer_vendor.picker('project.customer_id', SELF.project.customer_id, type='customer', fat_set_item=1, class='wi-wide', default=SELF.project.customer_id)%]
         [% #PENDENT: Was bedeutet das? %] [% IF SELF.project.customer_id %][% END %]
 			  </td>
 		</tr>
@@ -42,6 +43,5 @@
 		[% END %] 
 	</tbody>
 </table>
-
 
 </div>

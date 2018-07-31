@@ -25,8 +25,8 @@ use SL::DB::BankAccount;
 use SL::DB::RecordTemplate;
 use SL::DB::SepaExportItem;
 use SL::DBUtils qw(like);
-use SL::Presenter;
 
+use List::UtilsBy qw(partition_by);
 use List::MoreUtils qw(any);
 use List::Util qw(max);
 
@@ -98,10 +98,10 @@ sub action_list {
     where        => [
       amount                => {ne => \'invoice_amount'},
       local_bank_account_id => $::form->{filter}{bank_account},
+      cleared               => 0,
       @where
     ],
   );
-
   # credit notes have a negative amount, treat differently
   my $all_open_ar_invoices = SL::DB::Manager::Invoice        ->get_all(where => [ or => [ amount => { gt => \'paid' },
                                                                                           and => [ type    => 'credit_note',
@@ -121,22 +121,22 @@ sub action_list {
   push @all_open_invoices, map { $_->{is_ar}=0 ; $_ } grep { abs($_->amount - $_->paid) >= 0.01 } @{ $all_open_ap_invoices };
 
   my %sepa_exports;
+  my %sepa_export_items_by_id = partition_by { $_->ar_id || $_->ap_id } @$all_open_sepa_export_items;
+
   # first collect sepa export items to open invoices
   foreach my $open_invoice (@all_open_invoices){
     $open_invoice->{realamount}  = $::form->format_amount(\%::myconfig,$open_invoice->amount,2);
     $open_invoice->{skonto_type} = 'without_skonto';
-    foreach ( @{$all_open_sepa_export_items}) {
-      if (($_->ap_id && $_->ap_id == $open_invoice->id) || ($_->ar_id && $_->ar_id == $open_invoice->id)) {
-        my $factor                   = ($_->ar_id == $open_invoice->id ? 1 : -1);
-        #$main::lxdebug->message(LXDebug->DEBUG2(),"sepa_exitem=".$_->id." for invoice ".$open_invoice->id." factor=".$factor);
-        $open_invoice->{realamount}  = $::form->format_amount(\%::myconfig,$open_invoice->amount*$factor,2);
-        $open_invoice->{skonto_type} = $_->payment_type;
-        $sepa_exports{$_->sepa_export_id} ||= { count => 0, is_ar => 0, amount => 0, proposed => 0, invoices => [], item => $_ };
-        $sepa_exports{$_->sepa_export_id}->{count}++;
-        $sepa_exports{$_->sepa_export_id}->{is_ar}++ if  $_->ar_id == $open_invoice->id;
-        $sepa_exports{$_->sepa_export_id}->{amount} += $_->amount * $factor;
-        push @{ $sepa_exports{$_->sepa_export_id}->{invoices} }, $open_invoice;
-      }
+    foreach (@{ $sepa_export_items_by_id{ $open_invoice->id } || [] }) {
+      my $factor                   = ($_->ar_id == $open_invoice->id ? 1 : -1);
+      $open_invoice->{realamount}  = $::form->format_amount(\%::myconfig,$open_invoice->amount*$factor,2);
+
+      $open_invoice->{skonto_type} = $_->payment_type;
+      $sepa_exports{$_->sepa_export_id} ||= { count => 0, is_ar => 0, amount => 0, proposed => 0, invoices => [], item => $_ };
+      $sepa_exports{$_->sepa_export_id}->{count}++;
+      $sepa_exports{$_->sepa_export_id}->{is_ar}++ if  $_->ar_id == $open_invoice->id;
+      $sepa_exports{$_->sepa_export_id}->{amount} += $_->amount * $factor;
+      push @{ $sepa_exports{$_->sepa_export_id}->{invoices} }, $open_invoice;
     }
   }
 
@@ -155,6 +155,7 @@ sub action_list {
     $bt->{remote_name} .= $bt->{remote_name_1} if $bt->{remote_name_1};
 
     if ( $bt->is_batch_transaction ) {
+      my $found=0;
       foreach ( keys  %sepa_exports) {
         if ( abs(($sepa_exports{$_}->{amount} * 1) - ($bt->amount * 1)) < 0.01 ) {
           ## jupp
@@ -162,9 +163,11 @@ sub action_list {
           $bt->{sepa_export_ok} = 1;
           $sepa_exports{$_}->{proposed}=1;
           push(@proposals, $bt);
-          next;
+          $found=1;
+          last;
         }
       }
+      next if $found;
       # batch transaction has no remotename !!
     } else {
       next unless $bt->{remote_name};  # bank has no name, usually fees, use create invoice to assign
@@ -180,7 +183,9 @@ sub action_list {
     # score is stored in $bt->{agreement}
 
     foreach my $open_invoice (@all_open_invoices) {
-      ($open_invoice->{agreement}, $open_invoice->{rule_matches}) = $bt->get_agreement_with_invoice($open_invoice);
+      ($open_invoice->{agreement}, $open_invoice->{rule_matches}) = $bt->get_agreement_with_invoice($open_invoice,
+        sepa_export_items => $all_open_sepa_export_items,
+      );
       $open_invoice->{realamount} = $::form->format_amount(\%::myconfig,
                                       $open_invoice->amount * ($open_invoice->{is_ar} ? 1 : -1), 2);
     }
@@ -229,7 +234,7 @@ sub action_list {
 
   # for testing with t/bank/banktransaction.t :
   if ( $::form->{dont_render_for_test} ) {
-    return $bank_transactions;
+    return ( $bank_transactions , \@proposals );
   }
 
   $::request->layout->add_javascripts("kivi.BankTransaction.js");
@@ -257,12 +262,6 @@ sub action_create_invoice {
   my %myconfig = %main::myconfig;
 
   $self->transaction(SL::DB::Manager::BankTransaction->find_by(id => $::form->{bt_id}));
-
-  # This was dead code: We compared vendor.account_name with bank_transaction.iban.
-  # This did never match (Kontonummer != IBAN). It's kivis 09/02 (2013) day
-  # If refactored/improved, also consider that vendor.iban should be normalized
-  # user may like to input strings like: 'AT 3333 3333 2222 1111' -> can be checked strictly
-  # at Vendor code because we need the correct data for all sepa exports.
 
   my $vendor_of_transaction = SL::DB::Manager::Vendor->find_by(iban => $self->transaction->{remote_account_number});
   my $use_vendor_filter     = $self->transaction->{remote_account_number} && $vendor_of_transaction;
@@ -292,9 +291,9 @@ sub action_create_invoice {
     'bank_transactions/create_invoice',
     { layout => 0 },
     title        => t8('Create invoice'),
-    TEMPLATES_GL => $use_vendor_filter ? undef : $templates_gl,
+    TEMPLATES_GL => $use_vendor_filter && @{ $templates_ap } ? undef : $templates_gl,
     TEMPLATES_AP => $templates_ap,
-    vendor_name  => $use_vendor_filter ? $vendor_of_transaction->name : undef,
+    vendor_name  => $use_vendor_filter && @{ $templates_ap } ? $vendor_of_transaction->name : undef,
   );
 }
 
@@ -329,15 +328,13 @@ sub action_filter_templates {
 
   $self->{transaction}      = SL::DB::Manager::BankTransaction->find_by(id => $::form->{bt_id});
 
-  my @filter;
-  push @filter, ('vendor.name'   => { ilike => '%' . $::form->{vendor} . '%' })    if $::form->{vendor};
-  push @filter, ('template_name' => { ilike => '%' . $::form->{template} . '%' })  if $::form->{template};
-  push @filter, ('reference'     => { ilike => '%' . $::form->{reference} . '%' }) if $::form->{reference};
+  my (@filter, @filter_ap);
 
-  my $templates_ap = SL::DB::Manager::RecordTemplate->get_all(
-    where        => [ template_type => 'ap_transaction', (and => \@filter) x !!@filter ],
-    with_objects => [ qw(employee vendor) ],
-  );
+  # filter => gl and ap | filter_ap = ap (i.e. vendorname)
+  push @filter,    ('template_name' => { ilike => '%' . $::form->{template} . '%' })  if $::form->{template};
+  push @filter,    ('reference'     => { ilike => '%' . $::form->{reference} . '%' }) if $::form->{reference};
+  push @filter_ap, ('vendor.name'   => { ilike => '%' . $::form->{vendor} . '%' })    if $::form->{vendor};
+  push @filter_ap, @filter;
   my $templates_gl = SL::DB::Manager::RecordTemplate->get_all(
     query        => [ template_type => 'gl_transaction',
                       chart_id      => SL::DB::Manager::BankAccount->find_by(id => $self->transaction->local_bank_account_id)->chart_id,
@@ -346,6 +343,10 @@ sub action_filter_templates {
     with_objects => [ qw(employee record_template_items) ],
   );
 
+  my $templates_ap = SL::DB::Manager::RecordTemplate->get_all(
+    where        => [ template_type => 'ap_transaction', (and => \@filter_ap) x !!@filter_ap ],
+    with_objects => [ qw(employee vendor) ],
+  );
   $::form->{filter} //= {};
 
   $self->callback($self->url_for(
@@ -502,17 +503,22 @@ sub save_invoices {
       $count += scalar( @{$invoice_ids} );
     }
   }
+  my $max_count = $count;
   foreach (@{ $self->problems }) {
     $count-- if $_->{result} eq 'error';
   }
-  return $count;
+  return ($count, $max_count);
 }
 
 sub action_save_invoices {
   my ($self) = @_;
-  my $count = $self->save_invoices();
+  my ($success_count, $max_count) = $self->save_invoices();
 
-  flash('ok', t8('#1 invoice(s) saved.', $count));
+  if ($success_count == $max_count) {
+    flash('ok', t8('#1 invoice(s) saved.', $success_count));
+  } else {
+    flash('error', t8('At least #1 invoice(s) not saved', $max_count - $success_count));
+  }
 
   $self->action_list();
 }
@@ -549,11 +555,20 @@ sub save_single_bank_transaction {
     };
   }
 
+  my $bank_transaction = $data{bank_transaction};
+
+  # see pod
+  if (@{ $bank_transaction->linked_invoices } || $bank_transaction->invoice_amount != 0) {
+        return {
+          %data,
+          result  => 'error',
+          message => $::locale->text("Bank transaction with id #1 has already been linked to one or more record and/or some amount is already assigned.", $bank_transaction->id),
+        };
+      }
   my (@warnings);
 
   my $worker = sub {
     my $bt_id                 = $data{bank_transaction_id};
-    my $bank_transaction      = $data{bank_transaction};
     my $sign                  = $bank_transaction->amount < 0 ? -1 : 1;
     my $amount_of_transaction = $sign * $bank_transaction->amount;
     my $payment_received      = $bank_transaction->amount > 0;
@@ -603,15 +618,6 @@ sub save_single_bank_transaction {
 
       $n_invoices++ ;
 
-      # Check if bank_transaction already has a link to the invoice, may only be linked once per invoice
-      # This might be caused by the user reloading a page and resending the form
-      if (_existing_record_link($bank_transaction, $invoice)) {
-        return {
-          %data,
-          result  => 'error',
-          message => $::locale->text("Bank transaction with id #1 has already been linked to #2.", $bank_transaction->id, $invoice->displayable_name),
-        };
-      }
 
       if (!$amount_of_transaction && $invoice->open_amount) {
         return {
@@ -649,22 +655,21 @@ sub save_single_bank_transaction {
                               memo         => $memo,
                               transdate    => $bank_transaction->transdate->to_kivitendo);
       } else {
-        # use the whole amount of the bank transaction for the invoice, overpay the invoice if necessary
+      # use the whole amount of the bank transaction for the invoice, overpay the invoice if necessary
 
-        # this catches credit_notes and negative sales invoices
-        if ( $invoice->is_sales && $invoice->amount < 0 ) {
-          # $invoice->open_amount     is negative for credit_notes
-          # $bank_transaction->amount is negative for outgoing transactions
-          # so $amount_of_transaction is negative but needs positive
-          $amount_of_transaction *= -1;
+        # $invoice->open_amount     is negative for credit_notes
+        # $bank_transaction->amount is negative for outgoing transactions
+        # so $amount_of_transaction is negative but needs positive
+        # $invoice->open_amount may be negative for ap_transaction but may be positiv for negative ap_transaction
+        # if $invoice->open_amount is negative $bank_transaction->amount is positve
+        # if $invoice->open_amount is positive $bank_transaction->amount is negative
+        # but amount of transaction is for both positive
 
-        } elsif (!$invoice->is_sales && $invoice->invoice_type eq 'ap_transaction' ) {
-          # $invoice->open_amount may be negative for ap_transaction but may be positiv for negativ ap_transaction
-          # if $invoice->open_amount is negative $bank_transaction->amount is positve
-          # if $invoice->open_amount is positive $bank_transaction->amount is negative
-          # but amount of transaction is for both positive
-          $amount_of_transaction *= -1 if $invoice->open_amount == - $amount_of_transaction;
-        }
+        $amount_of_transaction *= -1 if ($invoice->amount < 0);
+
+        # if we have a skonto case - the last invoice needs skonto
+        $amount_of_transaction = $invoice->amount_less_skonto if ($payment_type eq 'with_skonto_pt');
+
 
         my $overpaid_amount = $amount_of_transaction - $invoice->open_amount;
         $invoice->pay_invoice(chart_id     => $bank_transaction->local_bank_account->chart_id,
@@ -729,6 +734,9 @@ sub save_single_bank_transaction {
 
     # Rollback Fehler nicht weiterreichen
     # die if $error;
+    # aber einen rollback von hand
+    $::lxdebug->message(LXDebug->DEBUG2(),"finish worker with ". ($error ? $error->{result} : '-'));
+    $data{bank_transaction}->db->dbh->rollback if $error && $error->{result} eq 'error';
   });
 
   return grep { $_ } ($error, @warnings);
@@ -824,20 +832,6 @@ sub prepare_report {
   );
 }
 
-sub _existing_record_link {
-  my ($bt, $invoice) = @_;
-
-  # check whether a record link from banktransaction $bt already exists to
-  # invoice $invoice, returns 1 if that is the case
-
-  die unless $bt->isa("SL::DB::BankTransaction") && ( $invoice->isa("SL::DB::Invoice") || $invoice->isa("SL::DB::PurchaseInvoice") );
-
-  my $linked_record_to_table = $invoice->is_sales ? 'Invoice' : 'PurchaseInvoice';
-  my $linked_records = $bt->linked_records( direction => 'to', to => $linked_record_to_table, query => [ id => $invoice->id ]  );
-
-  return @$linked_records ? 1 : 0;
-};
-
 sub init_problems { [] }
 
 sub init_models {
@@ -895,6 +889,8 @@ sub load_gl_record_template_url {
     'form_defaults.amount_1'             => abs($self->transaction->amount), # always positive
     'form_defaults.transdate'            => $self->transaction->transdate_as_date,
     'form_defaults.callback'             => $self->callback,
+    'form_defaults.bt_id'                => $self->transaction->id,
+    'form_defaults.bt_chart_id'          => $self->transaction->local_bank_account->chart->id,
   );
 }
 
@@ -948,6 +944,13 @@ Takes a bank transaction ID (as parameter C<bank_transaction_id> and
 tries to post its amount to a certain number of invoices (parameter
 C<invoice_ids>, an array ref of database IDs to purchase or sales
 invoice objects).
+
+This method cannot handle already partly assigned bank transactions, i.e.
+a bank transaction that has a invoice_amount <> 0 but not the fully
+transaction amount (invoice_amount == amount).
+
+If the amount of the bank transaction is higher than the sum of
+the assigned invoices (1 .. n) the last invoice will be overpayed.
 
 The whole function is wrapped in a database transaction. If an
 exception occurs the bank transaction is not posted at all. The same

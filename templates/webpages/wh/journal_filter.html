@@ -6,8 +6,7 @@
 
 <h1>[% 'Report about warehouse transactions' | $T8 %]</h1>
 
-<script type="text/javascript">
- <!--
+<script type="text/javascript"><!--
     warehouses = new Array();
     warehouses[0] = new Array();
     warehouses[0]['id'] = "0";
@@ -15,18 +14,20 @@
     warehouses[0]['bins'][0] = new Array();
     warehouses[0]['bins'][0]['description'] = "---";
     warehouses[0]['bins'][0]['id'] = "";
-    [% USE WAREHOUSES_it = Iterator(WAREHOUSES) %][% FOREACH warehouse = WAREHOUSES_it %]
-    warehouses[[% WAREHOUSES_it.count %]] = new Array();
-    warehouses[[% WAREHOUSES_it.count %]]['id'] = [% warehouse.id %];
-    warehouses[[% WAREHOUSES_it.count %]]['bins'] = new Array();
-    warehouses[[% WAREHOUSES_it.count %]]['bins'][0] = new Array();
-    warehouses[[% WAREHOUSES_it.count %]]['bins'][0]['description'] = "---";
-    warehouses[[% WAREHOUSES_it.count %]]['bins'][0]['id'] = "";
-    [% USE BINS_it = Iterator(warehouse.BINS) %][% FOREACH bin = BINS_it %]
-    warehouses[[% WAREHOUSES_it.count %]]['bins'][[% BINS_it.count %]] = new Array();
-    warehouses[[% WAREHOUSES_it.count %]]['bins'][[% BINS_it.count %]]['description'] = "[% JavaScript.escape(bin.description) %]";
-    warehouses[[% WAREHOUSES_it.count %]]['bins'][[% BINS_it.count %]]['id'] = [% bin.id %];
-    [% END %]
+    [% USE WAREHOUSES_it = Iterator(WAREHOUSES) %]
+    [% FOREACH warehouse = WAREHOUSES_it %]
+      warehouses[[% WAREHOUSES_it.count %]] = new Array();
+      warehouses[[% WAREHOUSES_it.count %]]['id'] = [% warehouse.id %];
+      warehouses[[% WAREHOUSES_it.count %]]['bins'] = new Array();
+      warehouses[[% WAREHOUSES_it.count %]]['bins'][0] = new Array();
+      warehouses[[% WAREHOUSES_it.count %]]['bins'][0]['description'] = "---";
+      warehouses[[% WAREHOUSES_it.count %]]['bins'][0]['id'] = "";
+      [% USE BINS_it = Iterator(warehouse.BINS) %]
+      [% FOREACH bin = BINS_it %]
+        warehouses[[% WAREHOUSES_it.count %]]['bins'][[% BINS_it.count %]] = new Array();
+        warehouses[[% WAREHOUSES_it.count %]]['bins'][[% BINS_it.count %]]['description'] = "[% JavaScript.escape(bin.description) %]";
+        warehouses[[% WAREHOUSES_it.count %]]['bins'][[% BINS_it.count %]]['id'] = [% bin.id %];
+      [% END %]
     [% END %]
 
     function warehouse_selected(warehouse_id, bin_id) {
@@ -65,8 +66,7 @@
       warehouse_selected(0, 0);
       document.Form.partnumber.focus();
     })
-   -->
-</script>
+   --></script>
 
 <form method="post" name="Form" action="wh.pl" id="form">
 <div class="wrapper">
@@ -98,7 +98,7 @@
 		</tr>
 		<tr>
 			<th>[% 'Parts Classification' | $T8 %]:</th>
-			<td>[% P.select_classification('classification_id', class='wi-normal') %]</td>
+			<td>[% P.part.select_classification('classification_id', class='wi-normal') %]</td>
 		</tr>
 		<tr>
 			<th>[% 'Part Description' | $T8 %]:</th>
@@ -149,90 +149,84 @@
 
 <div class="col list">
 <h4>[% 'Article data' | $T8 %]</h4>
-<div>
-	<input name="l_partdescription" id="l_partdescription" type="checkbox" value="Y" checked>
-	<label for="l_partdescription">[% 'Part Description' | $T8 %]</label>
-</div>
-<div>
-	<input name="l_partnumber" id="l_partnumber" type="checkbox" value="Y" checked>
-	<label for="l_partnumber">[% 'Part Number' | $T8 %]</label>
-</div>
-<div>
-	<input name="l_chargenumber" id="l_chargenumber" type="checkbox" value="Y" checked>
-	<label for="l_chargenumber">[% 'Charge Number' | $T8 %]</label>
-</div>
-<div>
-	<input name="l_qty" id="l_qty" type="checkbox" value="Y" checked>
-	<label for="l_qty">[% 'Quantity' | $T8 %]</label>
-</div>
+  <div>
+    <input name="l_partdescription" id="l_partdescription" type="checkbox" value="Y" checked>
+    <label for="l_partdescription">[% 'Part Description' | $T8 %]</label>
+  </div>
+  <div>
+    <input name="l_partnumber" id="l_partnumber" type="checkbox" value="Y" checked>
+    <label for="l_partnumber">[% 'Part Number' | $T8 %]</label>
+  </div>
+  <div>
+    <input name="l_chargenumber" id="l_chargenumber" type="checkbox" value="Y" checked>
+    <label for="l_chargenumber">[% 'Charge Number' | $T8 %]</label>
+  </div>
+  <div>
+    <input name="l_qty" id="l_qty" type="checkbox" value="Y" checked>
+    <label for="l_qty">[% 'Quantity' | $T8 %]</label>
+  </div>
 </div>
 
 <div class="col list">
 <h4>[% 'Storage' | $T8 %]</h4>
-<div>
-	<input name="l_warehouse_from" id="l_warehouse_from" type="checkbox" value="Y" checked>
-	<label for="l_warehouse_from">[% 'Warehouse From' | $T8 %]</label>
-</div>
-<div>
-	<input name="l_bin_from" id="l_bin_from" type="checkbox" value="Y" checked>
-	<label for="l_bin_from">[% 'Bin From' | $T8 %]</label>
-</div>
-<div>
-	<input name="l_warehouse_to" id="l_warehouse_to" type="checkbox" value="Y" checked>
-	<label for="l_warehouse_to">[% 'Warehouse To' | $T8 %]</label>
-</div>
-<div>
-	<input name="l_bin_to" id="l_bin_to" type="checkbox" value="Y" checked>
-	<label for="l_bin_to">[% 'Bin To' | $T8 %]</label>
-</div>
-
+  <div>
+    <input name="l_warehouse_from" id="l_warehouse_from" type="checkbox" value="Y" checked>
+    <label for="l_warehouse_from">[% 'Warehouse From' | $T8 %]</label>
+  </div>
+  <div>
+    <input name="l_bin_from" id="l_bin_from" type="checkbox" value="Y" checked>
+    <label for="l_bin_from">[% 'Bin From' | $T8 %]</label>
+  </div>
+  <div>
+    <input name="l_warehouse_to" id="l_warehouse_to" type="checkbox" value="Y" checked>
+    <label for="l_warehouse_to">[% 'Warehouse To' | $T8 %]</label>
+  </div>
+  <div>
+    <input name="l_bin_to" id="l_bin_to" type="checkbox" value="Y" checked>
+    <label for="l_bin_to">[% 'Bin To' | $T8 %]</label>
+  </div>
 </div>
 
 <div class="col list">
 <h4>[% 'Miscellaneous' | $T8 %]</h4>
-<div>
-	<input name="l_date" id="l_date" type="checkbox" value="Y" checked>
-	<label for="l_date">[% 'Date' | $T8 %]</label>
-</div>
-[% IF INSTANCE_CONF.get_show_bestbefore %] 
-<div>
-	<input name="l_bestbefore" id="l_bestbefore" type="checkbox" value="Y" checked>
-	<label for="l_bestbefore">[% 'Best Before' | $T8 %]</label>
-</div>
-[% END %] 
-<div>
-	<input name="l_trans_id" id="l_trans_id" type="checkbox" value="Y">
-	<label for="l_trans_id">[% 'Trans Id' | $T8 %]</label>
-</div>
-<div>
-	<input name="l_trans_type" id="l_trans_type" type="checkbox" value="Y" checked>
-	<label for="l_trans_type">[% 'Trans Type' | $T8 %]</label>
-</div>
-<div>
-	<input name="l_comment" id="l_comment" type="checkbox" value="Y">
-	<label for="l_comment">[% 'Comment' | $T8 %]</label>
-</div>
-<div>
-	<input name="l_employee" id="l_employee" type="checkbox" value="Y">
-	<label for="l_employee">[% 'Employee' | $T8 %]</label>
-</div>
-<div>
-	<input name="l_oe_id" id="l_oe_id" type="checkbox" value="Y">
-	<label for="l_oe_id">[% 'Document' | $T8 %]</label>
-</div>
-<div>
-	<input name="l_projectnumber" id="l_projectnumber" type="checkbox" value="Y" checked>
-	<label for="l_projectnumber">[% 'Project Number' | $T8 %]</label>
-</div>
-
-
-
-
-
+  <div>
+    <input name="l_date" id="l_date" type="checkbox" value="Y" checked>
+    <label for="l_date">[% 'Date' | $T8 %]</label>
+  </div>
+  [% IF INSTANCE_CONF.get_show_bestbefore %] 
+    <div>
+      <input name="l_bestbefore" id="l_bestbefore" type="checkbox" value="Y" checked>
+      <label for="l_bestbefore">[% 'Best Before' | $T8 %]</label>
+    </div>
+  [% END %] 
+  <div>
+    <input name="l_trans_id" id="l_trans_id" type="checkbox" value="Y">
+    <label for="l_trans_id">[% 'Trans Id' | $T8 %]</label>
+  </div>
+  <div>
+    <input name="l_trans_type" id="l_trans_type" type="checkbox" value="Y" checked>
+    <label for="l_trans_type">[% 'Trans Type' | $T8 %]</label>
+  </div>
+  <div>
+    <input name="l_comment" id="l_comment" type="checkbox" value="Y">
+    <label for="l_comment">[% 'Comment' | $T8 %]</label>
+  </div>
+  <div>
+    <input name="l_employee" id="l_employee" type="checkbox" value="Y">
+    <label for="l_employee">[% 'Employee' | $T8 %]</label>
+  </div>
+  <div>
+    <input name="l_oe_id" id="l_oe_id" type="checkbox" value="Y">
+    <label for="l_oe_id">[% 'Document' | $T8 %]</label>
+  </div>
+  <div>
+    <input name="l_projectnumber" id="l_projectnumber" type="checkbox" value="Y" checked>
+    <label for="l_projectnumber">[% 'Project Number' | $T8 %]</label>
+  </div>
 </div>
 
 </div><!-- /.form-addition -->
 
 
 </div><!-- /.wrapper -->
- </form>
+</form>

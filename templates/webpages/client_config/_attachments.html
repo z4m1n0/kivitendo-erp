@@ -2,7 +2,8 @@
 [% USE L %]
 
 <div id="attachments">
-	
+  <!-- PENDENT: ANSCHAUEN -->
+	[% SET file_type = 'attachment' %]
 	[% INCLUDE 'file/rename_dialog.html' %] 
 	
 	<h2>[% LxERP.t8("Global Attachments") %] [% LxERP.t8("for Document types") %]</h2>
@@ -20,7 +21,6 @@
 			<li><a href="controller.pl?action=File/list&file_type=attachment&object_type=purchase_invoice&object_id=0&is_global=1">[% LxERP.t8("Purchase Invoices") %]</a></li>
 		</ul>
 	
-	</div>
+	</div><!-- /.tabwidget -->
 
-</div>
-
+</div><!-- /#attachments -->

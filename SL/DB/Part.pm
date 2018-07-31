@@ -11,6 +11,7 @@ use SL::DB::MetaSetup::Part;
 use SL::DB::Manager::Part;
 use SL::DB::Chart;
 use SL::DB::Helper::AttrHTML;
+use SL::DB::Helper::AttrSorted;
 use SL::DB::Helper::TransNumberGenerator;
 use SL::DB::Helper::CustomVariables (
   module      => 'IC',
@@ -29,11 +30,17 @@ __PACKAGE__->meta->add_relationships(
     type         => 'one to many',
     class        => 'SL::DB::Price',
     column_map   => { id => 'parts_id' },
+    manager_args => { with_objects => [ 'pricegroup' ] }
   },
   makemodels     => {
     type         => 'one to many',
     class        => 'SL::DB::MakeModel',
     manager_args => { sort_by => 'sortorder' },
+    column_map   => { id => 'parts_id' },
+  },
+  customerprices => {
+    type         => 'one to many',
+    class        => 'SL::DB::PartCustomerPrice',
     column_map   => { id => 'parts_id' },
   },
   translations   => {
@@ -53,11 +60,18 @@ __PACKAGE__->meta->add_relationships(
     query_args      => [ what_done => 'part' ],
     manager_args    => { sort_by => 'itime' },
   },
+  shop_parts     => {
+    type         => 'one to many',
+    class        => 'SL::DB::ShopPart',
+    column_map   => { id => 'part_id' },
+    manager_args => { with_objects => [ 'shop' ] },
+  },
 );
 
 __PACKAGE__->meta->initialize;
 
 __PACKAGE__->attr_html('notes');
+__PACKAGE__->attr_sorted({ unsorted => 'makemodels', position => 'sortorder' });
 
 __PACKAGE__->before_save('_before_save_set_partnumber');
 
@@ -406,13 +420,6 @@ sub items_lastcost_sum {
   sum map { $_->linetotal_lastcost } @{$self->items};
 };
 
-sub assortment_lastcost_sum {
-  my ($self) = @_;
-
-  return unless $self->is_assortment;
-  sum map { $_->linetotal_lastcost } @{$self->assortment_items};
-};
-
 1;
 
 __END__
@@ -555,21 +562,9 @@ Used to set the accounting information from a L<SL:DB::Buchungsgruppe> object.
 Please note, that this is a write only accessor, the original Buchungsgruppe can
 not be retrieved from an article once set.
 
-=item C<assembly_sellprice_sum>
+=item C<items_lastcost_sum>
 
-Non-recursive sellprice sum of all the assembly item sellprices.
-
-=item C<assortment_sellprice_sum>
-
-Non-recursive sellprice sum of all the assortment item sellprices.
-
-=item C<assembly_lastcost_sum>
-
-Non-recursive lastcost sum of all the assembly item lastcosts.
-
-=item C<assortment_lastcost_sum>
-
-Non-recursive lastcost sum of all the assortment item lastcosts.
+Non-recursive lastcost sum of all the items in an assembly or assortment.
 
 =item C<get_stock %params>
 

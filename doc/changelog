@@ -2,22 +2,120 @@
 # Veränderungen von kivitendo #
 ###############################
 
-2017-XX-XX - Release 3.5.X
+2018-XX-XX - Release 3.5.X
 
-kleinere neue Features und Detailverbesserungen:
+Mittelgroße neue Features:
 
-  - SEPA-XML: alle Sonderzeichen filtern
-  - SEPA-Export: Export wieder rückgängig machen, falls noch Status offen
-  - Stammdaten -> Berichte -> Artikel: Standardlager und Lagerplatz optional anzeigen
-  - Vorbelegte Texte inkl. Ansprechpartner für den E-Mail-Versand bei allen Workflows hinzugefügt.
+- Inventurerfassung
+
+  Portierung aus einem Kundenprojekt mit folgenden Anforderungen/Features:
+  - eigene Maske unter Lager->Inventur
+  - Anzeige des aktuellen Lagerbestands des zu erfassenden Artikels
+  - Angabe des Artikels auch über EAN
+  - Angabe eines Stichtages
+  - Vorbelegung Lager/Lagerplatz und Stichtag in Mandantenkonfiguration
+  - korrigieren des Lagerbestands entsprechend der Zählung (mit neuem
+    Transfertyp "Inventur")
+  - Speichern der gezählten Menge (auch wenn keine Korrektur des Bestands
+    stattfindet)
+  - Warnung, wenn gleicher Artikel für gleichen Lagerplatz und Stichtag schon
+    gezählt wurde und Möglichkeit die eigene gezählte Menge zu der vorhandenen
+    hinzuzuzählen oder die vorher gezählte Menge durch die eigene Menge zu
+    korrigieren
+  - Historie der Inventurerfassung des aktuellen Bearbeiters unterhalb
+    der Erfassungsmaske
+  - Bericht über Inventurerfassungen
+
+Kleinere neue Features und Detailverbesserungen:
+  - Verknüpfte Belege um die Verknüpfung von Beleg nach E-Mail-Journal erweitert.
+  - Filter nach Abteilungen für Lieferplan
+
+2017-12-12 - Release 3.5.1
+
+Größere neue Features:
+
+- WebshopApi
+
+  WebshopApi mit bisher einem Konnektor für Shopware.
+  Damit ist es möglich Bestellungen aus dem Shop abzuholen und Artikel
+  abzugleichn.
+
+Mittelgroße neue Features:
+
+- DATEV-Export überarbeitet
+
+  - Um Strukturtyp CSV-Export erweitert
+  - DATEV-Export: Kostenstellen (Kost1 und Kost2) vorbelegen
+  - DATEV-Export: Buchungssätze nach Abteilung filtern
   - DATEV-Export: Buchungen für einen bestimmten Zeitraum ab einem
     Buchungsdatum filtern. Z.B. wenn man einen DATEV-Export für Januar schon
     exportiert hat, und im Juni noch ein Buchung für Januar nachbucht, kann man
     mit "Erfassungsdatum Von: 01.06.2017" nur diese eine Buchung aus Januar
     exportieren.
+  - Überlagerung mit Kunden- Lieferantennummer als Personenkonto möglich
+    Anstatt des Sammelkontos kann die Kunden- oder Lieferantennummer aus
+    den Stammdaten genommen werden, falls der Nummernkreis der DATEV-Konform
+    für Personenkonten entspricht.
+  - Belegfeld 2 wird nicht mehr gesetzt
+  - Buchungsbeschreibung wird nicht mehr gesetzt
+
+Kleinere neue Features und Detailverbesserungen:
+
+  - Abteilungs-Auswahl konsequent alphabetisch sortieren
+  - Buchungsvorlagen schneller über den Namen filtern (suchen).
+  - Neues Recht Erzeugnisse unabhängig vom Status editieren (default 0)
+  - SEPA-XML: alle Sonderzeichen filtern
+  - SEPA-Export: Export wieder rückgängig machen, falls noch Status offen
+  - Stammdaten -> Berichte -> Artikel: Standardlager und Lagerplatz optional anzeigen
+  - Vorbelegte Texte inkl. Ansprechpartner für den E-Mail-Versand bei allen Workflows
+    hinzugefügt.
   - Kontoauszug verbuchen -> Buchung erstellen um Dialogbuchungen erweitert.
     Vom Kontoimport ist es jetzt auch möglich in Vorlagen aus der Dialog-
     Buchungsmaske zu buchen und nicht nur in Kreditorenbuchungsvorlagen
+  - Neuer Bericht: Berichtskonfigurationsübersicht
+  - Verbesserte Datumsvalidierung per Javascript
+  - Neues Benutzer-Recht Erzeugnisbestandteile editieren
+  - Dialogbuchungsvorlagen um 'Details anzeigen' erweitert
+  - Nach dem Speichern Buchungsnummer bei Debitoren/Kreditorenbuchungen und Einkaufsrechnungen
+    als Info anzeigen
+  - Bankimport: CSV- und MT940-Menüpunkte in Untermenü in »Zahlungsverkehr«
+  - Schnellsuchen - ungültige Einträge aus Stammdaten nicht mit anzeigen
+  - Workflow Lieferschein -> Rechnung. Liefertermin als Rechnungslieferdatum setzen
+  - Einkaufsrechnungen: Bearbeiter*in & Verkäufer*in mit aktueller Benutzer*in vorbelegen
+  - Bemerkungsfeldeditor (CKEditor): Größe änderbar und Buttonzeile "schwebt"
+    über dem Eingabebereich wenn im Fokus
+  - Kontenabgleich mit Bank. Hinweise auf Fehler bei nicht vorhandenem 'Abgleichen'-Knopf
+
+Administrative Änderungen
+
+  - Für die Tests müssen in der kivitendo.conf unter [testing/database]
+    Einträge für superuser_user und superuser_password gesetzt werden. Siehe
+    Beispiel in config/kivitendo.conf.default
+
+Bugfixes:
+- Bugfix #326 Das Löschen von Storno Rechnungen R(S) wirft einen SQL-Fehler
+- Bugfix #325 Rechnungen mit Zahlungsverknüpfungen können storniert werden
+- Bugfix #324 DATEV CSV-Export ggf. fehlerhaft bei Buchungen ohne Steuer
+- Bugfix #320 Stücklistenpositionen werden nicht mehr ausgedruckt
+- Bugfix #305 Kein customerpicker im Formular Rechnung erfassen
+- Bugfix #304 Datumsformat wechselt willkürlich auf Datenbank Format "YYYY-MM-DD"
+- Bugfix #303 Zahlungserinnerung PDF anhängen in E-Mail funktioniert nicht mehr
+- Bugfix #300 Kontoauszug verbuchen bei negativer Einkaufsrechnung wird das Vorzeichen bei Zahlung umgedreht
+- Bugfix #296 Verkauf -> Lieferschein erfassen erzeugt Fehlermeldung
+- Bugfix #286 DMS aktiv. Speichertyp für Belege auf 'kein' gesetzt -> Belegdruck defekt
+- Bugfix #283 Lieferwertbericht wirft Fehler
+- Bugfix #280 Drucken beim neuem OrderController geht nicht mit aktiviertem Dateimanagement und Webdav
+- Bugfix #277 Kontoauszug verbuchen. Vorschlagsliste ignoriert SEPA-Überweisungen
+- Bugfix #276 Mini-DMS Auswahl der Belege bei Lieferschein fehlt
+- Bugfix #275 Löschen von DMS-Anhängen wirft Fehler
+- Bugfix #274 Mahnungen lassen sich nicht mehr erzeugen mit aktivierten Dateimanagementfeature
+- Bugfix #270 Artikelzuweisung bzw. Zusätzliche Artikel im Pflichtenheft kaputt
+- Bugfix #265 Kontoauszug verbuchen bei negativer Kreditorenbuchung wird das Vorzeichen bei Zahlung umgedreht
+- Bugfix #264 Artikelnummer nicht mehr änderbar
+- Bugfix #263 Emailadresse der Stammdaten wird nicht mehr übernommen
+- Bugfix #8   Datumswarnung in Safari blockiert Browser
+
+
 
 2017-07-17 - Release 3.5.0
 

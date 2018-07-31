@@ -49,6 +49,8 @@ use SL::DBUtils qw(selectrow_query selectall_hashref_query);
 use SL::Webdav;
 use SL::Locale::String qw(t8);
 use SL::Helper::GlAttachments qw(count_gl_attachments);
+use SL::Presenter::Tag;
+use SL::Presenter::Chart;
 require "bin/mozilla/common.pl";
 require "bin/mozilla/reportgenerator.pl";
 
@@ -109,7 +111,7 @@ sub load_record_template {
   $::form->{duedate}          = $today->to_kivitendo;
   $::form->{rowcount}         = @{ $template->items };
   $::form->{paidaccounts}     = 1;
-  $::form->{$_}               = $template->$_     for qw(department_id taxincluded ob_transaction cb_transaction reference description);
+  $::form->{$_}               = $template->$_     for qw(department_id taxincluded ob_transaction cb_transaction reference description show_details);
   $::form->{$_}               = $dummy_form->{$_} for qw(closedto revtrans previous_id previous_gldate);
 
   my $row = 0;
@@ -183,6 +185,7 @@ sub save_record_template {
     cb_transaction => $::form->{cb_transaction}  ? 1 : 0,
     reference      => $::form->{reference},
     description    => $::form->{description},
+    show_details   => $::form->{show_details},
 
     items          => \@items,
   );
@@ -223,7 +226,7 @@ sub add {
   $form->{credit} = 0;
   $form->{tax}    = 0;
 
-  $::form->{ALL_DEPARTMENTS} = SL::DB::Manager::Department->get_all;
+  $::form->{ALL_DEPARTMENTS} = SL::DB::Manager::Department->get_all_sorted;
 
   $form->{show_details} = $myconfig{show_form_details} unless defined $form->{show_details};
 
@@ -244,7 +247,7 @@ sub prepare_transaction {
 
   $form->{amount} = $form->format_amount(\%myconfig, $form->{amount}, 2);
 
-  $::form->{ALL_DEPARTMENTS} = SL::DB::Manager::Department->get_all;
+  $::form->{ALL_DEPARTMENTS} = SL::DB::Manager::Department->get_all_sorted;
 
   my $i        = 1;
   my $tax      = 0;
@@ -335,7 +338,7 @@ sub search {
     projects  => { key => "ALL_PROJECTS", all => 1 },
   );
   $::form->{ALL_EMPLOYEES} = SL::DB::Manager::Employee->get_all_sorted(query => [ deleted => 0 ]);
-  $::form->{ALL_DEPARTMENTS} = SL::DB::Manager::Department->get_all;
+  $::form->{ALL_DEPARTMENTS} = SL::DB::Manager::Department->get_all_sorted;
 
   setup_gl_search_action_bar();
 
@@ -422,7 +425,7 @@ sub generate_report {
   );
 
   # add employee here, so that variable is still known and passed in url when choosing a different sort order in resulting table
-  my @hidden_variables = qw(accno source reference description notes project_id datefrom dateto employee_id datesort category l_subtotal);
+  my @hidden_variables = qw(accno source reference description notes project_id datefrom dateto employee_id datesort category l_subtotal department_id);
   push @hidden_variables, map { "l_${_}" } @columns;
 
   my $employee = $form->{employee_id} ? SL::DB::Employee->new(id => $form->{employee_id})->load->name : '';
@@ -835,8 +838,8 @@ sub display_rows {
     my $selected_taxchart = $taxchart_to_use->id . '--' . $taxchart_to_use->rate;
 
     my $accno = qq|<td>| .
-      $::request->presenter->chart_picker("accno_id_$i", $accno_id, style => "width: 300px") .
-      $::request->presenter->hidden_tag("previous_accno_id_$i", $accno_id)
+      SL::Presenter::Chart::picker("accno_id_$i", $accno_id, style => "width: 300px") .
+      SL::Presenter::Tag::hidden_tag("previous_accno_id_$i", $accno_id)
       . qq|</td>|;
     my $tax_ddbox = qq|<td>| .
       NTI($cgi->popup_menu('-name' => "taxchart_$i",
@@ -913,6 +916,12 @@ sub display_rows {
 
     my $copy2credit = $i == 1 ? 'onkeyup="copy_debit_to_credit()"' : '';
     my $balance     = $form->format_amount(\%::myconfig, $balances{$accno_id} // 0, 2, 'DRCR');
+
+    # if we have a bt_chart_id we disallow changing the amount of the bank account
+    if ($form->{bt_chart_id}) {
+      $debitreadonly = $creditreadonly = "readonly" if ($form->{"accno_id_$i"} eq $form->{bt_chart_id});
+      $copy2credit   = '' if $i == 1;   # and disallow copy2credit
+    }
 
     print qq|<tr valign=top>
     $accno
@@ -1084,7 +1093,7 @@ sub form_header {
 
   # we cannot book on charttype header
   @{ $::form->{ALL_CHARTS} } = grep { $_->{charttype} ne 'H' }  @{ $::form->{ALL_CHARTS} };
-  $::form->{ALL_DEPARTMENTS} = SL::DB::Manager::Department->get_all;
+  $::form->{ALL_DEPARTMENTS} = SL::DB::Manager::Department->get_all_sorted;
 
   my $title      = $::form->{title};
   $::form->{title} = $::locale->text("$title General Ledger Transaction");
@@ -1308,28 +1317,67 @@ sub post_transaction {
     $form->error($locale->text('Empty transaction!'));
   }
 
-  if ((my $errno = GL->post_transaction(\%myconfig, \%$form)) <= -1) {
-    $errno *= -1;
-    my @err;
-    $err[1] = $locale->text('Cannot have a value in both Debit and Credit!');
-    $err[2] = $locale->text('Debit and credit out of balance!');
-    $err[3] = $locale->text('Cannot post a transaction without a value!');
 
-    $form->error($err[$errno]);
-  }
-  # saving the history
-  if(!exists $form->{addition} && $form->{id} ne "") {
-    $form->{snumbers} = qq|gltransaction_| . $form->{id};
-    $form->{addition} = "POSTED";
-    $form->{what_done} = "gl transaction";
-    $form->save_history;
-  }
-  # /saving the history
+  # start transaction (post + history + (optional) banktrans)
+  SL::DB->client->with_transaction(sub {
 
-  if ($form->{callback} =~ /BankTransaction/) {
+    if ((my $errno = GL->post_transaction(\%myconfig, \%$form)) <= -1) {
+      $errno *= -1;
+      my @err;
+      $err[1] = $locale->text('Cannot have a value in both Debit and Credit!');
+      $err[2] = $locale->text('Debit and credit out of balance!');
+      $err[3] = $locale->text('Cannot post a transaction without a value!');
+
+      die $err[$errno];
+    }
+    # saving the history
+    if(!exists $form->{addition} && $form->{id} ne "") {
+      $form->{snumbers} = qq|gltransaction_| . $form->{id};
+      $form->{addition} = "POSTED";
+      $form->{what_done} = "gl transaction";
+      $form->save_history;
+    }
+
+    # Case BankTransaction: update RecordLink and BankTransaction
+    if ($form->{callback} =~ /BankTransaction/ && $form->{bt_id}) {
+      # set invoice_amount - we only rely on bt_id in form, do all other stuff ui independent
+      # die if we have a unlogic or NYI case and abort the whole transaction
+      my ($bt, $chart_id, $payment);
+      require SL::DB::Manager::BankTransaction;
+
+      $bt = SL::DB::Manager::BankTransaction->find_by(id => $::form->{bt_id});
+      die "No bank transaction found" unless $bt;
+
+      $chart_id = SL::DB::Manager::BankAccount->find_by(id => $bt->local_bank_account_id)->chart_id;
+      die "no chart id:" unless $chart_id;
+
+      $payment = SL::DB::Manager::AccTransaction->get_all(where => [ trans_id => $::form->{id},
+                                                                     chart_link => { like => '%AR_paid%' },
+                                                                     chart_id => $chart_id                  ]);
+      die "guru meditation error: Can only assign amount to one bank account booking" if scalar @{ $payment } > 1;
+
+      # credit/debit * -1 matches the sign for bt.amount and bt.invoice_amount
+      die "Can only assign the full bank amount to a single general ledger booking" unless $bt->amount == $payment->[0]->amount * -1;
+      $bt->update_attributes(invoice_amount => $bt->invoice_amount + ($payment->[0]->amount * -1));
+
+      # create record_link
+      my @props = (
+        from_table => 'bank_transactions',
+        from_id    => $::form->{bt_id},
+        to_table   => 'gl',
+        to_id      => $::form->{id},
+      );
+      SL::DB::RecordLink->new(@props)->save;
+
+    }
+    1;
+  }) or do { die SL::DB->client->error };
+
+  if ($form->{callback} =~ /BankTransaction/ && $form->{bt_id}) {
     print $form->redirect_header($form->{callback});
     $form->redirect($locale->text('GL transaction posted.') . ' ' . $locale->text('ID') . ': ' . $form->{id});
   }
+
   # remove or clarify
   undef($form->{callback});
   $main::lxdebug->leave_sub();

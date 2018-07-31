@@ -10,7 +10,7 @@ A:hover { color: black;
            text-decoration: none;
          }
 
-input, textarea, select {
+input, textarea, select, div.cke_textarea_inline {
   border: 1px;
   border-color: darkgray lightgray lightgray;
   border-style: solid;
@@ -27,14 +27,14 @@ select {
   padding: 0 14px 0 0;
 }
 
-input:focus, textarea:focus, select:focus {
+input:focus, textarea:focus, select:focus, div.cke_textarea_inline:focus {
   background-color: whitesmoke;
   border: 1px;
   border-color: gray lightgray lightgray;
   border-style: solid;
 }
 
-input:hover, textarea:hover, select:hover {
+input:hover, textarea:hover, select:hover, div.cke_textarea_inline:hover {
   border-color: dimgray darkgray darkgray;
 }
 
@@ -71,7 +71,7 @@ html {
 }
 
 body {
-  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-family: sans-serif;
   font-size: 80%;
   background-color: white;
   color: black;
@@ -79,7 +79,6 @@ body {
 }
 
 td {
-  font-family: Verdana, Arial, Helvetica, sans-serif;
   color: black;
   font-weight: normal;
 }
@@ -89,15 +88,11 @@ td.hover:hover {
 
 
 th {
-  font-family: Verdana, Arial, Helvetica, sans-serif;
   color: black;
   font-weight: normal;
 }
 
 /* login and admin */
-.login {
-  font-family: Verdana, Arial, Helvetica, sans-serif;
-}
 div.login {
   min-height: 100%;
   height: auto !important;
@@ -264,11 +259,9 @@ div.admin {
 
 
 .submit {
-  font-family: Verdana, Arial, Helvetica, sans-serif;
   color: #000000;
 }
 .checkbox, .radio {
-  font-family: Verdana, Arial, Helvetica, sans-serif;
   color: #778899;
 }
 
@@ -385,6 +378,7 @@ label {
 .chart_picker,
 .part_picker {
 }
+.kivi-validator-invalid,
 .customer-vendor-picker-undefined,
 .chartpicker-undefined,
 .projectpicker-undefined,
@@ -467,10 +461,19 @@ div.ppp_block span.ppp_block_description {
   float:right;
   font-weight:bold;
 }
+div.ppp_block span.ppp_block_ean {
+  float:left;
+  margin-left:1em;
+}
 div.cpc_block span.cpc_block_description {
   float:left;
   margin-left:1em;
   font-weight:bold;
+}
+div.ppp_line span.ppp_block_number,
+div.ppp_line span.ppp_block_ean {
+  float:left;
+  margin-left:1em;
 }
 div.ppp_line span.ppp_block_description,
 div.cpc_line span.cpc_block_description
@@ -586,4 +589,16 @@ div.layout-actionbar-combobox div.layout-actionbar-combobox-head span:after {
 }
 div.layout-actionbar .layout-actionbar-default-action {
   font-weight: bold;
+}
+
+/* cke editor */
+.cke_top {
+  padding: 0 !important;
+}
+.cke_toolgroup {
+  margin-bottom: 0 !important;
+  margin-top: 0 !important;
+}
+.cke_button {
+  padding: 0px; 6px !important;
 }

@@ -51,6 +51,8 @@ use SL::DB::RecordTemplate;
 use SL::DB::Tax;
 use SL::Helper::Flash qw(flash);
 use SL::Locale::String qw(t8);
+use SL::Presenter::Tag;
+use SL::Presenter::Chart;
 use SL::ReportGenerator;
 
 require "bin/mozilla/common.pl";
@@ -305,12 +307,12 @@ sub create_links {
 
   $form->{$_}          = $saved{$_} for keys %saved;
   $form->{rowcount}    = 1;
-  $form->{AR_chart_id} = $form->{acc_trans} && $form->{acc_trans}->{AR} ? $form->{acc_trans}->{AR}->[0]->{chart_id} : $form->{AR_links}->{AR}->[0]->{chart_id};
+  $form->{AR_chart_id} = $form->{acc_trans} && $form->{acc_trans}->{AR} ? $form->{acc_trans}->{AR}->[0]->{chart_id} : $::instance_conf->get_ar_chart_id || $form->{AR_links}->{AR}->[0]->{chart_id};
 
   # currencies
   $form->{defaultcurrency} = $form->get_default_currency(\%myconfig);
 
-  $form->{ALL_DEPARTMENTS} = SL::DB::Manager::Department->get_all;
+  $form->{ALL_DEPARTMENTS} = SL::DB::Manager::Department->get_all_sorted;
 
   # build the popup menus
   $form->{taxincluded} = ($form->{id}) ? $form->{taxincluded} : "checked";
@@ -371,7 +373,7 @@ sub form_header {
                    "taxcharts" => { "key"       => "ALL_TAXCHARTS",
                                     "module"    => "AR" },);
 
-  $form->{ALL_DEPARTMENTS} = SL::DB::Manager::Department->get_all;
+  $form->{ALL_DEPARTMENTS} = SL::DB::Manager::Department->get_all_sorted;
 
   $_->{link_split} = { map { $_ => 1 } split/:/, $_->{link} } for @{ $form->{ALL_CHARTS} };
 
@@ -393,7 +395,7 @@ sub form_header {
   my $follow_up_vc         = $form->{customer_id} ? SL::DB::Customer->load_cached($form->{customer_id})->name : '';
   my $follow_up_trans_info =  "$form->{invnumber} ($follow_up_vc)";
 
-  $::request->layout->add_javascripts("autocomplete_chart.js", "autocomplete_customer.js", "show_vc_details.js", "show_history.js", "follow_up.js", "kivi.Draft.js", "kivi.GL.js", "kivi.File.js", "kivi.RecordTemplate.js", "kivi.AR.js");
+  $::request->layout->add_javascripts("autocomplete_chart.js", "show_vc_details.js", "show_history.js", "follow_up.js", "kivi.Draft.js", "kivi.GL.js", "kivi.File.js", "kivi.RecordTemplate.js", "kivi.AR.js", "kivi.CustomerVendor.js", "kivi.Validator.js");
 
   my $transdate = $::form->{transdate} ? DateTime->from_kivitendo($::form->{transdate}) : DateTime->today_local;
   my $first_taxchart;
@@ -423,8 +425,8 @@ sub form_header {
     my $selected_taxchart = $taxchart_to_use->id . '--' . $taxchart_to_use->rate;
 
     $transaction->{selectAR_amount} =
-        $::request->presenter->chart_picker("AR_amount_chart_id_$i", $amount_chart_id, style => "width: 400px", type => "AR_amount", class => ($form->{initial_focus} eq "row_$i" ? "initial_focus" : ""))
-      . $::request->presenter->hidden_tag("previous_AR_amount_chart_id_$i", $amount_chart_id);
+        SL::Presenter::Chart::picker("AR_amount_chart_id_$i", $amount_chart_id, style => "width: 400px", type => "AR_amount", class => ($form->{initial_focus} eq "row_$i" ? "initial_focus" : ""))
+      . SL::Presenter::Tag::hidden_tag("previous_AR_amount_chart_id_$i", $amount_chart_id);
 
     $transaction->{taxchart} =
       NTI($cgi->popup_menu('-name' => "taxchart_$i",
@@ -874,10 +876,12 @@ sub setup_ar_search_action_bar {
       action => [
         $::locale->text('Search'),
         submit    => [ '#form' ],
+        checks    => [ 'kivi.validate_form' ],
         accesskey => 'enter',
       ],
     );
   }
+  $::request->layout->add_javascripts('kivi.Validator.js');
 }
 
 sub setup_ar_transactions_action_bar {
@@ -996,13 +1000,13 @@ sub ar_transactions {
 
   my @hidden_variables = map { "l_${_}" } @columns;
   push @hidden_variables, "l_subtotal", qw(open closed customer invnumber ordnumber cusordnumber transaction_description notes project_id transdatefrom transdateto duedatefrom duedateto
-                                           employee_id salesman_id business_id parts_partnumber parts_description department_id);
+                                           employee_id salesman_id business_id parts_partnumber parts_description department_id show_marked_as_closed);
   push @hidden_variables, map { "cvar_$_->{name}" } @ct_searchable_custom_variables;
 
   $href = build_std_url('action=ar_transactions', grep { $form->{$_} } @hidden_variables);
 
   my %column_defs = (
-    'ids'                     => { raw_header_data => $::request->presenter->checkbox_tag("", id => "check_all", checkall => "[data-checkall=1]"), align => 'center' },
+    'ids'                     => { raw_header_data => SL::Presenter::Tag::checkbox_tag("", id => "check_all", checkall => "[data-checkall=1]"), align => 'center' },
     'transdate'               => { 'text' => $locale->text('Date'), },
     'id'                      => { 'text' => $locale->text('ID'), },
     'type'                    => { 'text' => $locale->text('Type'), },
@@ -1180,7 +1184,7 @@ sub ar_transactions {
       . "&id=" . E($ar->{id}) . "&callback=${callback}";
 
     $row->{ids} = {
-      raw_data =>  $::request->presenter->checkbox_tag("id[]", value => $ar->{id}, "data-checkall" => 1),
+      raw_data =>  SL::Presenter::Tag::checkbox_tag("id[]", value => $ar->{id}, "data-checkall" => 1),
       valign   => 'center',
       align    => 'center',
     };
@@ -1257,6 +1261,7 @@ sub setup_ar_form_header_action_bar {
         t8('Update'),
         submit    => [ '#form', { action => "update" } ],
         id        => 'update_button',
+        checks    => [ 'kivi.validate_form' ],
         accesskey => 'enter',
       ],
 
@@ -1264,7 +1269,7 @@ sub setup_ar_form_header_action_bar {
         action => [
           t8('Post'),
           submit   => [ '#form', { action => "post" } ],
-          checks   => [ 'kivi.AR.check_fields_before_posting' ],
+          checks   => [ 'kivi.validate_form', 'kivi.AR.check_fields_before_posting' ],
           disabled => $is_closed                                  ? t8('The billing period has already been locked.')
                     : $is_storno                                  ? t8('A canceled invoice cannot be posted.')
                     : ($::form->{id} && $change_never)            ? t8('Changing invoices has been disabled in the configuration.')
@@ -1287,7 +1292,7 @@ sub setup_ar_form_header_action_bar {
       combobox => [
         action => [ t8('Storno'),
           submit   => [ '#form', { action => "storno" } ],
-          checks   => [ 'kivi.AR.check_fields_before_posting' ],
+          checks   => [ 'kivi.validate_form', 'kivi.AR.check_fields_before_posting' ],
           confirm  => t8('Do you really want to cancel this invoice?'),
           disabled => !$::form->{id}         ? t8('This invoice has not been posted yet.')
                       : $has_storno          ? t8('This invoice has been canceled already.')
@@ -1313,6 +1318,7 @@ sub setup_ar_form_header_action_bar {
         action => [
           t8('Use As New'),
           submit   => [ '#form', { action => "use_as_new" } ],
+          checks   => [ 'kivi.validate_form' ],
           disabled => !$::form->{id} ? t8('This invoice has not been posted yet.') : undef,
         ],
       ], # end of combobox "Workflow"
@@ -1343,6 +1349,7 @@ sub setup_ar_form_header_action_bar {
       ], # end of combobox "more"
     );
   }
+  $::request->layout->add_javascripts('kivi.Validator.js');
 }
 
 1;

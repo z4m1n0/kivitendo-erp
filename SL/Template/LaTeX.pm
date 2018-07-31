@@ -98,6 +98,8 @@ sub _format_html {
   $content =~ s{ ^ ( \\newline \  )+ }{ _lb_to_space($1) }gxe;                              # convert line breaks at the start of the text to vertical space
   $content =~ s{ ( \n\n+ ) ( \\newline \  )+ }{ $1 . _lb_to_space($2) }gxe;                 # convert line breaks at the start of a paragraph to vertical space
   $content =~ s{ ( \\end\{ [^\}]+ \} \h* ) ( \\newline \  )+ }{ $1 . _lb_to_space($2) }gxe; # convert line breaks after LaTeX environments like lists to vertical space
+  $content =~ s{ ^ \h+ \\newline }{\\newline}gmx;
+  $content =~ s{ \n\n \h* \\newline \h* }{\n\n}gmx;
 
   return $content;
 }
@@ -122,6 +124,9 @@ sub format_string {
        $formatters{ $self->{variable_content_types}->{$variable} }
     // $formatters{ $self->{default_content_type} }
     // $formatters{ text };
+
+  $content  =~ s{[^\p{Print}\n]|\p{Cf}}{}g;
+  $variable =~ s{[^\p{Print}\n]|\p{Cf}}{}g;
 
   return $formatter->($self, $content, variable => $variable);
 }

@@ -45,7 +45,6 @@
         <th>[% 'Quantity' | $T8 %]</th>
         <td>[% L.input_tag('filter.qty:number', filter.qty_number, class='wi-lightwide') %]</td>
       </tr>
-
       [% IF SELF.vc == 'customer' %]
       <tr>
         <th>[% 'Customer' | $T8 %]</th>
@@ -85,6 +84,13 @@
              class      => 'wi-lightwide') %]
         </td>
       </tr>
+      [% IF SELF.all_departments.size %]
+        <tr>
+          <th align="right">[% 'Department' | $T8 %]</th>
+          <td>[% L.select_tag('filter.order.department_id', SELF.all_departments, default=filter.order.department_id, title_key='description', with_empty=1, class='wi-lightwide') %]</td>
+        </tr>
+      [% END %]
+      
       <tr>
         <th>[% 'Type' | $T8 %]</th>
         <td>

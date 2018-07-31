@@ -173,7 +173,7 @@ namespace('kivi.Part', function(ns) {
     var data = $('#assembly :input').serializeArray();
     data.push({ name: 'action', value: 'Part/add_assembly_item' },
               { name: 'part.id', value: $("#part_id").val()     },
-              { name: 'part.part_type', value: 'assortment'     });
+              { name: 'part.part_type', value: 'assembly'       });
     $('#assembly_picker').data('part_picker').clear();
 
     $.post("controller.pl", data, kivi.eval_json_result);
@@ -194,7 +194,7 @@ namespace('kivi.Part', function(ns) {
   ns.close_picker_dialogs = function() {
     $('.part_autocomplete').each(function(_, e) {
       var picker = $(e).data('part_picker');
-      if (picker) picker.close_dialog();
+      if (picker && picker.dialog) picker.close_dialog();
     });
   }
 
@@ -252,6 +252,35 @@ namespace('kivi.Part', function(ns) {
   ns.focus_last_makemodel_input = function () {
     $("#makemodel_rows tr:last").find('input[type=text]').filter(':visible:first').focus();
   };
+
+
+  // customerprice
+  ns.customerprice_renumber_positions = function() {
+    $('.customerprice_row [name="position"]').each(function(idx, elt) {
+      $(elt).html(idx+1);
+    });
+  };
+
+  ns.delete_customerprice_row = function(clicked) {
+    var row = $(clicked).closest('tr');
+    $(row).remove();
+
+    ns.customerprice_renumber_positions();
+  };
+
+  ns.add_customerprice_row = function() {
+    if ($('#add_customerpriceid').val() === '') return;
+
+    var data = $('#customerprice_table :input').serializeArray();
+    data.push({ name: 'action', value: 'Part/add_customerprice_row' });
+
+    $.post("controller.pl", data, kivi.eval_json_result);
+  };
+
+  ns.focus_last_customerprice_input = function () {
+    $("#customerprice_rows tr:last").find('input[type=text]').filter(':visible:first').focus();
+  };
+
 
   ns.reload_bin_selection = function() {
     $.post("controller.pl", { action: 'Part/warehouse_changed', warehouse_id: function(){ return $('#part_warehouse_id').val() } },   kivi.eval_json_result);
@@ -424,6 +453,7 @@ namespace('kivi.Part', function(ns) {
           self.handle_changed_text();
         }
         if (event.which == KEY.ENTER) {
+          event.preventDefault();
           self.handle_changed_text({
             match_none: self.o.action.commit_none,
             match_one:  self.o.action.commit_one,
@@ -464,6 +494,9 @@ namespace('kivi.Part', function(ns) {
         },
         select: function(event, ui) {
           self.set_item(ui.item);
+          if (self.o.action.commit_one) {
+            self.run_action(self.o.action.commit_one);
+          }
         },
         search: function(event, ui) {
           if ((event.which == KEY.SHIFT) || (event.which == KEY.CTRL) || (event.which == KEY.ALT))
@@ -559,6 +592,7 @@ namespace('kivi.Part', function(ns) {
             id:   $(this).children('input.part_picker_id').val(),
             name: $(this).children('input.part_picker_description').val(),
             classification_id: $(this).children('input.part_picker_classification_id').val(),
+            ean:  $(this).children('input.part_picker_ean').val(),
             unit: $(this).children('input.part_picker_unit').val(),
             partnumber:  $(this).children('input.part_picker_partnumber').val(),
             description: $(this).children('input.part_picker_description').val(),
@@ -713,6 +747,14 @@ namespace('kivi.Part', function(ns) {
       if (!$(elt).data('part_picker'))
         $(elt).data('part_picker', new kivi.Part.Picker($(elt)));
     });
+
+    kivi.run_once_for('#customerprice_rows', 'customerprice_row_sort_renumber', function(elt) {
+      $(elt).on('sortstop', kivi.Part.customerprice_renumber_positions);
+    });
+
+    kivi.run_once_for('#makemodel_rows', 'makemodel_row_sort_renumber', function(elt) {
+      $(elt).on('sortstop', kivi.Part.makemodel_renumber_positions);
+    });
   }
 
   ns.init = function() {
@@ -722,14 +764,6 @@ namespace('kivi.Part', function(ns) {
   $(function(){
     $('#ic').on('focusout', '.reformat_number', function(event) {
        ns.reformat_number(event);
-    });
-
-    $('.add_makemodel_input').keydown(function(event) {
-      if(event.keyCode == 13) {
-        event.preventDefault();
-        ns.add_makemodel_row();
-        return false;
-      }
     });
 
     $('#part_warehouse_id').change(kivi.Part.reload_bin_selection);

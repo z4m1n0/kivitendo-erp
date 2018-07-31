@@ -41,7 +41,7 @@ use SL::Dispatcher;
 my ($opt_list, $opt_tree, $opt_rtree, $opt_nodeps, $opt_graphviz, $opt_help);
 my ($opt_user, $opt_client, $opt_apply, $opt_applied, $opt_unapplied, $opt_format, $opt_test_utf8);
 my ($opt_dbhost, $opt_dbport, $opt_dbname, $opt_dbuser, $opt_dbpassword, $opt_create, $opt_type);
-my ($opt_description, $opt_encoding, @opt_depends, $opt_auth_db);
+my ($opt_description, @opt_depends, $opt_auth_db);
 
 our (%myconfig, $form, $user, $auth, $locale, $controls, $dbupgrader);
 
@@ -117,9 +117,6 @@ dbupgrade2_tool.pl [options]
   Options for --create:
     --type               \'sql\' or \'pl\'. Defaults to sql.
     --description        The description field of the generated upgrade.
-    --encoding           Encoding used for the file. Defaults to \'utf8\'.
-                         Note: Your editor will not be told to open the file in
-                         this encoding.
     --depends            Tags of upgrades which this upgrade depends upon.
                          Defaults to the latest stable release upgrade.
                          Multiple values possible.
@@ -267,8 +264,9 @@ sub create_upgrade {
   my $dbupgrader  = $params{dbupgrader};
   my $type        = $params{type}        || 'sql';
   my $description = $params{description} || '';
-  my $encoding    = $params{encoding}    || 'utf-8';
   my @depends     = @{ $params{depends} };
+
+  my $encoding    = 'utf-8';
 
   if (!@depends) {
     my @releases = grep { /^release_/ } keys %$controls;
@@ -295,7 +293,6 @@ sub create_upgrade {
   print $fh "$comment \@tag: $filename\n";
   print $fh "$comment \@description: $description\n";
   print $fh "$comment \@depends: @depends\n";
-  print $fh "$comment \@encoding: $encoding\n";
 
   if ($type eq 'pl') {
     print $fh "package SL::DBUpgrade2::$filename;\n";
@@ -341,8 +338,7 @@ sub apply_upgrade {
 
   my @upgradescripts = map { $controls->{$_}->{applied} = 0; $controls->{$_} } @order;
 
-  my $dbh            = $opt_auth_db ? connect_auth()->dbconnect : $form->dbconnect_noauto(\%myconfig);
-  $dbh->{AutoCommit} = 0;
+  my $dbh            = $opt_auth_db ? connect_auth()->dbconnect : SL::DB->client->dbh;
 
   $dbh->{PrintWarn}  = 0;
   $dbh->{PrintError} = 0;
@@ -369,12 +365,7 @@ sub apply_upgrade {
 
     # apply upgrade
     print "Applying upgrade $control->{file}\n";
-
-    if ($file_type eq "sql") {
-      $dbupgrader->process_query($dbh, "sql/Pg-upgrade2/$control->{file}", $control);
-    } else {
-      $dbupgrader->process_perl_script($dbh, "sql/Pg-upgrade2/$control->{file}", $control);
-    }
+    $dbupgrader->process_file($dbh, "sql/Pg-upgrade2/$control->{file}", $control);
   }
 
   $dbh->disconnect unless $opt_auth_db;
@@ -410,7 +401,7 @@ sub dump_sql_result {
 sub dump_applied {
   my @results;
 
-  my $dbh            = $opt_auth_db ? connect_auth()->dbconnect : $form->dbconnect_noauto(\%myconfig);
+  my $dbh            = $opt_auth_db ? connect_auth()->dbconnect : SL::DB->client->dbh;
   $dbh->{AutoCommit} = 0;
 
   $dbh->{PrintWarn}  = 0;
@@ -438,7 +429,7 @@ sub dump_applied {
 sub dump_unapplied {
   my @results;
 
-  my $dbh = $opt_auth_db ? connect_auth()->dbconnect : $form->dbconnect_noauto(\%myconfig);
+  my $dbh = $opt_auth_db ? connect_auth()->dbconnect : SL::DB->client->dbh;
 
   $dbh->{PrintWarn}  = 0;
   $dbh->{PrintError} = 0;
@@ -498,7 +489,6 @@ GetOptions("list"         => \$opt_list,
            "applied"      => \$opt_applied,
            "create=s"     => \$opt_create,
            "type=s"       => \$opt_type,
-           "encoding=s"   => \$opt_encoding,
            "description=s" => \$opt_description,
            "depends=s"    => \@opt_depends,
            "unapplied"    => \$opt_unapplied,
@@ -527,7 +517,6 @@ create_upgrade(filename   => $opt_create,
                dbupgrader  => $dbupgrader,
                type        => $opt_type,
                description => $opt_description,
-               encoding    => $opt_encoding,
                depends     => \@opt_depends) if ($opt_create);
 
 if ($opt_client && !connect_auth()->set_client($opt_client)) {
