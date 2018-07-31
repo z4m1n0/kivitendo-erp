@@ -212,13 +212,13 @@ sub action_print {
   $language = SL::DB::Language->new(id => $::form->{print_options}->{language_id})->load if $::form->{print_options}->{language_id};
 
   # create a form for generate_attachment_filename
-  my $form = Form->new;
-  $form->{ordnumber} = $self->order->ordnumber;
-  $form->{type}      = $self->type;
-  $form->{format}    = $format;
-  $form->{formname}  = $formname;
-  $form->{language}  = '_' . $language->template_code if $language;
-  my $pdf_filename   = $form->generate_attachment_filename();
+  my $form   = Form->new;
+  $form->{$self->_nr_key()} = $self->order->number;
+  $form->{type}             = $self->type;
+  $form->{format}           = $format;
+  $form->{formname}         = $formname;
+  $form->{language}         = '_' . $language->template_code if $language;
+  my $pdf_filename          = $form->generate_attachment_filename();
 
   my $pdf;
   my @errors = _create_pdf($self->order, \$pdf, { format     => $format,
@@ -254,10 +254,10 @@ sub action_print {
   }
 
   # copy file to webdav folder
-  if ($self->order->ordnumber && $::instance_conf->get_webdav_documents) {
+  if ($self->order->number && $::instance_conf->get_webdav_documents) {
     my $webdav = SL::Webdav->new(
       type     => $self->type,
-      number   => $self->order->ordnumber,
+      number   => $self->order->number,
     );
     my $webdav_file = SL::Webdav::File->new(
       webdav   => $webdav,
@@ -270,7 +270,7 @@ sub action_print {
       $self->js->flash('error', t8('Storing PDF to webdav folder failed: #1', $@));
     }
   }
-  if ($self->order->ordnumber && $::instance_conf->get_doc_storage) {
+  if ($self->order->number && $::instance_conf->get_doc_storage) {
     eval {
       SL::File->save(object_id     => $self->order->id,
                      object_type   => $self->type,
@@ -321,11 +321,11 @@ sub action_show_email_dialog {
   # Todo: get addresses from shipto, if any
 
   my $form = Form->new;
-  $form->{ordnumber} = $self->order->ordnumber;
-  $form->{formname}  = $self->type;
-  $form->{type}      = $self->type;
-  $form->{language} = 'de';
-  $form->{format}   = 'pdf';
+  $form->{$self->_nr_key()} = $self->order->number;
+  $form->{formname}         = $self->type;
+  $form->{type}             = $self->type;
+  $form->{language}         = 'de';
+  $form->{format}           = 'pdf';
 
   $email_form->{subject}             = $form->generate_email_subject();
   $email_form->{attachment_filename} = $form->generate_attachment_filename();
@@ -361,9 +361,10 @@ sub action_send_email {
   $::form->{cwd}    = getcwd();
   $::form->{tmpdir} = $::lx_office_conf{paths}->{userspath};
 
+  $::form->{$_}     = $::form->{print_options}->{$_} for keys %{ $::form->{print_options} };
   $::form->{media}  = 'email';
 
-  if (($::form->{attachment_policy} // '') eq 'normal') {
+  if (($::form->{attachment_policy} // '') !~ m{^(?:old_file|no_file)$}) {
     my $language;
     $language = SL::DB::Language->new(id => $::form->{print_options}->{language_id})->load if $::form->{print_options}->{language_id};
 
@@ -1192,6 +1193,14 @@ sub _new_item {
   my ($record, $attr) = @_;
 
   my $item = SL::DB::OrderItem->new;
+
+  # Remove attributes where the user left or set the inputs empty.
+  # So these attributes will be undefined and we can distinguish them
+  # from zero later on.
+  for (qw(qty_as_number sellprice_as_number discount_as_percent)) {
+    delete $attr->{$_} if $attr->{$_} eq '';
+  }
+
   $item->assign_attributes(%$attr);
 
   my $part         = SL::DB::Part->new(id => $attr->{parts_id})->load;
@@ -1204,7 +1213,7 @@ sub _new_item {
     # add assortment items with price 0, as the components carry the price
     $price_src = $price_source->price_from_source("");
     $price_src->price(0);
-  } elsif ($item->sellprice) {
+  } elsif (defined $item->sellprice) {
     $price_src = $price_source->price_from_source("");
     $price_src->price($item->sellprice);
   } else {
@@ -1215,7 +1224,7 @@ sub _new_item {
   }
 
   my $discount_src;
-  if ($item->discount) {
+  if (defined $item->discount) {
     $discount_src = $price_source->discount_from_source("");
     $discount_src->discount($item->discount);
   } else {
@@ -1444,10 +1453,10 @@ sub _pre_render {
     $item->active_discount_source($price_source->discount_from_source($item->active_discount_source));
   }
 
-  if ($self->order->ordnumber && $::instance_conf->get_webdav) {
+  if ($self->order->number && $::instance_conf->get_webdav) {
     my $webdav = SL::Webdav->new(
       type     => $self->type,
-      number   => $self->order->ordnumber,
+      number   => $self->order->number,
     );
     my @all_objects = $webdav->get_all_objects;
     @{ $self->{template_args}->{WEBDAV} } = map { { name => $_->filename,
@@ -1689,6 +1698,14 @@ sub _sales_quotation_type {
 
 sub _request_quotation_type {
   'request_quotation';
+}
+
+sub _nr_key {
+  return $_[0]->type eq _sales_order_type()       ? 'ordnumber'
+       : $_[0]->type eq _purchase_order_type()    ? 'ordnumber'
+       : $_[0]->type eq _sales_quotation_type()   ? 'quonumber'
+       : $_[0]->type eq _request_quotation_type() ? 'quonumber'
+       : '';
 }
 
 1;

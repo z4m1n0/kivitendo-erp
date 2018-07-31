@@ -47,7 +47,7 @@
         [% ELSE %]
           [% L.select_tag('unit_id', SELF.units, title_key='name') %] 
         [% END %] 
-    </td>
+      </td>
     </tr>
     <tr>
       <th>[% 'Cutoff Date' | $T8 %]</th>
@@ -60,11 +60,8 @@
   </tbody>
 </table>
 
-
 </form>
 
 <p>
-  <div id="stocktaking_history">
-    [% LxERP.t8("Loading...") %]
-  </div>
+  <div id="stocktaking_history">[% LxERP.t8("Loading...") %]</div>
 </p>
