@@ -28,24 +28,24 @@
 [% INCLUDE 'generic/set_longdescription.html' %]
 
 <div id="is_tabs" class="tabwidget">
- <ul class="ui-tabs-nav">
-  <li><a href="#ui-tabs-basic-data" class="ui-tabs">[% 'Basic Data' | $T8 %]</a></li>
-[% IF INSTANCE_CONF.get_webdav %]
-  <li><a href="#ui-tabs-webdav">[% 'WebDAV' | $T8 %]</a></li>
-[% END %]
-[% IF id %]
-  [% IF INSTANCE_CONF.get_doc_storage %]
-  <li><a href="controller.pl?action=File/list&file_type=document&object_type=invoice&object_id=[% HTML.url(id) %]">[% 'Documents' | $T8 %]</a></li>
-  <li><a href="controller.pl?action=File/list&file_type=attachment&object_type=invoice&object_id=[% HTML.url(id) %]">[% 'Attachments' | $T8 %]</a></li>
-  [% END %]
-  [% IF AUTH.assert('record_links', 1) %]
-  <li><a href="controller.pl?action=RecordLinks/ajax_list&object_model=Invoice&object_id=[% HTML.url(id) %]">[% 'Linked Records' | $T8 %]</a></li>
-  [% END %]
-  [% IF AUTH.assert('invoice_edit', 1) %]
-  <li><a href="[% 'controller.pl?action=AccTrans/list_transactions&trans_id=' _ HTML.url(id) | html %]">[% LxERP.t8('Transactions') %]</a></li>
-  [% END %]
-[% END %]
- </ul>
+  <ul class="ui-tabs-nav">
+    <li><a href="#ui-tabs-basic-data" class="ui-tabs">[% 'Basic Data' | $T8 %]</a></li>
+    [% IF INSTANCE_CONF.get_webdav %]
+      <li><a href="#ui-tabs-webdav">[% 'WebDAV' | $T8 %]</a></li>
+    [% END %]
+    [% IF id %]
+      [% IF INSTANCE_CONF.get_doc_storage %]
+        <li><a href="controller.pl?action=File/list&file_type=document&object_type=invoice&object_id=[% HTML.url(id) %]">[% 'Documents' | $T8 %]</a></li>
+        <li><a href="controller.pl?action=File/list&file_type=attachment&object_type=invoice&object_id=[% HTML.url(id) %]">[% 'Attachments' | $T8 %]</a></li>
+      [% END %]
+      [% IF AUTH.assert('record_links', 1) %]
+        <li><a href="controller.pl?action=RecordLinks/ajax_list&object_model=Invoice&object_id=[% HTML.url(id) %]">[% 'Linked Records' | $T8 %]</a></li>
+      [% END %]
+      [% IF AUTH.assert('invoice_edit', 1) %]
+        <li><a href="[% 'controller.pl?action=AccTrans/list_transactions&trans_id=' _ HTML.url(id) | html %]">[% LxERP.t8('Transactions') %]</a></li>
+      [% END %]
+    [% END %]
+  </ul>
 
 
 <div id="ui-tabs-basic-data" class="ui-tabs-panel">
@@ -234,7 +234,7 @@
       </th>
     </tr>
   </tbody>
-</table>
+  </table>
 
   <table class="tbl-horizontal">
     <caption>[% 'Dates &amp; Numbers' | $T8 %]</caption>
@@ -333,32 +333,29 @@
     </tbody>
   </table>
 
-  </div>
-  <!-- /.cols -->
+  </div> <!-- /.wrapper -->
 
   <input type="hidden" name="webdav" value="[% webdav %]">
 
   <script type="text/javascript" src="js/show_form_details.js"></script>
   <script type="text/javascript" src="js/show_vc_details.js"></script>
   <script type="text/javascript" src="js/show_history.js"></script>
-[% IF (resubmit && is_format_html) || resubmit || creditwarning != '' %]
-  <script type="text/javascript">
-   <!--
-     $('document').ready(function(){
-[% IF resubmit && is_format_html %]
-       window.open('about:blank','Beleg');
-       document.invoice.target = 'Beleg';
-       kivi.SalesPurchase.show_print_dialog();
-       kivi.SalesPurchase.print_record();
-[% ELSIF resubmit %]
-       kivi.SalesPurchase.show_print_dialog();
-       kivi.SalesPurchase.print_record();
-[% ELSIF creditwarning != '' %]
-       alert('[% 'Credit Limit exceeded!!!' | $T8 %]');
-[% ELSE %]
-[% END %]
-     });
-   //-->
-  </script>
-[% END %]
+  [% IF (resubmit && is_format_html) || resubmit || creditwarning != '' %]
+    <script type="text/javascript"><!--
+      $('document').ready(function(){
+        [% IF resubmit && is_format_html %]
+          window.open('about:blank','Beleg');
+          document.invoice.target = 'Beleg';
+          kivi.SalesPurchase.show_print_dialog();
+          kivi.SalesPurchase.print_record();
+        [% ELSIF resubmit %]
+          kivi.SalesPurchase.show_print_dialog();
+          kivi.SalesPurchase.print_record();
+        [% ELSIF creditwarning != '' %]
+          alert('[% 'Credit Limit exceeded!!!' | $T8 %]');
+        [% ELSE %]
+        [% END %]
+       });
+    //--></script>
+  [% END %]
 

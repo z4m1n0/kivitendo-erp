@@ -3,6 +3,7 @@
 [% USE LxERP %]
 [% USE L %]
 [% USE P %]
+
 <!-- PENDENT: ueberpruefen wegen Tabellencode-Aufsplittung -->
 <div id="basic_data_table">
 
@@ -16,29 +17,29 @@
 
 <div class="wrapper">
 
-  <table id="ic3" class="tbl-horizontal wi-small-wide">
+  <table id="ic3" class="tbl-horizontal">
     <caption>[% 'Basic Article Data' | $T8 %]</caption>
-    <colgroup> <col class="wi-small"><col class="wi-wide"> </colgroup> 
+    <colgroup> <col class="wi-mediumsmall"><col class="wi-wide"> </colgroup> 
     <tbody>
       <tr>
-        <th> [% 'Part Number' | $T8 %] </th>
-        <td> [% L.input_tag("part.partnumber", SELF.part.partnumber, size=40, class='initial_focus wi-small') %] </td>
+        <th>[% 'Part Number' | $T8 %]</th>
+        <td>[% L.input_tag("part.partnumber", SELF.part.partnumber, size=40, class='initial_focus wi-small') %]</td>
       </tr>
       <tr>
-        <th> [% 'Part Classification' | $T8 %] </th>
-        <td> [% P.part.select_classification('part.classification_id', default => SELF.part.classification_id, type => SELF.parts_classification_filter ) %] </td>
+        <th>[% 'Part Classification' | $T8 %]</th>
+        <td>[% P.part.select_classification('part.classification_id', default => SELF.part.classification_id, type => SELF.parts_classification_filter, class='wi-wide' ) %]</td>
       </tr>
       <tr>
-        <th> [% 'Part Description' | $T8 %] </th>
+        <th>[% 'Part Description' | $T8 %]</th>
         <td>[% L.areainput_tag("part.description", SELF.part.description, class='wi-wide') %]</td>
       </tr>
       <tr>
-        <th> [% 'EAN-Code' | $T8 %]</th>
-        <td> [% L.input_tag("part.ean", SELF.part.ean, class='wi-wide') %]</td>
+        <th>[% 'EAN-Code' | $T8 %]</th>
+        <td>[% L.input_tag("part.ean", SELF.part.ean, class='wi-wide') %]</td>
       </tr>
       [% IF SELF.all_partsgroups.size %] 
       <tr>
-        <th> [% 'Partsgroup' | $T8 %] </th>
+        <th>[% 'Partsgroup' | $T8 %]</th>
         <td> 
           [% L.select_tag('part.partsgroup_id', SELF.all_partsgroups, default=SELF.part.partsgroup_id, title_key='partsgroup', value_key='id', with_empty=1, class='wi-wide') %] 
         </td>
@@ -46,31 +47,31 @@
       [% END %] 
       [% IF SELF.all_buchungsgruppen.size %] 
       <tr>
-        <th> [% 'Booking group' | $T8 %]</th>
-        <td> [% L.select_tag('part.buchungsgruppen_id', SELF.all_buchungsgruppen, default=SELF.part.buchungsgruppen_id, title_key='description', value_key='id', with_empty=0, class='wi-wide') %] </td>
+        <th>[% 'Booking group' | $T8 %]</th>
+        <td>[% L.select_tag('part.buchungsgruppen_id', SELF.all_buchungsgruppen, default=SELF.part.buchungsgruppen_id, title_key='description', value_key='id', with_empty=0, class='wi-wide') %]</td>
       </tr>
       [% END %] 
       [% IF SELF.all_payment_terms.size %] 
       <tr>
-        <th> [% 'Payment Terms' | $T8 %]</th>
-        <td> [% L.select_tag('part.payment_id', SELF.all_payment_terms, default=SELF.part.payment_id, title_key='description', value_key='id', with_empty=1, class='wi-wide') %] </td>
+        <th>[% 'Payment Terms' | $T8 %]</th>
+        <td>[% L.select_tag('part.payment_id', SELF.all_payment_terms, default=SELF.part.payment_id, title_key='description', value_key='id', with_empty=1, class='wi-wide') %]</td>
       </tr>
       [% END %] [% IF SELF.part.id %] 
       <tr>
         <th> <label for="part.obsolete">[% 'Obsolete' | $T8 %]</label> </th>
-        <td> [% L.checkbox_tag('part.obsolete', checked = SELF.part.obsolete, for_submit=1) %] </td>
+        <td>[% L.checkbox_tag('part.obsolete', checked = SELF.part.obsolete, for_submit=1) %]</td>
       </tr>
       [% END %] 
       <tr>
         <th> <label for="part_shop">[% 'Shop article' | $T8 %]</label> </th>
-        <td> [% L.checkbox_tag('part.shop', checked = SELF.part.shop, for_submit=1, id='part_shop') %] </td>
+        <td>[% L.checkbox_tag('part.shop', checked = SELF.part.shop, for_submit=1, id='part_shop') %]</td>
       </tr>
     </tbody>
   </table>
 
-  <table id="ic5" class="tbl-horizontal wi-small-small">
+  <table id="ic5" class="tbl-horizontal">
     <caption>[% 'Prices' | $T8 %]</caption>
-    <colgroup> <col class="wi-small"><col class="wi-small"> </colgroup> 
+    <colgroup> <col class="wi-mediumsmall"><col class="wi-mediumsmall"> </colgroup> 
     <tbody>
       <tr>
         <th>[% 'Updated' | $T8 %]</th>
@@ -199,21 +200,22 @@
 
 <div class="wrapper">
 
-  <table class="tbl-horizontal wi-small-wide"> 
+  <table class="tbl-horizontal"> 
     <caption>[% 'Part Notes' | $T8 %]</caption>
+    <colgroup> <col class="wi-mediumsmall-wide"> </colgroup>
     <tbody>
       <tr>
-        <td>[% L.textarea_tag("part.notes", P.restricted_html(SELF.part.notes), class='texteditor', style='width:100%; height:8.0em; padding:0.1em;') %]</td>
+        <td><span class="wi-mediumsmall-wide">[% L.textarea_tag("part.notes", P.restricted_html(SELF.part.notes), class='texteditor wi-mediumsmall-wide', style='height:8.0em; padding:0.1em;') %]<!-- width:100%;  --></span></td>
       </tr>
     </tbody>
   </table>
 
-  <table class="tbl-horizontal wi-small-small">
+  <table class="tbl-horizontal">
     <caption>[% 'Formula' | $T8 %]</caption>
-      <colgroup> <col class="wi-small-small"> </colgroup> 
+      <colgroup> <col class="wi-mediumsmall-mediumsmall"> </colgroup> 
     <tbody>
       <tr>
-        <td colspan="2"> <textarea id="part.formel" name="part.formel" rows="[% HTML.escape(notes_rows) %]" cols="30" style="width:19.5em;" wrap="soft" class="tooltipster-html" title="[% 'The formula needs the following syntax:<br>For regular article:<br>Variablename= Variable Unit;<br>Variablename2= Variable2 Unit2;<br>...<br>###<br>Variable + ( Variable2 / Variable )<br><b>Please be beware of the spaces in the formula</b><br>' | $T8 %]">[% HTML.escape(SELF.part.formel) %]</textarea>
+        <td> <textarea id="part.formel" name="part.formel" rows="[% HTML.escape(notes_rows) %]" rows="5" style="" wrap="soft" class="tooltipster-html wi-mediumsmall-mediumsmall" title="[% 'The formula needs the following syntax:<br>For regular article:<br>Variablename= Variable Unit;<br>Variablename2= Variable2 Unit2;<br>...<br>###<br>Variable + ( Variable2 / Variable )<br><b>Please be beware of the spaces in the formula</b><br>' | $T8 %]">[% HTML.escape(SELF.part.formel) %]</textarea>
         </td>
       </tr>
     </tbody>

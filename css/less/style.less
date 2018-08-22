@@ -3,6 +3,14 @@
 // fuer die Anpassung des Erscheinungsbildes
 // in dieser Datei koennen z.b. Farbvarianten eines Themes einfach erstellt werden
 @import 'variables.less';
+@import 'variables-kivitendo.less';
+
+// Your custom LESS variables (new or overrides of the previous LESS variable stuff)
+@import 'custom-variables.less'; 
+
+// Basic Settings
+@import 'common.less';
+
 
 // Mixins (general & sitewide properties)
 // IMPORTANT: edit this properties right after variables.less
@@ -12,19 +20,18 @@
 @import 'scaffolding.less';
 
 // jQuery Stuff
+@import 'jquery-ui.less'; // jQuery-UI
+// Original Standard jQuery-Stuff (no overrides, )
 @import 'jquery.autocomplete.less';
 @import 'jquery.multiselect2side.less';
 @import 'jquery.tooltipster.less';
 @import 'jquery.tooltipster-light.less';
-// jQuery-UI
-@import 'jquery-ui.less';
 // Special jQuery Stuff
-@import 'jquery.chartpicker.less';
-// Overrides of all jquery stuff
-@import 'jquery-ui.custom.less';
+@import 'jquery.chartpicker.less'; 
+// Overrides of all jquery stuff above
+@import 'jquery-ui-overrides.less';
 
 // Standard Kivitendo CSS-Stuff
-@import 'common.less';
 @import 'main.less';
 @import 'main_login.less';
 @import 'menu.less';
@@ -48,3 +55,6 @@
 
 // Developer stuff (don't hesitate to disable this')
 @import 'developing.less'; 
+
+// Your personal custom LESS stuff
+@import 'custom.less'; 

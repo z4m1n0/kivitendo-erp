@@ -1,3 +1,84 @@
+html {
+  overflow-y: scroll;
+}
+body {
+  padding: 0;
+  margin: 0 ;
+}
+div,
+p,
+span,
+input,
+textarea,
+select,
+button,
+a.button,
+table,
+col,
+th,
+td {
+  box-sizing: border-box;
+}
+.clearfix:after {
+  clear: both;
+  content: ".";
+  display: block;
+  height: 0;
+  visibility: hidden;
+}
+@media screen {
+  .noscreen {
+    display: none;
+  }
+}
+@media print {
+  .noprint {
+    display: none ;
+  }
+}
+@media handheld {
+  .nomobile {
+    display: none;
+  }
+}
+a.cti_call_action {
+  display: inline-block;
+  padding-left: 18px;
+  height: 16px;
+  position: relative;
+  top: 2px;
+  vertical-align: middle;
+  text-align: center;
+  background-image: url(../image/icons/16x16/phone.png);
+  background-repeat: no-repeat;
+}
+.interact {
+  color: #808080;
+}
+.interact:hover {
+  color: black;
+}
+.cursor-default {
+  cursor: default;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.cursor-help {
+  cursor: help;
+}
+.cke_contents iframe html body.cke_editable {
+  padding: 0;
+  margin: 0;
+}
+.top_border {
+  border-top: solid black;
+  border-width: 4px;
+}
+.bottom_border {
+  border-bottom: solid black;
+  border-width: 1px;
+}
 .mx-h3-caption {
   text-align: left;
   font-size: 12pt;
@@ -163,437 +244,6 @@ body div.center {
   #content.html-menu {
     margin-left: 0;
   }
-}
-.ac_results {
-  padding: 0px;
-  border: 1px solid black;
-  background-color: white;
-  overflow: hidden;
-  z-index: 99999;
-}
-.ac_results ul {
-  width: 100%;
-  list-style-position: outside;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.ac_results li {
-  margin: 0px;
-  padding: 2px 5px;
-  cursor: default;
-  display: block;
-  font: menu;
-  font-size: 12pt;
-  /*hps: vorher 12px */
-
-  line-height: 16px;
-  overflow: hidden;
-}
-.ac_loading {
-  background: #ffffff url('indicator.gif') right center no-repeat;
-}
-.ac_odd {
-  background-color: #eee;
-}
-.ac_over {
-  background-color: #0A246A;
-  color: white;
-}
-.chart_picker,
-.part_picker {
-  display: inline-block;
-}
-.chart_picker:before,
-.part_picker:before {
-  display: inline-block;
-  vertical-align: middle;
-  height: 100%;
-}
-.customer-vendor-picker-undefined,
-.chartpicker-undefined,
-.projectpicker-undefined,
-.partpicker-undefined {
-  color: red;
-  font-style: italic;
-}
-div.part_picker_part,
-div.chart_picker_chart {
-  padding: 5px;
-  margin: 5px;
-  border: 1px;
-  border-color: darkgray;
-  border-style: solid;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  background-color: white;
-  cursor: pointer;
-}
-div.part_picker_part:hover,
-div.chart_picker_chart:hover {
-  color: #FE5F14;
-}
-.ms2side__div {
-  clear: left;
-  width: 100%;
-  padding: 1px;
-  float: left;
-  background: url('') repeat-x;
-}
-.ms2side__select {
-  float: left;
-}
-/* siehe H3 */
-.ms2side__header {
-  color: #666;
-  /* hps */
-
-  font-size: 10pt;
-  line-height: 1.0em;
-  padding: 0 0 0.3em 0;
-  display: block;
-}
-.ms2side__options,
-.ms2side__updown {
-  float: left;
-  font-size: 11pt;
-  margin: 0;
-  padding: 0 8px;
-  width: 40px;
-  color: black;
-  text-align: center;
-  overflow: hidden;
-}
-.ms2side__options {
-  padding-top: 1.0em !important;
-}
-.ms2side__updown {
-  font-size: 11pt;
-}
-.ms2side__options p,
-.ms2side__updown p {
-  margin: 2px 0;
-  padding: 0;
-  cursor: pointer;
-  border: 1px solid black;
-  width: auto !important;
-  /* hps */
-
-  background-color: #cdcdcd;
-  /* hps */
-
-  color: #666666;
-  /* hps */
-
-  border-color: #666666;
-  /* hps */
-
-  border-radius: 3px;
-  /* hps */
-
-}
-.ms2side__options p.ms2side_hover,
-.ms2side__updown p.ms2side_hover {
-  background-color: #3C3C3B;
-  /* hps */
-
-  border-color: #000000;
-  color: #ffffff ;
-  cursor: pointer;
-}
-.ms2side__options > p.ms2side__hide,
-.ms2side__updown > p.ms2side__hide {
-  cursor: default;
-  color: #9e9e9e;
-  border: 1px solid grey;
-  background-color: #D4D4D4 !important;
-}
-.ms2side__div select {
-  width: 12.0em;
-  /*hps:400px*/
-
-  float: left;
-}
-/* This is the default Tooltipster theme */
-/* (feel free to modify or duplicate and create multiple themes!): */
-.tooltipster-default {
-  border-radius: 5px;
-  border: 2px solid #000;
-  background: #4c4c4c;
-  color: #fff;
-}
-/* Use this next selector to style things like font-size and line-height: */
-.tooltipster-default .tooltipster-content {
-  font-size: 11pt;
-  line-height: 16px;
-  padding: 1.2em 1.0em 1.2em 1.4em;
-  overflow: hidden;
-}
-/* This next selector defines the color of the border on the outside of the arrow. */
-/* This will automatically match the color and size of the border set on the main tooltip styles. */
-/* Set display: none; if you would like a border around the tooltip but no border around the arrow */
-.tooltipster-default .tooltipster-arrow .tooltipster-arrow-border {
-  /* border-color: ... !important; */
-
-}
-/* If you're using the icon option, use this next selector to style them */
-.tooltipster-icon {
-  cursor: help;
-  margin-left: 4px;
-}
-/* This is the base styling required to make all Tooltipsters work */
-.tooltipster-base {
-  padding: 0;
-  font-size: 0;
-  line-height: 0;
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 9999999;
-  pointer-events: none;
-  width: auto;
-  overflow: visible;
-}
-.tooltipster-base .tooltipster-content {
-  overflow: hidden;
-}
-/* These next classes handle the styles for the little arrow attached to the tooltip. */
-/* By default, the arrow will inherit the same colors and border as what is set on the main tooltip itself. */
-.tooltipster-arrow {
-  display: block;
-  text-align: center;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
-}
-.tooltipster-arrow span,
-.tooltipster-arrow-border {
-  display: block;
-  width: 0;
-  height: 0;
-  position: absolute;
-}
-.tooltipster-arrow-top span,
-.tooltipster-arrow-top-right span,
-.tooltipster-arrow-top-left span {
-  border-left: 8px solid transparent !important;
-  border-right: 8px solid transparent !important;
-  border-top: 8px solid;
-  bottom: -7px;
-}
-.tooltipster-arrow-top .tooltipster-arrow-border,
-.tooltipster-arrow-top-right .tooltipster-arrow-border,
-.tooltipster-arrow-top-left .tooltipster-arrow-border {
-  border-left: 9px solid transparent !important;
-  border-right: 9px solid transparent !important;
-  border-top: 9px solid;
-  bottom: -7px;
-}
-.tooltipster-arrow-bottom span,
-.tooltipster-arrow-bottom-right span,
-.tooltipster-arrow-bottom-left span {
-  border-left: 8px solid transparent !important;
-  border-right: 8px solid transparent !important;
-  border-bottom: 8px solid;
-  top: -7px;
-}
-.tooltipster-arrow-bottom .tooltipster-arrow-border,
-.tooltipster-arrow-bottom-right .tooltipster-arrow-border,
-.tooltipster-arrow-bottom-left .tooltipster-arrow-border {
-  border-left: 9px solid transparent !important;
-  border-right: 9px solid transparent !important;
-  border-bottom: 9px solid;
-  top: -7px;
-}
-.tooltipster-arrow-top span,
-.tooltipster-arrow-top .tooltipster-arrow-border,
-.tooltipster-arrow-bottom span,
-.tooltipster-arrow-bottom .tooltipster-arrow-border {
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-}
-.tooltipster-arrow-top-left span,
-.tooltipster-arrow-bottom-left span {
-  left: 6px;
-}
-.tooltipster-arrow-top-left .tooltipster-arrow-border,
-.tooltipster-arrow-bottom-left .tooltipster-arrow-border {
-  left: 5px;
-}
-.tooltipster-arrow-top-right span,
-.tooltipster-arrow-bottom-right span {
-  right: 6px;
-}
-.tooltipster-arrow-top-right .tooltipster-arrow-border,
-.tooltipster-arrow-bottom-right .tooltipster-arrow-border {
-  right: 5px;
-}
-.tooltipster-arrow-left span,
-.tooltipster-arrow-left .tooltipster-arrow-border {
-  border-top: 8px solid transparent !important;
-  border-bottom: 8px solid transparent !important;
-  border-left: 8px solid;
-  top: 50%;
-  margin-top: -7px;
-  right: -7px;
-}
-.tooltipster-arrow-left .tooltipster-arrow-border {
-  border-top: 9px solid transparent !important;
-  border-bottom: 9px solid transparent !important;
-  border-left: 9px solid;
-  margin-top: -8px;
-}
-.tooltipster-arrow-right span,
-.tooltipster-arrow-right .tooltipster-arrow-border {
-  border-top: 8px solid transparent !important;
-  border-bottom: 8px solid transparent !important;
-  border-right: 8px solid;
-  top: 50%;
-  margin-top: -7px;
-  left: -7px;
-}
-.tooltipster-arrow-right .tooltipster-arrow-border {
-  border-top: 9px solid transparent !important;
-  border-bottom: 9px solid transparent !important;
-  border-right: 9px solid;
-  margin-top: -8px;
-}
-/* Some CSS magic for the awesome animations - feel free to make your own custom animations and reference it in your Tooltipster settings! */
-.tooltipster-fade {
-  opacity: 0;
-  -webkit-transition-property: opacity;
-  -moz-transition-property: opacity;
-  -o-transition-property: opacity;
-  -ms-transition-property: opacity;
-  transition-property: opacity;
-}
-.tooltipster-fade-show {
-  opacity: 1;
-}
-.tooltipster-grow {
-  -webkit-transform: scale(0, 0);
-  -moz-transform: scale(0, 0);
-  -o-transform: scale(0, 0);
-  -ms-transform: scale(0, 0);
-  transform: scale(0, 0);
-  -webkit-transition-property: -webkit-transform;
-  -moz-transition-property: -moz-transform;
-  -o-transition-property: -o-transform;
-  -ms-transition-property: -ms-transform;
-  transition-property: transform;
-  -webkit-backface-visibility: hidden;
-}
-.tooltipster-grow-show {
-  -webkit-transform: scale(1, 1);
-  -moz-transform: scale(1, 1);
-  -o-transform: scale(1, 1);
-  -ms-transform: scale(1, 1);
-  transform: scale(1, 1);
-  -webkit-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
-  -webkit-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
-  -moz-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
-  -ms-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
-  -o-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
-  transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
-}
-.tooltipster-swing {
-  opacity: 0;
-  -webkit-transform: rotateZ(4deg);
-  -moz-transform: rotateZ(4deg);
-  -o-transform: rotateZ(4deg);
-  -ms-transform: rotateZ(4deg);
-  transform: rotateZ(4deg);
-  -webkit-transition-property: -webkit-transform, opacity;
-  -moz-transition-property: -moz-transform;
-  -o-transition-property: -o-transform;
-  -ms-transition-property: -ms-transform;
-  transition-property: transform;
-}
-.tooltipster-swing-show {
-  opacity: 1;
-  -webkit-transform: rotateZ(0deg);
-  -moz-transform: rotateZ(0deg);
-  -o-transform: rotateZ(0deg);
-  -ms-transform: rotateZ(0deg);
-  transform: rotateZ(0deg);
-  -webkit-transition-timing-function: cubic-bezier(0.23, 0.635, 0.495, 1);
-  -webkit-transition-timing-function: cubic-bezier(0.23, 0.635, 0.495, 2.4);
-  -moz-transition-timing-function: cubic-bezier(0.23, 0.635, 0.495, 2.4);
-  -ms-transition-timing-function: cubic-bezier(0.23, 0.635, 0.495, 2.4);
-  -o-transition-timing-function: cubic-bezier(0.23, 0.635, 0.495, 2.4);
-  transition-timing-function: cubic-bezier(0.23, 0.635, 0.495, 2.4);
-}
-.tooltipster-fall {
-  top: 0;
-  -webkit-transition-property: top;
-  -moz-transition-property: top;
-  -o-transition-property: top;
-  -ms-transition-property: top;
-  transition-property: top;
-  -webkit-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
-  -webkit-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
-  -moz-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
-  -ms-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
-  -o-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
-  transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
-}
-.tooltipster-fall.tooltipster-dying {
-  -webkit-transition-property: all;
-  -moz-transition-property: all;
-  -o-transition-property: all;
-  -ms-transition-property: all;
-  transition-property: all;
-  top: 0px !important;
-  opacity: 0;
-}
-.tooltipster-slide {
-  left: -40px;
-  -webkit-transition-property: left;
-  -moz-transition-property: left;
-  -o-transition-property: left;
-  -ms-transition-property: left;
-  transition-property: left;
-  -webkit-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
-  -webkit-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
-  -moz-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
-  -ms-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
-  -o-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
-  transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
-}
-.tooltipster-slide.tooltipster-dying {
-  -webkit-transition-property: all;
-  -moz-transition-property: all;
-  -o-transition-property: all;
-  -ms-transition-property: all;
-  transition-property: all;
-  left: 0px !important;
-  opacity: 0;
-}
-/* CSS transition for when contenting is changing in a tooltip that is still open. */
-/* The only properties that will NOT transition are: width, height, top, and left */
-.tooltipster-content-changing {
-  opacity: 0.5;
-  -webkit-transform: scale(1.1, 1.1);
-  -moz-transform: scale(1.1, 1.1);
-  -o-transform: scale(1.1, 1.1);
-  -ms-transform: scale(1.1, 1.1);
-  transform: scale(1.1, 1.1);
-}
-.tooltipster-light {
-  border-radius: 5px;
-  border: 1px solid #7D964D;
-  background-color: #3C72A7;
-  color: #fff;
-}
-.tooltipster-light .tooltipster-content {
-  font-size: 10pt;
-  line-height: 16px;
-  padding: 1.0em 1.4em;
 }
 .ui-helper-hidden {
   display: none;
@@ -1121,7 +771,7 @@ button.ui-button::-moz-focus-inner {
   height: 100%;
 }
 .ui-progressbar .ui-progressbar-overlay {
-  background: url("images/animated-overlay.gif");
+  background: url("ui-lightness/images/animated-overlay.gif");
   height: 100%;
   filter: alpha(opacity=25);
   opacity: 0.25;
@@ -1423,27 +1073,27 @@ body .ui-tooltip {
 }
 .ui-icon,
 .ui-widget-content .ui-icon {
-  background-image: url(/css/ui-lightness/images/ui-icons_222222_256x240.png);
+  background-image: url(ui-lightness/images/ui-icons_222222_256x240.png);
 }
 .ui-widget-header .ui-icon {
-  background-image: url(/css/ui-lightness/images/ui-icons_ffffff_256x240.png);
+  background-image: url(ui-lightness/images/ui-icons_ffffff_256x240.png);
 }
 .ui-state-default .ui-icon {
-  background-image: url(/css/ui-lightness/images/ui-icons_ef8c08_256x240.png);
+  background-image: url(ui-lightness/images/ui-icons_ef8c08_256x240.png);
 }
 .ui-state-hover .ui-icon,
 .ui-state-focus .ui-icon {
-  background-image: url(/css/ui-lightness/images/ui-icons_ef8c08_256x240.png);
+  background-image: url(ui-lightness/images/ui-icons_ef8c08_256x240.png);
 }
 .ui-state-active .ui-icon {
-  background-image: url(/css/ui-lightness/images/ui-icons_ef8c08_256x240.png);
+  background-image: url(ui-lightness/images/ui-icons_ef8c08_256x240.png);
 }
 .ui-state-highlight .ui-icon {
-  background-image: url(/css/ui-lightness/images/ui-icons_228ef1_256x240.png);
+  background-image: url(ui-lightness/images/ui-icons_228ef1_256x240.png);
 }
 .ui-state-error .ui-icon,
 .ui-state-error-text .ui-icon {
-  background-image: url(/css/ui-lightness/images/ui-icons_ffd27a_256x240.png);
+  background-image: url(ui-lightness/images/ui-icons_ffd27a_256x240.png);
 }
 .ui-icon-blank {
   background-position: 16px 16px;
@@ -2003,6 +1653,434 @@ body .ui-tooltip {
 .ui-datepicker-title select.ui-datepicker-month {
   margin-right: 0.2em ;
 }
+.ac_results {
+  padding: 0px;
+  border: 1px solid black;
+  background-color: white;
+  overflow: hidden;
+  z-index: 99999;
+}
+.ac_results ul {
+  width: 100%;
+  list-style-position: outside;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.ac_results li {
+  margin: 0px;
+  padding: 2px 5px;
+  cursor: default;
+  display: block;
+  font: menu;
+  font-size: 12pt;
+  /*hps: vorher 12px */
+
+  line-height: 16px;
+  overflow: hidden;
+}
+.ac_odd {
+  background-color: #eee;
+}
+.ac_over {
+  background-color: #0A246A;
+  color: white;
+}
+.chart_picker,
+.part_picker {
+  display: inline-block;
+}
+.chart_picker:before,
+.part_picker:before {
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+.customer-vendor-picker-undefined,
+.chartpicker-undefined,
+.projectpicker-undefined,
+.partpicker-undefined {
+  color: red;
+  font-style: italic;
+}
+div.part_picker_part,
+div.chart_picker_chart {
+  padding: 5px;
+  margin: 5px;
+  border: 1px;
+  border-color: darkgray;
+  border-style: solid;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+}
+div.part_picker_part:hover,
+div.chart_picker_chart:hover {
+  color: #FE5F14;
+}
+.ms2side__div {
+  clear: left;
+  width: 100%;
+  padding: 1px;
+  float: left;
+  background: url('') repeat-x;
+}
+.ms2side__select {
+  float: left;
+}
+/* siehe H3 */
+.ms2side__header {
+  color: #666;
+  /* hps */
+
+  font-size: 10pt;
+  line-height: 1.0em;
+  padding: 0 0 0.3em 0;
+  display: block;
+}
+.ms2side__options,
+.ms2side__updown {
+  float: left;
+  font-size: 11pt;
+  margin: 0;
+  padding: 0 8px;
+  width: 40px;
+  color: black;
+  text-align: center;
+  overflow: hidden;
+}
+.ms2side__options {
+  padding-top: 1.0em !important;
+}
+.ms2side__updown {
+  font-size: 11pt;
+}
+.ms2side__options p,
+.ms2side__updown p {
+  margin: 2px 0;
+  padding: 0;
+  cursor: pointer;
+  border: 1px solid black;
+  width: auto !important;
+  /* hps */
+
+  background-color: #cdcdcd;
+  /* hps */
+
+  color: #666666;
+  /* hps */
+
+  border-color: #666666;
+  /* hps */
+
+  border-radius: 3px;
+  /* hps */
+
+}
+.ms2side__options p.ms2side_hover,
+.ms2side__updown p.ms2side_hover {
+  background-color: #3C3C3B;
+  /* hps */
+
+  border-color: #000000;
+  color: #ffffff ;
+  cursor: pointer;
+}
+.ms2side__options > p.ms2side__hide,
+.ms2side__updown > p.ms2side__hide {
+  cursor: default;
+  color: #9e9e9e;
+  border: 1px solid grey;
+  background-color: #D4D4D4 !important;
+}
+.ms2side__div select {
+  width: 12.0em;
+  /*hps:400px*/
+
+  float: left;
+}
+/* This is the default Tooltipster theme */
+/* (feel free to modify or duplicate and create multiple themes!): */
+.tooltipster-default {
+  border-radius: 5px;
+  border: 2px solid #000;
+  background: #4c4c4c;
+  color: #fff;
+}
+/* Use this next selector to style things like font-size and line-height: */
+.tooltipster-default .tooltipster-content {
+  font-size: 11pt;
+  line-height: 16px;
+  padding: 1.2em 1.0em 1.2em 1.4em;
+  overflow: hidden;
+}
+/* This next selector defines the color of the border on the outside of the arrow. */
+/* This will automatically match the color and size of the border set on the main tooltip styles. */
+/* Set display: none; if you would like a border around the tooltip but no border around the arrow */
+.tooltipster-default .tooltipster-arrow .tooltipster-arrow-border {
+  /* border-color: ... !important; */
+
+}
+/* If you're using the icon option, use this next selector to style them */
+.tooltipster-icon {
+  cursor: help;
+  margin-left: 4px;
+}
+/* This is the base styling required to make all Tooltipsters work */
+.tooltipster-base {
+  padding: 0;
+  font-size: 0;
+  line-height: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 9999999;
+  pointer-events: none;
+  width: auto;
+  overflow: visible;
+}
+.tooltipster-base .tooltipster-content {
+  overflow: hidden;
+}
+/* These next classes handle the styles for the little arrow attached to the tooltip. */
+/* By default, the arrow will inherit the same colors and border as what is set on the main tooltip itself. */
+.tooltipster-arrow {
+  display: block;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+.tooltipster-arrow span,
+.tooltipster-arrow-border {
+  display: block;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+.tooltipster-arrow-top span,
+.tooltipster-arrow-top-right span,
+.tooltipster-arrow-top-left span {
+  border-left: 8px solid transparent !important;
+  border-right: 8px solid transparent !important;
+  border-top: 8px solid;
+  bottom: -7px;
+}
+.tooltipster-arrow-top .tooltipster-arrow-border,
+.tooltipster-arrow-top-right .tooltipster-arrow-border,
+.tooltipster-arrow-top-left .tooltipster-arrow-border {
+  border-left: 9px solid transparent !important;
+  border-right: 9px solid transparent !important;
+  border-top: 9px solid;
+  bottom: -7px;
+}
+.tooltipster-arrow-bottom span,
+.tooltipster-arrow-bottom-right span,
+.tooltipster-arrow-bottom-left span {
+  border-left: 8px solid transparent !important;
+  border-right: 8px solid transparent !important;
+  border-bottom: 8px solid;
+  top: -7px;
+}
+.tooltipster-arrow-bottom .tooltipster-arrow-border,
+.tooltipster-arrow-bottom-right .tooltipster-arrow-border,
+.tooltipster-arrow-bottom-left .tooltipster-arrow-border {
+  border-left: 9px solid transparent !important;
+  border-right: 9px solid transparent !important;
+  border-bottom: 9px solid;
+  top: -7px;
+}
+.tooltipster-arrow-top span,
+.tooltipster-arrow-top .tooltipster-arrow-border,
+.tooltipster-arrow-bottom span,
+.tooltipster-arrow-bottom .tooltipster-arrow-border {
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+.tooltipster-arrow-top-left span,
+.tooltipster-arrow-bottom-left span {
+  left: 6px;
+}
+.tooltipster-arrow-top-left .tooltipster-arrow-border,
+.tooltipster-arrow-bottom-left .tooltipster-arrow-border {
+  left: 5px;
+}
+.tooltipster-arrow-top-right span,
+.tooltipster-arrow-bottom-right span {
+  right: 6px;
+}
+.tooltipster-arrow-top-right .tooltipster-arrow-border,
+.tooltipster-arrow-bottom-right .tooltipster-arrow-border {
+  right: 5px;
+}
+.tooltipster-arrow-left span,
+.tooltipster-arrow-left .tooltipster-arrow-border {
+  border-top: 8px solid transparent !important;
+  border-bottom: 8px solid transparent !important;
+  border-left: 8px solid;
+  top: 50%;
+  margin-top: -7px;
+  right: -7px;
+}
+.tooltipster-arrow-left .tooltipster-arrow-border {
+  border-top: 9px solid transparent !important;
+  border-bottom: 9px solid transparent !important;
+  border-left: 9px solid;
+  margin-top: -8px;
+}
+.tooltipster-arrow-right span,
+.tooltipster-arrow-right .tooltipster-arrow-border {
+  border-top: 8px solid transparent !important;
+  border-bottom: 8px solid transparent !important;
+  border-right: 8px solid;
+  top: 50%;
+  margin-top: -7px;
+  left: -7px;
+}
+.tooltipster-arrow-right .tooltipster-arrow-border {
+  border-top: 9px solid transparent !important;
+  border-bottom: 9px solid transparent !important;
+  border-right: 9px solid;
+  margin-top: -8px;
+}
+/* Some CSS magic for the awesome animations - feel free to make your own custom animations and reference it in your Tooltipster settings! */
+.tooltipster-fade {
+  opacity: 0;
+  -webkit-transition-property: opacity;
+  -moz-transition-property: opacity;
+  -o-transition-property: opacity;
+  -ms-transition-property: opacity;
+  transition-property: opacity;
+}
+.tooltipster-fade-show {
+  opacity: 1;
+}
+.tooltipster-grow {
+  -webkit-transform: scale(0, 0);
+  -moz-transform: scale(0, 0);
+  -o-transform: scale(0, 0);
+  -ms-transform: scale(0, 0);
+  transform: scale(0, 0);
+  -webkit-transition-property: -webkit-transform;
+  -moz-transition-property: -moz-transform;
+  -o-transition-property: -o-transform;
+  -ms-transition-property: -ms-transform;
+  transition-property: transform;
+  -webkit-backface-visibility: hidden;
+}
+.tooltipster-grow-show {
+  -webkit-transform: scale(1, 1);
+  -moz-transform: scale(1, 1);
+  -o-transform: scale(1, 1);
+  -ms-transform: scale(1, 1);
+  transform: scale(1, 1);
+  -webkit-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
+  -webkit-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
+  -moz-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
+  -ms-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
+  -o-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
+  transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
+}
+.tooltipster-swing {
+  opacity: 0;
+  -webkit-transform: rotateZ(4deg);
+  -moz-transform: rotateZ(4deg);
+  -o-transform: rotateZ(4deg);
+  -ms-transform: rotateZ(4deg);
+  transform: rotateZ(4deg);
+  -webkit-transition-property: -webkit-transform, opacity;
+  -moz-transition-property: -moz-transform;
+  -o-transition-property: -o-transform;
+  -ms-transition-property: -ms-transform;
+  transition-property: transform;
+}
+.tooltipster-swing-show {
+  opacity: 1;
+  -webkit-transform: rotateZ(0deg);
+  -moz-transform: rotateZ(0deg);
+  -o-transform: rotateZ(0deg);
+  -ms-transform: rotateZ(0deg);
+  transform: rotateZ(0deg);
+  -webkit-transition-timing-function: cubic-bezier(0.23, 0.635, 0.495, 1);
+  -webkit-transition-timing-function: cubic-bezier(0.23, 0.635, 0.495, 2.4);
+  -moz-transition-timing-function: cubic-bezier(0.23, 0.635, 0.495, 2.4);
+  -ms-transition-timing-function: cubic-bezier(0.23, 0.635, 0.495, 2.4);
+  -o-transition-timing-function: cubic-bezier(0.23, 0.635, 0.495, 2.4);
+  transition-timing-function: cubic-bezier(0.23, 0.635, 0.495, 2.4);
+}
+.tooltipster-fall {
+  top: 0;
+  -webkit-transition-property: top;
+  -moz-transition-property: top;
+  -o-transition-property: top;
+  -ms-transition-property: top;
+  transition-property: top;
+  -webkit-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
+  -webkit-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
+  -moz-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
+  -ms-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
+  -o-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
+  transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
+}
+.tooltipster-fall.tooltipster-dying {
+  -webkit-transition-property: all;
+  -moz-transition-property: all;
+  -o-transition-property: all;
+  -ms-transition-property: all;
+  transition-property: all;
+  top: 0px !important;
+  opacity: 0;
+}
+.tooltipster-slide {
+  left: -40px;
+  -webkit-transition-property: left;
+  -moz-transition-property: left;
+  -o-transition-property: left;
+  -ms-transition-property: left;
+  transition-property: left;
+  -webkit-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
+  -webkit-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
+  -moz-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
+  -ms-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
+  -o-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
+  transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.15);
+}
+.tooltipster-slide.tooltipster-dying {
+  -webkit-transition-property: all;
+  -moz-transition-property: all;
+  -o-transition-property: all;
+  -ms-transition-property: all;
+  transition-property: all;
+  left: 0px !important;
+  opacity: 0;
+}
+/* CSS transition for when contenting is changing in a tooltip that is still open. */
+/* The only properties that will NOT transition are: width, height, top, and left */
+.tooltipster-content-changing {
+  opacity: 0.5;
+  -webkit-transform: scale(1.1, 1.1);
+  -moz-transform: scale(1.1, 1.1);
+  -o-transform: scale(1.1, 1.1);
+  -ms-transform: scale(1.1, 1.1);
+  transform: scale(1.1, 1.1);
+}
+.tooltipster-light {
+  border-radius: 5px;
+  border: 1px solid #7D964D;
+  background-color: #3C72A7;
+  color: #fff;
+}
+.tooltipster-light .tooltipster-content {
+  font-size: 10pt;
+  line-height: 16px;
+  padding: 1.0em 1.4em;
+}
 /* ------------------------------------------------------------- */
 /* Chart-Picker                                                  */
 /*                                                               */
@@ -2125,7 +2203,7 @@ span.ppp_popup_button {
   height: 20px;
   width: 20px;
   cursor: pointer;
-  background: url("../../image/search.svg") no-repeat center right;
+  background: url("../image/search.svg") no-repeat center right;
   background-size: contain;
 }
 .ui-widget-content {
@@ -2286,86 +2364,37 @@ span.customer_vendor_picker {
 input.datepicker {
   margin: -0.3em 0 0 0 !important;
 }
-html {
-  overflow-y: scroll;
+.ui-autocomplete {
+  z-index: 9000 ;
 }
-body {
-  padding: 0px;
-  margin: 0 ;
+.ui-autocomplete li a {
+  display: block ;
+  font-size: 80% ;
+  padding-top: 0.4em !important;
+  padding-bottom: 0.4em !important;
 }
-div,
-p,
-span,
-input,
-textarea,
-select,
-button,
-a.button,
-table,
-col,
-th,
-td {
-  box-sizing: border-box;
+.ui-autocomplete li a:hover {
+  background-color: #C9C9C9;
+  border: none ;
+  color: #000 ;
 }
-.clearfix:after {
-  clear: both;
-  content: ".";
-  display: block;
-  height: 0;
-  visibility: hidden;
+.cke_editable {
+  background-color: white;
+  padding: 10px;
+  margin-left: -0.3em;
+  border-top: 1px #999 solid;
+  border-right: 1px #ddd solid;
+  border-left: 1px #ddd solid;
+  overflow: auto ;
 }
-@media screen {
-  .noscreen {
-    display: none;
-  }
+.cke_editable p {
+  font-size: 80% ;
+  padding: 0  ;
+  margin: 0 0 0.4em 0 ;
+  font-weight: normal;
 }
-@media print {
-  .noprint {
-    display: none ;
-  }
-}
-@media handheld {
-  .nomobile {
-    display: none;
-  }
-}
-a.cti_call_action {
-  display: inline-block;
-  padding-left: 18px;
-  height: 16px;
-  position: relative;
-  top: 2px;
-  vertical-align: middle;
-  text-align: center;
-  background-image: url(../image/icons/16x16/phone.png);
-  background-repeat: no-repeat;
-}
-.interact {
-  color: #808080;
-}
-.interact:hover {
-  color: black;
-}
-.cursor-default {
-  cursor: default;
-}
-.cursor-pointer {
-  cursor: pointer;
-}
-.cursor-help {
-  cursor: help;
-}
-.cke_contents iframe html body.cke_editable {
-  padding: 0;
-  margin: 0;
-}
-.top_border {
-  border-top: solid black;
-  border-width: 4px;
-}
-.bottom_border {
-  border-bottom: solid black;
-  border-width: 1px;
+div.cke_editable.wi-small-wide {
+  margin-right: 24px !important ;
 }
 #content > p,
 #content > div,
@@ -2899,6 +2928,12 @@ pre.filecontent {
   background-color: #ffd6d6;
   border-color: 1px solid #ae0014;
 }
+.message_error h4 {
+  color: #ae0014;
+}
+.message_error p {
+  color: #ae0014;
+}
 .message_warning {
   color: #6d613e;
   background-color: #f6d972;
@@ -3266,7 +3301,7 @@ div.logged-in .col p {
   background-color: #cdcdcd;
 }
 #menuv3 > ul > li > ul > li div.x {
-  background: no-repeat right url("/image/menu-arrow-to-right-5.png");
+  background: no-repeat right url("../image/menu-arrow-to-right-5.png");
 }
 #menuv3 > ul > li > ul > li:hover {
   color: #000000;
@@ -3327,7 +3362,6 @@ div.layout-split-right.folded {
   width: 32px;
 }
 #html-menu div.m:hover {
-  color: blue;
   background-color: #d1d1d1;
   cursor: pointer;
 }
@@ -3337,7 +3371,7 @@ div.layout-split-right.folded {
 #html-menu div.sm span.ms {
   float: left;
   width: 24px;
-  background: url(../../image/unterpunkt.png);
+  background: url("../image/unterpunkt.png");
 }
 #html-menu div.i span.ms {
   float: left;
@@ -3345,7 +3379,6 @@ div.layout-split-right.folded {
   margin-bottom: 4px;
 }
 #html-menu div.i:hover {
-  color: blue;
   background-color: #d1d1d1;
   cursor: pointer;
 }
@@ -3403,6 +3436,7 @@ li.sub {
 }
 #layout-split-left #html-menu .mi a.ml .mic {
   width: 180px !important;
+  display: block;
 }
 #layout-split-left #html-menu .mi.s0 {
   border-top: 1px #888 solid ;
@@ -3541,6 +3575,9 @@ li.sub {
   border-bottom-right-radius: 0.3em ;
   padding: 4px;
   background-color: #bcec6d;
+  background-image: url("../image/select-down.png");
+  background-repeat: no-repeat;
+  background-position: 5px 5px;
 }
 .layout-actionbar div.layout-actionbar-combobox div.layout-actionbar-combobox-head > span:hover {
   color: #FE5F14;
@@ -3943,7 +3980,10 @@ table.tbl-list-plain tbody th {
 table.tbl-horizontal th,
 table.tbl-horizontal td {
   background: none;
-  padding: 0.5em 0.4em 0.2em 0.3em;
+  padding-top: 0.5em ;
+  padding-right: 0.2em ;
+  padding-bottom: 0.2em ;
+  padding-left: 0.3em ;
 }
 table.tbl-horizontal th > input[type="checkbox"],
 table.tbl-horizontal td > input[type="checkbox"],
@@ -3988,6 +4028,14 @@ table.tbl-horizontal td > span {
 table.tbl-horizontal td > span.customer_vendor_picker {
   padding-left: 0 !important ;
 }
+table.tbl-horizontal td > span.switch-form-element {
+  padding: 0 !important ;
+  margin: -0.3em 1px 0 -0.14em !important;
+}
+table.tbl-horizontal td > span.wi-small-wide {
+  margin: 0 24px 0 0 ;
+  display: block;
+}
 table.tbl-horizontal td > div.data {
   padding: 0.1363em 0 ;
 }
@@ -3999,6 +4047,9 @@ table.tbl-horizontal td > span.label {
   color: #555555;
   font-style: normal;
   display: block;
+}
+table.tbl-horizontal td > span.project_picker {
+  margin: -0.3em 0 0 -0.2em;
 }
 table.tbl-horizontal caption,
 table.tbl-horizontal th.caption {
@@ -4174,7 +4225,7 @@ table.wi-small-lightwide {
   width: 384px;
 }
 table.wi-small-wide {
-  width: 448px;
+  width: 484px;
 }
 table.wi-small-wider {
   width: 512px;
@@ -4265,6 +4316,154 @@ table tr.total-sub td {
   border-bottom: 2px solid #999 ;
   font-weight: bold;
   color: #666 ;
+}
+table.wi-smallest,
+table colgroup col.wi-smallest {
+  width: 41.6px;
+}
+table.wi-verysmall,
+table colgroup col.wi-verysmall {
+  width: 80px;
+}
+table.wi-small,
+table colgroup col.wi-small {
+  width: 128px;
+}
+table.wi-mediumsmall,
+table colgroup col.wi-mediumsmall {
+  width: 160px;
+}
+table.wi-normal,
+table colgroup col.wi-normal {
+  width: 208px;
+}
+table.wi-lightwide,
+table colgroup col.wi-lightwide {
+  width: 256px;
+}
+table.wi-wide,
+table colgroup col.wi-wide {
+  width: 320px;
+}
+table.wi-wider,
+table colgroup col.wi-wider {
+  width: 384px;
+}
+table.wi-verywide,
+table colgroup col.wi-verywide {
+  width: 576px;
+}
+table.wi-small-small,
+table colgroup col.wi-small-small {
+  width: 256px;
+}
+table.wi-small-mediumsmall,
+table colgroup col.wi-small-mediumsmall {
+  width: 288px;
+}
+table.wi-small-normal,
+table colgroup col.wi-small-normal {
+  width: 336px;
+}
+table.wi-small-lightwide,
+table colgroup col.wi-small-lightwide {
+  width: 384px;
+}
+table.wi-small-wide,
+table colgroup col.wi-small-wide {
+  width: 448px;
+}
+table.wi-small-wider,
+table colgroup col.wi-small-wider {
+  width: 512px;
+}
+table.wi-small-verywide,
+table colgroup col.wi-small-verywide {
+  width: 704px;
+}
+table.wi-mediumsmall-small,
+table colgroup col.wi-mediumsmall-small {
+  width: 416px;
+}
+table.wi-mediumsmall-mediumsmall,
+table colgroup col.wi-mediumsmall-mediumsmall {
+  width: 320px;
+}
+table.wi-mediumsmall-normal,
+table colgroup col.wi-mediumsmall-normal {
+  width: 368px;
+}
+table.wi-mediumsmall-lightwide,
+table colgroup col.wi-mediumsmall-lightwide {
+  width: 416px;
+}
+table.wi-mediumsmall-wide,
+table colgroup col.wi-mediumsmall-wide {
+  width: 480px;
+}
+table.wi-mediumsmall-wider,
+table colgroup col.wi-mediumsmall-wider {
+  width: 544px;
+}
+table.wi-mediumsmall-verywide,
+table colgroup col.wi-mediumsmall-verywide {
+  width: 736px;
+}
+table.wi-normal-small,
+table colgroup col.wi-normal-small {
+  width: 336px;
+}
+table.wi-normal-mediumsmall,
+table colgroup col.wi-normal-mediumsmall {
+  width: 368px;
+}
+table.wi-normal-normal,
+table colgroup col.wi-normal-normal {
+  width: 416px;
+}
+table.wi-normal-lightwide,
+table colgroup col.wi-normal-lightwide {
+  width: 464px;
+}
+table.wi-normal-wide,
+table colgroup col.wi-normal-wide {
+  width: 528px;
+}
+table.wi-normal-wider,
+table colgroup col.wi-normal-wider {
+  width: 592px;
+}
+table.wi-normal-verywide,
+table colgroup col.wi-normal-verywide {
+  width: 784px;
+}
+table.wi-lightwide-small,
+table colgroup col.wi-lightwide-small {
+  width: 384px;
+}
+table.wi-lightwide-mediumsmall,
+table colgroup col.wi-lightwide-mediumsmall {
+  width: 416px;
+}
+table.wi-lightwide-normal,
+table colgroup col.wi-lightwide-normal {
+  width: 464px;
+}
+table.wi-lightwide-lightwide,
+table colgroup col.wi-lightwide-lightwide {
+  width: 512px;
+}
+table.wi-lightwide-wide,
+table colgroup col.wi-lightwide-wide {
+  width: 576px;
+}
+table.wi-lightwide-wider,
+table colgroup col.wi-lightwide-wider {
+  width: 640px;
+}
+table.wi-lightwide-verywide,
+table colgroup col.wi-lightwide-verywide {
+  width: 832px;
 }
 div.wrapper table.tbl-list,
 div.cols table.tbl-list {
@@ -4701,6 +4900,13 @@ form a.button.wi-tiny {
   display: inline-block;
   font-size: 84% ;
 }
+form input[type="button"].wi-tiny.icon,
+form input[type="submit"].wi-tiny.icon,
+form input[type="reset"].wi-tiny.icon,
+form button.wi-tiny.icon,
+form a.button.wi-tiny.icon {
+  padding: 0 !important ;
+}
 form input[type="button"],
 form input[type="submit"],
 form input[type="reset"],
@@ -4801,6 +5007,10 @@ form div.buttons {
 form div.buttons.positions {
   margin: 0 0 -2em 20em;
   padding: 0 ;
+}
+form div.buttons.below {
+  padding: 0 ;
+  margin: 0 ;
 }
 form .col .buttons {
   padding: 1.0em 1.0em 1.0em 0 !important;
@@ -4912,7 +5122,7 @@ form select.wi-lightwide {
   width: 220px;
 }
 form select.wi-wide {
-  min-width: 284px;
+  width: 284px;
 }
 form select.wi-wider {
   min-width: 348px;
@@ -4957,109 +5167,294 @@ form textarea.wi-full {
   width: 100%                  ;
 }
 form textarea.wi-small-small {
-  width: 219px;
+  width: 220px;
 }
 form textarea.wi-small-mediumsmall {
-  width: 251px;
+  width: 252px;
+  margin: 0 30px 0 0 ;
 }
 form textarea.wi-small-normal {
-  width: 299px;
+  width: 300px;
 }
 form textarea.wi-small-lightwide {
-  width: 347px;
+  width: 348px;
 }
 form textarea.wi-small-wide {
-  width: 411px;
+  width: 412px;
 }
 form textarea.wi-small-wider {
-  width: 475px;
+  width: 476px;
 }
 form textarea.wi-small-verywide {
-  width: 667px;
+  width: 668px;
 }
 form textarea.wi-mediumsmall-small {
-  width: 251px;
+  width: 252px;
 }
 form textarea.wi-mediumsmall-mediumsmall {
-  width: 283px;
+  width: 284px;
 }
 form textarea.wi-mediumsmall-normal {
-  width: 331px;
+  width: 332px;
 }
 form textarea.wi-mediumsmall-lightwide {
-  width: 379px;
+  width: 380px;
 }
 form textarea.wi-mediumsmall-wide {
-  width: 443px;
+  width: 444px;
 }
 form textarea.wi-mediumsmall-wider {
-  width: 507px;
+  width: 508px;
 }
 form textarea.wi-mediumsmall-verywide {
-  width: 699px;
+  width: 700px;
 }
 form textarea.wi-normal-small {
-  width: 299px;
+  width: 300px;
 }
 form textarea.wi-normal-mediumsmall {
-  width: 331px;
+  width: 332px;
 }
 form textarea.wi-normal-normal {
-  width: 379px;
+  width: 380px;
 }
 form textarea.wi-normal-lightwide {
-  width: 427px;
+  width: 428px;
 }
 form textarea.wi-normal-wide {
-  width: 491px;
+  width: 492px;
 }
 form textarea.wi-normal-wider {
-  width: 555px;
+  width: 556px;
 }
 form textarea.wi-normal-verywide {
-  width: 747px;
+  width: 748px;
 }
 form textarea.wi-lightwide-small {
-  width: 347px;
+  width: 348px;
 }
 form textarea.wi-lightwide-mediumsmall {
-  width: 379px;
+  width: 380px;
 }
 form textarea.wi-lightwide-normal {
-  width: 427px;
+  width: 428px;
 }
 form textarea.wi-lightwide-lightwide {
-  width: 475px;
+  width: 476px;
 }
 form textarea.wi-lightwide-wide {
-  width: 539px;
+  width: 540px;
 }
 form textarea.wi-lightwide-wider {
-  width: 603px;
+  width: 604px;
 }
 form textarea.wi-lightwide-verywide {
-  width: 795px;
+  width: 796px;
 }
 form textarea.wi-wide-small {
-  width: 411px;
+  width: 412px;
 }
 form textarea.wi-wide-mediumsmall {
-  width: 443px;
+  width: 444px;
 }
 form textarea.wi-wide-normal {
-  width: 491px;
+  width: 492px;
 }
 form textarea.wi-wide-lightwide {
-  width: 603px;
+  width: 604px;
 }
 form textarea.wi-wide-wide {
-  width: 603px;
+  width: 604px;
 }
 form textarea.wi-wide-wider {
-  width: 667px;
+  width: 668px;
 }
 form textarea.wi-wide-verywide {
-  width: 859px;
+  width: 860px;
+}
+form span.wi-smallest textarea,
+form span.wi-smallest div.cke_editable {
+  width: 172px;
+}
+form span.wi-verysmall textarea,
+form span.wi-verysmall div.cke_editable {
+  width: 172px;
+}
+form span.wi-small textarea,
+form span.wi-small div.cke_editable {
+  width: 172px;
+}
+form span.wi-mediumsmall textarea,
+form span.wi-mediumsmall div.cke_editable {
+  width: 172px;
+}
+form span.wi-normal textarea,
+form span.wi-normal div.cke_editable {
+  width: 172px;
+}
+form span.wi-lightwide textarea,
+form span.wi-lightwide div.cke_editable {
+  min-width: 220px;
+}
+form span.wi-wide textarea,
+form span.wi-wide div.cke_editable {
+  min-width: 284px;
+}
+form span.wi-wide.strict {
+  max-width: 284px !important;
+}
+form span.wi-wider textarea,
+form span.wi-wider div.cke_editable {
+  min-width: 348px;
+}
+form span.wi-verywide textarea,
+form span.wi-verywide div.cke_editable {
+  min-width: 540px;
+}
+form span.wi-full textarea,
+form span.wi-full div.cke_editable {
+  width: 100%                  ;
+}
+form span.wi-small-small textarea,
+form span.wi-small-small div.cke_editable {
+  width: 220px;
+}
+form span.wi-small-mediumsmall textarea,
+form span.wi-small-mediumsmall div.cke_editable {
+  width: 252px;
+  margin: 0 30px 0 0 ;
+}
+form span.wi-small-normal textarea,
+form span.wi-small-normal div.cke_editable {
+  width: 300px;
+}
+form span.wi-small-lightwide textarea,
+form span.wi-small-lightwide div.cke_editable {
+  width: 348px;
+}
+form span.wi-small-wide textarea,
+form span.wi-small-wide div.cke_editable {
+  width: 412px;
+}
+form span.wi-small-wider textarea,
+form span.wi-small-wider div.cke_editable {
+  width: 476px;
+}
+form span.wi-small-verywide textarea,
+form span.wi-small-verywide div.cke_editable {
+  width: 668px;
+}
+form span.wi-mediumsmall-small textarea,
+form span.wi-mediumsmall-small div.cke_editable {
+  width: 252px;
+}
+form span.wi-mediumsmall-mediumsmall textarea,
+form span.wi-mediumsmall-mediumsmall div.cke_editable {
+  width: 284px;
+}
+form span.wi-mediumsmall-normal textarea,
+form span.wi-mediumsmall-normal div.cke_editable {
+  width: 332px;
+}
+form span.wi-mediumsmall-lightwide textarea,
+form span.wi-mediumsmall-lightwide div.cke_editable {
+  width: 380px;
+}
+form span.wi-mediumsmall-wide textarea,
+form span.wi-mediumsmall-wide > div.cke_editable {
+  width: 444px !important;
+}
+form span.wi-mediumsmall-wider textarea,
+form span.wi-mediumsmall-wider div.cke_editable {
+  width: 508px;
+}
+form span.wi-mediumsmall-verywide textarea,
+form span.wi-mediumsmall-verywide div.cke_editable {
+  width: 700px;
+}
+form span.wi-normal-small textarea,
+form span.wi-normal-small div.cke_editable {
+  width: 300px;
+}
+form span.wi-normal-mediumsmall textarea,
+form span.wi-normal-mediumsmall div.cke_editable {
+  width: 332px;
+}
+form span.wi-normal-normal textarea,
+form span.wi-normal-normal div.cke_editable {
+  width: 380px;
+}
+form span.wi-normal-lightwide textarea,
+form span.wi-normal-lightwide div.cke_editable {
+  width: 428px;
+}
+form span.wi-normal-wide textarea,
+form span.wi-normal-wide div.cke_editable {
+  width: 492px;
+}
+form span.wi-normal-wider textarea,
+form span.wi-normal-wider div.cke_editable {
+  width: 556px;
+}
+form span.wi-normal-verywide textarea,
+form span.wi-normal-verywide div.cke_editable {
+  width: 748px;
+}
+form span.wi-lightwide-small textarea,
+form span.wi-lightwide-small div.cke_editable {
+  width: 348px;
+}
+form span.wi-lightwide-mediumsmall textarea,
+form span.wi-lightwide-mediumsmall div.cke_editable {
+  width: 380px;
+}
+form span.wi-lightwide-normal textarea,
+form span.wi-lightwide-normal div.cke_editable {
+  width: 428px;
+}
+form span.wi-lightwide-lightwide textarea,
+form span.wi-lightwide-lightwide div.cke_editable {
+  width: 476px;
+}
+form span.wi-lightwide-wide textarea,
+form span.wi-lightwide-wide div.cke_editable {
+  width: 540px;
+}
+form span.wi-lightwide-wider textarea,
+form span.wi-lightwide-wider div.cke_editable {
+  width: 604px;
+}
+form span.wi-lightwide-verywide textarea,
+form span.wi-lightwide-verywide div.cke_editable {
+  width: 796px;
+}
+form span.wi-wide-small textarea,
+form span.wi-wide-small div.cke_editable {
+  width: 412px;
+}
+form span.wi-wide-mediumsmall textarea,
+form span.wi-wide-mediumsmall div.cke_editable {
+  width: 444px;
+}
+form span.wi-wide-normal textarea,
+form span.wi-wide-normal div.cke_editable {
+  width: 492px;
+}
+form span.wi-wide-lightwide textarea,
+form span.wi-wide-lightwide div.cke_editable {
+  width: 604px;
+}
+form span.wi-wide-wide textarea,
+form span.wi-wide-wide div.cke_editable {
+  width: 604px;
+}
+form span.wi-wide-wider textarea,
+form span.wi-wide-wider div.cke_editable {
+  width: 668px;
+}
+form span.wi-wide-verywide textarea,
+form span.wi-wide-verywide div.cke_editable {
+  width: 860px;
 }
 form input.number,
 form select.number {
@@ -5170,6 +5565,10 @@ form div.boxes > div input[type="checkbox"],
 form div.boxes > div input[type="radio"] {
   float: left;
   margin-right: 0.6em ;
+}
+form td.horizontal input[type="radio"] {
+  float: none !important;
+  clear: none !important;
 }
 table.tbl-horizontal th label,
 table.tbl-list th label,
@@ -5517,6 +5916,38 @@ table td span.project_picker {
 #tbl-accounts tbody tr.ajax-account-details td {
   padding: 0.8em 0 1.0em 4.0em ;
 }
+td.row-position-detail {
+  padding: 0 0 1.0em 0.4em !important;
+}
+td.row-position-detail div.table {
+  display: table;
+}
+td.row-position-detail div.table div.field {
+  display: table-row;
+  padding: 0.2em 0 ;
+  height: 2.3em !important;
+}
+td.row-position-detail div.table div.field span.label {
+  width: 10.0em;
+  height: 2.2em !important;
+  vertical-align: middle;
+  display: table-cell;
+  padding: 0.3em 0 0 0;
+}
+td.row-position-detail div.table div.field span.value {
+  height: 2.2em ;
+}
+td.row-position-detail div.table div.field span.value span.data {
+  padding: 0.2em 0 0.2em 0.5em !important;
+  display: block;
+}
+table#display_row tbody tr td a.row-position {
+  float: left;
+  padding: 0.6em 0.2em 0 0 ;
+}
+table#display_row tbody tr td input.row-position {
+  float: left;
+}
 #frame-header {
   text-align: left;
   margin: 0;
@@ -5582,9 +6013,13 @@ table td span.project_picker {
   margin-top: 0.1em;
   background-color: #aaaaaa;
   width: 14.0% !important;
-  border-color: #bcbcbc;
   padding: 0 0.2em ;
   border-width: 1px ;
+  border-style: solid;
+  border-top-color: #949494;
+  border-right-color: #BCBCBC;
+  border-bottom-color: #BCBCBC;
+  border-left-color: #949494;
 }
 /* /#frame-header  */
 .icon16 {

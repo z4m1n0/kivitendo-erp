@@ -59,16 +59,18 @@
     <tbody>
       <tr>
         <th>[% IF vc == 'customer' %][% 'Customer' | $T8 %][% ELSE %][% 'Vendor' | $T8 %][% END %]</th>
-        <td>[% SET vc_id = vc _ "_id" %][% P.customer_vendor.picker(vc_id, $vc_id, type=vc, class="initial_focus wi-wider", onchange="\$('#update_button').click()") %]
-         [% P.button_tag("show_vc_details('" _ HTML.escape(vc) _  "')", LxERP.t8("Details (one letter abbreviation)"), class="neutral wi-tiny") %]
-         [% P.hidden_tag("previous_" _ vc_id, $vc_id) %]
+        <td>
+          [% SET vc_id = vc _ "_id" %]
+          [% P.customer_vendor.picker(vc_id, $vc_id, type=vc, class="initial_focus wi-wider", onchange="\$('#update_button').click()") %]
+          [% P.button_tag("show_vc_details('" _ HTML.escape(vc) _  "')", LxERP.t8("Details (one letter abbreviation)"), class="neutral wi-tiny") %]
+          [% P.hidden_tag("previous_" _ vc_id, $vc_id) %]
         </td>
       </tr>
       [% IF ALL_CONTACTS.size %]
-      <tr>
-        <th>[% 'Contact Person' | $T8 %]</th>
-        <td>[% L.select_tag('cp_id', ALL_CONTACTS, default=cp_id, value_key='cp_id', title_key='full_name_dep', with_empty=1, class='wi-wider') %]</td>
-      </tr>
+        <tr>
+          <th>[% 'Contact Person' | $T8 %]</th>
+          <td>[% L.select_tag('cp_id', ALL_CONTACTS, default=cp_id, value_key='cp_id', title_key='full_name_dep', with_empty=1, class='wi-wider') %]</td>
+        </tr>
       [% END %]
     <tr>
       <th>[% 'Shipping Address' | $T8 %]</th>
@@ -102,17 +104,17 @@
     [% END %]
     <tr>
       <th>[% 'Steuersatz' | $T8 %]</th>
-      <td>[% L.select_tag('taxzone_id', ( id ? ALL_TAXZONES : ALL_ACTIVE_TAXZONES), default=taxzone_id, title_key='description', style='width: 250px') %]</td>
+      <td>[% L.select_tag('taxzone_id', ( id ? ALL_TAXZONES : ALL_ACTIVE_TAXZONES), default=taxzone_id, title_key='description', class='wi-wider') %]</td>
     </tr>
     [% IF ALL_DEPARTMENTS.size %]
     <tr>
       <th>[% 'Department' | $T8 %]</th>
-      <td>[% L.select_tag('department_id', ALL_DEPARTMENTS, default=department_id, title_key = 'description', with_empty=1, style='width:250px') %]</td>
+      <td>[% L.select_tag('department_id', ALL_DEPARTMENTS, default=department_id, title_key = 'description', with_empty=1, class='wi-wider') %]</td>
     </tr>
     [% END %]
     <tr>
       <th>[% 'Currency' | $T8 %]</th>
-      <td>[% L.select_tag("currency", ALL_CURRENCIES, value_key="name", default=currency, onchange="document.getElementById('update_button').click();") %]</td>
+      <td>[% L.select_tag("currency", ALL_CURRENCIES, value_key="name", default=currency, onchange="document.getElementById('update_button').click();", class='wi-wider') %]</td>
     </tr>
     [% IF show_exchangerate %]
     <tr>
@@ -121,7 +123,7 @@
         [% IF forex %]
           [% LxERP.format_amount(exchangerate, 2) %]
         [% ELSE %]
-          <input type="text" name="exchangerate" size="10" value="[% HTML.escape(LxERP.format_amount(exchangerate)) %]">
+          <input type="text" name="exchangerate" class="wi-small" value="[% HTML.escape(LxERP.format_amount(exchangerate)) %]">
         [% END %]
       </td>
     </tr>
@@ -150,7 +152,7 @@
             </td>
             <td>
               <input type="hidden" name="delivery_customer_id" value="[% HTML.escape(delivery_customer_id) %]">
-              <input type="text" size="45" id="delivery_customer_string" name="delivery_customer_string" value="[% HTML.escape(delivery_customer_string) %]">
+              <input type="text" class="wi-wider" id="delivery_customer_string" name="delivery_customer_string" value="[% HTML.escape(delivery_customer_string) %]">
             </td>
           </tr>
           <tr>
@@ -159,7 +161,7 @@
             </td>
             <td>
               <input type="hidden" name="delivery_vendor_id" value="[% HTML.escape(delivery_vendor_id) %]">
-              <input type="text" size="45" id="vendor_string" name="delivery_vendor_string" value="[% HTML.escape(delivery_vendor_string) %]">
+              <input type="text" class="wi-wider" id="vendor_string" name="delivery_vendor_string" value="[% HTML.escape(delivery_vendor_string) %]">
             </td>
           </tr>
         </table>
@@ -185,8 +187,9 @@
       </th>
     </tr>
     <tr>
-      <th class="caption" colspan="2">
+      <th class="caption">
         [% 'Notes' | $T8 %]<br>
+        <!-- PENDENT: Das hier ist Muell ! ! ! ! Muss anders geloest werden -->
         <div class="wi-wide">[% notes %]</div>
       </th>
     </tr>
@@ -212,7 +215,6 @@
   <table class="tbl-horizontal">
   <caption>[% 'Handling' | $T8 %]</caption>
   <tbody>
-
     [% openclosed %]
     <tr>
       <th>[% 'Employee' | $T8 %]</th>
@@ -287,6 +289,7 @@
       </tr>
     [% END %]
   <tr>
+  <!-- PENDENT: muss anders geloest werden -->
     <th colspan="2"><span class="label above">[% 'Internal Notes' | $T8 %]</span>[% intnotes %]</th>
   </tr>
   </tbody>

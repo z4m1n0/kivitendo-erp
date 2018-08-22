@@ -35,11 +35,7 @@ $self->{texts} = {
   '...after logging in'         => '...nach dem Anmelden',
   '...done'                     => '...fertig',
   '...on the TODO list'         => '...auf der Aufgabenliste',
-<<<<<<< HEAD
-  '0% tax with taxkey'          => '0% Steuer mit Steuerschl&uuml;ssel ',
-=======
   '0% tax with taxkey'          => '0% Steuer mit Steuerschlüssel ',
->>>>>>> master
   '1. Quarter'                  => '1. Quartal',
   '2 years'                     => '2 Jahre',
   '2. Quarter'                  => '2. Quartal',
@@ -818,13 +814,9 @@ $self->{texts} = {
   'Customer Master Data'        => 'Kundenstammdaten',
   'Customer Name'               => 'Kundenname',
   'Customer Number'             => 'Kundennummer',
-<<<<<<< HEAD
-  'Customer Order Number'       => 'Bestellnr. des Kunden',
-=======
   'Customer Order Number'       => 'Bestellnummer des Kunden',
   'Customer Part Number'        => 'Kunden-Art-Nr.',
   'Customer Price'              => 'Kundenpreis',
->>>>>>> master
   'Customer deleted!'           => 'Kunde gelöscht!',
   'Customer details'            => 'Kundendetails',
   'Customer missing!'           => 'Kundenname fehlt!',
@@ -1481,11 +1473,8 @@ $self->{texts} = {
   'GL Transactions'             => 'Dialogbuchungen',
   'GL search'                   => 'FiBu Suche',
   'GL template suggestions'     => 'Vorschlag Dialogbuchung',
-<<<<<<< HEAD
   'GL transaction posted.'      => 'Dialogbuchung ausgeführt.',
-=======
   'GL transaction posted.'      => 'Dialogbuchung verbucht.',
->>>>>>> master
   'GL transactions changeable'  => 'Änderbarkeit von Dialogbuchungen',
   'GLN'                         => 'GLN',
   'Gegenkonto'                  => 'Gegenkonto',
@@ -1927,12 +1916,9 @@ $self->{texts} = {
   'Multiple addresses can be entered separated by commas.' => 'Mehrere Adressen können durch Kommata getrennt angegeben werden.',
   'MwSt. inkl.'                 => 'MwSt. inkl.',
   'Name'                        => 'Name',
-<<<<<<< HEAD
   'Name and Address'            => 'Name & Adresse',
-=======
   'Name 2'                      => 'Name 2',
   'Name 3'                      => 'Name 3',
->>>>>>> master
   'Name and Street'             => 'Name und Straße',
   'Name does not make sense without any bsooqr options' => 'Option "Name in gewählten Belegen" wird ignoriert.',
   'Name in Selected Records'    => 'Name in gewählten Belegen',

@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
 //
-// VARIABLES (Less-Style) for Kivitendo-Themes
+// VARIABLES (Less-Style) for general use (most of it is Bootstrap-Stuff)
 //
 // ----------------------------------------------------------------------------
 // DESCRIPTION:
@@ -181,22 +181,40 @@
 @tcol-wi-verywide:     (@wi-verywide    ) ; // min-width
 
 // --------------
-// Dimensions for Tables with combination Table column widths
+// Dimensions for combined rows with combination Table column widths
 //
 
-@table-wi-small-small:            (@tcol-wi-small       + @tcol-wi-small        ) ;
-@table-wi-small-mediumsmall:      (@tcol-wi-small       + @tcol-wi-mediumsmall  ) ;
-@table-wi-small-normal:           (@tcol-wi-small       + @tcol-wi-normal       ) ;
-@table-wi-small-lightwide:        (@tcol-wi-small       + @tcol-wi-lightwide    ) ;
-@table-wi-small-wide:             (@tcol-wi-small       + @tcol-wi-wide         ) ;
-@table-wi-mediumsmall-lightwide:  (@tcol-wi-mediumsmall + @tcol-wi-lightwide    ) ;
-@table-wi-mediumsmall-wide:       (@tcol-wi-mediumsmall + @tcol-wi-wide         ) ;
-@table-wi-normal-mediumsmall:     (@tcol-wi-normal      + @tcol-wi-mediumsmall  ) ;
-@table-wi-normal-lightwide:       (@tcol-wi-normal      + @tcol-wi-lightwide    ) ;
-@table-wi-normal-wide:            (@tcol-wi-normal      + @tcol-wi-wide         ) ;
-@table-wi-normal-wider:           (@tcol-wi-normal      + @tcol-wi-wider        ) ; 
-@table-wi-lightwide-wide:         (@tcol-wi-lightwide   + @tcol-wi-wide         ) ; 
-@table-wi-lightwide-wider:        (@tcol-wi-lightwide   + @tcol-wi-wider        ) ; 
+@tcol-wi-small-small:            (@tcol-wi-small       + @tcol-wi-small        ) ;
+@tcol-wi-small-mediumsmall:      (@tcol-wi-small       + @tcol-wi-mediumsmall  ) ;
+@tcol-wi-small-normal:           (@tcol-wi-small       + @tcol-wi-normal       ) ;
+@tcol-wi-small-lightwide:        (@tcol-wi-small       + @tcol-wi-lightwide    ) ;
+@tcol-wi-small-wide:             (@tcol-wi-small       + @tcol-wi-wide         ) ;
+@tcol-wi-small-wider:            (@tcol-wi-small       + @tcol-wi-wider        ) ;
+@tcol-wi-small-verywide:         (@tcol-wi-small       + @tcol-wi-verywide     ) ;
+
+@tcol-wi-mediumsmall-small:      (@tcol-wi-mediumsmall + @tcol-wi-small        ) ;
+@tcol-wi-mediumsmall-mediumsmall:(@tcol-wi-mediumsmall + @tcol-wi-mediumsmall  ) ;
+@tcol-wi-mediumsmall-normal:     (@tcol-wi-mediumsmall + @tcol-wi-normal       ) ;
+@tcol-wi-mediumsmall-lightwide:  (@tcol-wi-mediumsmall + @tcol-wi-lightwide    ) ;
+@tcol-wi-mediumsmall-wide:       (@tcol-wi-mediumsmall + @tcol-wi-wide         ) ;
+@tcol-wi-mediumsmall-wider:      (@tcol-wi-mediumsmall + @tcol-wi-wider        ) ;
+@tcol-wi-mediumsmall-verywide:   (@tcol-wi-mediumsmall + @tcol-wi-verywide     ) ;
+
+@tcol-wi-normal-small:           (@tcol-wi-normal      + @tcol-wi-small        ) ;
+@tcol-wi-normal-mediumsmall:     (@tcol-wi-normal      + @tcol-wi-mediumsmall  ) ;
+@tcol-wi-normal-normal:          (@tcol-wi-normal      + @tcol-wi-normal       ) ;
+@tcol-wi-normal-lightwide:       (@tcol-wi-normal      + @tcol-wi-lightwide    ) ;
+@tcol-wi-normal-wide:            (@tcol-wi-normal      + @tcol-wi-wide         ) ;
+@tcol-wi-normal-wider:           (@tcol-wi-normal      + @tcol-wi-wider        ) ; 
+@tcol-wi-normal-verywide:        (@tcol-wi-normal      + @tcol-wi-verywide     ) ; 
+
+@tcol-wi-lightwide-small:        (@tcol-wi-lightwide   + @tcol-wi-small        ) ; 
+@tcol-wi-lightwide-mediumsmall:  (@tcol-wi-lightwide   + @tcol-wi-mediumsmall  ) ; 
+@tcol-wi-lightwide-normal:       (@tcol-wi-lightwide   + @tcol-wi-normal       ) ; 
+@tcol-wi-lightwide-lightwide:    (@tcol-wi-lightwide   + @tcol-wi-lightwide    ) ; 
+@tcol-wi-lightwide-wide:         (@tcol-wi-lightwide   + @tcol-wi-wide         ) ; 
+@tcol-wi-lightwide-wider:        (@tcol-wi-lightwide   + @tcol-wi-wider        ) ; 
+@tcol-wi-lightwide-verywide:     (@tcol-wi-lightwide   + @tcol-wi-verywide     ) ; 
 
 
 
@@ -245,48 +263,90 @@
 @textarea-wi-verywide:    (@wi-verywide    - @diff-input-select ) ; // min-width
 
 // Textarea elements with combined dimensions
-@diff-input-textarea-combined: 1px ; //1.6em ;
-@textarea-wi-small-small:       (((@wi-small + @wi-small)       - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-small-mediumsmall: (((@wi-small + @wi-mediumsmall) - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-small-normal:      (((@wi-small + @wi-normal)      - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-small-lightwide:   (((@wi-small + @wi-lightwide)   - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-small-wide:        (((@wi-small + @wi-wide)        - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-small-wider:       (((@wi-small + @wi-wider)       - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-small-verywide:    (((@wi-small + @wi-verywide)    - @diff-input-select) - @diff-input-textarea-combined) ;
 
-@textarea-wi-mediumsmall-small:        (((@wi-mediumsmall + @wi-small)         - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-mediumsmall-mediumsmall:  (((@wi-mediumsmall + @wi-mediumsmall)   - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-mediumsmall-normal:       (((@wi-mediumsmall + @wi-normal)        - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-mediumsmall-lightwide:    (((@wi-mediumsmall + @wi-lightwide)     - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-mediumsmall-wide:         (((@wi-mediumsmall + @wi-wide)          - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-mediumsmall-wider:        (((@wi-mediumsmall + @wi-wider)         - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-mediumsmall-verywide:     (((@wi-mediumsmall + @wi-verywide)      - @diff-input-select) - @diff-input-textarea-combined) ;
+@diff-input-textarea-combined: 0px ; //1.6em ;
+//@textarea-margin-combined: 24px ;
 
-@textarea-wi-normal-small:        (((@wi-normal + @wi-small)         - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-normal-mediumsmall:  (((@wi-normal + @wi-mediumsmall)   - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-normal-normal:       (((@wi-normal + @wi-normal)        - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-normal-lightwide:    (((@wi-normal + @wi-lightwide)     - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-normal-wide:         (((@wi-normal + @wi-wide)          - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-normal-wider:        (((@wi-normal + @wi-wider)         - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-normal-verywide:     (((@wi-normal + @wi-verywide)      - @diff-input-select) - @diff-input-textarea-combined) ;
+// @textarea-wi-small-small:       (((@wi-small + @wi-small)       - @diff-input-textarea-combined) ;
+// @textarea-wi-small-mediumsmall: (((@tcol-wi-small + @input-wi-mediumsmall)) - @diff-input-textarea-combined - 10px ) ;
+// @textarea-wi-small-normal:      (((@wi-small + @wi-normal)      - @diff-input-textarea-combined) ;
+// @textarea-wi-small-lightwide:   (((@wi-small + @wi-lightwide)   - @diff-input-textarea-combined) ;
+// @textarea-wi-small-wide:        (((@wi-small + @wi-wide)        - @diff-input-textarea-combined) ;
+// @textarea-wi-small-wider:       (((@wi-small + @wi-wider)       - @diff-input-textarea-combined) ;
+// @textarea-wi-small-verywide:    (((@wi-small + @wi-verywide)    - @diff-input-textarea-combined) ;
+// 
+// @textarea-wi-mediumsmall-small:        (((@wi-mediumsmall + @wi-small)         - @diff-input-textarea-combined) ;
+// @textarea-wi-mediumsmall-mediumsmall:  (((@wi-mediumsmall + @wi-mediumsmall)   - @diff-input-textarea-combined) ;
+// @textarea-wi-mediumsmall-normal:       (((@wi-mediumsmall + @wi-normal)        - @diff-input-textarea-combined) ;
+// @textarea-wi-mediumsmall-lightwide:    (((@wi-mediumsmall + @wi-lightwide)     - @diff-input-textarea-combined) ;
+// @textarea-wi-mediumsmall-wide:         (((@wi-mediumsmall + @wi-wide)          - @diff-input-textarea-combined) ;
+// @textarea-wi-mediumsmall-wider:        (((@wi-mediumsmall + @wi-wider)         - @diff-input-textarea-combined) ;
+// @textarea-wi-mediumsmall-verywide:     (((@wi-mediumsmall + @wi-verywide)      - @diff-input-textarea-combined) ;
+// 
+// @textarea-wi-normal-small:        (((@wi-normal + @wi-small)         - @diff-input-textarea-combined) ;
+// @textarea-wi-normal-mediumsmall:  (((@wi-normal + @wi-mediumsmall)   - @diff-input-textarea-combined) ;
+// @textarea-wi-normal-normal:       (((@wi-normal + @wi-normal)        - @diff-input-textarea-combined) ;
+// @textarea-wi-normal-lightwide:    (((@wi-normal + @wi-lightwide)     - @diff-input-textarea-combined) ;
+// @textarea-wi-normal-wide:         (((@wi-normal + @wi-wide)          - @diff-input-textarea-combined) ;
+// @textarea-wi-normal-wider:        (((@wi-normal + @wi-wider)         - @diff-input-textarea-combined) ;
+// @textarea-wi-normal-verywide:     (((@wi-normal + @wi-verywide)      - @diff-input-textarea-combined) ;
+// 
+// @textarea-wi-lightwide-small:       (((@wi-lightwide + @wi-small)         - @diff-input-textarea-combined) ;
+// @textarea-wi-lightwide-mediumsmall: (((@wi-lightwide + @wi-mediumsmall)   - @diff-input-textarea-combined) ;
+// @textarea-wi-lightwide-normal:      (((@wi-lightwide + @wi-normal)        - @diff-input-textarea-combined) ;
+// @textarea-wi-lightwide-lightwide:   (((@wi-lightwide + @wi-lightwide)     - @diff-input-textarea-combined) ;
+// @textarea-wi-lightwide-wide:        (((@wi-lightwide + @wi-wide)          - @diff-input-textarea-combined) ;
+// @textarea-wi-lightwide-wider:       (((@wi-lightwide + @wi-wider)         - @diff-input-textarea-combined) ;
+// @textarea-wi-lightwide-verywide:    (((@wi-lightwide + @wi-verywide)      - @diff-input-textarea-combined) ;
+// 
+// @textarea-wi-wide-small:        (((@wi-wide + @wi-small)         - @diff-input-textarea-combined) ;
+// @textarea-wi-wide-mediumsmall:  (((@wi-wide + @wi-mediumsmall)   - @diff-input-textarea-combined) ;
+// @textarea-wi-wide-normal:       (((@wi-wide + @wi-normal)        - @diff-input-textarea-combined) ;
+// @textarea-wi-wide-lightwide:    (((@wi-wide + @wi-lightwide)     - @diff-input-textarea-combined) ;
+// @textarea-wi-wide-wide:         (((@wi-wide + @wi-wide)          - @diff-input-textarea-combined) ;
+// @textarea-wi-wide-wider:        (((@wi-wide + @wi-wider)         - @diff-input-textarea-combined) ;
+// @textarea-wi-wide-verywide:     (((@wi-wide + @wi-verywide)      - @diff-input-textarea-combined) ;
 
-@textarea-wi-lightwide-small:       (((@wi-lightwide + @wi-small)         - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-lightwide-mediumsmall: (((@wi-lightwide + @wi-mediumsmall)   - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-lightwide-normal:      (((@wi-lightwide + @wi-normal)        - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-lightwide-lightwide:   (((@wi-lightwide + @wi-lightwide)     - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-lightwide-wide:        (((@wi-lightwide + @wi-wide)          - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-lightwide-wider:       (((@wi-lightwide + @wi-wider)         - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-lightwide-verywide:    (((@wi-lightwide + @wi-verywide)      - @diff-input-select) - @diff-input-textarea-combined) ;
 
-@textarea-wi-wide-small:        (((@wi-wide + @wi-small)         - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-wide-mediumsmall:  (((@wi-wide + @wi-mediumsmall)   - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-wide-normal:       (((@wi-wide + @wi-normal)        - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-wide-lightwide:    (((@wi-wide + @wi-lightwide)     - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-wide-wide:         (((@wi-wide + @wi-wide)          - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-wide-wider:        (((@wi-wide + @wi-wider)         - @diff-input-select) - @diff-input-textarea-combined) ;
-@textarea-wi-wide-verywide:     (((@wi-wide + @wi-verywide)      - @diff-input-select) - @diff-input-textarea-combined) ;
+@textarea-wi-small-small:       ((@tcol-wi-small + @input-wi-small)        - @diff-input-textarea-combined) ;
+@textarea-wi-small-mediumsmall: ((@tcol-wi-small + @input-wi-mediumsmall)  - @diff-input-textarea-combined) ;
+@textarea-wi-small-normal:      ((@tcol-wi-small + @input-wi-normal)       - @diff-input-textarea-combined) ;
+@textarea-wi-small-lightwide:   ((@tcol-wi-small + @input-wi-lightwide)    - @diff-input-textarea-combined) ;
+@textarea-wi-small-wide:        ((@tcol-wi-small + @input-wi-wide)         - @diff-input-textarea-combined) ;
+@textarea-wi-small-wider:       ((@tcol-wi-small + @input-wi-wider)        - @diff-input-textarea-combined) ;
+@textarea-wi-small-verywide:    ((@tcol-wi-small + @input-wi-verywide)     - @diff-input-textarea-combined) ;
 
+@textarea-wi-mediumsmall-small:        ((@tcol-wi-mediumsmall + @input-wi-small)         - @diff-input-textarea-combined) ;
+@textarea-wi-mediumsmall-mediumsmall:  ((@tcol-wi-mediumsmall + @input-wi-mediumsmall)   - @diff-input-textarea-combined) ;
+@textarea-wi-mediumsmall-normal:       ((@tcol-wi-mediumsmall + @input-wi-normal)        - @diff-input-textarea-combined) ;
+@textarea-wi-mediumsmall-lightwide:    ((@tcol-wi-mediumsmall + @input-wi-lightwide)     - @diff-input-textarea-combined) ;
+@textarea-wi-mediumsmall-wide:         ((@tcol-wi-mediumsmall + @input-wi-wide)          - @diff-input-textarea-combined) ;
+@textarea-wi-mediumsmall-wider:        ((@tcol-wi-mediumsmall + @input-wi-wider)         - @diff-input-textarea-combined) ;
+@textarea-wi-mediumsmall-verywide:     ((@tcol-wi-mediumsmall + @input-wi-verywide)      - @diff-input-textarea-combined) ;
 
+@textarea-wi-normal-small:        ((@tcol-wi-normal + @input-wi-small)         - @diff-input-textarea-combined) ;
+@textarea-wi-normal-mediumsmall:  ((@tcol-wi-normal + @input-wi-mediumsmall)   - @diff-input-textarea-combined) ;
+@textarea-wi-normal-normal:       ((@tcol-wi-normal + @input-wi-normal)        - @diff-input-textarea-combined) ;
+@textarea-wi-normal-lightwide:    ((@tcol-wi-normal + @input-wi-lightwide)     - @diff-input-textarea-combined) ;
+@textarea-wi-normal-wide:         ((@tcol-wi-normal + @input-wi-wide)          - @diff-input-textarea-combined) ;
+@textarea-wi-normal-wider:        ((@tcol-wi-normal + @input-wi-wider)         - @diff-input-textarea-combined) ;
+@textarea-wi-normal-verywide:     ((@tcol-wi-normal + @input-wi-verywide)      - @diff-input-textarea-combined) ;
+
+@textarea-wi-lightwide-small:       ((@tcol-wi-lightwide + @input-wi-small)         - @diff-input-textarea-combined) ;
+@textarea-wi-lightwide-mediumsmall: ((@tcol-wi-lightwide + @input-wi-mediumsmall)   - @diff-input-textarea-combined) ;
+@textarea-wi-lightwide-normal:      ((@tcol-wi-lightwide + @input-wi-normal)        - @diff-input-textarea-combined) ;
+@textarea-wi-lightwide-lightwide:   ((@tcol-wi-lightwide + @input-wi-lightwide)     - @diff-input-textarea-combined) ;
+@textarea-wi-lightwide-wide:        ((@tcol-wi-lightwide + @input-wi-wide)          - @diff-input-textarea-combined) ;
+@textarea-wi-lightwide-wider:       ((@tcol-wi-lightwide + @input-wi-wider)         - @diff-input-textarea-combined) ;
+@textarea-wi-lightwide-verywide:    ((@tcol-wi-lightwide + @input-wi-verywide)      - @diff-input-textarea-combined) ;
+
+@textarea-wi-wide-small:        ((@tcol-wi-wide + @input-wi-small)         - @diff-input-textarea-combined) ;
+@textarea-wi-wide-mediumsmall:  ((@tcol-wi-wide + @input-wi-mediumsmall)   - @diff-input-textarea-combined) ;
+@textarea-wi-wide-normal:       ((@tcol-wi-wide + @input-wi-normal)        - @diff-input-textarea-combined) ;
+@textarea-wi-wide-lightwide:    ((@tcol-wi-wide + @input-wi-lightwide)     - @diff-input-textarea-combined) ;
+@textarea-wi-wide-wide:         ((@tcol-wi-wide + @input-wi-wide)          - @diff-input-textarea-combined) ;
+@textarea-wi-wide-wider:        ((@tcol-wi-wide + @input-wi-wider)         - @diff-input-textarea-combined) ;
+@textarea-wi-wide-verywide:     ((@tcol-wi-wide + @input-wi-verywide)      - @diff-input-textarea-combined) ;
 
 
 

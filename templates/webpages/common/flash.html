@@ -1,6 +1,7 @@
 [% USE HTML %]
 [% USE LxERP %]
 [% USE T8 %]
+
 [% BLOCK output %] 
 <div id="flash_[% type %]" class="flash_message flash_message_[% type %]" [% IF !messages || !messages.size %] style="display: none" [% END %]>
 <div class="icon-container">
@@ -22,7 +23,8 @@
 	</div><!-- /.flash_notification -->
 </div>
 </div>
-[% END %]
+[% END #BLOCK output %]
+
 [% PROCESS output title=LxERP.t8('Error') type='error' messages = FLASH.error %]
 [% PROCESS output title=LxERP.t8('Warning') type='warning' messages = FLASH.warning %]
 [% PROCESS output title=LxERP.t8('Information') type='info' messages = FLASH.info %]

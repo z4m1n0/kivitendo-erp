@@ -8,10 +8,12 @@
 
 <div class="wrapper">
 <!--  PENDENT: Klassen genauer spezifizieren -->
-    
+
+[% IF SELF.cv.name %]  
 <div class="record-title">
   <span title="[% IF SELF.is_vendor() %] [% 'Vendor Name' | $T8 %] [% ELSE %] [% 'Customer Name' | $T8 %] [% END %]">[% SELF.cv.name %]</span>
 </div>
+[% END %] 
 
 <table class="tbl-horizontal">
   <caption>[% 'Name and Address' | $T8 %]</caption>
@@ -63,7 +65,6 @@
   </tbody>
 </table>
     
-    
 <table class="tbl-horizontal">
   <caption>[% 'Communication' | $T8 %]</caption>
   <colgroup><col class="wi-small"><col class="wi-lightwide"></colgroup>
@@ -98,8 +99,6 @@
     </tr>
   </tbody>
 </table>
-
-
 
 <table class="tbl-horizontal">
 	<caption>[% IF ( SELF.is_vendor() ) %][% 'Vendor' | $T8 %][% ELSE %][% 'Customer' | $T8 %][% END %] [% 'Info & Status' | $T8 %]</caption>
@@ -137,15 +136,9 @@
   </tbody>
 </table>
 
-
-
 </div><!-- /.wrapper -->
 
-
-
 <div class="wrapper">
-
-
 
 <table class="tbl-horizontal">
   <caption>[% 'IDs & Numbers' | $T8 %]</caption>
@@ -202,8 +195,6 @@
     </tr>
     </tbody>
   </table>
-
-
 
 <table class="tbl-horizontal">
   <caption>[% 'Currency, Prices & Taxes' | $T8 %]</caption>

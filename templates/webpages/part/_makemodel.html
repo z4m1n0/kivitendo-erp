@@ -24,7 +24,7 @@
     [% END %]
   </tbody>
   <!-- PENDENT: koennte besser und schoener geloest werden! -->
-  <tbody>
+  <tfoot>
     <tr>
      <td></td>
      <td></td>
@@ -32,13 +32,13 @@
      <th class="right"><span class="label">[% 'Search & Add Vendor' | $T8 %]</span></th>
      <td>
         [% SET titleaddmodel=LxERP.t8('Search & Add Vendor by Name') %]
-        [% P.customer_vendor.picker('add_makemodel', '', type='vendor', class='add_makemodel_input wi-wide tooltipstered tooltipster-html', title=titleaddmodel, action={commit_one='kivi.Part.add_makemodel_row'}) %]
+        [% P.customer_vendor.picker('add_makemodel', '', type='vendor', class='add_makemodel_input wi-small tooltipstered tooltipster-html', title=titleaddmodel, action={commit_one='kivi.Part.add_makemodel_row'}) %]
       </td>
      <td>[% L.button_tag('kivi.Part.add_makemodel_row()', LxERP.t8('Add')) %]</td>
      <td></td>
      <td></td>
     </tr>
-  </tbody>
+  </tfoot>
 </table>
 [% L.sortable_element('#makemodel_rows') %]
 

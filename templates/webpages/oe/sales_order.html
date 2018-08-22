@@ -6,103 +6,86 @@
 
 <div class="full-width">
 <div class="buttons positions">
-  <input type="button" id="cb_show_details" name="show_details_button" class="positions" value="[% 'Show details' | $T8 %]"[% IF  show_details %] style="display:none"[% END %]>
-  <input type="button" id="cb_hide_details" name="hide_details_button" class="positions" value="[% 'Hide details' | $T8 %]"[% IF !show_details %] style="display:none"[% END %]>
+  <input type="button" id="cb_show_details" name="show_details_button" class="positions neutral" value="[% 'Show details' | $T8 %]"[% IF  show_details %] style="display:none"[% END %]>
+  <input type="button" id="cb_hide_details" name="hide_details_button" class="positions neutral" value="[% 'Hide details' | $T8 %]"[% IF !show_details %] style="display:none"[% END %]>
 </div>
-  <script type="text/javascript">
-   $('#cb_show_details,#cb_hide_details').click(function(){
-     $('[id^="row2"],#cb_show_details,#cb_hide_details').toggle();
-     if ( $('[id^="row2"]').is(":visible") ) {
-      $("[name='show_details']").val(1);
-     } else {
-      $("[name='show_details']").val(0);
-     }}
-   );
-  </script>
-  <table id="display_row" class="tbl-list full-width">
-    <caption>[% 'Invoice items' | $T8 %]</caption>
-     <colgroup>
-      <col style="width: 5.0em"></col>
-      <col style="width: 8.0em"></col>
-      <col style="width: 4.0em"></col>
-      <col style="width:16.0em"></col>
-      <col style="width: 6.0em;text-align:right;"></col>
-      <col style="width: 5.0em"></col>
-      <col style="width: 7.0em"></col>
-      <col style="width: 5.0em"></col>
-      <col style="width: 5.0em"></col>
-      <col style="width: 4.0em"></col>
-      <col style="width: 5.0em"></col>
-      <col style="width: 5.0em"></col>
-      <col style="width: 5.0em"></col>
-      </colgroup> 
-    <thead>
-   <tr>
-[% FOREACH header = HEADER %]
- [% IF header.display %]
-    <th>[% header.value %]</th>
- [% END %]
-[% END %]
-   </tr>
-   </thead>
-   <tbody>
-[% FOREACH row = ROWS %]
-     <tr>
- [% FOREACH row1 = row.ROW1 %]
-      <td style="[% IF row1.align %]text-align:[% row1.align %];[% END %][% IF row1.nowrap %]white-space:nowrap;[% END %]"[% IF row1.class %] class="[% row1.class %]"[% END %]>
-        [% row1.value %]
-      </td>
- [% END %]
-     </tr>
-     <tr style="display:none">
-      <td>
- [% FOREACH hidden = row.HIDDENS %]
-      [% hidden.value %]
- [% END %]
-      </td>
-     </tr>
-     <tr id="row2.[% loop.count %]" [% UNLESS show_details %]style="display:none;"[% END %]>
-      <td colspan="[% row.colspan %]">
 
- [%# render all row2 entries except cvars  %]
- <div class="rowspan-table">
- [% FOREACH row2 = row.ROW2 %]
-   [% IF !row2.cvar %]
-     <div class="label-n-value">[% row2.value %]</div>
-   [% END %]
- [% END %]
- </div>
+<script type="text/javascript">
+ $('#cb_show_details,#cb_hide_details').click(function(){
+   $('[id^="row2"],#cb_show_details,#cb_hide_details').toggle();
+   if ( $('[id^="row2"]').is(":visible") ) {
+    $("[name='show_details']").val(1);
+   } else {
+    $("[name='show_details']").val(0);
+   }}
+ );
+</script>
 
- [%# process editable cvars  %]
- <table class="row2-cvars-table">
-   <tr>
-   [% FOREACH row2 = row.ROW2 %]
-     [% SET show = ((row2.render_options.var.flag_editable || !row2.render_options.hide_non_editable ) && row2.render_options.valid && !row2.render_options.partsgroup_filtered) %]
-     [% IF row2.cvar && show %]
-       [% IF row2.line_break %]
-         </tr><tr>
-       [% END %]
-     <th>
-       [% row2.description %]
-     </th>
-     <td>
-       [% PROCESS cvar_inputs cvar = row2.render_options %]
-     </td>
-     [% END %]
-   [% END %]
-   </tr>
- </table>
+<table id="display_row" class="tbl-list full-width">
+  <caption>[% 'Invoice items' | $T8 %]</caption>
+  <thead>
+    <tr>
+      [% FOREACH header = HEADER %]
+        [% IF header.display %]
+          <th>[% header.value %]</th>
+        [% END %]
+      [% END %]
+    </tr>
+  </thead>
+  <tbody>
+    [% FOREACH row = ROWS %]
+      <tr>
+        [% FOREACH row1 = row.ROW1 %]
+          <td style="[% IF row1.align %]text-align:[% row1.align %];[% END %][% IF row1.nowrap %]white-space:nowrap;[% END %]"[% IF row1.class %] class="[% row1.class %]"[% END %]>
+            [% row1.value %]
+          </td>
+        [% END %]
+      </tr>
+      <tr style="display:none">
+        <td>
+          [% FOREACH hidden = row.HIDDENS %]
+            [% hidden.value %]
+          [% END %]
+        </td>
+      </tr>
+      <tr id="row2.[% loop.count %]" [% UNLESS show_details %]style="display:none;"[% END %]>
+        [% SET rowspan1 = 3 ; SET rowspan2 = (row.colspan-rowspan1) ; %] 
+        <td colspan="[% rowspan1 %] "></td>
+        <td colspan="[% rowspan2 %]" class="row-position-detail">
+          [%# render all row2 entries except cvars  %]
+          <div class="rowspan-table table">
+            [% FOREACH row2 = row.ROW2 %]
+              [% IF !row2.cvar %]
+                <div class="label-n-value field">[% row2.value %]</div>
+              [% END %]
+            [% END %]
+          </div>
 
- [%# process non editable cvars extra to not disturb the table layout (this will be hidden inputs) %]
- [% FOREACH row2 = row.ROW2 %]
-   [% SET hide = (!row2.render_options.var.flag_editable && row2.render_options.hide_non_editable) %]
-   [% IF row2.cvar && hide %]
-     [% PROCESS cvar_inputs cvar = row2.render_options %]
-   [% END %]
- [% END %]
+          [%# process editable cvars  %]
+          <table class="row2-cvars-table">
+            <tr>
+              [% FOREACH row2 = row.ROW2 %]
+                [% SET show = ((row2.render_options.var.flag_editable || !row2.render_options.hide_non_editable ) && row2.render_options.valid && !row2.render_options.partsgroup_filtered) %]
+                [% IF row2.cvar && show %]
+                  [% IF row2.line_break %]
+                    </tr><tr>
+                  [% END %]
+                  <th>[% row2.description %]</th>
+                  <td>[% PROCESS cvar_inputs cvar = row2.render_options %]</td>
+                [% END %]
+              [% END %]
+            </tr>
+          </table>
 
-      </td>
-     </tr>
+          [%# process non editable cvars extra to not disturb the table layout (this will be hidden inputs) %]
+          [% FOREACH row2 = row.ROW2 %]
+            [% SET hide = (!row2.render_options.var.flag_editable && row2.render_options.hide_non_editable) %]
+            [% IF row2.cvar && hide %]
+              [% PROCESS cvar_inputs cvar = row2.render_options %]
+            [% END %]
+          [% END %]
+        </td>
+      </tr>
 [% END %]
     </tbody>
   </table>

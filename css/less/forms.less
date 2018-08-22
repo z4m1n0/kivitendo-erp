@@ -160,6 +160,10 @@ form {
       //float: right;
       display: inline-block;
       font-size: 84% ;
+      
+      &.icon{
+        padding: 0 !important ;
+      }
     }      
       
       
@@ -280,6 +284,10 @@ form {
       margin: 0 0 -2.0em 20.0em;
       padding: 0 ;
     }
+    &.below{
+      padding: 0 ;
+      margin: 0 ;
+    }
   }
   .col .buttons{
     padding: 1.0em 1.0em 1.0em 0 !important;
@@ -395,7 +403,7 @@ form {
     &.wi-mediumsmall  { width:     @select-wi-mediumsmall ; }
     &.wi-normal       { width:     @select-wi-normal      ; }
     &.wi-lightwide    { width:     @select-wi-lightwide   ; }
-    &.wi-wide         { min-width: @select-wi-wide        ; }
+    &.wi-wide         { width:     @select-wi-wide        ; }
     &.wi-wider        { min-width: @select-wi-wider       ; }
     &.wi-verywide     { min-width: @select-wi-verywide    ; }
     &.wi-full         { width:     100%                   ; }
@@ -424,7 +432,7 @@ form {
     
     
     &.wi-small-small       { width: @textarea-wi-small-small ; }
-    &.wi-small-mediumsmall { width: @textarea-wi-small-mediumsmall ; }
+    &.wi-small-mediumsmall { width: @textarea-wi-small-mediumsmall ; margin: 0 30px 0 0 ; }
     &.wi-small-normal      { width: @textarea-wi-small-normal ; }
     &.wi-small-lightwide   { width: @textarea-wi-small-lightwide ; }
     &.wi-small-wide        { width: @textarea-wi-small-wide ; }
@@ -463,10 +471,74 @@ form {
     &.wi-wide-wider       { width: @textarea-wi-wide-wider ; }
     &.wi-wide-verywide    { width: @textarea-wi-wide-verywide ; }
     
+  }
+  // /DIMENSION textarea
+
+
+
+  span {
+  
+    // Standard-Dimensions
+    &.wi-smallest textarea     , &.wi-smallest div.cke_editable     { width:     @textarea-wi-normal      ; } // no smallest, just normal
+    &.wi-verysmall textarea    , &.wi-verysmall div.cke_editable    { width:     @textarea-wi-normal      ; } // no verysmall, just normal
+    &.wi-small textarea        , &.wi-small div.cke_editable        { width:     @textarea-wi-normal      ; } // no small, just normal
+    &.wi-mediumsmall textarea  , &.wi-mediumsmall div.cke_editable  { width:     @textarea-wi-normal      ; } // no mediumsmall, just normal
+    &.wi-normal textarea       , &.wi-normal div.cke_editable       { width:     @textarea-wi-normal      ; }
+    &.wi-lightwide textarea    , &.wi-lightwide div.cke_editable    { min-width: @textarea-wi-lightwide   ; }
+    &.wi-wide textarea         , &.wi-wide div.cke_editable         { min-width: @textarea-wi-wide        ; }
+    &.wi-wide.strict { max-width: @textarea-wi-wide !important  ; }
+    &.wi-wider textarea        , &.wi-wider div.cke_editable        { min-width: @textarea-wi-wider       ; }
+    &.wi-verywide textarea     , &.wi-verywide div.cke_editable     { min-width: @textarea-wi-verywide    ; }
+    &.wi-full textarea         , &.wi-full div.cke_editable         { width:     100%                  ; }
     
+    
+    &.wi-small-small textarea       , &.wi-small-small div.cke_editable       { width: @textarea-wi-small-small ; }
+    &.wi-small-mediumsmall textarea , &.wi-small-mediumsmall div.cke_editable { width: @textarea-wi-small-mediumsmall ; margin: 0 30px 0 0 ; }
+    &.wi-small-normal textarea      , &.wi-small-normal div.cke_editable      { width: @textarea-wi-small-normal ; }
+    &.wi-small-lightwide textarea   , &.wi-small-lightwide div.cke_editable   { width: @textarea-wi-small-lightwide ; }
+    &.wi-small-wide textarea        , &.wi-small-wide div.cke_editable        { width: @textarea-wi-small-wide ; }
+    &.wi-small-wider textarea       , &.wi-small-wider div.cke_editable       { width: @textarea-wi-small-wider ; }
+    &.wi-small-verywide textarea    , &.wi-small-verywide div.cke_editable    { width: @textarea-wi-small-verywide ; }
+    
+    &.wi-mediumsmall-small textarea       , &.wi-mediumsmall-small div.cke_editable       { width: @textarea-wi-mediumsmall-small ; }
+    &.wi-mediumsmall-mediumsmall textarea , &.wi-mediumsmall-mediumsmall div.cke_editable { width: @textarea-wi-mediumsmall-mediumsmall ; }
+    &.wi-mediumsmall-normal textarea      , &.wi-mediumsmall-normal div.cke_editable      { width: @textarea-wi-mediumsmall-normal ; }
+    &.wi-mediumsmall-lightwide textarea   , &.wi-mediumsmall-lightwide div.cke_editable   { width: @textarea-wi-mediumsmall-lightwide ; }
+    &.wi-mediumsmall-wide textarea        , &.wi-mediumsmall-wide > div.cke_editable         { width: @textarea-wi-mediumsmall-wide !important ; }
+    &.wi-mediumsmall-wider textarea       , &.wi-mediumsmall-wider div.cke_editable       { width: @textarea-wi-mediumsmall-wider ; }
+    &.wi-mediumsmall-verywide textarea    , &.wi-mediumsmall-verywide div.cke_editable    { width: @textarea-wi-mediumsmall-verywide ; }
+    
+    &.wi-normal-small textarea       , &.wi-normal-small div.cke_editable       { width: @textarea-wi-normal-small ; }
+    &.wi-normal-mediumsmall textarea , &.wi-normal-mediumsmall div.cke_editable { width: @textarea-wi-normal-mediumsmall ; }
+    &.wi-normal-normal textarea      , &.wi-normal-normal div.cke_editable      { width: @textarea-wi-normal-normal ; }
+    &.wi-normal-lightwide textarea   , &.wi-normal-lightwide div.cke_editable   { width: @textarea-wi-normal-lightwide ; }
+    &.wi-normal-wide textarea        , &.wi-normal-wide div.cke_editable        { width: @textarea-wi-normal-wide ; }
+    &.wi-normal-wider textarea       , &.wi-normal-wider div.cke_editable       { width: @textarea-wi-normal-wider ; }
+    &.wi-normal-verywide textarea    , &.wi-normal-verywide div.cke_editable    { width: @textarea-wi-normal-verywide ; }
+    
+    &.wi-lightwide-small textarea       , &.wi-lightwide-small div.cke_editable       { width: @textarea-wi-lightwide-small ; }
+    &.wi-lightwide-mediumsmall textarea , &.wi-lightwide-mediumsmall div.cke_editable { width: @textarea-wi-lightwide-mediumsmall ; }
+    &.wi-lightwide-normal textarea      , &.wi-lightwide-normal div.cke_editable      { width: @textarea-wi-lightwide-normal ; }
+    &.wi-lightwide-lightwide textarea   , &.wi-lightwide-lightwide div.cke_editable   { width: @textarea-wi-lightwide-lightwide ; }
+    &.wi-lightwide-wide textarea        , &.wi-lightwide-wide div.cke_editable        { width: @textarea-wi-lightwide-wide ; }
+    &.wi-lightwide-wider textarea       , &.wi-lightwide-wider div.cke_editable       { width: @textarea-wi-lightwide-wider ; }
+    &.wi-lightwide-verywide textarea    , &.wi-lightwide-verywide div.cke_editable    { width: @textarea-wi-lightwide-verywide ; }
+    
+    &.wi-wide-small textarea       , &.wi-wide-small div.cke_editable       { width: @textarea-wi-wide-small ; }
+    &.wi-wide-mediumsmall textarea , &.wi-wide-mediumsmall div.cke_editable { width: @textarea-wi-wide-mediumsmall ; }
+    &.wi-wide-normal textarea      , &.wi-wide-normal div.cke_editable      { width: @textarea-wi-wide-normal ; }
+    &.wi-wide-lightwide textarea   , &.wi-wide-lightwide div.cke_editable   { width: @textarea-wi-wide-wide ; }
+    &.wi-wide-wide textarea        , &.wi-wide-wide div.cke_editable        { width: @textarea-wi-wide-wide ; }
+    &.wi-wide-wider textarea       , &.wi-wide-wider div.cke_editable       { width: @textarea-wi-wide-wider ; }
+    &.wi-wide-verywide textarea    , &.wi-wide-verywide div.cke_editable    { width: @textarea-wi-wide-verywide ; }
     
   }
   // /DIMENSION textarea
+
+
+
+
+
 
 
 
@@ -610,6 +682,20 @@ form {
       }
     }
   }
+
+  // -------------------
+  // Boxes horizontal
+  // 
+
+  td.horizontal {
+    input[type="radio"]{
+      float: none !important;
+      clear: none !important;
+    }
+  }
+
+
+
 
 
 

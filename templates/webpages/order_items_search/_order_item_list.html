@@ -28,17 +28,17 @@
       <td>[%                   order_item.part.presenter.part(no_link => 0)               %]</td>
       <td>[%                   order_item.order.customer.presenter.customer(no_link => 0) %]</td>
       <td class="numeric">[%   order_item.order.presenter.sales_order(no_link => 0)       %]</td>
-        <td>[%                 order_item.order.transdate.to_kivitendo %]</td>
-        <td class="numeric[% IF order_item.delivered_qty == order_item.qty %] shipped[% ELSE %] not_shipped[% END %]">
+      <td>[%                   order_item.order.transdate.to_kivitendo %]</td>
+      <td class="numeric[% IF order_item.delivered_qty == order_item.qty %] shipped[% ELSE %] not_shipped[% END %]">
           [%                   LxERP.format_amount(order_item.qty, qty_round) %] [% order_item.unit | html %]
-        </td>
-        <td class="numeric">[% LxERP.format_amount(order_item.delivered_qty, qty_round) %] [% order_item.unit | html %] </td>
-        <td class="numeric">[% order_item.sellprice_as_number %]</td>
-        <td class="numeric">[% order_item.discount_as_percent %]</td>
-        <td>[% order_item.deliveryorders %]</td>
-        [% IF FORM.show_images %]
-          <td>[% IF order_item.part.image %]<a href="[% order_item.part.image | html %]" target="_blank"><img height="32" src="[% order_item.part.image | html %]"/></a>[% END %]</td>
-        [% END %]
+      </td>
+      <td class="numeric">[% LxERP.format_amount(order_item.delivered_qty, qty_round) %] [% order_item.unit | html %] </td>
+      <td class="numeric">[% order_item.sellprice_as_number %]</td>
+      <td class="numeric">[% order_item.discount_as_percent %]</td>
+      <td>[% order_item.deliveryorders %]</td>
+      [% IF FORM.show_images %]
+        <td>[% IF order_item.part.image %]<a href="[% order_item.part.image | html %]" target="_blank"><img height="32" src="[% order_item.part.image | html %]"/></a>[% END %]</td>
+      [% END %]
       </tr>
     [% END %]
   </tbody>

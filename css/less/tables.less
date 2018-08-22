@@ -163,7 +163,7 @@ table {
         font-style: normal ;
         font-size: 90% ;
         color: @t-cell-head-text ;
-     }
+      }
       &.below{
         //clear: both;
         overflow: hidden;
@@ -479,7 +479,11 @@ table {
     th,
     td{
       background: none;
-      padding: 0.5em 0.4em 0.2em 0.3em;
+      //padding: 0.5em 0.4em 0.2em 0.3em;
+      padding-top: 0.5em ;
+      padding-right: 0.2em ;
+      padding-bottom: 0.2em ;
+      padding-left: 0.3em ;
 
       // Adjust Form Elements in this table type
       &>input[type="checkbox"],
@@ -501,7 +505,6 @@ table {
         clear: both ;
         overflow: hidden;
         color: @t-cell-head-text;
- ;
         //height: 1.8em ; // PENDENT: besser loesen, gefaellt mir nicht
       }
 
@@ -531,18 +534,26 @@ table {
       &>span.customer_vendor_picker{
         padding-left: 0 !important ;        
       }
+      // Switch form element
+      &>span.switch-form-element{
+        padding: 0 !important ;   
+        margin: -0.3em 1px 0 -0.14em !important ;     
+      }
+      &>span.wi-small-wide{ margin: 0 24px 0 0 ; display: block; }
       &>div.data{
         padding: 0.1363em 0 ;
       }
       &.data{
         padding: 0.4363em 0.3em 0.4363em 0.3em ;
       }
-      
       &>span.label {
         padding: 0 0.3em 0.3em 0 ;        
         color: @t-cell-head-text;
         font-style: normal;
         display: block;
+      }
+      &>span.project_picker{
+        margin: -0.3em 0 0 -0.2em ;
       }
     }
 
@@ -759,7 +770,9 @@ table {
   &.wi-small-mediumsmall     { width: @tcol-wi-small + @tcol-wi-mediumsmall ; }
   &.wi-small-normal          { width: @tcol-wi-small + @tcol-wi-normal ; }
   &.wi-small-lightwide       { width: @tcol-wi-small + @tcol-wi-lightwide ; }
-  &.wi-small-wide            { width: @tcol-wi-small + @tcol-wi-wide ; }
+  // PENDENT: noch genauer anschauen, sollte eigentlich nur für horizontale Tabellen vorgesehen sein
+  &.wi-small-wide            { width: @tcol-wi-small + @tcol-wi-wide + ( @diff-input-select )  ; }  
+  //&.wi-small-wide            { width: 460px ; }  
   &.wi-small-wider           { width: @tcol-wi-small + @tcol-wi-wider ; }
   &.wi-small-verywide        { width: @tcol-wi-small + @tcol-wi-verywide ; }
 
@@ -841,6 +854,72 @@ table {
 
 }
 //  /table
+
+
+//
+// **********************************
+// TABLE & COLs DIMENSIONS
+// **********************************
+
+table,
+table colgroup col {
+
+  &.wi-smallest    { width: @tcol-wi-smallest     ; }
+  &.wi-verysmall   { width: @tcol-wi-verysmall    ; }
+  &.wi-small       { width: @tcol-wi-small        ; }
+  &.wi-mediumsmall { width: @tcol-wi-mediumsmall  ; }
+  &.wi-normal      { width: @tcol-wi-normal       ; }
+  &.wi-lightwide   { width: @tcol-wi-lightwide    ; }
+  &.wi-wide        { width: @tcol-wi-wide         ; }
+  &.wi-wider       { width: @tcol-wi-wider        ; }
+  &.wi-verywide    { width: @tcol-wi-verywide     ; }
+
+
+
+  &.wi-small-small             { width: @tcol-wi-small-small ; }
+  &.wi-small-mediumsmall       { width: @tcol-wi-small-mediumsmall ; }
+  &.wi-small-normal            { width: @tcol-wi-small-normal ; }
+  &.wi-small-lightwide         { width: @tcol-wi-small-lightwide ; }
+  // PENDENT: noch genauer anschauen, sollte eigentlich nur für horizontale Tabellen vorgesehen sein
+  &.wi-small-wide              { width: ( @tcol-wi-small-wide )  ; }  
+  //&.wi-small-wide            { width: 460px ; }  
+  &.wi-small-wider             { width: @tcol-wi-small-wider ; }
+  &.wi-small-verywide          { width: @tcol-wi-small-verywide ; }
+
+  &.wi-mediumsmall-small       { width: @tcol-wi-mediumsmall-lightwide ; }
+  &.wi-mediumsmall-mediumsmall { width: @tcol-wi-mediumsmall-mediumsmall ; }
+  &.wi-mediumsmall-normal      { width: @tcol-wi-mediumsmall-normal ; }
+  &.wi-mediumsmall-lightwide   { width: @tcol-wi-mediumsmall-lightwide ; }
+  &.wi-mediumsmall-wide        { width: @tcol-wi-mediumsmall-wide ; }
+  &.wi-mediumsmall-wider       { width: @tcol-wi-mediumsmall-wider ; }
+  &.wi-mediumsmall-verywide    { width: @tcol-wi-mediumsmall-verywide ; }
+
+  &.wi-normal-small            { width: @tcol-wi-normal-small ; }
+  &.wi-normal-mediumsmall      { width: @tcol-wi-normal-mediumsmall ; }
+  &.wi-normal-normal           { width: @tcol-wi-normal-normal ; }
+  &.wi-normal-lightwide        { width: @tcol-wi-normal-lightwide ; }
+  &.wi-normal-wide             { width: @tcol-wi-normal-wide ; }
+  &.wi-normal-wider            { width: @tcol-wi-normal-wider ; } 
+  &.wi-normal-verywide         { width: @tcol-wi-normal-verywide ; } 
+
+  &.wi-lightwide-small         { width: @tcol-wi-lightwide-small ; } 
+  &.wi-lightwide-mediumsmall   { width: @tcol-wi-lightwide-mediumsmall ; } 
+  &.wi-lightwide-normal        { width: @tcol-wi-lightwide-normal ; } 
+  &.wi-lightwide-lightwide     { width: @tcol-wi-lightwide-lightwide ; } 
+  &.wi-lightwide-wide          { width: @tcol-wi-lightwide-wide ; } 
+  &.wi-lightwide-wider         { width: @tcol-wi-lightwide-wider ; } 
+  &.wi-lightwide-verywide      { width: @tcol-wi-lightwide-verywide ; } 
+
+}
+
+
+
+
+
+
+
+
+
 
 
 //  --------------------------------------

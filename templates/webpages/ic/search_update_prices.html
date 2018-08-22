@@ -85,38 +85,38 @@
     <tr>
       <th>[% 'Sell Price' | $T8 %]</th>
       <td>[% L.input_tag('filter.prices.sellprice.price_as_number', FORM.filter.prices.sellprice.price_as_number, size=11) %]</td>
-      <td class="center">
+      <td class="center horizontal">
         [% L.radio_button_tag("filter.prices.sellprice.type",
            value="percent",
            checked=!FORM.filter.prices.sellprice.type || FORM.filter.prices.sellprice.type == 'percent') %] /
         [% L.radio_button_tag("filter.prices.sellprice.type",
            value="absolut",
-           checked=FORM.filter.prices.sellprice.type == 'absolut') %]
+           checked=FORM.filter.prices.sellprice.type == 'absolut', class='horizontal') %]
       </td>
     </tr>
     <tr>
       <th>[% 'List Price' | $T8 %]</th>
       <td>[% L.input_tag('filter.prices.listprice.price_as_number', FORM.filter.prices.listprice.price_as_number, size=11) %]</td>
-      <td class="center">
+      <td class="center horizontal">
         [% L.radio_button_tag("filter.prices.listprice.type",
            value="percent",
-           checked=!FORM.filter.prices.listprice.type || FORM.filter.prices.listprice.type == 'percent') %] /
+           checked=!FORM.filter.prices.listprice.type || FORM.filter.prices.listprice.type == 'percent', class='horizontal') %] /
         [% L.radio_button_tag("filter.prices.listprice.type",
            value="absolut",
-           checked=FORM.filter.prices.listprice.type == 'absolut') %]
+           checked=FORM.filter.prices.listprice.type == 'absolut', class='horizontal') %]
       </td>
     </tr>
     [% FOREACH pg = SELF.pricegroups %]
     <tr>
       <th>[% pg.pricegroup | html %]</th>
       <td>[% L.input_tag('filter.prices.' _ pg.id _ '.price_as_number', FORM.filter.prices.${pg.id}.price_as_number, size=11) %]</td>
-      <td class="center">
+      <td class="center horizontal">
         [% L.radio_button_tag("filter.prices." _ pg.id  _ ".type",
            value="percent",
-           checked=!FORM.filter.prices.${pg.id}.type || FORM.filter.prices.${pg.id}.type == 'percent') %] /
+           checked=!FORM.filter.prices.${pg.id}.type || FORM.filter.prices.${pg.id}.type == 'percent', class='horizontal') %] /
         [% L.radio_button_tag("filter.prices." _ pg.id _ ".type",
            value="absolut",
-           checked=FORM.filter.prices.${pg.id}.type == 'absolut') %]
+           checked=FORM.filter.prices.${pg.id}.type == 'absolut', class='horizontal') %]
       </td>
     </tr>
     [% END %]

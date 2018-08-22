@@ -111,14 +111,14 @@
   <tfoot>
     <tr>
       <td colspan="2"></td>
-      <td>[% 'Total' | $T8 %]</td>
-      <td>[% LxERP.format_amount(totalpaid, 2) | html %]</td>
+      <td class="right">[% 'Total' | $T8 %]</td>
+      <td class="numeric">[% LxERP.format_amount(totalpaid, 2) | html %]</td>
       <td colspan="2"></td>
     </tr>
     <tr>
       <td colspan="2"></td>
-      <td>[% 'Missing amount' | $T8 %]</td>
-      <td>[% LxERP.format_amount(paid_missing, 2) | html %]</td>
+      <td class="right">[% 'Missing amount' | $T8 %]</td>
+      <td class="numeric">[% LxERP.format_amount(paid_missing, 2) | html %]</td>
       <td colspan="2">
         <input type="hidden" name="paidaccounts" value="[% paidaccounts %]">
         <input type="hidden" name="selectAR_paid" value="[% selectAR_paid %]">

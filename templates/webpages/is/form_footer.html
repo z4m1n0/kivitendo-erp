@@ -1,7 +1,8 @@
-[%- USE T8 %]
-[%- USE HTML %]
-[%- USE LxERP %]
-[%- USE L %][%- USE P -%]
+[% USE T8 %]
+[% USE HTML %]
+[% USE LxERP %]
+[% USE L %]
+[% USE P %]
 
 <!--
   Total-Lines of Invoice Items
@@ -9,35 +10,33 @@
 -->
 <table class="tbl-list">
   <colgroup>
-  <col style="width: 6.0em"></col>
-  <col style="width: 8.0em"></col>
-  <col style="width: 4.0em"></col>
-  <col style="width:18.0em"></col>
-  <col style="width: 6.0em"></col>
-  <col style="width: 7.0em"></col>
-  <col style="width: 7.0em"></col>
-  <col style="width: 6.0em"></col>
-  <col style="width: 6.0em"></col>
-  <col style="width: 4.0em"></col>
-  <col style="width: 6.0em"></col>
+    <col style="width: 6.0em">
+    <col style="width: 8.0em">
+    <col style="width: 4.0em">
+    <col style="width:18.0em">
+    <col style="width: 6.0em">
+    <col style="width: 7.0em">
+    <col style="width: 7.0em">
+    <col style="width: 6.0em">
+    <col style="width: 6.0em">
+    <col style="width: 4.0em">
+    <col style="width: 6.0em">
   </colgroup>
   <tfoot>
-  [%- UNLESS taxincluded %]
+  [% UNLESS taxincluded %]
   <tr>
     <td colspan="8" rowspan="6">
-
-    [%- IF show_weight %]
-      <div class="info-block">
-      <span class="info-label">[% 'Total weight' | $T8 %]</span>
-      <span class="info-value">[% LxERP.format_amount(totalweight) %] [% HTML.escape(weightunit) %]</span>
-      </div>
-    [%- END %]
-
+      [% IF show_weight %]
+        <div class="info-block">
+        <span class="info-label">[% 'Total weight' | $T8 %]</span>
+        <span class="info-value">[% LxERP.format_amount(totalweight) %] [% HTML.escape(weightunit) %]</span>
+        </div>
+      [% END %]
     </td><!-- <td></td><td></td><td></td><td></td><td></td><td></td><td></td> -->
     <th colspan="2">[% 'Subtotal' | $T8 %]</th>
     <td>[% LxERP.format_amount(invsubtotal, 2) %]</td>
   </tr>
-  [%- END %]
+  [% END %]
 
   [%# tax %]
   [% FOREACH item = taxaccounts_array %]
@@ -49,36 +48,36 @@
       <th colspan="2">[% 'Including' | $T8 %] [% $description_ref | html %]&nbsp;[% $rate_ref * 100 %]%</th>
       <td>[% LxERP.format_amount($total_ref, 2) %]</td>
     </tr>
-    [%- IF taxincluded %]
-    <tr>
-      <th colspan="2">[% 'Net amount' | $T8 %]</th>
-      <td>[% LxERP.format_amount($netto_ref, 2) %]</td>
-    </tr>
-    [%- END %]
-    [%- END %]
-    [%- IF rounding %]
+    [% IF taxincluded %]
+      <tr>
+        <th colspan="2">[% 'Net amount' | $T8 %]</th>
+        <td>[% LxERP.format_amount($netto_ref, 2) %]</td>
+      </tr>
+    [% END %]
+  [% END %]
+  [% IF rounding %]
     <tr>
       <th colspan="2">[% 'Rounding' | $T8 %]</th>
       <td>[% LxERP.format_amount(rounding, 2) %]</td>
     </tr>
-  [%- END %]
+  [% END %]
   <tr>
     <th colspan="2">[% 'Total' | $T8 %]</th>
     <td>[% LxERP.format_amount(invtotal, 2) %]</td>
   </tr>
-    <tr>
-     <th colspan="2" class="numeric">[% 'Ertrag' | $T8 %]</th>
-     <td>
+  <tr>
+    <th colspan="2" class="numeric">[% 'Ertrag' | $T8 %]</th>
+    <td>
       [% LxERP.format_amount(marge_total, 2, 0) %]
       <input type=hidden name="marge_total" value="[% marge_total %]" class="numeric">
-     </td>
-    </tr>
+  </td>
+  </tr>
     <tr>
-     <th colspan="2" class="numeric">[% 'Ertrag prozentual' | $T8 %]</th>
-     <td>
-      [% LxERP.format_amount(marge_percent, 2, 0) %] %
-      <input type=hidden name="marge_percent" value="[% marge_percent %]" class="numeric">
-     </td>
+      <th colspan="2" class="numeric">[% 'Ertrag prozentual' | $T8 %]</th>
+      <td>
+        [% LxERP.format_amount(marge_percent, 2, 0) %] %
+        <input type=hidden name="marge_percent" value="[% marge_percent %]" class="numeric">
+      </td>
     </tr>
   </tfoot>
 </table>
@@ -86,9 +85,9 @@
 
 
 
-[%- IF id && follow_ups.size %]
-  [%- LxERP.t8('There are #1 unfinished follow-ups of which #2 are due.', follow_ups.size, follow_ups_unfinished) | html %]
-[%- END %]
+[% IF id && follow_ups.size %]
+  [% LxERP.t8('There are #1 unfinished follow-ups of which #2 are due.', follow_ups.size, follow_ups_unfinished) | html %]
+[% END %]
 
 
 [% PROCESS 'is/_payments.html' %]
@@ -116,7 +115,7 @@
 <input type="hidden" name="customer_discount" value="[% customer_discount %]">
 <input type="hidden" name="gldate" value="[% gldate %]">
 
-<div id="shipto_inputs" class="hidden">[%- PROCESS 'common/_ship_to_dialog.html' %]</div>
+<div id="shipto_inputs" class="hidden">[% PROCESS 'common/_ship_to_dialog.html' %]</div>
 <div id="email_inputs" style="display: none"></div>
 <div id="print_options" style="display: none">[% print_options %]</div>
 
@@ -126,4 +125,4 @@
 </script>
 
 <div id="shipto_dialog" class="hidden"></div>
-<div id="print_dialog" class="hidden">[%- PROCESS 'common/_print_dialog.html' %]</div>
+<div id="print_dialog" class="hidden">[% PROCESS 'common/_print_dialog.html' %]</div>

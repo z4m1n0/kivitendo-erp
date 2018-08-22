@@ -12,12 +12,12 @@
 [% FOREACH source = SOURCES %]
 
 <table class="tbl-list">
+  <caption>[% source.title %]</caption>
   <thead>
-    <tr><th colspan="6">[% source.title %]</th></tr>
     <tr>
       [% SET checkname = source.chk_action %]
       [% IF is_global %]
-      [% SET checkname = object_type _ '_' _ source.chk_action %]
+        [% SET checkname = object_type _ '_' _ source.chk_action %]
       [% END %]
       [% IF edit_attachments %]
         <script type="text/javascript"><!--

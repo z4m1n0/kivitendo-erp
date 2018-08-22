@@ -147,8 +147,8 @@ h3{
 // RECORD-TITLE (e.g. Customer Name, Article Name)
 // --------------------------------------
 // This is just a try
-
-div.record-title{
+// PENDENT: an verschiedenen Orten einfuegen
+div.record-title {
   width: 100% ;
   font-size: 140% ;
   display: block;
@@ -662,11 +662,14 @@ pre.filecontent {
         display: none;
       }
     }
+
   }
   &_error {
     color:            @message_error_text;
     background-color: @message_error_bg;
     border-color:     @message_error_border;
+    h4{ color:        @message_error_text; }
+    p { color:        @message_error_text; } // PENDENT: andere Message-Typen auch erweitern
   }
   &_warning {
     color:            @message_warning_text;

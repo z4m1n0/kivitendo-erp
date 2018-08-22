@@ -6,15 +6,17 @@
 
 <form action="controller.pl" method="post" id="search_form">
 
-<div class="filter_toggle select-item">
-  <a href="#" class="button" onClick='javascript:$(".filter_toggle").toggle()'>[% 'Show Filter' | $T8 %]</a>
+<div class="wrapper">
+
+<div class="filter_toggle">
+  <a href="#" onClick='javascript:$(".filter_toggle").toggle()' class="button toggle off neutral">[% 'Show Filter' | $T8 %]</a>
   [% SELF.filter_summary | html %]
 </div>
 
-<div class="filter_toggle select-item" style="display:none">
-  <a href="#" class="button" onClick='javascript:$(".filter_toggle").toggle()'>[% 'Hide Filter' | $T8 %]</a>
+<div class="filter_toggle" style="display:none">
+  <a href="#" onClick='javascript:$(".filter_toggle").toggle()' class="button toggle on neutral with-panel">[% 'Hide Filter' | $T8 %]</a>
   <!-- PENDENT: Panel einbauen -->
-  <div class="wrapper">
+  <div class="filter-toggle-panel">
 
     <table id="filter_table" class="tbl-horizontal">
       <caption>[% 'Part' | $T8 %]</caption>
@@ -39,11 +41,11 @@
           <th>[% 'Qty' | $T8 %]</th>
           <td>[% L.input_tag('filter.item_type_matches[].qty', FORM.filter.item_type_matches.0.qty, class="wi-normal") %]</td>
         </tr>
-        <tr id="price_rule_filter_customer_tr" [% ' style="display:hidden" ' UNLESS SELF.vc="=" 'customer' %]>
+        <tr id="price_rule_filter_customer_tr"[% ' style="display:none" ' UNLESS SELF.vc== 'customer' %]>
           <th>[% 'Customer' | $T8 %]</th>
           <td>[% P.customer_vendor.picker('filter.item_type_matches[].customer', FORM.filter.item_type_matches.0.customer, type='customer', id='price_rule_filter_customer', class="wi-normal") %]</td>
         </tr>
-        <tr id="price_rule_filter_vendor_tr" [% ' style="display:hidden" ' UNLESS SELF.vc="=" 'customer' %]><!-- PENDENT: Korrekt mit customer? -->
+        <tr id="price_rule_filter_vendor_tr"[% ' style="display:none" ' UNLESS SELF.vc== 'customer' %]><!-- PENDENT: Korrekt mit customer? -->
           <th>[% 'Vendor' | $T8 %]</th>
           <td>[% P.customer_vendor.picker('filter.item_type_matches[].vendor', FORM.filter.item_type_matches.0.vendor, type='vendor', id='price_rule_filter_vendor', class="wi-normal") %]</td>
         </tr>
@@ -59,15 +61,16 @@
       <tbody>
         <tr>
           <th>[% 'Reqdate' | $T8 %]</th>
-          <td>[% L.date_tag('filter.item_type_matches[].reqdate', FORM.filter.item_type_matches.0.reqdate, class="wi-normal") %]</td>
+          <td>[% L.date_tag('filter.item_type_matches[].reqdate', FORM.filter.item_type_matches.0.reqdate, class="wi-date") %]</td>
         </tr>
         <tr>
           <th>[% 'Transdate Record' | $T8 %]</th>
-          <td>[% L.date_tag('filter.item_type_matches[].transdate', FORM.filter.item_type_matches.0.transdate, class="wi-normal") %]</td>
+          <td>[% L.date_tag('filter.item_type_matches[].transdate', FORM.filter.item_type_matches.0.transdate, class="wi-date") %]</td>
         </tr>
         <tr>
           <th class="caption" colspan="2">[% 'Prices & Discounts' | $T8 %]</th>
         </tr>
+        <tr>
         <th>[% 'Pricegroup' | $T8 %]</th>
         <td>[% L.select_tag('filter.item_type_matches[].pricegroup', SELF.pricegroups, default=FORM.filter.item_type_matches.0.pricegroup, title_key='pricegroup', with_empty=1, class="wi-normal") %]<br>
         </td>
@@ -98,7 +101,7 @@
       </tbody>
     </table>
 
-    <div class="col">
+    <div class="col list">
     <h3 class="caption">[% 'Has item type' | $T8 %]</h3>
     <div>
       [% FOREACH type = SELF.all_price_rule_item_types %]
@@ -107,14 +110,19 @@
     </div>
     </div>
 
-  </div><!-- /.wrapper -->
-
   [% L.hidden_tag('sort_by', FORM.sort_by) %]
   [% L.hidden_tag('sort_dir', FORM.sort_dir) %]
   [% L.hidden_tag('page', FORM.page) %]
 
-  <div class="buttons"> [% L.button_tag("\$('#search_form').resetForm()", LxERP.t8("Reset Filter")) %]</div>
+  <div class="buttons"> [% L.button_tag("\$('#search_form').resetForm()", LxERP.t8("Reset Filter"), class='neutral', type='reset') %]</div>
+
+
+
+
+  </div><!-- /.filter-toggle-panel -->
+
 
 </div><!-- /.filter_toggle -->
 
+</div>
 </form>
