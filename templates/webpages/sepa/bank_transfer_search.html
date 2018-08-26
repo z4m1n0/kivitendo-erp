@@ -5,25 +5,25 @@
 <h1>[% title %]</h1>
 
  <form action="sepa.pl" method="post" id="form">
-  <p>
+
    <table>
     <tr>
-     <td align="right">[%- IF vc == 'vendor' %][% 'Vendor' | $T8 %][%- ELSE %][%- LxERP.t8('Customer') %][%- END %]</td>
-     <td><input name="f_vc" class="initial_focus"></td>
+     <td>[%- IF vc == 'vendor' %][% 'Vendor' | $T8 %][%- ELSE %][%- LxERP.t8('Customer') %][%- END %]</td>
+     <td><input type="text" name="f_vc" class="initial_focus"></td>
     </tr>
 
     <tr>
-     <td align="right">[% 'Invoice number' | $T8 %]</td>
-     <td><input name="f_invnumber"></td>
+     <td>[% 'Invoice number' | $T8 %]</td>
+     <td><input type="text" name="f_invnumber"></td>
     </tr>
 
     <tr>
-     <td align="right">[% LxERP.t8("SEPA message ID") %]</td>
+     <td>[% LxERP.t8("SEPA message ID") %]</td>
      <td>[% L.input_tag("f_message_id") %]</td>
     </tr>
 
     <tr>
-     <td align="right">[% 'Export date from' | $T8 %]</td>
+     <td>[% 'Export date from' | $T8 %]</td>
      <td>
        [% L.date_tag('f_export_date_from') %]
        [% 'to (time)' | $T8 %]
@@ -32,7 +32,7 @@
     </tr>
 
     <tr>
-     <td align="right">[% 'Requested execution date from' | $T8 %]</td>
+     <td>[% 'Requested execution date from' | $T8 %]</td>
      <td>
        [% L.date_tag('f_requested_execution_date_from') %]
        [% 'to (time)' | $T8 %]
@@ -41,7 +41,7 @@
     </tr>
 
     <tr>
-     <td align="right">[% 'Execution date from' | $T8 %]</td>
+     <td>[% 'Execution date from' | $T8 %]</td>
      <td>
        [% L.date_tag('f_execution_date_from') %]
        [% 'to (time)' | $T8 %]
@@ -50,8 +50,8 @@
     </tr>
 
     <tr>
-     <td align="right" valign="top">[% 'Include in Report' | $T8 %]</td>
-     <td valign="top">
+     <td>[% 'Include in Report' | $T8 %]</td>
+     <td>
       <table>
        <tr>
         <td>
@@ -81,7 +81,7 @@
     </tr>
 
    </table>
-  </p>
+
 
    <input type="hidden" name="vc" value="[%- HTML.escape(vc) %]">
  </form>

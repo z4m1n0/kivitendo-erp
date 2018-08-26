@@ -1,0 +1,285 @@
+// ----------------------------------------------------------------------------
+//
+// SCAFFOLDING (PAGE & PAGE COMPONENTS)
+//
+// ----------------------------------------------------------------------------
+// DESCRIPTION:
+// All main components of a Kivitendo page are defined here
+// but not in all details. See therefore in the mentioned specialized
+// LESS-files
+//
+//
+// CONTENTS:
+// - BODY
+// - FRAME-HEADER
+// - MENUV3
+// - LAYOUT-ACTIONBAR
+// - CONTENT
+// - COLUMNS
+//   - SINGLE COLUMN
+// - WRAPPER POSITIONS-TABLE (FULL-WIDTH)
+// - DIVERS COMPONENTS (General Wrapper)
+// - MEDIA: Print
+// ----------------------------------------------------------------------------
+
+
+
+
+// --------------------------------------
+// BODY
+// --------------------------------------
+
+body {
+  margin: 0 ;
+  background-color: #efefef;
+  color: #000000;
+  font-family: @font-family-sans-serif;
+  font-size: @font-size-base ;
+
+
+
+
+  // --------------------------------------
+  // Frame-Header
+  // --------------------------------------
+
+  // Quicksearch, User, Client, Logout
+  // see also frame-header.less
+  #frame-header{
+    position: fixed;
+    top: 0;
+    z-index: @zindex-dashboard;
+  }
+
+
+
+
+
+  // --------------------------------------
+  // MENUV3
+  // --------------------------------------
+
+  // see also menu.less
+  #menuv3  {
+    z-index: @zindex-navbar;
+    position: fixed;
+    top: 28px ;
+    width: 100%;
+    height: 32px;
+  }
+
+
+
+
+
+  // --------------------------------------
+  // LAYOUT-ACTIONBAR
+  // --------------------------------------
+
+  // see also menu_actionbar.less
+  .layout-actionbar  {
+    display: block;
+    z-index: @zindex-actionbar;
+    position: fixed;
+    width: auto;
+    float: right !important;
+    top: 68px ;
+    left: auto ;
+    right: 0.2em ;
+    margin: 0 0.4em 0 0;
+    padding: 0;
+    background: none;
+
+    & ~ div:first {
+      padding-top: 25px;
+    }
+
+    & > div + div {
+      margin-left: 2px;
+    }
+
+  }
+
+
+
+
+  // --------------------------------------
+  // CONTENT
+  // --------------------------------------
+  #content {
+    top: 104px;
+    position: absolute;
+    overflow: hidden;
+    display: block;
+    width: 100%;
+    background-color: #fff;
+  }
+
+
+
+
+  // --------------------------------------
+  // Columns
+  // --------------------------------------
+
+
+  // --------------
+  // Container with Columns (including clear-break)
+  //
+
+  .wrapper,
+  .cols-no-padding{
+    clear: both;
+    overflow: hidden;
+    display: block;
+    width: 100%;
+
+    // --------------
+    // Single Column (DIV or TABLE)
+    //
+
+    .col,
+    .col-left,
+    .col-right{
+      display: block;
+      overflow: hidden;
+      p { font-size: 10pt; }
+    }
+    .col,
+    .col-left,
+    .tbl-horizontal{
+      float: left;
+      margin-right: 1.8em;
+    }
+    .col-right{
+      float: right;
+      margin-left: 2.0em;
+    }
+    // Centered Column
+    &.center{
+      margin: 0 auto;
+      display: table;
+      width: auto;
+    }
+
+    // PENDENT: anschauen
+    &.width-moderate{
+      width: auto;
+    }
+
+  }
+  // /.cols
+
+  // columns-container with padding
+//   .cols {
+//     margin: @contentbox-margin ;
+//
+//     &.test .col {
+//       border: 1px #6CF solid;
+//     }
+//   }
+
+
+
+
+  // --------------------------------------
+  // Single Column
+  // --------------------------------------
+
+  // only for seldom exceptions
+  // PENDENT: genauer anschauen
+  .col{
+    display: block;
+    overflow: hidden;
+    float: left;
+    margin-right: 3.0em;
+
+    &.test { }
+
+    div label {
+      font-size: 10pt;
+      line-height: 12.6pt;
+    }
+  }
+
+
+
+
+
+  // --------------------------------------
+  // WRAPPER POSITIONS-TABLE (FULL-WIDTH)
+  // --------------------------------------
+  // Special Container with Full-Width-Table (Positions) and Show/Hide-Buttons
+  .fullwidth {
+    width:   100% ;
+    padding: 0 0 1.0em 0 ;
+    margin:  0 0 0 0;
+
+    // Use this Selector on the same Level for Show/Hide Details-Buttons
+    // Edit these Buttons in tables.less
+    // PENDENT: vielleicht anders loesen
+    &.positions{ }
+  }
+
+
+
+  // --------------------------------------
+  // DIVERS COMPONENTS
+  // --------------------------------------
+
+  //  Um Tabellen auf gleiche Breite (100%) zu setzen
+  //  Im HTML-Element kann beispielsweise das Attribut 'style="width:60em;"' gesetzt sein
+  //  Die Tabellen muessen das style-Attribut 'style="width:100%;"' enthalten,
+  //  um gleichmaessig ueber den Wrapper gespannt zu sein.
+  //  PENDENT: braucht es eventuell nicht
+  .wrapper{
+
+    .col,
+    .col-left {
+      float: left;
+    }
+    .col-right {
+      float: right;
+      padding-right: 0 ;
+      padding-left: 1.0em ;
+    }
+
+  }
+
+
+  //  zentrierte Elemente
+  // PENDENT: braucht es das?
+  div.center{
+      margin: 0 auto;
+      display: table;
+      width: auto;
+  }
+
+
+}
+// /body
+
+
+
+
+
+
+// --------------------------------------
+// MEDIA: Print
+// --------------------------------------
+
+// PENDENT: Druckversion erstellen
+// PENDENT: noch erweitern
+
+@media print {
+  #menuv3,
+  #html-menu,
+  #frame-header,
+  #main_menu_div,
+  #js-header {
+    display: none;
+  }
+  #content.html-menu { margin-left: 0; }
+}
+
+

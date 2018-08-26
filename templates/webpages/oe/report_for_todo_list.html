@@ -1,19 +1,20 @@
-[%- USE T8 %]
-[% USE HTML %][% USE LxERP %]
+[% USE T8 %]
+[% USE HTML %]
+[% USE LxERP %]
 <h1>[% 'Overdue sales quotations and requests for quotations' | $T8 %]</h1>
 
  <table width="100%">
   <tr>
-   <td class="listheading">[% 'Date' | $T8 %]</td>
-   <td class="listheading">[% 'Valid until' | $T8 %]</td>
-   <td class="listheading">[% 'Sales quotation' | $T8 %] / [% 'Request quotation' | $T8 %]</td>
-   <td class="listheading">[% 'Customer' | $T8 %] / [% 'Vendor' | $T8 %]</td>
-   <td class="listheading">[% 'Transaction description' | $T8 %]</td>
-   <td class="listheading">[% 'Amount' | $T8 %]</td>
-   <td class="listheading">[% 'Employee' | $T8 %]</td>
+   <td>[% 'Date' | $T8 %]</td>
+   <td>[% 'Valid until' | $T8 %]</td>
+   <td>[% 'Sales quotation' | $T8 %] / [% 'Request quotation' | $T8 %]</td>
+   <td>[% 'Customer' | $T8 %] / [% 'Vendor' | $T8 %]</td>
+   <td>[% 'Transaction description' | $T8 %]</td>
+   <td>[% 'Amount' | $T8 %]</td>
+   <td>[% 'Employee' | $T8 %]</td>
   </tr>
 
-  [%- FOREACH row = QUOTATIONS %]
+  [% FOREACH row = QUOTATIONS %]
   <tr class="listrow[% loop.count % 2 %]">
    <td>[% HTML.escape(row.transdate) %]</td>
    <td>[% HTML.escape(row.reqdate) %]</td>
@@ -38,5 +39,5 @@
    <td>[% HTML.escape(LxERP.format_amount(row.amount, 2)) %]</td>
    <td>[% HTML.escape(row.employee) %]</td>
   </tr>
-  [%- END %]
+  [% END %]
  </table>

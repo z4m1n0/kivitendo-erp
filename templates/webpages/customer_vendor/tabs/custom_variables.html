@@ -1,20 +1,21 @@
 [%- USE HTML %]
 
 <div id="custom_variables">
-  <p>
-    <table>
-      [% FOREACH var = SELF.cv.cvars_by_config %]
+  <div class="wrapper">
+    <table class="tbl-horizontal">
+      <tbody>
+        [% FOREACH var = SELF.cv.cvars_by_config %]
         <tr>
-          <th align="right" valign="top" nowrap>[% var.config.description | html %]</th>
-
-          <td valign="top">
+          <th>[% var.config.description | html %]</th>
+          <td>
             [% INCLUDE 'common/render_cvar_input.html'
                         cvar_name_prefix = 'cv_cvars.'
                         var_name = ''
             %]
           </td>
         </tr>
-      [% END %]
+        [% END %]
+      </tbody>
     </table>
-  </p>
+  </div>
 </div>

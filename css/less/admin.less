@@ -1,0 +1,87 @@
+// ----------------------------------------------------------------------------
+//
+// ADMIN-Section
+//
+// ----------------------------------------------------------------------------
+// DESCRIPTION:
+//
+//
+//
+// CONTENTS:
+// -
+// -
+// -
+// -
+// ----------------------------------------------------------------------------
+
+
+// login and admin
+// PENDENT: entfernen?!?!?!
+a.no-underlined-links,
+a.no-underlined-links:visited,
+a.no-underlined-links:hover {
+  text-decoration: none !important;
+  background-color:transparent !important;
+  border:none;
+}
+a.no-underlined-links:hover {
+  background: none;
+}
+
+
+
+
+// Admin section: the menu itself doesn't occupy space. So make room
+// at the top of the div covering the whole admin area.
+body div.admin {
+  margin: 0 ;
+
+  h1 {
+    background-color: #fe5f14 !important;
+    color: #ffffff;
+    top: 0px ;
+    position: fixed;
+    width: 100% ;
+    padding: 0.1em 0.5em 0.3em 0.6em ;
+  }
+
+  .tabwidget {
+    top: 35px ;
+    padding: 1.8em 0 0 0 !important;
+    .ui-tabs-panel {
+      padding: 2.0em 1.0em 1.0em 1.0em ;
+    }
+  }
+  form{
+    display: block ;
+    margin-top: 1px ;
+  }
+  &> form {
+    padding-top: 3.8em ;
+  }
+  .wrapper {
+    margin-top: 4.0em ;
+  }
+  
+  .message{
+    &_error,
+    &_hint,
+    &_info,
+    &_warning,
+    &_ok{
+      margin-top: 70px ;
+    
+    }
+  }
+  
+  
+  
+}
+
+
+
+
+
+
+
+

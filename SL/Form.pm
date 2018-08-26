@@ -422,13 +422,18 @@ sub header {
 
   # standard css for all
   # this should gradually move to the layouts that need it
+#  $layout->use_stylesheet("$_.css") for qw(
+#    common main menu list_accounts jquery.autocomplete
+#    jquery.multiselect2side
+#    ui-lightness/jquery-ui
+#    jquery-ui.custom
+#    tooltipster themes/tooltipster-light
+#  );
+  # Use only style.css which is compiled from the less-files in /css/less/
   $layout->use_stylesheet("$_.css") for qw(
-    common main menu list_accounts jquery.autocomplete
-    jquery.multiselect2side
-    ui-lightness/jquery-ui
-    jquery-ui.custom
-    tooltipster themes/tooltipster-light
+    style
   );
+
 
   $layout->use_javascript("$_.js") for (qw(
     jquery jquery-ui jquery.cookie jquery.checkall jquery.download
@@ -465,7 +470,7 @@ sub header {
 
   # output
   print $self->create_http_response(content_type => 'text/html', charset => 'UTF-8');
-  print $doctypes{$params{doctype} || 'transitional'}, $/;
+  print $doctypes{$params{doctype} || 'html5'}, $/;
   print <<EOT;
 <html>
  <head>

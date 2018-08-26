@@ -18,21 +18,21 @@
   <input type="hidden" name="input_body" value="[% HTML.escape(input_body) %]">
   <input type="hidden" name="input_attachment" value="[% HTML.escape(input_attachment) %]">
 
-  <table width="100%">
+  <table class="tbl-horizontal">
+    <tbody>
    <tr>
-    <td valign="top">[% 'Subject:' | $T8 %]</td>
-    <td valign="top"><input id="email_subject" name="email_subject" size="40" value="[% HTML.escape(email_subject) %]"></td>
+    <th>[% 'Subject:' | $T8 %]</th>
+    <td><input type="text" id="email_subject" name="email_subject" size="40" value="[% HTML.escape(email_subject) %]"></td>
    </tr>
-
    <tr>
-    <td valign="top">[% 'Body:' | $T8 %]</td>
-    <td valign="top"><textarea id="email_body" name="email_body" rows="20" cols="70" wrap="soft">[% HTML.escape(email_body) %]</textarea></td>
+    <th>[% 'Body:' | $T8 %]</th>
+    <td><textarea id="email_body" name="email_body" rows="20" cols="70" wrap="soft">[% HTML.escape(email_body) %]</textarea></td>
    </tr>
-
    <tr>
-    <td valign="top">[% 'Attach PDF:' | $T8 %]</td>
-    <td valign="top"><input id="email_attachment" type="checkbox" name="email_attachment" value="1" [% IF email_attachment %]checked[% END %]></td>
+    <th>[% 'Attach PDF:' | $T8 %]</th>
+    <td><input id="email_attachment" type="checkbox" name="email_attachment" value="1"[% IF email_attachment %checked[% END %]></td>
    </tr>
+   </tbody>
   </table>
 
   <button type="button" onclick="email_updated()">[% 'Save and close' | $T8 %]</button>

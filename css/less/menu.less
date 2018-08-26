@@ -1,0 +1,425 @@
+// ----------------------------------------------------------------------------
+//
+// MENU (V3) and HTML MENU
+//
+// ----------------------------------------------------------------------------
+// DESCRIPTION:
+//
+//
+//
+// CONTENTS:
+// - MENUV3
+// - - List-Element general
+// - - - Links & Inbound Pseudo Link (DIV)
+// - - Items with Sub Items
+// - - List 1st Level (horizontal)
+// - - - List 2nd and 3rd Level (Vertical)
+// - - - List 2nd Level (Vertical)
+// - - - - List 3rd Level (Vertical)
+//
+// - HTML-MENU
+// - HTML-MENU (Overrides)
+// ----------------------------------------------------------------------------
+
+
+
+
+// --------------------------------------
+// MENUV3
+// --------------------------------------
+
+
+#menuv3 {
+  // Main-Properties of this element in File SCAFFOLDING.LESS
+  background-color: @menu_link_bg_level1 ;
+
+
+
+  // --------------
+  // List-Element general
+  //
+
+  li {
+    display: block;
+    position: relative;
+    float: none;
+    font-weight: normal !important ;
+    font-size: @font-size-smaller;
+    line-height: 96%;
+    white-space: nowrap;
+    border: 0;
+    padding: 0;
+    margin: 0;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+
+    // --------------
+    // Links & Inbound Pseudo Link (DIV)
+    //
+    a,
+    a:visited,
+    div.x,
+    div.x:visited {
+      display: block;
+      color: @menu_link;
+      text-decoration: none;
+      //padding-right: 0.6em;
+    }
+
+  } //  /li (List-Element general)
+
+
+
+
+  // --------------
+  // List 1st Level (horizontal)
+  //
+
+  & > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    float: left;
+
+
+    & > li{
+      display: block;
+      height: 17px;
+      padding: 9px 0.9em 6px 0.9em;
+      background-color: @menu_link_bg_level1 ;
+      vertical-align: middle;
+
+      &:hover {
+        background-color: @menu_link_bg_level1_hover;
+
+        // Display Menu 2nd level
+        > ul {
+          display: block;
+          position: absolute;
+        }
+      }
+
+
+
+      // --------------
+      // List 2nd and 3rd Level (Vertical)
+      //
+
+      ul {
+        position: relative;
+        display: none;
+        padding: 0 2em 2em 2em;
+        margin: 0 -2em -2em -2.9em;
+
+
+        li{
+          border-bottom: 1px #777777 solid ;
+          padding: 0.45em 0.6em 0.58em 0.8em ;
+        }
+      }
+
+
+      // --------------
+      /* List 2nd Level (Vertical) */
+      //
+      & > ul {
+        top: 32px;
+
+        & > li {
+          background-color: @menu_link_bg_level2 ;
+
+          //
+          // Items with Sub Items
+          //
+          div.x {
+            background: no-repeat right url("../image/menu-arrow-to-right-5.png");
+          }
+
+          //
+          // List-Item Hover
+          //
+          &:hover {
+            color: @menu_link_hover;
+            background-color: @menu_link_bg_level2_hover;
+
+            // Display Menu 3rd level
+            > ul {
+              display: block;
+              position: absolute;
+            }
+          }
+
+
+          // --------------
+          // List 3rd Level (Vertical)
+          //
+
+          > ul {
+            top: 0;
+            left: 99%;
+            padding: 2em;
+            margin: -2em;
+            list-style: none;
+
+            > li {
+              background-color: @menu_link_bg_level3 ;
+              border-left: 0.2em solid @menu_link_bg;
+
+              &:hover { background-color: @menu_link_bg_level3_hover }
+             }
+          }
+
+        }
+
+
+
+      } // /List 2nd Level (Vertical)
+
+    } //  /> li
+  } //  /ul
+}
+//  /#menuv3
+
+
+
+
+
+
+
+
+
+
+
+
+
+// --------------------
+// HTML-MENU
+// --------------------
+
+
+
+div.layout-split-right {
+  margin-left: 190px;
+}
+div.layout-split-right.folded {
+  margin-left: 40px
+}
+
+
+
+
+#html-menu {
+  position: fixed;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 95%;
+  transition:     margin-left 0.2s, width 0.2s;
+  -moz-transition:  margin-left 0.2s, width 0.2s;
+  -webkit-transition: margin-left 0.2s, width 0.2s;
+  -o-transition:    margin-left 0.2s, width 0.2s;
+  float:left;
+  width: 183px;
+  font-size: @font-size-small;
+  margin-top: 10px;
+
+
+  //  PENDENT: noch noetig, oder wird das via JS gesetzt?
+  &.folded {
+    width: 32px;
+
+    &:hover {
+      width: 183px;
+    }
+    &+ div.layout-split-right.folded {
+      margin-left: 190px ;
+    }
+  }
+
+
+
+
+
+//  types of lines: m sm i (menu submenu item)
+//  each line is a mi (menuitem)
+//  - and has one mii (menu-item-icon)
+//  - which is ms (menu-spacer)
+//  - and one mic (menu-item-chunk)
+//  - indenting is done with the levels s0, s1, s2
+
+  //  Menu
+  div.m {
+    height: 24px ;
+
+    span.ms {
+      float: left;
+      width: 32px
+    }
+    &:hover {
+      //color:blue;
+      background-color: #d1d1d1;
+      cursor: pointer;
+    }
+  }
+
+  //  Submenu
+  div.sm {
+    font-weight: bold;
+
+    span.ms {
+      float: left;
+      width: 24px;
+      background: url("../image/unterpunkt.png");
+    }
+  }
+
+  //  Item
+  div.i {
+    span.ms {
+      float: left;
+      width: 24px;
+      margin-bottom: 4px;
+    }
+    &:hover {
+      //color:blue;
+      background-color: #d1d1d1;
+      cursor: pointer;
+    }
+  }
+
+
+  //  Menu-Item
+  div.mi {
+    margin-top: 4px;
+    margin-bottom: 3px;
+    white-space: nowrap;
+    clear:both;
+    position:relative;
+  }
+
+
+  //  Menu-Item-Chunk
+  span.mic {
+    white-space: normal;
+    display: inline-block;
+    vertical-align: top;
+    line-height: 1.2;
+  }
+
+  //  Indention
+  div.s0 { padding-left: 2px ; }
+  div.s1 { padding-left: 8px ; }
+  div.s2 { padding-left: 22px ; }
+
+
+  img { vertical-align: top; border: 0; }
+
+  a {
+    vertical-align: top ;
+
+    .ml {
+      span.mic { width: 145px } //  fix deep indents
+    }
+  }
+
+} //  /#html-menu
+
+
+
+//  PENDENT: ???
+li.sub {
+  position: relative;
+  left: 0.2em;
+  top: 0px;
+  background-color: #FFFFFF;
+}
+
+
+
+
+
+// --------------------------------------
+// HTML-MENU (Overrides)
+// --------------------------------------
+
+#layout-split-left {
+  width: 180px ;
+  margin-top: 20px ;
+  padding: 0 0 0 0 ;
+  height: 100% ;
+  overflow: hidden;
+  display: block ;
+  
+  #html-menu {
+    // Every menu item
+    .mi {
+      a.ml {
+        width: 180px !important;
+        // Icon
+        .mii {
+          display: none;
+        }
+        .mic {
+          width: 180px !important;
+          display: block;
+        }
+      }
+      // First level menu item
+      &.s0 {
+        border-top: 1px #888 solid ;
+        padding: 0.5em 0 1.0em 0.7em !important;
+        display: table-cell;
+        vertical-align: middle;
+        letter-spacing: 1.4pt;
+      }
+      &.s0 a.ml .mic {
+        font-size: 120%;
+      }
+      &.s1,
+      &.s2 {
+        padding-top: 0.4em ;
+        padding-bottom: 0.2em ;
+      }
+      &.s2{
+        padding-left: 32px ;
+      }
+      &.sm .ml .mic{
+        font-style: normal;
+        font-weight: normal;
+        display: table-cell;
+        vertical-align: middle;
+        &:hover{
+          color: #000000 ;
+        }
+        &:after{
+          content: " ▼" ;
+          color: #808080 ;
+          font-size: 80% ;
+        }
+      }
+    }
+  } 
+}
+
+
+#layout-split-right {
+  margin-left: 180px ;
+  #content h1 {
+    top: 28px ;
+  }
+  #content {
+    top: 70px ;
+  }
+  .layout-actionbar {
+    top: 36px;
+  }
+}
+
+
+
+
+
+
+

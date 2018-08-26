@@ -1,30 +1,41 @@
-[%- USE T8 %][%- USE HTML %][%- USE L %][%- USE LxERP %]
+[% USE T8 %]
+[% USE HTML %]
+[% USE L %]
+[% USE LxERP %]
 
 <form method="post" id="multi_items_form" method="POST">
 
-<table id='multi_items_filter_table'>
-  <tr>
-    <th>[%- LxERP.t8("Description") %]/[%- LxERP.t8("Partnumber") %]:</th>
-    <td>[%- L.input_tag('multi_items.filter.all:substr:multi::ilike', '') %]</td>
-    <th>[%- LxERP.t8("Partsgroup") %]</th>
-    <td>[%- L.select_tag('multi_items.filter.partsgroup_id', all_partsgroups, title_key='displayable_name', value_key='id', with_empty=1) %]</td>
-  <tr>
-</table>
+<div class="select-item">
+  <table id='multi_items_filter_table' class="tbl-horizontal">
+    <tr>
+      <th>
+        <span class="label above">[% LxERP.t8("Description") %]/[% LxERP.t8("Partnumber") %]:</span><br>
+        [% L.input_tag('multi_items.filter.all:substr:multi::ilike', '', class='wi-mediumsmall') %]
+      </th>
+      <th>
+        <span class="label above">[% LxERP.t8("Partsgroup") %]:</span><br>
+        [% L.select_tag('multi_items.filter.partsgroup_id', all_partsgroups, title_key='displayable_name', value_key='id', with_empty=1, class='wi-mediumsmall') %]
+      </th>
+    <tr>
+  </table>
+</div>
 
-[% L.button_tag('update_result()', LxERP.t8('Filter')) %]
-[% L.button_tag('$("#multi_items_form").resetForm()', LxERP.t8('Reset')) %]
+<div class="buttons">
+  [% L.button_tag('update_result()', LxERP.t8('Filter'), class='neutral') %]
+  [% L.button_tag('$("#multi_items_form").resetForm()', LxERP.t8('Reset'), class='neutral') %]
+</div>
 
-<hr>
-<div id='multi_items_result'></div>
-<hr>
+<div id='multi_items_result' class="wrapper"></div>
 
-[% L.button_tag('add_multi_items()', LxERP.t8('Continue'), id='continue_button') %]
-<a href="#" onclick="kivi.Order.close_multi_items_dialog();">[%- LxERP.t8("Cancel") %]</a>
+<div class="buttons">
+  [% L.button_tag('add_multi_items()', LxERP.t8('Continue'), id='continue_button', class="button") %]
+  <a href="#" onclick="kivi.Order.close_multi_items_dialog();" class="button neutral">[% LxERP.t8("Cancel") %]</a>
+</div>
 
 <script type='text/javascript'>
 function update_result() {
   var data = $('#multi_items_form').serializeArray();
-  data.push({ name: 'type', value: '[%- FORM.type %]' });
+  data.push({ name: 'type', value: '[% FORM.type %]' });
   $.ajax({
     url: 'controller.pl?action=Order/multi_items_update_result',
     data: data,
@@ -67,9 +78,9 @@ function add_multi_items() {
 
   disable_continue();
 
-  var data = $('#[%- FORM.callback_data_id %]').serializeArray();
+  var data = $('#[% FORM.callback_data_id %]').serializeArray();
   data = data.concat($('#multi_items_form').serializeArray());
-  data.push({ name: 'action', value: '[%- FORM.callback %]' });
+  data.push({ name: 'action', value: '[% FORM.callback %]' });
   $.post("controller.pl", data, kivi.eval_json_result);
 }
 

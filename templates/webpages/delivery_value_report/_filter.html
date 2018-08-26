@@ -1,101 +1,112 @@
-[%- USE T8 %]
-[%- USE L %]
-[%- USE LxERP %]
-[%- USE HTML %]
-<form action='controller.pl' method='post' id='filter_form'>
-<div class='filter_toggle'>
-<a href='#' onClick='javascript:$(".filter_toggle").toggle()'>[% 'Show Filter' | $T8 %]</a>
-  [% SELF.filter_summary | html %]
+[% USE T8 %]
+[% USE L %]
+[% USE LxERP %]
+[% USE HTML %]
+
+<form action="controller.pl" method="post" id="filter_form">
+<div class="wrapper">
+
+<div class="filter_toggle">
+  <a href="#" onClick='javascript:$(".filter_toggle").toggle()' class="button toggle off neutral">[% 'Show Filter' | $T8 %]</a>
+    [% SELF.filter_summary | html %]
 </div>
-<div class='filter_toggle' style='display:none'>
-<a href='#' onClick='javascript:$(".filter_toggle").toggle()'>[% 'Hide Filter' | $T8 %]</a>
- <table id='filter_table'>
+
+<div class="filter_toggle" style="display:none">
+<a href="#" onClick='javascript:$(".filter_toggle").toggle()' class="button toggle on neutral with-panel">[% 'Hide Filter' | $T8 %]</a>
+<div class="filter-toggle-panel">
+
+ <table id="filter_table" class="tbl-horizontal">
   <tr>
-   <th align="right">[% 'Number' | $T8 %]</th>
-   <td>[% L.input_tag('filter.order.ordnumber:substr::ilike', filter.order.ordnumber_substr__ilike, size = 20) %]</td>
+   <th>[% 'Number' | $T8 %]</th>
+   <td>[% L.input_tag('filter.order.ordnumber:substr::ilike', filter.order.ordnumber_substr__ilike, class='wi-lightwide') %]</td>
   </tr>
   <tr>
-   <th align="right">[% 'Document Project Number' | $T8 %]</th>
-   <td>[% L.input_tag('filter.order.globalproject.projectnumber:substr::ilike', filter.order.globalproject.projectnumber_substr__ilike, size = 20) %]</td>
+   <th>[% 'Document Project Number' | $T8 %]</th>
+   <td>[% L.input_tag('filter.order.globalproject.projectnumber:substr::ilike', filter.order.globalproject.projectnumber_substr__ilike, class='wi-lightwide') %]</td>
   </tr>
   <tr>
-   <th align="right">[% 'Part Number' | $T8 %]</th>
-   <td>[% L.input_tag('filter.part.partnumber:substr::ilike', filter.part.partnumber_substr__ilike, size = 20) %]</td>
+   <th>[% 'Part Number' | $T8 %]</th>
+   <td>[% L.input_tag('filter.part.partnumber:substr::ilike', filter.part.partnumber_substr__ilike, class='wi-lightwide') %]</td>
   </tr>
   <tr>
-   <th align="right">[% 'Part Description' | $T8 %]</th>
-   <td>[% L.input_tag('filter.description:substr::ilike', filter.description_substr__ilike, size = 20) %]</td>
+   <th>[% 'Part Description' | $T8 %]</th>
+   <td>[% L.input_tag('filter.description:substr::ilike', filter.description_substr__ilike, class='wi-lightwide') %]</td>
   </tr>
   <tr>
-   <th align="right">[% 'Delivery Date' | $T8 %] [% 'From Date' | $T8 %]</th>
-   <td>[% L.date_tag('filter.reqdate:date::ge', filter.reqdate_date__ge) %]</td>
+   <th>[% 'Delivery Date' | $T8 %] [% 'From Date' | $T8 %]</th>
+   <td><span class="wi-date">[% L.date_tag('filter.reqdate:date::ge', filter.reqdate_date__ge) %]</span></td>
   </tr>
   <tr>
-   <th align="right">[% 'Delivery Date' | $T8 %] [% 'To Date' | $T8 %]</th>
-   <td>[% L.date_tag('filter.reqdate:date::le', filter.reqdate_date__le) %]</td>
+   <th>[% 'Delivery Date' | $T8 %] [% 'To Date' | $T8 %]</th>
+   <td><span class="wi-date">[% L.date_tag('filter.reqdate:date::le', filter.reqdate_date__le) %]</span></td>
   </tr>
   <tr>
-   <th align="right">[% 'Quantity' | $T8 %]</th>
-   <td>[% L.input_tag('filter.qty:number', filter.qty_number, size = 20) %]</td>
+   <th>[% 'Quantity' | $T8 %]</th>
+   <td>[% L.input_tag('filter.qty:number', filter.qty_number, class='wi-lightwide') %]</td>
   </tr>
 [% IF SELF.vc == 'customer' %]
     <tr>
-     <th align="right">[% 'Customer' | $T8 %]</th>
-     <td>[% L.input_tag('filter.order.customer.name:substr::ilike', filter.order.customer.name_substr__ilike, size = 20) %]</td>
+     <th>[% 'Customer' | $T8 %]</th>
+     <td>[% L.input_tag('filter.order.customer.name:substr::ilike', filter.order.customer.name_substr__ilike, class='wi-lightwide') %]</td>
    </tr>
    <tr>
-    <th align="right">[% 'Customer Number' | $T8 %]</th>
-    <td>[% L.input_tag('filter.order.customer.customernumber:substr::ilike', filter.order.customer.customernumber_substr__ilike, size = 20) %]</td>
+    <th>[% 'Customer Number' | $T8 %]</th>
+    <td>[% L.input_tag('filter.order.customer.customernumber:substr::ilike', filter.order.customer.customernumber_substr__ilike, class='wi-lightwide') %]</td>
    </tr>
 [% ELSE %]  <tr>
-    <th align="right">[% 'Vendor' | $T8 %]</th>
-    <td>[% L.input_tag('filter.order.vendor.name:substr::ilike', filter.order.vendor.name_substr__ilike, size = 20) %]</td>
+    <th>[% 'Vendor' | $T8 %]</th>
+    <td>[% L.input_tag('filter.order.vendor.name:substr::ilike', filter.order.vendor.name_substr__ilike, class='wi-lightwide') %]</td>
    </tr>
    <tr>
-    <th align="right">[% 'Vendor Number' | $T8 %]</th>
-    <td>[% L.input_tag('filter.order.vendor.vendornumber:substr::ilike', filter.order.vendor.vendornumber_substr__ilike, size = 20) %]</td>
+    <th>[% 'Vendor Number' | $T8 %]</th>
+    <td>[% L.input_tag('filter.order.vendor.vendornumber:substr::ilike', filter.order.vendor.vendornumber_substr__ilike, class='wi-lightwide') %]</td>
    </tr>
 [% END %]
   <tr>
-   <th align="right">[% 'Customer type' | $T8 %]</th>
+   <th>[% 'Customer type' | $T8 %]</th>
    <td>
      [% L.select_tag('filter.order.customer.business_id', SELF.all_businesses,
                      default    => filter.order.customer.business_id,
                      title_key  => 'description',
                      value_key  => 'id',
                      with_empty => 1,
-                     style      => 'width: 200px') %]
+                     class      => 'wi-lightwide') %]
    </td>
   </tr>
   <tr>
-   <th align="right">[% 'Employee' | $T8 %]</th>
+   <th>[% 'Employee' | $T8 %]</th>
    <td>
      [% L.select_tag('filter.order.employee_id', SELF.all_employees,
                      default    => filter.order.employee_id,
                      title_key  => 'name',
                      value_key  => 'id',
                      with_empty => 1,
-                     style      => 'width: 200px') %]
+                     class      => 'wi-lightwide') %]
    </td>
   </tr>
   <tr>
-   <th align="right">[% 'Type' | $T8 %]</th>
+   <th>[% 'Type' | $T8 %]</th>
    <td>
      [% L.checkbox_tag('filter.part.part_type[]', checked=filter.part.part_type_.part,     value='part',     label=LxERP.t8('Part')) %]
      [% L.checkbox_tag('filter.part.part_type[]', checked=filter.part.part_type_.service,  value='service',  label=LxERP.t8('Service')) %]
      [% L.checkbox_tag('filter.part.part_type[]', checked=filter.part.part_type_.assembly, value='assembly', label=LxERP.t8('Assembly')) %]
-     [%- IF INSTANCE_CONF.get_feature_experimental %]
+     [% IF INSTANCE_CONF.get_feature_experimental %]
        [% L.checkbox_tag('filter.part.part_type[]', checked=filter.part.part_type_.assortment, value='assortment', label=LxERP.t8('Assortment')) %]
      [% END %]
    </td>
   </tr>
  </table>
 
-[% L.hidden_tag('sort_by', FORM.sort_by) %]
-[% L.hidden_tag('sort_dir', FORM.sort_dir) %]
-[% L.hidden_tag('page', FORM.page) %]
-[% L.hidden_tag('vc', SELF.vc) %]
-[% L.button_tag('$("#filter_form").resetForm()', LxERP.t8('Reset')) %]
-</div>
 
+<div class="buttons">
+  [% L.hidden_tag('sort_by', FORM.sort_by) %]
+  [% L.hidden_tag('sort_dir', FORM.sort_dir) %]
+  [% L.hidden_tag('page', FORM.page) %]
+  [% L.hidden_tag('vc', SELF.vc) %]
+  [% L.button_tag('$("#filter_form").resetForm()', LxERP.t8('Reset')) %]
+</div>
+</div><!-- /.filter-toggle-panel -->
+</div><!-- /.filter_toggle -->
+
+</div><!-- /.wrapper -->
 </form>

@@ -1,25 +1,27 @@
-[% USE HTML %][% USE T8 %][%- USE LxERP -%]
+[% USE HTML %]
+[% USE T8 %]
+[% USE LxERP %]
 
-[%- IF INSTANCE_CONF.get_webdav %]
+[% IF INSTANCE_CONF.get_webdav %]
 <div id="ui-tabs-webdav">
-<div class="listtop">[%- 'Documents in the WebDAV repository' | $T8 %]</div>
+<div class="listtop">[% 'Documents in the WebDAV repository' | $T8 %]</div>
 
 [% IF WEBDAV && WEBDAV.size %]
  <table>
   <thead>
-   <tr class="listheading">
+   <tr>
     <th>[% 'File name' | $T8 %]</th>
     <th>[% 'WebDAV link' | $T8 %]</th>
    </tr>
   </thead>
 
   <tbody>
-[%- FOREACH file = WEBDAV %]
+[% FOREACH file = WEBDAV %]
    <tr class="listrow">
     <td>[% HTML.escape(file.name) %]</td>
     <td><a href="[% HTML.escape(file.link) %]">[% HTML.escape(file.type) %]</a></td>
    </tr>
-[%- END %]
+[% END %]
   </tbody>
  </table>
 
@@ -28,4 +30,4 @@
 [% END %]
 </div>
 
-[%- END %]
+[% END %]

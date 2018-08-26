@@ -1,16 +1,19 @@
-[%- USE L %]
-[%- USE T8 %]
-[%- USE LxERP %]
-[%- USE HTML %]
-<form action='controller.pl' method='post' id='search_form'>
-<div class='filter_toggle'>
-<a href='#' onClick='javascript:$(".filter_toggle").toggle()'>[% 'Show Filter' | $T8 %]</a>
+[% USE L %]
+[% USE T8 %]
+[% USE LxERP %]
+[% USE HTML %]
+
+<div class="wrapper"><!-- will be finished in _filter.html -->
+<form action="controller.pl" method="post" id="search_form">
+
+<div class="filter_toggle">
+<a href="#" onClick='javascript:$(".filter_toggle").toggle()' class="button toggle off neutral">[% 'Show Filter' | $T8 %]</a>
   [% SELF.filter_summary | html %]
 </div>
-<div class='filter_toggle' style='display:none'>
-<a href='#' onClick='javascript:$(".filter_toggle").toggle()'>[% 'Hide Filter' | $T8 %]</a>
-[%- PROCESS 'project/_filter.html' filter=SELF.models.filtered.laundered %]
 
+<div class="filter_toggle" style="display:none">
+<a href="#" onClick='javascript:$(".filter_toggle").toggle()' class="button toggle on neutral with-panel">[% 'Hide Filter' | $T8 %]</a>
+[% PROCESS 'project/_filter.html' filter=SELF.models.filtered.laundered %]
 [% L.hidden_tag('action', 'Project/dispatch') %]
 [% L.hidden_tag('sort_by', FORM.sort_by) %]
 [% L.hidden_tag('sort_dir', FORM.sort_dir) %]
@@ -18,4 +21,4 @@
 </div>
 
 </form>
- <hr>
+
