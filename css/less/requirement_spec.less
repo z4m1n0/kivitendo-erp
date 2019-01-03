@@ -9,32 +9,40 @@
   padding-left: 0;
   padding-right: 0;
   margin-left: 0;
+  margin-top: 0.2em ;
   margin-right: 0;
   overflow: hidden ;
-  //border: 1px red solid ; // TEST
 
   #tree-column {
     float: left;
     width: 25%;
-    //border: 1px green solid ; // TEST
-  }
+    padding: 0.3em 1.2em 2.0em 0.8em;
+    border-right: 1px #000 solid;
+    background-color: @gray-superlight;
 
+    .jstree {
+      ul li {
+        line-height: 1.8em;
+        font-size: 10pt;
+      }
+    }
+  }
   #content-column {
     float: left;
-    width: 70%;
+    width: 58em;
     padding-left: 3.0em;
-    //border: 1px blue solid ; // TEST
+    background-color: @gray-superlight;
   }
-
 }
 
 
-
-
-
-.section-empty-description {
-  color: #bbb;
+#requirement_spec_tabs{
+  #function-blocks-tab{
+    margin-top: 1.4em ;
+  }
 }
+
+.section-empty-description { color: #bbb; }
 
 /* ------------------------------------------------------------ */
 /* Special things that apply to the tree */
@@ -70,44 +78,42 @@
   .section-header{
     display: block ;
     overflow: hidden;
-    width: 70% ;
+    width: 90% ;
 
-    .section-description-heading {
-      font-weight: normal;
-    }
+    .section-description-heading { font-weight: normal; }
 
     .section-description {
       color: #000;
-      background: rgb(235, 235, 235);
-      //border: 1px solid #ccc;
       margin-bottom: 15px;
+      margin-left: 52px;
+      font-size: 90%;
+
+      div{
+        font-size: 90%;
+        span.label{  }
+      }
     }
-
-
   }
   // /.section-header
 
 
-    .function-block {
-      border-top: 1px solid #bbb;
-      //border-left: 0;
-      margin: 0.6em 0 2.2em 0 ;
-      padding: 0.8em 0 1.0em 0 ;
-      overflow: hidden;
-      display: block;
-      //background-color: yellow ;
+  .function-block {
+    border-top: 1px solid #bbb;
+    margin: 0.6em 0 0.6em 0 ;
+    padding: 0.8em 0 1.0em 0 ;
+    overflow: hidden;
+    display: block;
 
-      .function-block-content{
-        overflow: hidden ;
+    .function-block-content{
+      overflow: hidden ;
 
+      .function-block-header {
+        clear: both;
+        overflow: hidden;
 
-        .function-block-header {
-          clear: both;
-          overflow: hidden;
-
-          .function-block-number {
+        .function-block-number {
           font-weight: bold;
-          min-width: 6.0em ;
+          width: 5.0em ;
           display: block;
           float: left;
         }
@@ -115,83 +121,76 @@
         .function-block-desc {
           font-weight: normal;
           float: left;
-          width: 70%;
-          //clear: both;
+          width: 80%;
           padding-bottom: 1.0em ;
-
+          font-size: 90% ;
           p {
-          margin: 0 0 0.6em 0;
-          padding: 0 ;
+            margin: 0 0 0.6em 0;
+            padding: 0 ;
+          }
         }
+      } // /.function-block-header
 
 
-}
-
-
-
-}
-        // /.function-block-header
-
-        .function-block-properties {
-          display: block ;
-          margin: 0 0 0 6.1em;
-          padding: 0 ;
-          float: left;
-          overflow: hidden;
-          clear: both;
+      .function-block-properties {
+        display: block ;
+        margin: 0 0 0 6.1em;
+        padding: 0 ;
+        overflow: hidden;
+        clear: both;
+        font-size: 9pt;
+        span.label { width: 110px ;}
+        span.value {
+          width: 200px;
+          padding: 0 30px 0 0;
+          margin: 0;
         }
+      }
+    } // /.function-block-content
 
+    .sub-function-block-container {
+      margin: 1.8em 0 0 72px;
 
-    }
-    // /.function-block-content
-
-    .sub-function-block {
-      //background-color: #fff;
-      border-top: 1px solid #ccc;
-      margin: 1.0em 0 0.4em 0;
-      padding: 1.8em 0 1.6em 0 ;
-
-      .sub-function-block-container {
-        margin: 1.0em 0 1.6em 6.0em;
-        padding: 1.6em 0.6em 0.6em 0;
-        //border: 1px solid #ccc;
+      .sub-function-block-header{
+        border-top: 1px solid #ccc;
+        padding: 0.4em 0 0.4em 0 ;
+        font-size: 86% ;
+        letter-spacing: 0.2em;
       }
 
-      .sub-function-block-header {
-        //padding: 0.2em;
-        font-weight: normal;
-        font-size: 120% ;
-        color: #666;
-        //background: #ccc;
-        margin-top: 1.0em ;
-      }
+      .sub-function-block {
+        border-top: 1px solid #ccc;
+        margin: 0.2em 0 0.2em 0;
+        padding: 0.2em 0 0.4em 0 ;
 
-    }
-    // /.sub-function-block
-  }
-  // /.function-block
-}
-// /.section
+        .sub-function-block-content {
+          margin: 0.2em 0 0.2em 0;
+          padding: 0.2em 0.6em 0.4em 0;
+
+          .sub-function-block-header {
+            font-weight: normal;
+            font-size: 120% ;
+            color: @gray-mediumdark;
+            margin-top: 1.0em ;
+          }
+        }
+      }// /.sub-function-block
+    } // /.sub-function-block-container
+  } // /.function-block
+} // /.section
+
 
 
 
 
 .function-block-form {
-  background: rgb(235, 235, 235);
-  border: 1px solid #666;
-
-  &> div {
-    padding: 0.4em;
-  }
+  &> div { padding: 0.4em; }
 
   input.rs_input_field,
   select.rs_input_field,
   table.rs_input_field input[type=text],
   table.rs_input_field input[type=password],
-  table.rs_input_field select {
-    width: 300px;
-  }
-
+  table.rs_input_field select { }
 }
 
 
@@ -202,13 +201,13 @@
 .section.flagged .section-description,
 .function-block.flagged,
 .sub-function-block.flagged {
-  background-color: #feece3;
+  //background-color: #feece3;
 }
 
 .section.flagged .section-description > .section-description-heading,
 .function-block.flagged > .function-block-content > div > .function-block-number,
 .sub-function-block.flagged > .sub-function-block-content > div > .function-block-number {
-  background-color: #fe5f14;
+  //background-color: #fe5f14;
   color: #fff;
 }
 
@@ -231,17 +230,15 @@
   margin-top: 10px;
 }
 
-.requirement-spec-text-block > h2 {
-  margin-top: 0px;
-}
+.requirement-spec-text-block > h2 { margin-top: 0px; }
 
 .requirement-spec-text-block.flagged {
-  background-color: #feece3;
+  //background-color: #feece3;
   /* border: 1px solid #fe5f14; */
 }
 
 .requirement-spec-text-block.flagged > h2 {
-  background-color: #fe5f14;
+  //background-color: #fe5f14;
   color: #fff;
 }
 
@@ -279,3 +276,90 @@
   margin-top: 0;
   margin-bottom: 0;
 }
+
+
+.section{
+  .section-header {
+    .section-context-menu {
+      h3{
+        background-color: #000;
+        color: #000 !important ;
+        span.label { font-weight: normal;}
+      }
+      div.section-description {
+        div{
+          span.label section-description-heading {}
+        }
+      }
+      span.label { }
+    }
+    #section-list-empty{
+      border: 1px #0C42FF solid ;
+      background-color: #BBCDFF ;
+      padding: 0.6em ;
+    }
+  }
+} // /.section
+
+
+
+
+
+.function-block{
+  clear: both;
+  float: none;
+  display: block;
+  border-top: 1px #000 solid;
+  overflow: hidden;
+  margin: 0 0 1.8em 0 ;
+  width: 48em;
+
+  .function-block-content{
+
+    .function-block-header{
+      .function-block-number{
+        font-weight: bold;
+        display: inline-block;
+        float: left;
+        width: 8em ;
+      }
+      .function-block-desc{
+        display: inline-block;
+        overflow: hidden;
+        float: left;
+        width: 39.8em;
+      }
+    } // /..function-block-header
+    .function-block-properties{
+      display: block;
+      clear: left;
+      .label{ float: left;}
+      .value{float: left}
+    } // /..function-block-properties
+    .sub-function-block-container{
+      display: block;
+      margin-top: 1.0 em ;
+      .sub-function-block-header{
+
+      }
+    } // /..sub-function-block-container
+  } // /..function-block-content
+} // /.function-block
+
+
+
+
+#requirement_spec_version{
+  padding: @contentbox-padding;
+}
+
+
+//  --------------------------------------
+//  TABLES in Requirement Specs
+//  --------------------------------------
+
+div.function-block * table.tbl-horizontal td {
+  font-size: 66% !important ;
+}
+
+

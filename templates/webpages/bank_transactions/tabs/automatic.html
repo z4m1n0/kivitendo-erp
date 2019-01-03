@@ -27,7 +27,7 @@
   </thead>
   <tbody>
   [% IF !PROPOSALS.size %]
-    <td colspan="10"><p class="message_hint center">[% 'No data was found.' | $T8 %]</p></td>
+    <td colspan="10"><p class="message message_hint center">[% 'No data was found.' | $T8 %]</p></td>
   [% ELSE %]
     [% FOREACH proposal = PROPOSALS %]
       <tr>
@@ -39,7 +39,7 @@
         <td>[% proposal.transdate_as_date %]</td>
         <td>[% LxERP.format_amount(proposal.amount,2) %]</td>
         <td></td>
-        <td>[% 
+        <td>[%
             SET purpose = HTML.escape(proposal.purpose)
                 invnumber_found = '' ;
             FOREACH proposed_invoice = proposal.proposals;
@@ -52,7 +52,7 @@
               purpose.replace(invnumber_found, '<span class="invoice_number_highlight">' _ invnumber_found _ '</span>') ;
             ELSE ;
               purpose ;
-            END 
+            END
         %]</td>
         <td>[% HTML.escape(proposal.remote_name) %]</td>
         <td></td>
@@ -75,7 +75,7 @@
           <td>[% L.input_tag("memos." _ proposal.id _ "[]", "", size=20) %]</td>
         </tr>
       [% END %]
-      
+
         <tr><td style="height:10px" colspan="10"></td></tr>
       </tbody>
     [% END %]
@@ -84,7 +84,7 @@
 
 <div class="buttons">
  [% L.submit_tag('action_save_proposals', LxERP.t8('Save proposals')) %]
- [% L.button_tag('kivi.BankTransaction.show_set_all_sources_memos_dialog("#list_automatic_form [name^=\\"sources.\\"]", "#list_automatic_form [name^=\\"memos.\\"]")', LxERP.t8('Set all source and memo fields')) %]
+ [% L.button_tag('kivi.BankTransaction.show_set_all_sources_memos_dialog("#list_automatic_form [name^=\\"sources.\\"]", "#list_automatic_form [name^=\\"memos.\\"]")', LxERP.t8('Set all source and memo fields'), class='neutral') %]
 </div>
 
 </form>

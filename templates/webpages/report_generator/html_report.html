@@ -1,15 +1,15 @@
 [% USE T8 %]
 [% USE HTML %]
 
-[% IF MESSAGE %] 
-  <p class="message">[% MESSAGE %]</p>
-[% END %] 
-
 <h1>[% TITLE %]</h1>
 
-[% INCLUDE 'common/flash.html' %] 
+[% IF MESSAGE %]
+  <p class="message">[% MESSAGE %]</p>
+[% END %]
 
-[% IF TOP_INFO_TEXT %]<p>[% TOP_INFO_TEXT %]</p>[% END %] 
+[% INCLUDE 'common/flash.html' %]
+
+[% IF TOP_INFO_TEXT %]<p>[% TOP_INFO_TEXT %]</p>[% END %]
 [% RAW_TOP_INFO_TEXT %]
 
 
@@ -17,24 +17,23 @@
 [% IF DATA_PRESENT %]
   <table class="tbl-list[% IF TABLE_CLASS %] [% TABLE_CLASS %][% END %]" id="report_table_id">
     <thead>
-    [% FOREACH row = HEADER_ROWS %]
-      <tr>
-      [% FOREACH col = row %]
-        <th[% IF col.align %] class="[% HTML.escape(col.align) %]"[% END %][% IF col.colspan && col.colspan > 1 %] colspan="[% HTML.escape(col.colspan) %]"[% END %]>
-        [% IF col.raw_header_data %]
-          [% col.raw_header_data %]
-        [% ELSE %]
-          [% IF col.link %]<a class="[% col.link_class ? col.link_class : 'report-generator-header-link' %]" href="[% HTML.escape(col.link) %]">[% END %]
-          [% col.text %]
-          [% IF col.show_sort_indicator %]<img src="image/[% IF col.sort_indicator_direction %]down[% ELSE %]up[% END %].png">[% END %]
-          [% IF col.link %]</a>[% END %]
-        [% END %]
-        </th>
+      [% FOREACH row = HEADER_ROWS %]
+        <tr>
+          [% FOREACH col = row %]
+            <th[% IF col.align %] class="[% HTML.escape(col.align) %]"[% END %][% IF col.colspan && col.colspan > 1 %] colspan="[% HTML.escape(col.colspan) %]"[% END %]>
+              [% IF col.raw_header_data %]
+                [% col.raw_header_data %]
+              [% ELSE %]
+                [% IF col.link %]<a class="[% col.link_class ? col.link_class : 'report-generator-header-link' %]" href="[% HTML.escape(col.link) %]">[% END %]
+                [% col.text %]
+                [% IF col.show_sort_indicator %]<img src="image/[% IF col.sort_indicator_direction %]down[% ELSE %]up[% END %].png">[% END %]
+                [% IF col.link %]</a>[% END %]
+              [% END %]
+            </th>
+          [% END %]
+        </tr>
       [% END %]
-      </tr>
-    [% END %]
     </thead>
-
     <tbody>
     [% FOREACH row = ROWS %]
       [% IF row.IS_CONTROL %]
@@ -64,7 +63,7 @@
     </tbody>
   </table>
 [% ELSE %]
-  <p class="message_hint">[% 'No data was found.' | $T8 %]</p>
+  <p class="message message_hint">[% 'No data was found.' | $T8 %]</p>
 [% END %]
 
 [% RAW_BOTTOM_INFO_TEXT %]

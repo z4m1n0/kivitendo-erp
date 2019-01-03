@@ -12,79 +12,66 @@
   [% SET allow_invoice=0 %]
 [% END %]
 
-<div class="wrapper" style="width:100%">
 
-
-[% IF show_weight %]
-<table class="tbl-plain">
+<table class="full-width">
+  <colgroup> <col style="width:25%"><col style="width:25%"><col style="width:25%"><col style="width:25%"> </colgroup>
   <tbody>
     <tr>
-      <th> [% 'Total weight' | $T8 %] </th>
-      <td> [% LxERP.format_amount(totalweight, 3) %] [% HTML.escape(weightunit) %] </td>
-    </tr>
-  </tbody>
-</table>
-[% END %]
-
-
-[% IF is_sales %]
-<table class="tbl-plain">
-	<tbody>
-		<tr>
-			<th> [% 'Ertrag' | $T8 %] </th>
-			<td> [% LxERP.format_amount(marge_total, 2) %] 
-			<input type="hidden" name="marge_total" value="[% HTML.escape(marge_total) %]">
-			</td>
-		</tr>
-		<tr>
-			<th> [% 'Ertrag prozentual' | $T8 %]</th>
-			<td> [% LxERP.format_amount(marge_percent, 2) %] % 
-			<input type="hidden" name="marge_percent" value="[% HTML.escape(marge_percent) %]">
-			</td>
-		</tr>
-	</tbody>
-</table>
-
-[% END %]
-
-
-<div class="col">
-  [% IF taxaccounts %]
-    <input type="hidden" name="taxincluded_changed_by_user" id="taxincluded_changed_by_user" value="[% taxincluded_changed_by_user ? '1' : '0' %]">
-    <input type="checkbox" name="taxincluded" onclick="document.getElementById('taxincluded_changed_by_user').value = '1';" value="1"[% IF taxincluded %] checked[% END %]>
-    <b>[% 'Tax Included' | $T8 %]</b>
-  [% END %]
-</div>
-
-
-<table class="tbl-plain col-right">
-  <tbody>
-    [% IF NOT taxincluded %] 
-    <tr>
-      <th>[% 'Subtotal' | $T8 %]</th>
-      <td>[% LxERP.format_amount(invsubtotal, 2) %]</td>
-    </tr>
-    [% END %] 
-    [% tax %] 
-    [% IF rounding %] 
-    <tr>
-      <th>[% 'Rounding' | $T8 %]</th>
-      <td>[% LxERP.format_amount(rounding, 2) %]</td>
-    </tr>
-    [% END %] 
-    <tr>
-      <th>[% 'Total' | $T8 %]</th>
       <td>
-        [% LxERP.format_amount(invtotal, 2) %] 
-        <input type="hidden" name="oldinvtotal" value="[% HTML.escape(oldinvtotal) %]">
-        <input type="hidden" name="oldtotalpaid" value="[% HTML.escape(totalpaid) %]">
+        [% IF show_weight %]
+          <span class="label">[% 'Total weight' | $T8 %]:</span> [% LxERP.format_amount(totalweight, 3) %] [% HTML.escape(weightunit) %]
+          <input type="hidden" name="marge_total" value="[% HTML.escape(marge_total) %]">
+        [% END %]</td>
+      <td>
+        [% IF is_sales %]
+          <div class="table">
+          <div class="field">
+            <span class="label wi-small">[% 'Ertrag' | $T8 %]:</span> <span class="value">[% LxERP.format_amount(marge_total, 2) %]</span>
+          </div>
+          <div class="field">
+            <span class="label wi-small">[% 'Ertrag prozentual' | $T8 %]:</span> <span class="value">[% LxERP.format_amount(marge_percent, 2) %] %</span>
+          </div>
+          </div>
+          <input type="hidden" name="marge_percent" value="[% HTML.escape(marge_percent) %]">
+        [% END %]
+      </td>
+      <td>
+        [% IF taxaccounts %]
+          <input type="hidden" name="taxincluded_changed_by_user" id="taxincluded_changed_by_user" value="[% taxincluded_changed_by_user ? '1' : '0' %]">
+          <label for="cbck_taxincluded">[% 'Tax Included' | $T8 %]</label>
+          <input type="checkbox" name="taxincluded" id="cbck_taxincluded" onclick="document.getElementById('taxincluded_changed_by_user').value = '1';" value="1"[% IF taxincluded %] checked[% END %]>
+        [% END %]
+      </td>
+      <td class="right">
+        <table class="tbl-list full-width" style="float:left">
+          <tfoot>
+            [% IF NOT taxincluded %]
+              <tr>
+                <th>[% 'Subtotal' | $T8 %]</th>
+                <td class="numeric">[% LxERP.format_amount(invsubtotal, 2) %]</td>
+              </tr>
+            [% END %]
+            [% tax %]
+            [% IF rounding %]
+              <tr>
+                <th>[% 'Rounding' | $T8 %]</th>
+                <td class="numeric">[% LxERP.format_amount(rounding, 2) %]</td>
+              </tr>
+            [% END %]
+            <tr>
+              <th>[% 'Total' | $T8 %]</th>
+              <td class="numeric">
+                [% LxERP.format_amount(invtotal, 2) %]
+                <input type="hidden" name="oldinvtotal" value="[% HTML.escape(oldinvtotal) %]">
+                <input type="hidden" name="oldtotalpaid" value="[% HTML.escape(totalpaid) %]">
+              </td>
+            </tr>
+          </tfoot>
+        </table>
       </td>
     </tr>
   </tbody>
 </table>
-
-
-</div><!-- .wrapper -->
 
 </div><!-- .ui-tabs-panel  -->
 
@@ -118,9 +105,10 @@
  [% print_options %]
 </div>
 
-</form>
 
 <div id="shipto_dialog" class="hidden"></div>
 <div id="print_dialog" class="hidden">
  [% PROCESS 'common/_print_dialog.html' %]
 </div>
+
+</form>

@@ -1,34 +1,33 @@
 [% USE T8 %]
 [% USE HTML %]
 
-<div class="wrapper">
 <h1>
 [% IF is_customer %][% 'Customer details' | $T8 %]
 [% ELSE           %][% 'Vendor details'   | $T8 %]
 [% END %] &quot;[% HTML.escape(name) %]&quot;
 </h1>
-</div><!-- /.wrapper -->
-[% BLOCK jump_block %]
+
 [% IF SHIPTO.size || CONTACTS.size %]
-<table class="select-item float-cells-table jump-to right">
-<caption>[% 'Jump to' | $T8 %]</caption>
-<tbody>
-  <tr><td colspan="2"><a href="#billing">[% 'Billing Address' | $T8 %]</a></td></tr>
-  [% FOREACH shipto = SHIPTO %]
-    <tr>
-      <td class="cell"><a href="#shipping[% loop.count %]"> [% 'Shipping Address' | $T8 %]</a></td>
-      <td><a href="#shipping[% loop.count %]">&quot;[% HTML.escape(shipto.shiptoname) %]&quot;</a></td>
-    </tr>
-  [% END %]
-  [% FOREACH contact = CONTACTS %]
-    <tr>
-      <td><a href="#contact[% loop.count %]">[% 'Contact Person' | $T8 %] </a></td>
-      <td><a href="#contact[% loop.count %]">&quot;[% HTML.escape(contact.cp_name) %]&quot;</a></td>
-    </tr>
-  [% END %]
-</tbody>
-</table>
-[% END %]
+  [% BLOCK jump_block %]
+      <table class="select-item control-panel float-cells-table jump-to right">
+        <caption>[% 'Jump to' | $T8 %]</caption>
+        <tbody>
+          <tr><td colspan="2"><a href="#billing">[% 'Billing Address' | $T8 %]</a></td></tr>
+          [% FOREACH shipto = SHIPTO %]
+            <tr>
+              <td class="cell"><a href="#shipping[% loop.count %]"> [% 'Shipping Address' | $T8 %]</a></td>
+              <td><a href="#shipping[% loop.count %]">&quot;[% HTML.escape(shipto.shiptoname) %]&quot;</a></td>
+            </tr>
+          [% END %]
+          [% FOREACH contact = CONTACTS %]
+            <tr>
+              <td><a href="#contact[% loop.count %]">[% 'Contact Person' | $T8 %] </a></td>
+              <td><a href="#contact[% loop.count %]">&quot;[% HTML.escape(contact.cp_name) %]&quot;</a></td>
+            </tr>
+          [% END %]
+        </tbody>
+      </table>
+  [% END # BLOCK jump_block %]
 [% END %]
 
 
@@ -38,6 +37,7 @@
 
 <table class="tbl-horizontal checkered">
   <caption><a name="billing">[% 'Billing Address' | $T8 %]</a></caption>
+  <colgroup><col class="wi-small"><col class="wi-lightwide"></colgroup>
   <tbody>
     <tr>
       [% IF is_customer %]

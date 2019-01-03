@@ -5,7 +5,7 @@
 
 <div id="contacts">
 
-<div class="select-item">
+<div class="select-item control-panel">
 [% 'Select contacts' | $T8 %][%
   L.select_tag(
     'contact.cp_id',
@@ -19,7 +19,7 @@
   )%]
 </div>
 
-<div class="wrapper">  
+<div class="wrapper">
 
 <table class="tbl-horizontal">
   <caption>[% 'Personal details' | $T8 %]</caption>
@@ -51,7 +51,7 @@
       <th>[% 'Title' | $T8 %]</th>
       <td>
         [% L.select_tag('contact_cp_title_select', SELF.all_titles, with_empty = 1, onchange = '$("#contact_cp_title").val(this.value);', class="wi-wide helper") %] <br>
-        [% L.input_tag('contact.cp_title', SELF.contact.cp_title, class="wi-wide addition") %] 
+        [% L.input_tag('contact.cp_title', SELF.contact.cp_title, class="wi-wide addition") %]
       </td>
     </tr>
     <tr>
@@ -65,11 +65,11 @@
       <th>[% 'Department' | $T8 %]</th>
       <td>
         [% L.select_tag(
-          'contact_cp_abteilung_select', 
-          SELF.all_departments, 
-          default = SELF.contact.cp_abteilung,  
-          with_empty = 1, 
-          onchange = '$("#contact_cp_abteilung").val(this.value);', 
+          'contact_cp_abteilung_select',
+          SELF.all_departments,
+          default = SELF.contact.cp_abteilung,
+          with_empty = 1,
+          onchange = '$("#contact_cp_abteilung").val(this.value);',
           class='wi-wide helper'
         ) %]<br>
         [% L.input_tag('contact.cp_abteilung', SELF.contact.cp_abteilung, class="wi-wide addition") %]
@@ -98,8 +98,7 @@
     <tr>
       <th>[% 'Zip, City' | $T8 %]</th>
       <td>
-        [% L.input_tag('contact.cp_zipcode', SELF.contact.cp_zipcode, class="wi-verysmall") %]
-        [% L.input_tag('contact.cp_city', SELF.contact.cp_city, class="wi-normal", style='width:13.1em;') %]
+        [% L.input_tag('contact.cp_zipcode', SELF.contact.cp_zipcode, class="wi-verysmall") %][% L.input_tag('contact.cp_city', SELF.contact.cp_city, class="wi-wide--verysmall") %]
       </td>
     </tr>
     [% contact_cvars = SELF.contact.cvars_by_config %]
@@ -122,8 +121,6 @@
 <table class="tbl-horizontal">
   <caption>[% 'Communication' | $T8 %]</caption>
   <tbody>
-    <tr>
-    </tr>
     <tr>
       <th>[% 'E-mail' | $T8 %]</th>
       <td>[% L.input_tag('contact.cp_email', SELF.contact.cp_email, class="wi-wide") %]</td>
@@ -178,5 +175,5 @@
 </div>
 
 </div><!-- /.cols -->
-  
+
 </div><!-- /#contacts -->

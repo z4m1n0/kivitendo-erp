@@ -7,14 +7,16 @@
 <table id="makemodel_table" class="tbl-list">
   <caption>[% 'Make Model' | $T8 %]</caption>
   <thead>
-    <th class="center"><img src="image/close.png" alt="[% LxERP.t8('delete item') %]"></th>
-    <th>[% 'position'      | $T8 %]</th>
-    <th class="center"><img src="image/updown.png" alt="[% LxERP.t8('reorder item') %]"></th>
-    <th>[% 'Vendor Number' | $T8 %]</th>
-    <th>[% 'Vendor'        | $T8 %]</th>
-    <th>[% 'Model'         | $T8 %]</th>
-    <th>[% 'Last Cost'     | $T8 %]</th>
-    <th>[% 'Updated'       | $T8 %]</th>
+    <tr>
+      <th class="center"><img src="image/close.png" alt="[% LxERP.t8('delete item') %]"></th>
+      <th>[% 'position'      | $T8 %]</th>
+      <th class="center"><img src="image/updown.png" alt="[% LxERP.t8('reorder item') %]"></th>
+      <th>[% 'Vendor Number' | $T8 %]</th>
+      <th>[% 'Vendor'        | $T8 %]</th>
+      <th>[% 'Model'         | $T8 %]</th>
+      <th>[% 'Last Cost'     | $T8 %]</th>
+      <th>[% 'Updated'       | $T8 %]</th>
+  </tr>
   </thead>
   <tbody id="makemodel_rows">
     [% SET listrow = 0 %]
@@ -32,7 +34,7 @@
      <th class="right"><span class="label">[% 'Search & Add Vendor' | $T8 %]</span></th>
      <td>
         [% SET titleaddmodel=LxERP.t8('Search & Add Vendor by Name') %]
-        [% P.customer_vendor.picker('add_makemodel', '', type='vendor', class='add_makemodel_input wi-small tooltipstered tooltipster-html', title=titleaddmodel, action={commit_one='kivi.Part.add_makemodel_row'}) %]
+        [% P.customer_vendor.picker('add_makemodel', '', type='vendor', class='add_makemodel_input wi-small tooltipstered tooltipster-html', title=titleaddmodel, action={commit_one='kivi.Part.add_makemodel_row'}, size=10) %]
       </td>
      <td>[% L.button_tag('kivi.Part.add_makemodel_row()', LxERP.t8('Add')) %]</td>
      <td></td>

@@ -6,14 +6,16 @@
 <table id="customerprice_table" class="tbl-list wi-moderate">
   <caption>[% 'Customer prices' | $T8 %]</caption>
   <thead>
-    <th class="center"><img src="image/close.png" alt="[% LxERP.t8('delete item') %]"></th>
-    <th>[% 'position'             | $T8 %]</th>
-    <th class="center"><img src="image/updown.png" alt="[% LxERP.t8('reorder item') %]"></th>
-    <th>[% 'Customer Number'      | $T8 %]</th>
-    <th>[% 'Customer'             | $T8 %]</th>
-    <th>[% 'Customer Part Number' | $T8 %]</th>
-    <th>[% 'Customer Price'       | $T8 %]</th>
-    <th>[% 'Updated'              | $T8 %]</th>
+    <tr>
+      <th class="center"><img src="image/close.png" alt="[% LxERP.t8('delete item') %]"></th>
+      <th class="center">[% 'position' | $T8 %]</th>
+      <th class="center"><img src="image/updown.png" alt="[% LxERP.t8('reorder item') %]"></th>
+      <th>[% 'Customer Number'      | $T8 %]</th>
+      <th>[% 'Customer'             | $T8 %]</th>
+      <th>[% 'Customer Part Number' | $T8 %]</th>
+      <th>[% 'Customer Price'       | $T8 %]</th>
+      <th>[% 'Updated'              | $T8 %]</th>
+    </tr>
   </thead>
   <tbody id="customerprice_rows">
   [% SET listrow = 0 %]

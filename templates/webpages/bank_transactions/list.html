@@ -21,36 +21,36 @@
 </p>
 
 <div id="bt_tabs" class="tabwidget">
-	<ul>
-		<li><a href="#all">[% 'All transactions' | $T8 %]</a></li>
-		<li><a href="#automatic">[% 'Proposals' | $T8 %]</a></li>
-	</ul>
-	
-	<div id="all">
-		[% PROCESS "bank_transactions/tabs/all.html" %]
-	</div>
-	<div id="automatic">
-		[% PROCESS "bank_transactions/tabs/automatic.html" %]
-	</div>
+  <ul>
+    <li><a href="#all">[% 'All transactions' | $T8 %]</a></li>
+    <li><a href="#automatic">[% 'Proposals' | $T8 %]</a></li>
+  </ul>
+
+  <div id="all">
+    [% PROCESS "bank_transactions/tabs/all.html" %]
+  </div>
+  <div id="automatic">
+    [% PROCESS "bank_transactions/tabs/automatic.html" %]
+  </div>
 </div>
 
 
 <div id="set_all_sources_memos_dialog" class="hidden">
-	<table class="tbl-horizontal">
-		<tr>
-			<th>[% LxERP.t8("Source") %]:</th>
-			<td>[% L.input_tag("set_all_sources", "") %]</td>
-		</tr>
-		<tr>
-			<th>[% LxERP.t8("Memo") %]:</th>
-			<td>[% L.input_tag("set_all_memos", "") %]</td>
-		</tr>
-	</table>
-	
-	<div class="buttons">
-	  [% L.button_tag("kivi.BankTransaction.set_all_sources_memos()", LxERP.t8("Set fields")) %] 
-	  <a href="#" onclick="$('#set_all_sources_memos_dialog').dialog('close');" class="button neutral">[% LxERP.t8("Cancel") %]</a> 
-	</div>
+  <table class="tbl-horizontal">
+    <tr>
+      <th>[% LxERP.t8("Source") %]:</th>
+      <td>[% L.input_tag("set_all_sources", "") %]</td>
+    </tr>
+    <tr>
+      <th>[% LxERP.t8("Memo") %]:</th>
+      <td>[% L.input_tag("set_all_memos", "") %]</td>
+    </tr>
+  </table>
+
+  <div class="buttons">
+    [% L.button_tag("kivi.BankTransaction.set_all_sources_memos()", LxERP.t8("Set fields")) %]
+    <a href="#" onclick="$('#set_all_sources_memos_dialog').dialog('close');" class="button neutral">[% LxERP.t8("Cancel") %]</a>
+  </div>
 </div><!-- /#set_all_sources_memos_dialog -->
 
 

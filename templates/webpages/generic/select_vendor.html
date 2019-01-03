@@ -10,19 +10,19 @@
 <p>[% 'Please select a vendor from the list below.' | $T8 %]</p>
 
 <table class="tbl-list">
-	<thead>
-		<tr>
-			<th>&nbsp;</th>
-			[% FOREACH col = HEADER %] 
+  <thead>
+    <tr>
+      <th>&nbsp;</th>
+      [% FOREACH col = HEADER %]
         <th><a href="[% HTML.escape(col.callback) %]">[% col.column_title %]</a></th>
-			[% END %] 
-		</tr>
-	</thead>
-	<tbody>
-		[% FOREACH row = VENDOR %] 
+      [% END %]
+    </tr>
+  </thead>
+  <tbody>
+    [% FOREACH row = VENDOR %]
       <tr class="listrow[% loop.count % 2 %]">
         <td><button type="button" onclick="vendor_selected('[% loop.count %]')">Auswahl</button></td>
-        <td>[% HTML.escape(name) %] 
+        <td>[% HTML.escape(name) %]
           <input type="hidden" id="id_[% loop.count %]" name="id_[% loop.count %]" value="[% HTML.escape(row.id) %]">
           <input type="hidden" id="name_[% loop.count %]" name="name_[% loop.count %]" value="[% HTML.escape(row.name) %]">
         </td>
@@ -33,8 +33,8 @@
   <!--         [% HTML.escape(row.description) %] -->
   <!--        </td> -->
       </tr>
-		[% END %] 
-	</tbody>
+    [% END %]
+  </tbody>
 </table>
 
 </form>

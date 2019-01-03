@@ -96,7 +96,6 @@
         <th>[% 'Currency' | $T8 %]</th>
       </tr>
     </thead>
-
   [% FOREACH bt = BANK_TRANSACTIONS %]
     <tbody id="bt_rows_[% HTML.escape(bt.id) %]">
     [% SET proposals = bt.proposals.as_list.size > 0 ? bt.proposals.as_list : [{}] ;
@@ -155,7 +154,7 @@
 
  <div class="buttons">
   [% L.submit_tag('action_save_invoices', LxERP.t8('Save invoices')) %]
-  [% L.button_tag('kivi.BankTransaction.show_set_all_sources_memos_dialog("#list_all_form [name^=\\"sources_\\"]:visible", "#list_all_form [name^=\\"memos_\\"]:visible")', LxERP.t8('Set all source and memo fields')) %]
+  [% L.button_tag('kivi.BankTransaction.show_set_all_sources_memos_dialog("#list_all_form [name^=\\"sources_\\"]:visible", "#list_all_form [name^=\\"memos_\\"]:visible")', LxERP.t8('Set all source and memo fields'), class='neutral') %]
  </div>
 
 </form>

@@ -15,7 +15,7 @@
       <tr>
         [% IF debug %]
           <td>[% LxERP.t8("ID") %]:</td>
-        [% END %] 
+        [% END %]
         <td>[% LxERP.t8("Transdate") %]:</td>
         <td>[% LxERP.t8("Amount") %]:</td>
         <td>[% LxERP.t8("Remote name") %]:</td>
@@ -28,7 +28,7 @@
       <tr>
         [% IF debug %]
           <td>[% SELF.transaction.id %]</td>
-        [% END %] 
+        [% END %]
         <td>[% SELF.transaction.transdate_as_date %]</td>
         <td>[% LxERP.format_amount(SELF.transaction.amount, 2) %]</td>
         <td>[% SELF.transaction.remote_name %]</td>
@@ -66,8 +66,8 @@
   <div class="buttons">
     [% L.submit_tag('', LxERP.t8("Search")) %]
     [% L.button_tag('kivi.BankTransaction.add_selected_invoices()', LxERP.t8("Add invoices"), id='add_selected_record_links_button') %]
-    [% L.button_tag('$("#assign_invoice_window_form").resetForm()', LxERP.t8('Reset')) %]
-    <a href="#" onclick="$('#assign_invoice_window').dialog('close');">[% LxERP.t8("Cancel") %]</a>
+    [% L.button_tag('$("#assign_invoice_window_form").resetForm()', LxERP.t8('Reset'), class='neutral') %]
+    <a href="#" onclick="$('#assign_invoice_window').dialog('close');" class="neutral">[% LxERP.t8("Cancel") %]</a>
   </div>
 
   <div id="record_list_filtered_list"></div>

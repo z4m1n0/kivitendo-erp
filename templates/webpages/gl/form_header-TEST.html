@@ -21,7 +21,7 @@
 <form method="post" name="gl" action="gl.pl" id="form">
 
 [% FOREACH name IN [ 'id', 'closedto', 'locked', 'storno', 'storno_id', 'previous_id', 'previous_gldate' ] %]
-[% L.hidden_tag(name, $name) %]
+  [% L.hidden_tag(name, $name) %]
 [%- END %]
 
 <input type="hidden" name="title" value="[% hide_title | html %]">
@@ -31,36 +31,36 @@
 <input type="hidden" name="follow_up_rowcount" value="1">
 
 <div id="ir_tabs" class="tabwidget">
- 
+
 <ul>
-	<li><a href="#ui-tabs-basic-data">[% 'Basic Data' | $T8 %]</a></li>
-[%- IF INSTANCE_CONF.get_webdav %] 
-	<li><a href="#ui-tabs-webdav">[% 'WebDAV' | $T8 %]</a></li>
-[%- END %] 
-[%- IF id %] 
-  [%- IF INSTANCE_CONF.get_doc_storage %] 
-	<li><a href="controller.pl?action=File/list&file_type=document&object_type=gl_transaction&object_id=[% HTML.url(id) %]">[% 'Documents' | $T8 %]</a></li>
-	<li><a href="controller.pl?action=File/list&file_type=attachment&object_type=gl_transaction&object_id=[% HTML.url(id) %]">[% 'Attachments' | $T8 %]</a></li>
-  [%- END %] 
-[%- END %] 
+  <li><a href="#ui-tabs-basic-data">[% 'Basic Data' | $T8 %]</a></li>
+  [%- IF INSTANCE_CONF.get_webdav %]
+    <li><a href="#ui-tabs-webdav">[% 'WebDAV' | $T8 %]</a></li>
+  [%- END %]
+  [%- IF id %]
+  [%- IF INSTANCE_CONF.get_doc_storage %]
+    <li><a href="controller.pl?action=File/list&file_type=document&object_type=gl_transaction&object_id=[% HTML.url(id) %]">[% 'Documents' | $T8 %]</a></li>
+    <li><a href="controller.pl?action=File/list&file_type=attachment&object_type=gl_transaction&object_id=[% HTML.url(id) %]">[% 'Attachments' | $T8 %]</a></li>
+  [%- END %]
+[%- END %]
 </ul>
 
- 
+
 <div id="ui-tabs-basic-data">
 
 <div class="message message_hint">
-[% 'Previous transnumber text' | $T8 %] <b>[% previous_id  %]</b> [% 'Previous transdate text' | $T8 %] [% previous_gldate %]
+  [% 'Previous transnumber text' | $T8 %] <b>[% previous_id  %]</b> [% 'Previous transdate text' | $T8 %] [% previous_gldate %]
 </div>
 
-[%- IF saved_message %]
-<div class="message message_hint">
-[% saved_message | html %]
-</div>
-[%- END %]
+[% IF saved_message %]
+  <div class="message message_hint">
+    [% saved_message | html %]
+  </div>
+[% END %]
 
 
 
- 
+
 <table class="tbl-horizontal test">
   <tbody>
     <tr>
@@ -71,7 +71,7 @@
       <th>[% 'Transdate' | $T8 %]</th>
       <td>[% L.date_tag('transdate', transdate, readonly="readonly") %]</td>
     </tr>
-    [%- IF id %] 
+    [%- IF id %]
     <tr>
       <th>[% 'ID' | $T8 %]</th>
       <td>[% L.input_tag('id', id, size="20", readonly="readonly") %]</td>
@@ -80,13 +80,13 @@
       <th>[% 'Gldate' | $T8 %]</th>
       <td>[% L.date_tag('gldate', gldate, readonly="1") %]</td>
     </tr>
-    [%- END %] 
-    [%- IF ALL_DEPARTMENTS %] 
+    [%- END %]
+    [%- IF ALL_DEPARTMENTS %]
     <tr>
       <th>[% 'Department' | $T8 %]</th>
       <td>[% L.select_tag('department_id', ALL_DEPARTMENTS, default = department_id, title_key = 'description', with_empty = 1) %]</td>
     </tr>
-    [%- END %] 
+    [%- END %]
     <tr>
       <th>[% 'Description' | $T8 %]</th>
       <td>[% L.areainput_tag('description', description, cols="50", readonly="readonly") %]</td>
@@ -95,12 +95,12 @@
       <th>[% 'VAT incl.' | $T8 %]</th>
       <td>[% L.checkbox_tag('taxincluded', checked="taxincluded") %]</td>
     </tr>
-    [%- IF id %] 
+    [%- IF id %]
     <tr>
       <th>[% 'Employee' | $T8 %]</th>
       <td>[% L.input_tag('employee', employee, size="20", readonly="readonly") %]</td>
     </tr>
-    [%- END %] 
+    [%- END %]
     <tr>
       <th>[% 'Special Transaction Type' | $T8 %]</th>
       <td>
@@ -115,7 +115,13 @@
   </tbody>
 </table>
 
-<div class="button">[% L.checkbox_tag('show_details', checked="show_details", onclick='show_form_details();') %] [% 'Show details' | $T8 %]</div>
+
+
+<div class="buttons positions">
+  [% L.checkbox_tag('show_details', checked="show_details", onclick='show_form_details();', style='display:none;') %]
+  [% 'Show details' | $T8 %]
+</div>
+
 <table class="tbl-list test">
   <thead>
     <tr>

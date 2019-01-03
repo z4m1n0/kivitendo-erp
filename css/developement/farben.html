@@ -42,29 +42,61 @@
 <h3>Formular absenden (Datenmanipulation, unwiderrufbar)</h3>
 <p>Diese Buttons starten den Versand der Formulardaten an den Server (Submit). Aus diesem Grunde sind diese entsprechend prominent eingefärbt.</p>
 <div class="buttons">
-<input type="submit" value="Absenden" class="wi-small">
-<input type="submit" value="Absenden" class="hover wi-small">
-<input type="submit" value="Absenden" class="active wi-small"> (INPUT[submit]-Tag) <br>
-<button type="button" class=" wi-small">Speichern</button>
-<button type="button" class="hover wi-small">Speichern</button>
-<button type="button" class="active wi-small">Speichern</button> (BUTTON-Tag)<br>
-<a href="#" class="button wi-small">Absenden</a>
-<a href="#" class="button hover wi-small">Absenden</a>
-<a href="#" class="button active wi-small">Absenden</a> (A.button-Tag)<br>
+<table>
+  <tbody>
+    <tr>
+      <td><input type="submit" value="Absenden" class="wi-small"></td>
+      <td><input type="submit" value="Absenden" class="hover wi-small"></td>
+      <td><input type="submit" value="Absenden" class="active wi-small"></td>
+      <td>(INPUT[type=submit])</td>
+    </tr>
+    <tr>
+      <td><input type="button" value="Absenden" class="wi-small"></td>
+      <td><input type="button" value="Absenden" class="hover wi-small"></td>
+      <td><input type="button" value="Absenden" class="active wi-small"></td>
+      <td>(INPUT[type=button])</td>
+    </tr>
+    <tr>
+      <td><button type="button" class=" wi-small">Speichern</button></td>
+      <td><button type="button" class="hover wi-small">Speichern</button></td>
+      <td><button type="button" class="active wi-small">Speichern</button></td>
+      <td>(BUTTON)</td>
+    </tr>
+    <tr>
+      <td><a href="#" class="button wi-small">Absenden</a></td>
+      <td><a href="#" class="button hover wi-small">Absenden</a></td>
+      <td><a href="#" class="button active wi-small">Absenden</a></td>
+      <td>(A.button-Tag)</td>
+    </tr>
+  </tbody>
+</table>
 </div><!-- ./buttons -->
 
 <h3>Navigation &amp; User Interface</h3>
 <p>Diese Buttons dienen zur Bedienung der grafischen Benutzer-Schnittstelle im Client und verursachen KEINE unwiderrufliche Datenmanipulationen auf Seiten des Servers.<br>Aus diesem Grunde wird die Klasse <b>«.neutral»</b> bereitgestellt.</p>
 <div class="buttons">
-<input type="reset" value="Zurücksetzen" class="neutral wi-normal">
-<input type="reset" value="Zurücksetzen" class="neutral-hover wi-normal">
-<input type="reset" value="Zurücksetzen" class="neutral-active wi-normal"> (INPUT[submit].neutral-Tag) <br>
-<button class="neutral wi-normal">Details anzeigen</button>
-<button class="neutral-hover wi-normal">Details anzeigen</button>
-<button class="neutral-active wi-normal">Details anzeigen</button> (BUTTON.neutral-Tag)<br>
-<a href="#" class="button neutral wi-normal">Filter anzeigen</a>
-<a href="#" class="button neutral-hover wi-normal">Filter anzeigen</a>
-<a href="#" class="button neutral-active wi-normal">Filter anzeigen</a> (A.button.neutral-Tag)<br>
+<table>
+  <tbody>
+    <tr>
+      <td><input type="reset" value="Zurücksetzen" class="neutral wi-normal"></td>
+      <td><input type="reset" value="Zurücksetzen" class="neutral-hover wi-normal"></td>
+      <td><input type="reset" value="Zurücksetzen" class="neutral-active wi-normal"></td>
+      <td>(INPUT[submit].neutral-Tag)</td>
+    </tr>
+    <tr>
+      <td><button class="neutral wi-normal">Details anzeigen</button></td>
+      <td><button class="neutral-hover wi-normal">Details anzeigen</button></td>
+      <td><button class="neutral-active wi-normal">Details anzeigen</button></td>
+      <td>(BUTTON.neutral-Tag)</td>
+    </tr>
+    <tr>
+      <td><a href="#" class="button neutral wi-normal">Filter anzeigen</a></td>
+      <td><a href="#" class="button neutral-hover wi-normal">Filter anzeigen</a></td>
+      <td><a href="#" class="button neutral-active wi-normal">Filter anzeigen</a></td>
+      <td>(A.button.neutral-Tag)</td>
+    </tr>
+  </tbody>
+</table>
 </div><!-- ./buttons -->
 </form>
 
@@ -89,18 +121,18 @@
 <p>Fehlermeldung, die ein Grund zur Sorge sein sollten. Diese Nachrichten-Art nur in schwerwiegenden Fällen einsetzen, damit der Benutzer sofort erkennt, dass was schiefgelaufen ist.</p>
 <div id="flash_error" class="flash_message flash_message_error">
 <div class="button-container">
-	<a href="#flash_error" style="float:right" class="icon-close button wi-tiny">✕</a> 
-  <span id="flash_error_disp" class="display" style="float:left;"> 
-    <a href="#flash_error" style="float:left;" onclick="$('#flash_detail_error').toggle();" class="button wi-tiny">Details</a> 
-  </span> 
+	<a href="#flash_error" style="float:right" class="icon-close button wi-tiny">✕</a>
+  <span id="flash_error_disp" class="display" style="float:left;">
+    <a href="#flash_error" style="float:left;" onclick="$('#flash_detail_error').toggle();" class="button wi-tiny">Details</a>
+  </span>
 </div>
 <div class="message-container">
-	<span class="flash_title" style="float:left;">Fehler:</span> 
+	<span class="flash_title" style="float:left;">Fehler:</span>
 	<div class="flash_notification" style="float:left;">
-		<span id="flash_error_content" class="content">Es ist ein schwerwiegender Fehler aufgetreten!</span> 
+		<span id="flash_error_content" class="content">Es ist ein schwerwiegender Fehler aufgetreten!</span>
 		<div id="flash_detail_error" class="detail" style="display:none;">
-			<span id="flash_error_detail">Details zum aufgetretenen, schwerwiegenden Fehler. Hierbei handelt es sich aber nicht um einen Rechtschreibefehler.</span> 
-			<a href="#flash_error" style="float:left" onclick="$('#flash_detail_error').hide()" class="icon-close button wi-tiny">✕</a> 
+			<span id="flash_error_detail">Details zum aufgetretenen, schwerwiegenden Fehler. Hierbei handelt es sich aber nicht um einen Rechtschreibefehler.</span>
+			<a href="#flash_error" style="float:left" onclick="$('#flash_detail_error').hide()" class="icon-close button wi-tiny">✕</a>
     </div>
 	</div>
 </div>
@@ -114,18 +146,18 @@
 <p>Wichtige Mitteilung, die aber kein Grund zur Sorge geben sollte. Diese Nachricht unterstützt den Benutzer bei kritischen Prozessen, sollte ihn aber bei täglichem Einsatz nicht von der Arbeit abhalten.</p>
 <div id="flash_warning" class="flash_message flash_message_warning">
 <div class="button-container">
-	<a href="#flash_warning" style="float:right" class="icon-close button wi-tiny">✕</a> 
-  <span id="flash_warning_disp" class="display" style="float:left;"> 
-    <a href="#flash_warning" style="float:left;" onclick="$('#flash_detail_warning').toggle();" class="button wi-tiny">Details</a> 
-  </span> 
+	<a href="#flash_warning" style="float:right" class="icon-close button wi-tiny">✕</a>
+  <span id="flash_warning_disp" class="display" style="float:left;">
+    <a href="#flash_warning" style="float:left;" onclick="$('#flash_detail_warning').toggle();" class="button wi-tiny">Details</a>
+  </span>
 </div>
 <div class="message-container">
-	<span class="flash_title" style="float:left;">Warnung:</span> 
+	<span class="flash_title" style="float:left;">Warnung:</span>
 	<div class="flash_notification" style="float:left;">
-		<span id="flash_warning_content" class="content">Diesen Hinweis sollten Sie ernst nehmen, aber es besteht beim Lesen noch kein Grund zur Beunruhigung.</span> 
+		<span id="flash_warning_content" class="content">Diesen Hinweis sollten Sie ernst nehmen, aber es besteht beim Lesen noch kein Grund zur Beunruhigung.</span>
 		<div id="flash_detail_warning" class="detail" style="display:none;">
-			<span id="flash_warning_detail">Sie sollten diesen Hinweis ernst nehmen, und vielleicht kommt er Ihnen auch hinlänglich bekannt vor, sodass Sie wissen, wie Sie damit umzugehen haben. Sie sollten sich darüber im Klaren sein, was diese Warnung bedeutet.</span> 
-			<a href="#flash_warning" style="float:left" onclick="$('#flash_detail_warning').hide()" class="icon-close button wi-tiny">✕</a> 
+			<span id="flash_warning_detail">Sie sollten diesen Hinweis ernst nehmen, und vielleicht kommt er Ihnen auch hinlänglich bekannt vor, sodass Sie wissen, wie Sie damit umzugehen haben. Sie sollten sich darüber im Klaren sein, was diese Warnung bedeutet.</span>
+			<a href="#flash_warning" style="float:left" onclick="$('#flash_detail_warning').hide()" class="icon-close button wi-tiny">✕</a>
     </div>
 	</div>
 </div>
@@ -139,18 +171,18 @@
 <p>Hier handelt es sich eher um neutrale, ggf. zu ignorierende Routine-Nachrichten, die den Benutzer auch eine gewisse Sicherheit geben sollten. Nicht im Übermass einsetzen, da die Benutzer das Kivitendo-System u.U. täglich bedienen müssen.</p>
 <div id="flash_info" class="flash_message flash_message_info">
 <div class="button-container">
-	<a href="#flash_info" style="float:right" class="icon-close button wi-tiny">✕</a> 
-  <span id="flash_info_disp" class="display" style="float:left;"> 
-    <a href="#flash_info" style="float:left;" onclick="$('#flash_detail_info').toggle();" class="button wi-tiny"> Details </a> 
-  </span> 
+	<a href="#flash_info" style="float:right" class="icon-close button wi-tiny">✕</a>
+  <span id="flash_info_disp" class="display" style="float:left;">
+    <a href="#flash_info" style="float:left;" onclick="$('#flash_detail_info').toggle();" class="button wi-tiny"> Details </a>
+  </span>
 </div>
 <div class="message-container">
-	<span class="flash_title" style="float:left;">Information:</span> 
+	<span class="flash_title" style="float:left;">Information:</span>
 	<div class="flash_notification" style="float:left;">
-		<span id="flash_info_content" class="content">Absolut kein Grund zur Beunruhigung, aber lesen sollten Sie die Nachricht vielleicht einmal in Ihrem Leben.</span> 
+		<span id="flash_info_content" class="content">Absolut kein Grund zur Beunruhigung, aber lesen sollten Sie die Nachricht vielleicht einmal in Ihrem Leben.</span>
 		<div id="flash_detail_info" class="detail" style="display:none;">
-			<span id="flash_info_detail">Manchmal ist es einfacher, solche Nachrichten zu lesen als gleich das Manual durchrackern zu müssen, was sowieso nur wenige Prozent der Kivitendo-Nutzer machen, ausser eben die karrierebewussten Anwender oder die innerbetrieblich Verantwortlichen.</span> 
-			<a href="#flash_info" style="float:left" onclick="$('#flash_detail_info').hide()" class="icon-close button wi-tiny">✕</a> 
+			<span id="flash_info_detail">Manchmal ist es einfacher, solche Nachrichten zu lesen als gleich das Manual durchrackern zu müssen, was sowieso nur wenige Prozent der Kivitendo-Nutzer machen, ausser eben die karrierebewussten Anwender oder die innerbetrieblich Verantwortlichen.</span>
+			<a href="#flash_info" style="float:left" onclick="$('#flash_detail_info').hide()" class="icon-close button wi-tiny">✕</a>
     </div>
 	</div>
 </div>
@@ -164,18 +196,18 @@
 <p>Reine Info, die man getrost ignorieren könnte oder dürfte, aber dem Benutzer die Gewissheit gibt, dass der ausgeführte Prozess erfolgreich abgelaufen ist.</p>
 <div id="flash_ok" class="flash_message flash_message_ok">
 <div class="button-container">
-	<a href="#flash_ok" style="float:right" class="icon-close button wi-tiny">✕</a> 
-  <span id="flash_ok_disp" class="display" style="float:left;"> 
-    <a href="#flash_ok" style="float:left;" onclick="$('#flash_detail_ok').toggle();" class="button wi-tiny">Details</a> 
-  </span> 
+	<a href="#flash_ok" style="float:right" class="icon-close button wi-tiny">✕</a>
+  <span id="flash_ok_disp" class="display" style="float:left;">
+    <a href="#flash_ok" style="float:left;" onclick="$('#flash_detail_ok').toggle();" class="button wi-tiny">Details</a>
+  </span>
 </div>
 <div class="message-container">
-	<span class="flash_title" style="float:left;">OK:</span> 
+	<span class="flash_title" style="float:left;">OK:</span>
 	<div class="flash_notification" style="float:left;">
-		<span id="flash_ok_content" class="content">Sie haben erfolgreich einen Prozess ausführen lassen, gratuliere.</span> 
+		<span id="flash_ok_content" class="content">Sie haben erfolgreich einen Prozess ausführen lassen, gratuliere.</span>
 		<div id="flash_detail_ok" class="detail" style="display:none;">
-			<span id="flash_ok_detail">Das ist aber noch kein Grund zur Freude. Lesen Sie doch bitte hier, was es im weiteren zu beachten gibt.</span> 
-			<a href="#flash_ok" style="float:left" onclick="$('#flash_detail_ok').hide()" class="icon-close button wi-tiny">✕</a> 
+			<span id="flash_ok_detail">Das ist aber noch kein Grund zur Freude. Lesen Sie doch bitte hier, was es im weiteren zu beachten gibt.</span>
+			<a href="#flash_ok" style="float:left" onclick="$('#flash_detail_ok').hide()" class="icon-close button wi-tiny">✕</a>
     </div>
 	</div>
 </div>

@@ -8,33 +8,25 @@
   Total-Lines of Invoice Items
   Within the big colspan/rowspan cell there are weight information
 -->
-<table class="tbl-list">
+<table class="tbl-list footer-only full-width">
   <colgroup>
-    <col style="width: 6.0em">
-    <col style="width: 8.0em">
-    <col style="width: 4.0em">
-    <col style="width:18.0em">
-    <col style="width: 6.0em">
-    <col style="width: 7.0em">
-    <col style="width: 7.0em">
-    <col style="width: 6.0em">
-    <col style="width: 6.0em">
-    <col style="width: 4.0em">
-    <col style="width: 6.0em">
+    <col style="width: 75%;">
+    <col style="width: 15%;">
+    <col style="width: 10%;">
   </colgroup>
   <tfoot>
   [% UNLESS taxincluded %]
   <tr>
-    <td colspan="8" rowspan="6">
+    <td>
       [% IF show_weight %]
-        <div class="info-block">
-        <span class="info-label">[% 'Total weight' | $T8 %]</span>
-        <span class="info-value">[% LxERP.format_amount(totalweight) %] [% HTML.escape(weightunit) %]</span>
+        <div class="info-block"><!-- PENDENT: vereinheitlichen -->
+          <span class="info-label">[% 'Total weight' | $T8 %]</span>
+          <span class="info-value">[% LxERP.format_amount(totalweight) %] [% HTML.escape(weightunit) %]</span>
         </div>
       [% END %]
     </td><!-- <td></td><td></td><td></td><td></td><td></td><td></td><td></td> -->
-    <th colspan="2">[% 'Subtotal' | $T8 %]</th>
-    <td>[% LxERP.format_amount(invsubtotal, 2) %]</td>
+    <th>[% 'Subtotal' | $T8 %]</th>
+    <td class="numeric">[% LxERP.format_amount(invsubtotal, 2) %]</td>
   </tr>
   [% END %]
 
@@ -45,66 +37,66 @@
     [% SET total_ref       = item _ '_total' %]
     [% SET netto_ref       = item _ '_netto' %]
     <tr>
-      <th colspan="2">[% 'Including' | $T8 %] [% $description_ref | html %]&nbsp;[% $rate_ref * 100 %]%</th>
-      <td>[% LxERP.format_amount($total_ref, 2) %]</td>
+      <td></td>
+      <th>[% 'Including' | $T8 %] [% $description_ref | html %]&nbsp;[% $rate_ref * 100 %]%</th>
+      <td class="numeric">[% LxERP.format_amount($total_ref, 2) %]</td>
     </tr>
     [% IF taxincluded %]
       <tr>
-        <th colspan="2">[% 'Net amount' | $T8 %]</th>
-        <td>[% LxERP.format_amount($netto_ref, 2) %]</td>
+        <td></td>
+        <th>[% 'Net amount' | $T8 %]</th>
+        <td class="numeric">[% LxERP.format_amount($netto_ref, 2) %]</td>
       </tr>
     [% END %]
   [% END %]
   [% IF rounding %]
     <tr>
-      <th colspan="2">[% 'Rounding' | $T8 %]</th>
-      <td>[% LxERP.format_amount(rounding, 2) %]</td>
+    <td></td>
+      <th>[% 'Rounding' | $T8 %]</th>
+      <td class="numeric">[% LxERP.format_amount(rounding, 2) %]</td>
     </tr>
   [% END %]
   <tr>
-    <th colspan="2">[% 'Total' | $T8 %]</th>
-    <td>[% LxERP.format_amount(invtotal, 2) %]</td>
+    <td></td>
+    <th>[% 'Total' | $T8 %]</th>
+    <td class="numeric">[% LxERP.format_amount(invtotal, 2) %]</td>
   </tr>
   <tr>
-    <th colspan="2" class="numeric">[% 'Ertrag' | $T8 %]</th>
-    <td>
+    <td></td>
+    <th>[% 'Ertrag' | $T8 %]</th>
+    <td class="numeric">
       [% LxERP.format_amount(marge_total, 2, 0) %]
       <input type=hidden name="marge_total" value="[% marge_total %]" class="numeric">
-  </td>
+    </td>
   </tr>
-    <tr>
-      <th colspan="2" class="numeric">[% 'Ertrag prozentual' | $T8 %]</th>
-      <td>
-        [% LxERP.format_amount(marge_percent, 2, 0) %] %
-        <input type=hidden name="marge_percent" value="[% marge_percent %]" class="numeric">
-      </td>
-    </tr>
+  <tr>
+    <td></td>
+    <th>[% 'Ertrag prozentual' | $T8 %]</th>
+    <td class="numeric">
+      [% LxERP.format_amount(marge_percent, 2, 0) %] %
+      <input type=hidden name="marge_percent" value="[% marge_percent %]" class="numeric">
+    </td>
+  </tr>
   </tfoot>
 </table>
 
-
-
-
 [% IF id && follow_ups.size %]
-  [% LxERP.t8('There are #1 unfinished follow-ups of which #2 are due.', follow_ups.size, follow_ups_unfinished) | html %]
+  <div class="message message_hint">
+      [% LxERP.t8('There are #1 unfinished follow-ups of which #2 are due.', follow_ups.size, follow_ups_unfinished) | html %]
+  </div>
 [% END %]
-
 
 [% PROCESS 'is/_payments.html' %]
 
+</div><!--  /.ui-tabs-panel /#ui-tabs-basic-data -->
 
-
-
-
-
-
-
-</div>
 [% PROCESS 'webdav/_list.html' %]
 
-<div id="ui-tabs-1">
- [% LxERP.t8('Loading...') %]
-</div>
+<div id="ui-tabs-1" class="ui-tabs-panel" style="display:none">
+  <div class="wrapper">
+    [% LxERP.t8('Loading...') %]
+  </div>
+</div><!-- /#ui-tabs-1 -->
 
 </div>
 
@@ -121,8 +113,8 @@
 
 </form>
 <script type='text/javascript'>
- $(kivi.SalesPurchase.init_on_submit_checks);
+  $(kivi.SalesPurchase.init_on_submit_checks);
 </script>
 
 <div id="shipto_dialog" class="hidden"></div>
-<div id="print_dialog" class="hidden">[% PROCESS 'common/_print_dialog.html' %]</div>
+<div id="print_dialog" class="hidden"><form action="#" name="fake-print-dialog" id="fake-print-dialog">[% PROCESS 'common/_print_dialog.html' %]</form></div>

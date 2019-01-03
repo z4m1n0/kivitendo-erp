@@ -303,8 +303,8 @@ sub display_row {
     my $rows            = $form->numtextrows($form->{"description_$i"}, 30, 6);
 
     # quick delete single row
-    $column_data{runningnumber}  = q|<a onclick= "$('#partnumber_| . $i . q|').val(''); $('#update_button').click();" class="row-position">| .
-                                   q|<img height="10px" width="10px" src="image/cross.png" alt="| . $locale->text('Remove') . q|"></a> |;
+    $column_data{runningnumber}  = q|<a onclick="$('#partnumber_| . $i . q|').val(''); $('#update_button').click();" class="row-position">| .
+                                   q|<img src="image/cross.png" alt="| . $locale->text('Remove') . q|"></a> |;
     $column_data{runningnumber} .= $cgi->textfield(-name => "runningnumber_$i", -id => "runningnumber_$i", -size => 2,  -value => $i, -class => "row-position wi-smallest");    # HuT
 
 
@@ -313,8 +313,9 @@ sub display_row {
                                        SL::Presenter::Part::classification_abbreviation($form->{"classification_id_$i"}) if $form->{"id_$i"};
     $column_data{description} = (($rows > 1) # if description is too large, use a textbox instead
                                 ? $cgi->textarea( -name => "description_$i", -id => "description_$i", -default => $form->{"description_$i"}, -rows => $rows, -class => "wi-lightwide")
-                                : $cgi->textfield(-name => "description_$i", -id => "description_$i",   -value => $form->{"description_$i"}, -class => "wi-lightwide"))
-                                . $cgi->button(-value => $locale->text('L'), -onClick => "kivi.SalesPurchase.edit_longdescription($i)", -class => "wi-tiny");
+                                : $cgi->textfield(-name => "description_$i", -id => "description_$i",   -value => $form->{"description_$i"}, -class => "wi-lightwide") )
+#                               . $cgi->button(-value => $locale->text('L'), -onClick => "kivi.SalesPurchase.edit_longdescription($i)", -class => "wi-tiny neutral");
+                                . q|<a href="javascript:kivi.SalesPurchase.edit_longdescription(| . $i . q|);" class="button-image edit" title="| . t8('Edit long description') . q|"><img src="image/pencil.png"></a>|;
 
     my $qty_dec = ($form->{"qty_$i"} =~ /\.(\d+)/) ? length $1 : 2;
 
@@ -433,7 +434,7 @@ sub display_row {
 
     map { $form->{"${_}_$i"} = $form->format_amount(\%myconfig, $form->{"${_}_$i"}, 2) } qw(marge_absolut marge_percent);
 
-    $column_data{marge} = sprintf qq|<span class=\"data\" %s>%s &nbsp;%s%%</data>|,
+    $column_data{marge} = sprintf qq|<span class=\"data\" %s>%s &nbsp;%s%%</span>|,
       $marge_color, $form->{"marge_absolut_$i"}, $form->{"marge_percent_$i"};
     $column_data{listprice} = "<span class=\"data\">" . $form->format_amount(\%myconfig, $form->{"listprice_$i"}, 2) . "</span>";
     $column_data{lastcost}  = sprintf qq|<input class="wi-normal" name="lastcost_$i" value="%s" type="text">|, $form->format_amount(\%myconfig, $form->{"lastcost_$i"}, $decimalplaces);

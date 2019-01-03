@@ -11,7 +11,7 @@
     [% END %]
   </td>
   <td class="center"[% UNLESS orphaned %] style="display:none"[% END %]>
-    [% L.button_tag("kivi.Part.delete_item_row(this)", LxERP.t8("X")) %] [% # , confirm=LxERP.t8("Are you sure?")) %]
+    [% L.button_tag("kivi.Part.delete_item_row(this)", LxERP.t8("✖"), class="wi-verytiny neutral delete-item") %] [% # , confirm=LxERP.t8("Are you sure?")) %]
   </td>
   <td class="center">
     <div id="position">
@@ -32,7 +32,8 @@
       [% L.input_tag("assortment_items[].qty_as_number",
                       ITEM.qty_as_number,
                       maxsize = 10,
-                      class="recalc reformat_number numeric wi-verysmall") %]
+                      class="recalc reformat_number numeric wi-verysmall",
+                      size=10) %]
     [% ELSE %]
       [% ITEM.qty_as_number | html %]
     [% END %]

@@ -4,10 +4,10 @@
 [% USE P %]
 [% USE L %]
 
-[% IF !INVOICES.size %] 
-  <p class="message_hint">[% 'No data was found.' | $T8 %]</p>
+[% IF !INVOICES.size %]
+  <p class="message message_hint">[% 'No data was found.' | $T8 %]</p>
 
-[% ELSE %] 
+[% ELSE %]
 
   <table class="tbl-list">
     <thead>
@@ -23,7 +23,7 @@
       </tr>
     </thead>
     <tbody>
-      [% FOREACH invoice = INVOICES %] 
+      [% FOREACH invoice = INVOICES %]
       <tr>
         <td>[% L.checkbox_tag('invoice_id[]', value=invoice.id) %]</td>
         <td>[% invoice.invnumber %]</td>
@@ -34,7 +34,7 @@
         <td>[% invoice.vendor.vendornumber %][% invoice.customer.customernumber %]</td>
         <td>[% invoice.vendor.name %][% invoice.customer.name %]</td>
       </tr>
-      [% END %] 
+      [% END %]
     </tbody>
   </table>
 

@@ -1,17 +1,18 @@
 [% USE HTML %]
 [% USE LxERP %]
-[% USE L %] 
+[% USE L %]
+[% USE T8 %]
 
 <div id="warehouse">
-<div class="wrapper">
+<div class="wrapper" id="wrapper-3">
 
-<table class="tbl-horizontal">
+<table class="tbl-horizontal expanded">
   <caption>[% 'Default Warehouse' | $T8 %]</caption>
-  <colgroup> <col class="wi-normal"><col class="wi-mediumsmall"><col class="wi-verywide"> </colgroup> 
+  <colgroup> <col class="wi-normal"><col class="wi-mediumsmall"><col class="wi-verywide"> </colgroup>
   <tbody>
     <tr>
       <th>[% LxERP.t8('Default Transfer') %]</th>
-      <td> [% L.yes_no_tag('defaults.transfer_default', SELF.defaults.transfer_default, class='wi-small') %] </td>
+      <td>[% L.yes_no_tag('defaults.transfer_default', SELF.defaults.transfer_default, class='wi-small') %] </td>
       <td class="long-desc"> [% LxERP.t8('Show Transfer via default') %]<br>
       </td>
     </tr>
@@ -82,6 +83,6 @@
     </tr>
   </tbody>
 </table>
-	
-</div>
-</div>
+
+</div><!-- /.wrapper -->
+</div><!-- /#warehouse -->

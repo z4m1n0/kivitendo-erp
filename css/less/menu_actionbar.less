@@ -18,23 +18,18 @@
 //     - layout-actionbar-combobox-list
 // ----------------------------------------------------------------------------
 
-// PENDENT: Verschachtelung ueberpruefen
-
-
-
 
 
 // --------------------------------------
 // Main-Container for Actionbar
 // --------------------------------------
 //
-
+// for main properties of this container see scaffolding.less
 .layout-actionbar {
-  // for main properties of this container see scaffolding.less
 
   div.layout-actionbar-separator {
     display: block;
-    width: 1.0em;
+    width: 0.6em;
     height: 0.6em;
     float: left;
     content: "&nbsp;";
@@ -53,9 +48,9 @@
     font-size: @font-size-smaller ;
   }
 
-  &>div.layout-actionbar-action{
+  & > div.layout-actionbar-action{
     border-radius: 0.3em ;
-    border: 1px @actionbar-border-color solid; 
+    border: 1px @actionbar-border-color solid;
     background-color: @actionbar-bg ;
     float: left;
     color: @actionbar-font-color;
@@ -71,15 +66,14 @@
   div.layout-actionbar-submit,
   div.layout-actionbar-scriptbutton {
     display: block;
-    width: 120px;
+    //width: 90px;
+    width: 110px;
     box-sizing: border-box;
     border-width: 1px;
     border-style: solid;
     text-align: center;
     padding: 4px 4px;
     cursor: default;
-    //background-color: #fff ;
-
     &:focus{
       border-color: darkgray;
       background-color: whitesmoke;
@@ -88,23 +82,20 @@
       border-width: 1px;
       border-style: solid;
     }
-
   }
-
 
   .layout-actionbar-default-action {
     font-weight: normal;
   }
 
-
   div.layout-actionbar-combobox {
     position: relative;
     display: block;
     float: left;
-    width: 7.7em;
+    //width: 5.8em;
+    width: 110px;
     z-index: @zindex-actionbar-combobox ;
-    
-    
+
     div.layout-actionbar-combobox-head {
       padding-right: 20px;
       white-space: nowrap;
@@ -115,17 +106,18 @@
       position: relative;
 
       >div {
-        width: 100px;
+        //width: 5.4em;
+        width: 90px;
         height: 25px;
         border-top-left-radius: 0.3em ;
         border-bottom-left-radius: 0.3em ;
-        border: 1px @actionbar-border-color solid; 
-        background-color: @actionbar-bg; 
+        border: 1px @actionbar-border-color solid;
+        background-color: @actionbar-bg;
         color: @actionbar-font-color;
         position: relative;
       }
 
-      >span {
+      > span {
         display: block;
         position: absolute;
         top: 0;
@@ -139,33 +131,16 @@
         padding: 4px;
         background-color: @actionbar-bg ;
         //background-image: url("../image/select-down.png") no-repeat;
-        background-image: url("../image/select-down.png");
+        background-image: url("../image/select-down.png") ;
         background-repeat: no-repeat;
         background-position: 5px 5px;
-
-
-//         &:after{
-//           content: "";
-//           width: 0;
-//           height: 0;
-//           position: absolute;
-//           right: 8px;
-//           top: 50%;
-//           margin-top: -3px;
-//           border-width: 3px 3px 0 3px;
-//           border-style: solid;
-//           border-color: black transparent;
-//         }
-
-        &:hover{ color: #FE5F14; }
-
       }
     } // /.layout-actionbar-combobox-head
 
     div.layout-actionbar-combobox-list {
       position: relative;
       display: none;
-      min-width: 120px;
+      min-width: 140px;
       float: right;
       overflow: hidden;
       border: 1px solid @actionbar-border-color ;
@@ -173,10 +148,9 @@
       border-bottom-left-radius: 0.3em;
       border-bottom-right-radius: 0.3em;
       z-index: @zindex-actionbar-combobox-list ;
-      min-width: 10.0em;
       top: 1px;
       padding-bottom: 0.6em;
-      background-color: @actionbar-bg !important ; 
+      background-color: @actionbar-bg !important ;
 
       div.layout-actionbar-action {
         white-space: nowrap;
@@ -186,44 +160,42 @@
         text-align: left;
         padding: 0.6em 0.6em 0.6em 1.0em;
         border-bottom: none !important;
-        background-color: @actionbar-bg !important ; 
+        background-color: @actionbar-bg !important ;
         color: @actionbar-font-color;
-        
+
         &:hover {
-          color: white;
+          color: #000;
+          text-decoration: underline;
         }
-        
       }
     } // /.layout-actionbar-combobox-list
-    
+
     // Combobox active
     &.active {
       div.layout-actionbar-combobox-head{
         height: 29px;
         border-bottom: none !important ;
-        
-        div { 
-          background-color: @actionbar-bg-active !important ; 
+
+        div {
+          background-color: @actionbar-bg-active !important ;
           border-bottom-left-radius: 0 !important;
           border-bottom: none;
           height: 30px ;
         }
-        span { 
-          background-color: @actionbar-bg-active !important ; 
+        span {
+          background-color: @actionbar-bg-active !important ;
           border-bottom-right-radius: 0 !important;
           border-bottom: none;
           height: 30px !important ;
         }
-      
-      }
-      div.layout-actionbar-combobox-list { 
-        display: inline-table; // IMPORTANT 
-        border-top-right-radius: 0 !important;   
+      } // /div.layout-actionbar-combobox-head
+      div.layout-actionbar-combobox-list {
+        display: inline-table; // IMPORTANT
+        border-top-right-radius: 0 !important;
         div.layout-actionbar-action{
           border: none !important;
         }
       }
-    }
-    
+    } // /.active
   } // /.layout-actionbar-combobox
 }

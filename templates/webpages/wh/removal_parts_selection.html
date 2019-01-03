@@ -1,6 +1,7 @@
 [% USE T8 %]
 [% USE HTML %]
 [% USE JavaScript %]
+
 <h1>[% title %]</h1>
 
  <form method="post" action="wh.pl" id="form">
@@ -9,7 +10,6 @@
 
   <p>[% 'Removal from warehouse' | $T8 %]: [% warehouse_description %]</p>
 
-  <p>
    <table>
     <tr>
      <td>[% 'Select type of removal' | $T8 %]:</td>
@@ -19,15 +19,12 @@
       </select>
      </td>
     </tr>
-
     <tr>
      <td>[% 'Optional comment' | $T8 %]:</td>
      <td><input type="text" name="comment" size="60"></td>
     </tr>
    </table>
-  </p>
 
-  <p>
    <table>
     <tr>
      <th>[% 'Bin' | $T8 %]</th>
@@ -41,7 +38,6 @@
      <th>[% 'Available qty' | $T8 %]</th>
      <th>[% 'Removal qty' | $T8 %]</th>
     </tr>
-
     [% FOREACH row = CONTENTS %]
     <tr class="listrow[% loop.count % 2 %]">
      <input type="hidden" name="src_bin_id_[% loop.count %]" value="[% HTML.escape(row.binid) %]">
@@ -69,13 +65,8 @@
       </select>
      </td>
     </tr>
-
     [% END %]
-
     <input type="hidden" name="rowcount" value="[% CONTENTS.size %]">
-
     <tr><td colspan="7"><hr size="3" noshade></td></tr>
-
    </table>
-  </p>
  </form>

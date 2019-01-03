@@ -112,7 +112,7 @@
         position: relative;
         display: none;
         padding: 0 2em 2em 2em;
-        margin: 0 -2em -2em -2.9em;
+        margin: 0 -2em -2em -2.8em;
 
 
         li{
@@ -136,6 +136,7 @@
           //
           div.x {
             background: no-repeat right url("../image/menu-arrow-to-right-5.png");
+            padding-right: 2.0em ;
           }
 
           //
@@ -186,149 +187,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-// --------------------
-// HTML-MENU
-// --------------------
-
-
-
-div.layout-split-right {
-  margin-left: 190px;
-}
-div.layout-split-right.folded {
-  margin-left: 40px
-}
-
-
-
-
-#html-menu {
-  position: fixed;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  height: 95%;
-  transition:     margin-left 0.2s, width 0.2s;
-  -moz-transition:  margin-left 0.2s, width 0.2s;
-  -webkit-transition: margin-left 0.2s, width 0.2s;
-  -o-transition:    margin-left 0.2s, width 0.2s;
-  float:left;
-  width: 183px;
-  font-size: @font-size-small;
-  margin-top: 10px;
-
-
-  //  PENDENT: noch noetig, oder wird das via JS gesetzt?
-  &.folded {
-    width: 32px;
-
-    &:hover {
-      width: 183px;
-    }
-    &+ div.layout-split-right.folded {
-      margin-left: 190px ;
-    }
-  }
-
-
-
-
-
-//  types of lines: m sm i (menu submenu item)
-//  each line is a mi (menuitem)
-//  - and has one mii (menu-item-icon)
-//  - which is ms (menu-spacer)
-//  - and one mic (menu-item-chunk)
-//  - indenting is done with the levels s0, s1, s2
-
-  //  Menu
-  div.m {
-    height: 24px ;
-
-    span.ms {
-      float: left;
-      width: 32px
-    }
-    &:hover {
-      //color:blue;
-      background-color: #d1d1d1;
-      cursor: pointer;
-    }
-  }
-
-  //  Submenu
-  div.sm {
-    font-weight: bold;
-
-    span.ms {
-      float: left;
-      width: 24px;
-      background: url("../image/unterpunkt.png");
-    }
-  }
-
-  //  Item
-  div.i {
-    span.ms {
-      float: left;
-      width: 24px;
-      margin-bottom: 4px;
-    }
-    &:hover {
-      //color:blue;
-      background-color: #d1d1d1;
-      cursor: pointer;
-    }
-  }
-
-
-  //  Menu-Item
-  div.mi {
-    margin-top: 4px;
-    margin-bottom: 3px;
-    white-space: nowrap;
-    clear:both;
-    position:relative;
-  }
-
-
-  //  Menu-Item-Chunk
-  span.mic {
-    white-space: normal;
-    display: inline-block;
-    vertical-align: top;
-    line-height: 1.2;
-  }
-
-  //  Indention
-  div.s0 { padding-left: 2px ; }
-  div.s1 { padding-left: 8px ; }
-  div.s2 { padding-left: 22px ; }
-
-
-  img { vertical-align: top; border: 0; }
-
-  a {
-    vertical-align: top ;
-
-    .ml {
-      span.mic { width: 145px } //  fix deep indents
-    }
-  }
-
-} //  /#html-menu
-
-
-
-//  PENDENT: ???
+//  PENDENT: ??? (ggf. entfernen)
 li.sub {
   position: relative;
   left: 0.2em;
@@ -339,87 +198,237 @@ li.sub {
 
 
 
+// --------------------
+// HTML-MENU (LEFT)
+// --------------------
 
-// --------------------------------------
-// HTML-MENU (Overrides)
-// --------------------------------------
+// Layout Page
 
-#layout-split-left {
-  width: 180px ;
-  margin-top: 20px ;
-  padding: 0 0 0 0 ;
-  height: 100% ;
+// Left (Menu) area/column
+body > #layout-split-left {
+  display: block;
+  //position: relative;
+  position: fixed !important;
+  top: 0 ;
+  left: 0 ;
+  width: 200px;
+  //height: 101%;
+  height: 100%;
+  z-index: 1;
+  //overflow: hidden;
+  overflow: hidden   ;
+  border-right: 1px @gray solid;
+  background-color: @gray-mediumdark;
+
+
+}
+
+// Right (Content) area/column
+div#layout-split-right {
+  margin-left: 200px;
+  margin-top: 70px;
+  display: block;
+  z-index: 1;
   overflow: hidden;
-  display: block ;
-  
-  #html-menu {
-    // Every menu item
-    .mi {
-      a.ml {
-        width: 180px !important;
-        // Icon
-        .mii {
-          display: none;
+  // PENDENT: das muss dringend geloest werden,
+  // siehe z.B. /am.pl?action=edit_account&callback=am.pl%3faction%3dlist_account&id=6130
+  // Bearbeitung von Konto (wird unten abgeschnitten, falls nicht mit prov. Behelf wie unten)
+  min-height: 800px;
+  height: auto;
+
+  .layout-actionbar { top: 36px; }
+
+  & > #content {
+    top: 70px ;
+
+    h1 { top: 28px !important; }
+    & > form > .tabwidget {
+      & > ul.ui-tabs-nav{ top: 69px; }
+      & > ui-tabs-panel {
+        .tabwidget ul.ui-tabs-nav{ position: relative; }
+      }
+    } // / > form > .tabwidget
+    & > #requirement_spec_tabs.tabwidget {
+      & > ul.ui-tabs-nav{ top: 69px !important ; }
+    }
+  }
+}
+
+// PENDENT: wo gebraucht im alten Kivi ?? ggf. entfernen
+div.layout-split-right.folded {
+  margin-left: 40px
+}
+
+// Menu itself
+
+#layout-split-left #html-menu {
+  display: block;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  width: 100%;
+  height: 100%;
+  margin: 27px 0 0 0;
+  padding: 0 0 50px 0;
+  background-color: @menu_link_bg_level1 ;
+  font-size: @font-size-small;
+
+  // scrollbars could be invisible only on Webkit-Browsers
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  // -----------------
+  // Menue-Items
+  .mi {
+    display: block ;
+    a {
+      display: block;
+      word-wrap: break-word;
+    }
+    &:first-child {
+      border-top: 2px @gray solid ;
+    }
+  }
+
+  // Top/1st Level
+  .s0 {
+    padding: 0 ;
+    background-color: #cccccc ;
+    color: @gray-darker;
+    border-bottom: 1px @gray solid ;
+    font-size: 90% ;
+    text-transform: uppercase;
+
+    a {
+      padding: 5px 0 6px 8px ;
+
+      &:hover,
+      &:active{
+        background-color: @gray ;
+        color: #000 ;
+      }
+      &:link,
+      &:visited { color: @gray-mediumdark ; }
+    }
+
+    &.menu-open{
+      font-weight: bold;
+      background-color: @gray-dark ;
+      color: #fff ;
+
+      a {
+        padding: 5px 0 6px 8px ;
+
+        &:hover,
+        &:active{
+          background-color: #000 ;
+          color: #fff ;
         }
-        .mic {
-          width: 180px !important;
-          display: block;
-        }
-      }
-      // First level menu item
-      &.s0 {
-        border-top: 1px #888 solid ;
-        padding: 0.5em 0 1.0em 0.7em !important;
-        display: table-cell;
-        vertical-align: middle;
-        letter-spacing: 1.4pt;
-      }
-      &.s0 a.ml .mic {
-        font-size: 120%;
-      }
-      &.s1,
-      &.s2 {
-        padding-top: 0.4em ;
-        padding-bottom: 0.2em ;
-      }
-      &.s2{
-        padding-left: 32px ;
-      }
-      &.sm .ml .mic{
-        font-style: normal;
-        font-weight: normal;
-        display: table-cell;
-        vertical-align: middle;
-        &:hover{
-          color: #000000 ;
-        }
-        &:after{
-          content: " ▼" ;
-          color: #808080 ;
-          font-size: 80% ;
-        }
+        &:link,
+        &:visited { color: #fff ; }
       }
     }
-  } 
+
+  } // /.s0
+
+  // 2nd level
+  .s1{
+    font-size: 80% ;
+    padding: 2px 0 3px 8px ;
+    background-color: @gray-verylight ;
+    padding: 0 ;
+    border-top: 1px #bfbfbf solid ;
+
+    a {
+      padding: 4px 0 3px 8px ;
+
+      &:hover,
+      &:active{
+        background-color: #D5D5D5 ;
+        color: #000 ;
+      }
+      &:link,
+      &:visited { color: @gray-mediumdark ; }
+    }
+
+    // has submenu (has 3rd-Level menu)
+    &.sm{
+      &:after{
+        content: "▼" ;
+        color: @gray ;
+        font-size: 80% ;
+      }
+      a {
+        display: inline-block ;
+        width: 162px; // with scrollbar{ display:none; } 174px is possible, works only with ::-webkit-scrollbar
+        color: @gray ;
+
+        &:hover,
+        &:active{
+          background-color: @gray-verylight ;
+          color: #999 ;
+          text-decoration: none ;
+        }
+        &:link,
+        &:visited { color: @gray-mediumdark ; }
+
+        &.ml:link,
+        &.ml:visited{ color: @gray ; }
+      }
+    }
+    & > .s2:last-child { border-bottom: 1px #bfbfbf solid }
+  } // /.s1
+
+  // 3rd & last level
+  .s2{
+    padding: 0 ;
+    font-size: 80% ;
+    background-color: @gray-morelighter ;
+
+    a {
+      padding: 2px 0 3px 20px ;
+
+      &:hover,
+      &:active{
+        background-color: #BCBCBC ;
+        color: #000 ;
+      }
+      &:link,
+      &:visited { color: @gray-mediumdark ; }
+    }
+
+
+  } // /.s2
+
+} // /#html-menu
+
+
+
+// --------------------
+// DHTML-MENU (TOP WITH ICONS)
+// --------------------
+
+#main_menu_div {
+
+  .DHTMLSuite_menuBar_top {
+    top: 30px;
+  }
+
 }
+.DHTMLSuite_menuBar_sub {
+  width: auto !important;
+  padding: 0.1em 0 0.4em 0.4em !important;
 
+  .DHTMLSuite_menuItem_sub_regular{
+    //display: table-row ;
+    //vertical-align: middle ;
+    a.DHTMLSuite_menuItem_textContent{
+      //display: table-cell;
+      //font-size: @font-size-small ;
 
-#layout-split-right {
-  margin-left: 180px ;
-  #content h1 {
-    top: 28px ;
-  }
-  #content {
-    top: 70px ;
-  }
-  .layout-actionbar {
-    top: 36px;
+    }
   }
 }
-
-
-
-
 
 
 

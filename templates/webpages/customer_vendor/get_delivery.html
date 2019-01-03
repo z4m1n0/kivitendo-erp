@@ -22,7 +22,6 @@
       [%- END %]
     </tr>
     </thead>
-
     <tbody>
     [% FOREACH row = SELF.delivery %]
       [% row.script = SELF.is_vendor() ? ( row.invoice ? 'ir' : 'ap' ) : ( row.invoice ? 'is' : 'ar' ) %]

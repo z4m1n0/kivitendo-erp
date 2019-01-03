@@ -262,7 +262,7 @@ sub areainput_tag {
   # PENDENT: ID gugusli aus button entfernen, wird nicht angezeigt im browser (war nur Test)
   return '<span class="switch-form-element">'
     . $self->input_tag($name, $value, %attributes, size => $cols)
-    . "<button class=\"wi-tiny icon\"><img src=\"image/edit-entry.png\" onclick=\"kivi.switch_areainput_to_textarea('${id}','".$class."')\"></button>"
+    . "<button class=\"wi-tiny icon\"><img src=\"image/pencil.png\" onclick=\"kivi.switch_areainput_to_textarea('${id}','".$class."')\"></button>"
     . '</span>';
 }
 

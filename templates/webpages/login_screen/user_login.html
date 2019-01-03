@@ -5,10 +5,11 @@
 [% SET auth_client = '{AUTH}client' %]
 [% SET auth_login  = '{AUTH}login'  %]
 
- 
+
 <h1>[% LxERP.t8('kivitendo v#1', version) %]</h1>
+<div id="login-elements">
 <div class="logo">
-	<a href="http://www.kivitendo.de" target="_top" class="no-underlined-links"><img src="image/kivitendo.png" class='kivitendo-logo'></a> 
+  <a href="http://www.kivitendo.de" target="_top" class="no-underlined-links"><img src="image/kivitendo.png" class='kivitendo-logo'></a>
 </div>
 
 [% IF error %]
@@ -28,29 +29,29 @@
 <input type="hidden" name="show_dbupdate_warning" value="1">
 
 <table class="tbl-horizontal login">
-	<caption>[% 'User login' | $T8 %]</caption>
-	<colgroup><col class="wi-small"><col class="wi-normal"></colgroup> 
-	<tbody>
-		<tr>
-			<th>[% 'Login Name' | $T8 %]</th>
-			<td>[% L.input_tag('{AUTH}login', FORM.$auth_login, id='auth_login', class='initial_focus wi-normal') %]</td>
-		</tr>
-		<tr>
-			<th>[% 'Password' | $T8 %]</th>
-			<td>[% L.input_tag('{AUTH}password', '', type='password', class='wi-normal') %]</td>
-		</tr>
-		<tr>
-			<th>[% 'Client' | $T8 %]</th>
-			<td>[% L.select_tag('{AUTH}client_id', SELF.clients, title_key='name', default=SELF.default_client_id, class='wi-normal') %]</td>
-		</tr>
-		<tr>
-			<th>&nbsp;</th>
-			<td> 
-			<input type="hidden" name="action" value="LoginScreen/login">
-			<input type="submit" value="[% 'Login' | $T8 %]">
-			</td>
-		</tr>
-	</tbody>
+  <caption>[% 'User login' | $T8 %]</caption>
+  <colgroup><col class="wi-small"><col class="wi-normal"></colgroup>
+  <tbody>
+    <tr>
+      <th>[% 'Login Name' | $T8 %]</th>
+      <td>[% L.input_tag('{AUTH}login', FORM.$auth_login, id='auth_login', class='initial_focus wi-normal') %]</td>
+    </tr>
+    <tr>
+      <th>[% 'Password' | $T8 %]</th>
+      <td>[% L.input_tag('{AUTH}password', '', type='password', class='wi-normal') %]</td>
+    </tr>
+    <tr>
+      <th>[% 'Client' | $T8 %]</th>
+      <td>[% L.select_tag('{AUTH}client_id', SELF.clients, title_key='name', default=SELF.default_client_id, class='wi-normal') %]</td>
+    </tr>
+    <tr>
+      <th>&nbsp;</th>
+      <td>
+      <input type="hidden" name="action" value="LoginScreen/login">
+      <input type="submit" value="[% 'Login' | $T8 %]">
+      </td>
+    </tr>
+  </tbody>
 </table>
 
 
@@ -66,9 +67,10 @@
 [% END %]
 
 <div>
-	<p> <a href="controller.pl?action=Admin/login" target="_top">[% LxERP.t8('Administration area') %]</a> &nbsp;|&nbsp; <a href="doc/kivitendo-Dokumentation.pdf" target="_top">[% LxERP.t8('Documentation') %]</a> </p>
+  <p> <a href="controller.pl?action=Admin/login" target="_top">[% LxERP.t8('Administration area') %]</a> &nbsp;|&nbsp; <a href="doc/kivitendo-Dokumentation.pdf" target="_top">[% LxERP.t8('Documentation') %]</a> </p>
 </div>
 
+</div>
 
 
 [% IF FORM.$auth_client %]

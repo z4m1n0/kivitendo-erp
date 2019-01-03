@@ -20,12 +20,12 @@
 body.developing{
 
   &>header{
-     background-color: @h1-bg-color; 
+     background-color: @h1-bg;
      display: block;
      overflow: hidden;
     h1{
       float: left;
-      color: @h1-text-color ;
+      color: @h1-color ;
       padding: 1.0em;
     }
     nav{
@@ -37,22 +37,72 @@ body.developing{
       }
     }
   }
-
-  p{
-    width: 40.0em ;
+  .wrapper{
+    p,
+    ul,
+    ol,
+    li,
+    h2,
+    h3,
+    h4{
+      clear: both;
+      width: 60.0em;
+      max-width: 60em;
+    }
+  }
+  & > p,
+  & > h2,
+  & > h3,
+  & > h4 {
+    margin-left: 0.8em ;
+  }
+  h2, h3, h4 { font-weight: bold ; color: #000 !important; clear: left; padding-left: 0 !important; }
+  h2{ font-size: 130%;  }
+  h3{ font-size: 120%;  }
+  h4{ font-size: 110%;  }
+  pre {
+    margin: 0 0 1.0em 0 ;
+    padding: 0.6em ;
+    border: 1px #000 solid ;
+    background-color: #ddd ;
+    display: inline-block;
+    clear: both;
+    code{ padding: 0 ; }
+  }
+  div.code-highlighted{
+    margin: 0 0 1.0em 0 ;
+    padding: 0.6em ;
+    border: 1px #000 solid ;
+    background-color: #ddd ;
+    display: inline-block;
   }
 
-
-
+  p.picture{
+    background-color: #fff;
+    padding: 0.8em;
+    border: 1px @gray-medium solid;
+    display: inline-block;
+    width: auto;
+  }
   .wrapper{
-  
+
     .tbl-horizontal{
       border: 1px black solid !important;
-      border-collapse: collapse; 
-      
-      caption,th { padding-left: 0.6em ; } 
+      border-collapse: collapse;
+      tbody {
+        border-top: none;
+      }
+      caption,th { padding-left: 0.6em ; }
+
+      th.caption {
+        border-top: none;
+        border-bottom: none;
+
+      }
+
+
       &.test,
-      &.test-plain{ 
+      &.test-plain{
         th{
           //border: 1px black solid !important;
           padding-left: 0.3em;
@@ -61,19 +111,23 @@ body.developing{
           //border: 1px black solid ;
           display: block;
           overflow: visible;
-          border-bottom: 1px #666 solid ;
+          border-bottom: 1px @gray-mediumdark solid ;
         }
         tr:last-child td { border: none ;}
-        
+
       }
-    } 
-    
+    }
+
     &.clear{
       .tbl-horizontal{
         clear: both ;
       }
     }
-    
+
+    table.tbl-list > thead > tr th:first-child, table.tbl-list > tbody > tr td:first-child {
+        padding-left: 0 !important;
+    }
+
     div.test-box{
       font-size: 80% ;
       overflow: visible;
@@ -82,9 +136,7 @@ body.developing{
       float: left;
       border: 1px #000 dotted ;
     }
-  
-  
-  } // /.wrapper
 
+  } // /.wrapper
 
 } // /body.developing

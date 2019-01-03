@@ -5,41 +5,46 @@
 
 <h1>[% title | html %]</h1>
 
-[% INCLUDE 'common/flash.html' %]
-
 <form id='filter_form'>
 
-<p class="message_warning">[% 'Attention: Here will be generated a lot of CB/OB transactions.' | $T8 %]</p>
+<div class="wrapper">
+  <p class="message message_hint">[% 'Attention: Here will be generated a lot of CB/OB transactions.' | $T8 %]</p>
+</div>
+
+<div class="wrapper">
+
+[% INCLUDE 'common/flash.html' %]
 
 <table class="tbl-horizontal">
   <thead>
-  <tr>
-    <th>&nbsp;</th>
-    <th>[% 'CB Transactions' | $T8 %]</th>
-    <th>[% 'OB Transactions' | $T8 %]</th>
-  </tr>
+    <tr>
+      <th>&nbsp;</th>
+      <th>[% 'CB Transactions' | $T8 %]</th>
+      <th>[% 'OB Transactions' | $T8 %]</th>
+    </tr>
   </thead>
   <tbody>
-  <tr>
-    <th>[% 'Date' | $T8 %]</th>
-    <td>[% L.date_tag('cb_date', SELF.cb_date) %]</td>
-    <td>[% L.date_tag('ob_date', SELF.ob_date) %]</td>
-  </tr>
-  <tr>
-    <th>[% 'Reference' | $T8 %]</th>
-    <td>[% L.input_tag('cb_reference', SELF.cb_reference) %]</td>
-    <td>[% L.input_tag('ob_reference', SELF.ob_reference) %]</td>
-  </tr>
-  <tr>
-    <th>[% 'Description' | $T8 %]</th>
-    <td>[% L.input_tag('cb_description', SELF.cb_description) %]</td>
-    <td>[% L.input_tag('ob_description', SELF.ob_description) %]</td>
-  </tr>
-  <tr>
-    <th>[% 'close chart' | $T8 %]</th>
-    <td colspan="2">[% L.select_tag('cbob_chart', SELF.charts9000, title_sub=\make_title_of_chart, default=SELF.cbob_chart, style="width: 400px") %]</td>
-  </tr>
+    <tr>
+      <th>[% 'Date' | $T8 %]</th>
+      <td>[% L.date_tag('cb_date', SELF.cb_date) %]</td>
+      <td>[% L.date_tag('ob_date', SELF.ob_date) %]</td>
+    </tr>
+    <tr>
+      <th>[% 'Reference' | $T8 %]</th>
+      <td>[% L.input_tag('cb_reference', SELF.cb_reference) %]</td>
+      <td>[% L.input_tag('ob_reference', SELF.ob_reference) %]</td>
+    </tr>
+    <tr>
+      <th>[% 'Description' | $T8 %]</th>
+      <td>[% L.input_tag('cb_description', SELF.cb_description) %]</td>
+      <td>[% L.input_tag('ob_description', SELF.ob_description) %]</td>
+    </tr>
+    <tr>
+      <th>[% 'close chart' | $T8 %]</th>
+      <td colspan="2">[% L.select_tag('cbob_chart', SELF.charts9000, title_sub=\make_title_of_chart, default=SELF.cbob_chart, style="width: 400px") %]</td>
+    </tr>
   </tbody>
 </table>
+</div>
 
 </form>

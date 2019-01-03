@@ -139,29 +139,29 @@
 <input type="hidden" name="rowcount" value="[% rowcount %]">
 
 <table class="tbl-horizontal">
-	<caption>[% '' | $T8 %]</caption>
-	<colgroup> <col class="wi-small"><col class="wi-lightwide"> </colgroup> 
-	<tbody>
-		<tr>
-			<th>[% '<b>Automatically create new bins</b> in the following warehouse if not selected in the list above' | $T8 %]</th>
-			<td><<input type="checkbox" name="create_new_bins">/td>
-		</tr>
-		<tr>
-			<th>[% '<b>Automatically create new bins</b> in the following warehouse if not selected in the list above' | $T8 %]</th>
-			<td>
+  <caption>[% '' | $T8 %]</caption>
+  <colgroup> <col class="wi-small"><col class="wi-lightwide"> </colgroup>
+  <tbody>
+    <tr>
+      <th>[% '<b>Automatically create new bins</b> in the following warehouse if not selected in the list above' | $T8 %]</th>
+      <td><<input type="checkbox" name="create_new_bins">/td>
+    </tr>
+    <tr>
+      <th>[% '<b>Automatically create new bins</b> in the following warehouse if not selected in the list above' | $T8 %]</th>
+      <td>
         <select id="warehouse_id_default" name="warehouse_id_default">
         [% FOREACH warehouse = WAREHOUSES %]
           <option value="[% HTML.escape(warehouse.id) %]"[% IF warehouse_id  == warehouse.id %] selected[% END %]>[% warehouse.description %]</option>
         [% END %]
         <option value=""[% IF warehouse_id  == 0 %] selected[% END %] ></option>
         </select>
-			</td>
-		</tr>
-	</tbody>
+      </td>
+    </tr>
+  </tbody>
 </table>
 
 <div class="buttons">
-  <input type="button" onclick="history.back()" value="[% 'Back' | $T8 %]"> 
+  <input type="button" onclick="history.back()" value="[% 'Back' | $T8 %]">
   <input style="background-color:#FFEE66" type="button" value="[% 'AUTOMATICALLY MATCH BINS' | $T8 %]" onclick="bin_match([% rowcount %])">
   <input type="submit" value="[% 'Continue' | $T8 %]">
 </div>

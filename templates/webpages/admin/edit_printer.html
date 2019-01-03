@@ -9,16 +9,16 @@
 [% INCLUDE 'common/flash.html' %]
 
 [% IF !SELF.all_clients.size %]
-<div class="message_error">
+<div class="message message_error">
  <b>[% LxERP.t8("Error") %]:</b> [% LxERP.t8("No clients have been created yet.") %]
 </div>
 
 [% ELSE %]
 
 <form method="post">
-	[% L.hidden_tag("action", 'Admin/dispatch') %] 
-	[% L.hidden_tag("printer.id", SELF.printer.id) %] 
-	
+  [% L.hidden_tag("action", 'Admin/dispatch') %]
+  [% L.hidden_tag("printer.id", SELF.printer.id) %]
+
 <table class="tbl-horizontal">
   <tbody>
     <tr>
@@ -41,11 +41,11 @@
 </table>
 
 <div class="buttons">
-  <a href="[% SELF.url_for(action='list_printers', 'client.id'=SELF.client.id) %]" class="button neutral">[% LxERP.t8("Back") %]</a> 
-  [% L.submit_tag("action_save_printer", LxERP.t8("Save"), class="button") %] 
-  [% IF SELF.printer.id %] 
-    [% L.submit_tag("action_delete_printer", LxERP.t8("Delete"), confirm=LxERP.t8("Are you sure?")) %] 
-  [% END %] 
+  <a href="[% SELF.url_for(action='list_printers', 'client.id'=SELF.client.id) %]" class="button neutral">[% LxERP.t8("Back") %]</a>
+  [% L.submit_tag("action_save_printer", LxERP.t8("Save"), class="button") %]
+  [% IF SELF.printer.id %]
+    [% L.submit_tag("action_delete_printer", LxERP.t8("Delete"), confirm=LxERP.t8("Are you sure?")) %]
+  [% END %]
 </div>
 
 </form>

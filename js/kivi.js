@@ -597,7 +597,7 @@ namespace("kivi", function(ns) {
     return false;
   };
   // PENDENT: Moeglichkeit, CSS-Klasse zu uebergeben
-  ns.switch_areainput_to_textarea = function(id, sclass) {
+  ns.switch_areainput_to_textarea = function(id) {
     var $input = $('#' + id);
     if (!$input.length)
       return;
@@ -609,7 +609,7 @@ namespace("kivi", function(ns) {
     $area.prop('name', $input.prop('name'));
     $area.prop('id',   $input.prop('id'));
     //$area.prop('class','wi-wide'); // PENDENT: als Variable denn als hardcoded string
-    $area.prop('class', sclass); // PENDENT: als Variable denn als hardcoded string
+    //$area.prop('class', sclass); // PENDENT: als Variable denn als hardcoded string
     $area.val($input.val());
 
     $input.parent().replaceWith($area);

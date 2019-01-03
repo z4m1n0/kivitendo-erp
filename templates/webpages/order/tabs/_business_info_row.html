@@ -9,5 +9,5 @@
       [% 'Vendor type' | $T8 %]
     [% END %]
   </th>
-  <td>[% HTML.escape(SELF.order.customervendor.business.description) %]; [% 'Trade Discount' | $T8 %] [% SELF.order.customervendor.business.discount_as_percent %] %</td>
+  <td><span class="plain-data wi-lightwide">[% HTML.escape(SELF.order.customervendor.business.description) %] ([% 'Trade Discount' | $T8 %] [% SELF.order.customervendor.business.discount_as_percent %]%)</span></td>
 </tr>

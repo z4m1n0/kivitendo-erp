@@ -1,6 +1,7 @@
 [% USE T8 %]
 [% USE L %]
 [% USE HTML %]
+
 <h1>[% title %]</h1>
 
 <script type="text/javascript" src="js/FormManager.js" >
@@ -18,6 +19,8 @@ $(function() {
 
 <form method="post" name="EditAccount" action="am.pl" id="form">
 
+<div class="wrapper">
+
 <input type="hidden" name="id"                 value="[% HTML.escape(id) %]">
 <input type="hidden" name="type"               value="account">
 <input type="hidden" name="orphaned"           value="[% HTML.escape(orphaned) %]">
@@ -29,8 +32,6 @@ $(function() {
 <input type="hidden" name="fxloss_accno_id"    value="[% HTML.escape(fxloss_accno_id) %]">
 <input type="hidden" name="rndgain_accno_id"   value="[% HTML.escape(rndgain_accno_id) %]">
 <input type="hidden" name="rndloss_accno_id"   value="[% HTML.escape(rndloss_accno_id) %]">
-
-<div class="wrapper">
 
 <div class="col">
 
@@ -107,7 +108,6 @@ $(function() {
 <div class="long-desc small">
   <p>[% 'Note: Taxkeys must have a "valid from" date, and will not behave correctly without.' | $T8 %]</p>
 </div>
-
 <table class="tbl-horizontal">
   <thead>
     <tr>
@@ -119,36 +119,32 @@ $(function() {
   </thead>
   <tbody>
     [% FOREACH tk = ACCOUNT_TAXKEYS %]
-    <tr>
-      [% IF tk.id %]
-      <td>
-        <input type="hidden" name="taxkey_id_[% tk.runningnumber %]" value="[% tk.id %]">
-        <select name="taxkey_tax_[% tk.runningnumber %]" class="wi-wider">[% tk.selecttaxkey %]</select>
-      </td>
-      <td><input name="taxkey_startdate_[% tk.runningnumber %]" value="[% HTML.escape(tk.startdate) %]" type="text" class="wi-date"></td>
-      [% IF feature_ustva %]
-      <td>
-        <select name="taxkey_pos_ustva_[% tk.runningnumber %]" class="wi-wider">[% tk.select_tax %]</select>
-      </td>
-      [% END %]
-      <td class="center">
-        <input name="taxkey_del_[% tk.runningnumber %]" type="checkbox" value="delete">
-      </td>
-  [% ELSE %]
-      <td>
-        <input type="hidden" name="taxkey_id_[% tk.runningnumber %]" value="NEW">
-        <select name="taxkey_tax_[% tk.runningnumber %]" class="wi-wider">[% tk.selecttaxkey %]</select>
-      </td>
-      <td><input name="taxkey_startdate_[% tk.runningnumber %]" value="[% HTML.escape(tk.startdate) %]" type="text" class="wi-date"></td>
-      [% IF feature_ustva %]
-      <td>
-        <select name="taxkey_pos_ustva_[% tk.runningnumber %]" class="wi-wider">[% tk.select_tax %]</select>
-      </td>
-      [% END %]
-      <td>&nbsp;</td>
-  [% END %]
-    </tr>
-[% END %]
+      <tr>
+        [% IF tk.id %]
+          <td>
+            <input type="hidden" name="taxkey_id_[% tk.runningnumber %]" value="[% tk.id %]">
+            <select name="taxkey_tax_[% tk.runningnumber %]" class="wi-wider">[% tk.selecttaxkey %]</select>
+          </td>
+          <td><input name="taxkey_startdate_[% tk.runningnumber %]" value="[% HTML.escape(tk.startdate) %]" type="text" class="wi-date"></td>
+          [% IF feature_ustva %]
+            <td><select name="taxkey_pos_ustva_[% tk.runningnumber %]" class="wi-wider">[% tk.select_tax %]</select></td>
+          [% END %]
+          <td class="center">
+            <input name="taxkey_del_[% tk.runningnumber %]" type="checkbox" value="delete">
+          </td>
+        [% ELSE %]
+          <td>
+            <input type="hidden" name="taxkey_id_[% tk.runningnumber %]" value="NEW">
+            <select name="taxkey_tax_[% tk.runningnumber %]" class="wi-wider">[% tk.selecttaxkey %]</select>
+          </td>
+          <td><input name="taxkey_startdate_[% tk.runningnumber %]" value="[% HTML.escape(tk.startdate) %]" type="text" class="wi-date"></td>
+          [% IF feature_ustva %]
+            <td><select name="taxkey_pos_ustva_[% tk.runningnumber %]" class="wi-wider">[% tk.select_tax %]</select></td>
+          [% END %]
+          <td>&nbsp;</td>
+        [% END %]
+      </tr>
+    [% END %]
   </tbody>
 </table>
 
@@ -173,15 +169,6 @@ $(function() {
       <td><select name="pos_bwa" class="wi-wider">[% select_bwa %]</select></td>
     </tr>
   [% END %]
-  [% #IF feature_balance %]
-    <!-- UPDATE: Diese Steuerfunktion hat keine Auswirkung in der Bilanz und wird erstmal deaktiviert. -->
-    <!--
-    <tr>
-      <th>[% 'Bilanz' | $T8 %]</th>
-      <td colspan="3"><select name="pos_bilanz">[% select_bilanz %]</select></td>
-    </tr>
-   -->
-  [% #END %]
   [% IF feature_datev %]
     <tr>
       <th>[% 'Datevautomatik' | $T8 %]</th>
@@ -191,11 +178,20 @@ $(function() {
   <tr>
     <th>[% 'Folgekonto' | $T8 %]</th>
     <td>
-      <select name="new_chart_id" class="wi-wider">[% selectnewaccount %]</select><br>
-      [% 'Valid from' | $T8 %]
-      <input name="valid_from" value="[% valid_from %]" type="text" class="wi-mediumsmall">
+      <select name="new_chart_id" class="wi-wider">[% selectnewaccount %]</select>
+      <span class="label with-element">[% 'Valid from' | $T8 %]
+      <input name="valid_from" value="[% valid_from %]" type="text" class="wi-mediumsmall"></span>
     </td>
   </tr>
+  [% #IF feature_balance %]
+    <!-- PENDENT: UPDATE: Diese Steuerfunktion hat keine Auswirkung in der Bilanz und wird erstmal deaktiviert. -->
+    <!--
+    <tr>
+      <th>[% 'Bilanz' | $T8 %]</th>
+      <td colspan="3"><select name="pos_bilanz">[% select_bilanz %]</select></td>
+    </tr>
+   -->
+  [% #END %]
   </tbody>
 </table>
 [% END %]
@@ -214,7 +210,7 @@ $(function() {
 
 
 <table class="tbl-horizontal">
-  <colgroup><col class="wi-normal"><col class="wi-normal"></colgroup>  </colgroup>
+  <colgroup><col class="wi-normal"><col class="wi-normal"></colgroup>
   <tbody>
     <tr>
       <td><b>[% 'Receivables' | $T8 %]</b><br>
@@ -263,12 +259,8 @@ $(function() {
 
 
 
-
-
-
-
 [% IF ( id ) %]
-  <script type="text/javascript">
+<script type="text/javascript">
   function callback_save() {
     var prev_desc = "[% description | html %]";
     var prev_accno = "[% accno | html %]";
@@ -280,7 +272,7 @@ $(function() {
     else
       return true;
   }
-  </script>
+</script>
 [% END %]
 [% L.hidden_tag('callback', callback) %]
 </form>

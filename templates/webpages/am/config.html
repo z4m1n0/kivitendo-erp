@@ -14,102 +14,92 @@
   <li><a href="#page_todo_list_options">[% 'TODO list options' | $T8 %]</a></li>
 </ul>
 
- 
+
 <div id="page_personal_settings">
-	<div class="wrapper">
-		<table class="tbl-horizontal">
+  <div class="wrapper">
+    <table class="tbl-horizontal">
+      <colgroup> <col class="wi-mediumsmall"><col class="wi-lightwide"> </colgroup>
       <caption> [% 'Personal settings' | $T8 %] </caption>
+      <colgroup> <col class="wi-small"><col class="wi-lightwide"> </colgroup>
       <tbody>
-			<tr>
-				<th>[% 'Name' | $T8 %]</th>
-				<td>
-          <input type="text" name="name" class="wi-wide" value="[% HTML.escape(MYCONFIG.name) %]">
-				</td>
-			</tr>
-			<tr>
-				<th>[% 'Password' | $T8 %]</th>
-				<td> 
-          [% IF CAN_CHANGE_PASSWORD %] 
+      <tr>
+        <th>[% 'Name' | $T8 %]</th>
+        <td><input type="text" name="name" class="wi-wide" value="[% HTML.escape(MYCONFIG.name) %]"></td>
+      </tr>
+      <tr>
+        <th>[% 'Password' | $T8 %]</th>
+        <td>
+          [% IF CAN_CHANGE_PASSWORD %]
             <input type="password" name="new_password" class="wi-wide" value="********">
-          [% ELSE %] 
+          [% ELSE %]
             <input type="hidden" name="new_password" value="********" class="wi-wide">
-          [% END %] 
-				</td>
-			</tr>
-			<tr>
-				<th>[% 'E-mail' | $T8 %]</th>
-				<td><input type="text" name="email" class="wi-wide" value="[% HTML.escape(MYCONFIG.email) %]"></td>
-			</tr>
-			<tr>
-				<th>[% 'Signature' | $T8 %]</th>
-				<td>
-				  <textarea id="signature" name="signature" class="toggletextarea" rows="5" cols="50">[% HTML.escape(MYCONFIG.signature) %] </textarea>
+          [% END %]
+        </td>
+      </tr>
+      <tr>
+        <th>[% 'E-mail' | $T8 %]</th>
+        <td><input type="text" name="email" class="wi-wide" value="[% HTML.escape(MYCONFIG.email) %]"></td>
+      </tr>
+      <tr>
+        <th>[% 'Signature' | $T8 %]</th>
+        <td>
+          <textarea id="signature" name="signature" class="toggletextarea" rows="5" cols="50">[% HTML.escape(MYCONFIG.signature) %] </textarea>
           <span id="full_signature" class="toggletextarea"> <textarea readonly name="full_signature" rows="10" cols="50">[% HTML.escape(full_signature) %]</textarea>
-          </span> <a href="#" class="togglelink">[% 'Check full signature' | $T8 %]</a> <a href="#" id="edit_signature" class="togglelink">[% 'Edit user signature' | $T8 %]</a> 
-				</td>
-			</tr>
-			<tr>
-				<th>[% 'Phone' | $T8 %]</th>
-				<td><input type="text" name="tel" class="wi-wide" value="[% HTML.escape(MYCONFIG.tel) %]"></td>
-			</tr>
-			<tr>
-				<th>[% 'Fax' | $T8 %]</th>
-				<td><input type="text" name="fax" class="wi-wide" value="[% HTML.escape(MYCONFIG.fax) %]"></td>
-			</tr>
-			<tr>
-				<th>[% 'taxincluded checked' | $T8 %]</th>
-				<td> [% L.yes_no_tag('taxincluded_checked', MYCONFIG.taxincluded_checked, class='wi-small') %]</td>
-			</tr>
-			<tr>
-				<th>[% 'Focus position after update' | $T8 %]</th>
-				<td> [% L.select_tag( 'focus_position', [ ['new_description', LxERP.t8('New row, description')], ['new_partnumber', LxERP.t8('New row, partnumber')], ['new_qty', LxERP.t8('New row, qty')], ['last_description', LxERP.t8('Last row, description')], ['last_partnumber', LxERP.t8('Last row, partnumber')], ['last_qty', LxERP.t8('Last row, qty')], ], default => MYCONFIG.focus_position, class='wi-wide') %] 
-				</td>
-			</tr>
-			<tr>
-				<th>[% 'Item multi selection with qty' | $T8 %]</th>
-				<td> [% L.yes_no_tag('item_multiselect', MYCONFIG.item_multiselect, class='wi-small') %] 
-				</td>
-			</tr>
+          </span> <a href="#" class="togglelink">[% 'Check full signature' | $T8 %]</a> <a href="#" id="edit_signature" class="togglelink">[% 'Edit user signature' | $T8 %]</a>
+        </td>
+      </tr>
+      <tr>
+        <th>[% 'Phone' | $T8 %]</th>
+        <td><input type="text" name="tel" class="wi-wide" value="[% HTML.escape(MYCONFIG.tel) %]"></td>
+      </tr>
+      <tr>
+        <th>[% 'Fax' | $T8 %]</th>
+        <td><input type="text" name="fax" class="wi-wide" value="[% HTML.escape(MYCONFIG.fax) %]"></td>
+      </tr>
+      <tr>
+        <th>[% 'taxincluded checked' | $T8 %]</th>
+        <td> [% L.yes_no_tag('taxincluded_checked', MYCONFIG.taxincluded_checked, class='wi-small') %]</td>
+      </tr>
+      <tr>
+        <th>[% 'Focus position after update' | $T8 %]</th>
+        <td> [% L.select_tag( 'focus_position', [ ['new_description', LxERP.t8('New row, description')], ['new_partnumber', LxERP.t8('New row, partnumber')], ['new_qty', LxERP.t8('New row, qty')], ['last_description', LxERP.t8('Last row, description')], ['last_partnumber', LxERP.t8('Last row, partnumber')], ['last_qty', LxERP.t8('Last row, qty')], ], default => MYCONFIG.focus_position, class='wi-wide') %]
+        </td>
+      </tr>
+      <tr>
+        <th>[% 'Item multi selection with qty' | $T8 %]</th>
+        <td> [% L.yes_no_tag('item_multiselect', MYCONFIG.item_multiselect, class='wi-small') %]
+        </td>
+      </tr>
     </tbody>
-		</table>
-	</div><!-- /.wrapper -->
+    </table>
+  </div><!-- /.wrapper -->
 </div><!-- /#page_personal_settings -->
 
 <div id="page_display_options">
   <div class="wrapper">
     <table class="tbl-horizontal">
-    <colgroup> <col class="wi-lightwide"><col class="wi-lightwide"> </colgroup> 
+    <colgroup> <col class="wi-mediumsmall"><col class="wi-lightwide"> </colgroup>
     <caption>[% 'Display options' | $T8 %]</caption>
     <tbody>
      <tr>
       <th>[% 'Date Format' | $T8 %]</th>
-      <td>
-        [% L.select_tag('dateformat', DATEFORMATS, value_key='value', title_key='name', class="wi-small") %]
-      </td>
+      <td>[% L.select_tag('dateformat', DATEFORMATS, value_key='value', title_key='name', class="wi-small") %]</td>
      </tr>
      <tr>
        <th>[% 'Time Format' | $T8 %]</th>
-       <td>
-         [% L.select_tag('timeformat', TIMEFORMATS, value_key='value', title_key='name', class="wi-small") %]
-       </td>
+       <td>[% L.select_tag('timeformat', TIMEFORMATS, value_key='value', title_key='name', class="wi-small") %]</td>
      </tr>
      <tr>
       <th>[% 'Output Number Format' | $T8 %]</th>
-      <td>
-        [% L.select_tag('numberformat', NUMBERFORMATS, value_key='value', title_key='name', class="wi-small") %]
-      </td>
+      <td>[% L.select_tag('numberformat', NUMBERFORMATS, value_key='value', title_key='name', class="wi-small") %]</td>
      </tr>
      <tr>
       <th>[% 'Language' | $T8 %]</th>
-      <td>
-        [% L.select_tag('countrycode', COUNTRYCODES, value_key = 'value', title_key = 'name', class='wi-lightwide') %]
-      </td>
+      <td>[% L.select_tag('countrycode', COUNTRYCODES, value_key = 'value', title_key = 'name', class='wi-lightwide') %]</td>
      </tr>
      <tr>
       <th>[% 'Stylesheet' | $T8 %]</th>
-      <td>
-        [% L.select_tag('usestylesheet', STYLESHEETS, value_key = 'value', title_key = 'name', class='wi-lightwide') %]
-      </td>
+      <td>[% L.select_tag('usestylesheet', STYLESHEETS, value_key = 'value', title_key = 'name', class='wi-lightwide') %]</td>
      </tr>
      <tr>
       <th>[% 'Setup Menu' | $T8 %]</th>
@@ -141,62 +131,60 @@
      </tr>
      <tr>
       <th>[% 'Number of columns of custom variables in form details (second row)' | $T8 %]</th>
-      <td>
-        [% L.input_tag('form_cvars_nr_cols',  MYCONFIG.form_cvars_nr_cols || 3, class='wi-verysmall') %]
-      </td>
+      <td>[% L.input_tag('form_cvars_nr_cols', MYCONFIG.form_cvars_nr_cols || 3, class='wi-verysmall') %]</td>
      </tr>
     </tbody>
     </table>
   </div><!-- /.wrapper -->
 </div><!-- /#page_display_options -->
 
- 
+
 <div id="page_print_options">
-	<div class="wrapper">
-		<input name="printer" type="hidden" value="[% HTML.escape(MYCONFIG.printer) %]">
-		<table class="tbl-horizontal">
-		  <caption>[% 'Print options' | $T8 %]</caption>
-			<tbody>
-				<tr>
-					<th>[% 'Default template format' | $T8 %]</th>
-					<td> [% L.select_tag('template_format', TEMPLATE_FORMATS, value_key = 'value', title_key = 'name', class='wi-normal') %] 
-					</td>
-				</tr>
-				<tr>
-					<th>[% 'Default output medium' | $T8 %]</th>
-					<td> [% L.select_tag('default_media', MEDIA, value_key = 'value', title_key = 'name', class='wi-normal') %] 
-					</td>
-				</tr>
-				<tr>
-					<th>[% 'Default printer' | $T8 %]</th>
-					<td> [% L.select_tag('default_printer_id', PRINTERS, default = MYCONFIG.default_printer_id, title_key = 'printer_description', with_empty = 1, class='wi-normal') %] 
-					</td>
-				</tr>
-				<tr>
-					<th>[% 'Number of copies' | $T8 %]</th>
-					<td>
-					<input type="text" name="copies" size="10" value="[% HTML.escape(MYCONFIG.copies) %]" class="wi-normal">
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div><!-- /.wrapper -->
+  <div class="wrapper">
+    <input name="printer" type="hidden" value="[% HTML.escape(MYCONFIG.printer) %]">
+    <table class="tbl-horizontal">
+      <caption>[% 'Print options' | $T8 %]</caption>
+      <tbody>
+        <tr>
+          <th>[% 'Default template format' | $T8 %]</th>
+          <td> [% L.select_tag('template_format', TEMPLATE_FORMATS, value_key = 'value', title_key = 'name', class='wi-normal') %]
+          </td>
+        </tr>
+        <tr>
+          <th>[% 'Default output medium' | $T8 %]</th>
+          <td> [% L.select_tag('default_media', MEDIA, value_key = 'value', title_key = 'name', class='wi-normal') %]
+          </td>
+        </tr>
+        <tr>
+          <th>[% 'Default printer' | $T8 %]</th>
+          <td> [% L.select_tag('default_printer_id', PRINTERS, default = MYCONFIG.default_printer_id, title_key = 'printer_description', with_empty = 1, class='wi-normal') %]
+          </td>
+        </tr>
+        <tr>
+          <th>[% 'Number of copies' | $T8 %]</th>
+          <td>
+          <input type="text" name="copies" size="10" value="[% HTML.escape(MYCONFIG.copies) %]" class="wi-normal">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div><!-- /.wrapper -->
 </div><!-- /#page_print_options -->
 
 
-<div id="page_todo_list_options"> 
+<div id="page_todo_list_options">
   <div class="wrapper">
     <table class="tbl-horizontal">
     <caption>[% 'Todo list options' | $T8 %]</caption>
-      <colgroup> <col class="wi-normal"><col class="wi-normal"> </colgroup> 
+      <colgroup> <col class="wi-normal"><col class="wi-normal"> </colgroup>
     <tbody>
       <tr>
         <th>[% 'Show your TODO list after logging in' | $T8 %]</th>
-        <td> 
+        <td>
         <input type="radio" name="todo_cfg.show_after_login" id="todo_cfg_show_after_login_1" value="1"[% IF todo_cfg.show_after_login %] checked[% END %]>
-        <label for="todo_cfg_show_after_login_1">[% 'Yes' | $T8 %]</label> 
+        <label for="todo_cfg_show_after_login_1">[% 'Yes' | $T8 %]</label>
         <input type="radio" name="todo_cfg.show_after_login" id="todo_cfg_show_after_login_0" value="0"[% IF !todo_cfg.show_after_login %] checked[% END %]>
-        <label for="todo_cfg_show_after_login_0">[% 'No' | $T8 %]</label> 
+        <label for="todo_cfg_show_after_login_0">[% 'No' | $T8 %]</label>
         </td>
       </tr>
       <tr>
@@ -204,24 +192,24 @@
       </tr>
       <tr>
         <th>[% 'Show follow ups...' | $T8 %]</th>
-        <td> 
+        <td>
           <input type="checkbox" name="todo_cfg.show_follow_ups" id="todo_cfg_show_follow_ups" value="1"[% IF todo_cfg.show_follow_ups %] checked[% END %]>
           <label for="todo_cfg_show_follow_ups">[% '...on the TODO list' | $T8 %]</label> <br>
           <input type="checkbox" name="todo_cfg.show_follow_ups_login" id="todo_cfg_show_follow_ups_login" value="1"[% IF todo_cfg.show_follow_ups_login %] checked[% END %]>
-          <label for="todo_cfg_show_follow_ups_login">[% '...after logging in' | $T8 %]</label> 
+          <label for="todo_cfg_show_follow_ups_login">[% '...after logging in' | $T8 %]</label>
         </td>
       </tr>
-      [% IF AUTH.assert('sales_quotation_edit', 'may_fail') %] 
+      [% IF AUTH.assert('sales_quotation_edit', 'may_fail') %]
       <tr>
         <th>[% 'Show overdue sales quotations and requests for quotations...' | $T8 %]</th>
-        <td> 
+        <td>
           <input type="checkbox" name="todo_cfg.show_overdue_sales_quotations" id="todo_cfg_show_overdue_sales_quotations" value="1"[% IF todo_cfg.show_overdue_sales_quotations %] checked[% END %]>
           <label for="todo_cfg_show_overdue_sales_quotations">[% '...on the TODO list' | $T8 %]</label> <br>
           <input type="checkbox" name="todo_cfg.show_overdue_sales_quotations_login" id="todo_cfg_show_overdue_sales_quotations_login" value="1"[% IF todo_cfg.show_overdue_sales_quotations_login %] checked[% END %]>
-          <label for="todo_cfg_show_overdue_sales_quotations_login">[% '...after logging in' | $T8 %]</label> 
+          <label for="todo_cfg_show_overdue_sales_quotations_login">[% '...after logging in' | $T8 %]</label>
         </td>
       </tr>
-      [% END %] 
+      [% END %]
     </tbody>
     </table>
   </div><!-- /.wrapper -->

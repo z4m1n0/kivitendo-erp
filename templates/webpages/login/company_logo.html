@@ -2,33 +2,30 @@
 [% USE HTML %]
 [% USE LxERP %]
 
-<noscript>
-<div class="message message_hint">
-[% INCLUDE 'generic/information.html'
-   title_information = LxERP.t8('Your browser does not currently support Javascript.'),
-   label_information = LxERP.t8('A lot of the usability of kivitendo has been enhanced with javascript. Although it is currently possible to use every aspect of kivitendo without javascript, we strongly recommend it. In a future version this may change and javascript may be necessary to access advanced features.'),
-%]
-</div>
-</noscript>
 <div class="logged-in">
-  <div class="col">
+  <noscript>
+  [% INCLUDE 'generic/information.html'
+     title_information = LxERP.t8('Your browser does not currently support Javascript.'),
+     label_information = LxERP.t8('A lot of the usability of kivitendo has been enhanced with javascript. Although it is currently possible to use every aspect of kivitendo without javascript, we strongly recommend it. In a future version this may change and javascript may be necessary to access advanced features.'),
+  %]
+  </noscript>
+  <div class="col" style="width:270px">
     <a class="nomobile" href="http://www.kivitendo.de" target="_blank" title="[% 'kivitendo Homepage' | $T8 %] ([% 'Open in new window' | $T8 %])">
     <img src="image/kivitendo[% xmas %].png" class="kivitendo-logo" alt="[% 'kivitendo' | $T8 %]"></a>
   </div>
   <div class="col">
     <h3 class="login">[% 'kivitendo' | $T8 %] [% version %]</h3>
 
-    [%- IF git_head %]
-    <p>[%- LxERP.t8("Git revision: #1, #2 #3", git_head.hash.substr(0, 7), git_head.author_date.to_kivitendo, git_head.author_date.strftime('%H:%M:%S %Z')) %]</p>
-    [%- END %]
-
-    <p>[% 'companylogo_subtitle' | $T8 %]</p>
-    <p><b>[% HTML.escape(defaults.company) %]<br>
-      [% HTML.escape(defaults.address).replace('\\\\n', '<br>').replace('\n', '<br>') %]</b>
-    </p>
+    [% IF git_head %]
+      <p>[% LxERP.t8("Git revision: #1, #2 #3", git_head.hash.substr(0, 7), git_head.author_date.to_kivitendo, git_head.author_date.strftime('%H:%M:%S %Z')) %]</p>
+    [% END %]
 
     <table class="tbl-horizontal">
       <tbody>
+        <tr>
+          <th>[% 'companylogo_subtitle' | $T8 %]</th>
+          <td><b>[% HTML.escape(defaults.company) %]<br></b>[% HTML.escape(defaults.address).replace('\\\\n', '<br>').replace('\n', '<br>') %]</td>
+        </tr>
         <tr>
           <th><a href="am.pl?action=config" title="[% 'Preferences' | $T8 %]">[% 'User' | $T8 %]</a></th>
           <td>[% HTML.escape(MYCONFIG.name) %]</td>
@@ -55,4 +52,4 @@
   </div>
 </div>
 
-[%- todo_list %]
+[% todo_list %]

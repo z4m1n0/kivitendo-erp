@@ -1,12 +1,14 @@
 [% USE LxERP %]
 [% USE L %]
 [% USE HTML %]
-<!-- PENDENT: Ueberpruefen, Tabelle und Buttons -->
-[% IF ! json %]<div id="[% file_type %]_list_[% object_type %]">[% END %]
 
-<h1>[% title %]</h1>
+<!-- PENDENT: Ueberpruefen, Tabelle und Buttons -->
+[% IF ! json %]
+  <div id="[% file_type %]_list_[% object_type %]">
+[% END %]
 
 <div class="wrapper">
+<h2>[% title %]</h2>
 
 [% SET can_rename = 0 %]
 [% FOREACH source = SOURCES %]
@@ -20,10 +22,12 @@
         [% SET checkname = object_type _ '_' _ source.chk_action %]
       [% END %]
       [% IF edit_attachments %]
-        <script type="text/javascript"><!--
-          $(function() { $('#[% checkname %]_checkall').checkall('INPUT[name="[% checkname %][]"]'); });
-        --></script>
-        <th>[% L.checkbox_tag(checkname _ '_checkall') %]</th>
+        <th>
+          <script type="text/javascript"><!--
+            $(function() { $('#[% checkname %]_checkall').checkall('INPUT[name="[% checkname %][]"]'); });
+          --></script>
+          [% L.checkbox_tag(checkname _ '_checkall') %]
+        </th>
         <th>[% source.chkall_title %]</th>
       [% END %]
       <th>[%  LxERP.t8('Date') %]</th>

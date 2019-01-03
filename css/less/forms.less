@@ -9,7 +9,10 @@
 //
 // CONTENTS:
 // - FORM
+// -- .box
 // - FORM ELEMENTS
+// -- input, textarea, select
+// -- focused elements
 // - BUTTONS
 // - LABELS
 // - FIELDSET
@@ -30,7 +33,9 @@
 // --------------------------------------
 // FORM
 // --------------------------------------
-
+// At first we tried to nest all form elements within the form tag
+// but it is not possible because some forms (print dialog etc.) do not have
+// a surrounding form element
 form {
   display: table;
   width: 100%;
@@ -39,23 +44,27 @@ form {
 
 
   // If Form must be a block container
+  // PENDENT: anschauen
   &.box {
     display: block;
     overflow: hidden ;
     padding: 0 0 1.6em 0 ;
-    
   }
+
+}
+// /form
+
 
   // --------------------------------------
   // FORM-ELEMENTS
   // --------------------------------------
-
+  //
   input,
   textarea,
   select {
     font-family: @font-family-sans-serif ;
     font-size: @font-size-smaller ;
-    padding: 0.2em 0.28em;
+    padding: 0.2em 0.2em 0.2em 0.2em ;
     border: 1px;
     border-color: darkgray lightgray lightgray;
     border-style: solid;
@@ -64,9 +73,9 @@ form {
 
     &[type="text"],
     &[type="password"] {
-      
-    }
 
+    }
+    // PENDENT: data type
     &[type="text"] {
       &.accent{
         font-weight: bold ;
@@ -99,9 +108,8 @@ form {
   select {
     // background: white url('../image/select-down.png') no-repeat scroll right center;
     padding-right: 1.0em;
-
     &.helper {
-       background-color: #efefef;
+       background-color: @gray-superlight;
     }
   }
 
@@ -113,9 +121,9 @@ form {
   input {
     &[type="file"]{
       padding: 0.8em;
-      background-color: #dedede;
-      color: #666666 ;
-      border: 1px #666 solid ;
+      background-color: @gray-lighter;
+      color: @gray-mediumdark ;
+      border: 1px @gray-mediumdark solid ;
       // PENDENT: geht wahrscheinlich nicht, oder muss anders geloest werden
       // Hier handelt es sich um den "Select File"-Button
       button,
@@ -129,170 +137,13 @@ form {
 
 
 
-  // --------------------------------------
-  // BUTTONS
-  // --------------------------------------
-
-  // General
-  input[type="button"],
-  input[type="submit"],
-  input[type="reset"],
-  button,
-  a.button /* PENDENT: A.button verlagern */ {
-    .mx-button ; // Mixin
-
-    &.clear {
-      clear: left;
-    }
-    // DIMENSIONS
-    &.wi-verysmall   { min-width: @input-wi-verysmall   ; }
-    &.wi-small       { min-width: @input-wi-small       ; }
-    &.wi-mediumsmall { min-width: @input-wi-mediumsmall ; }
-    &.wi-normal      { min-width: @input-wi-normal      ; }
-    &.wi-lightwide   { width:     @input-wi-lightwide   ; }
-    &.wi-wide        { width:     @input-wi-wide        ; }
-    &.wi-wider       { width:     @input-wi-wider       ; }
-    &.wi-verywide    { width:     @input-wi-verywide    ; }
-    &.wi-tiny { 
-      width: auto ; 
-      padding: 0.16em 0.2em 0.1em 0.2em;
-      margin: -0.3em 0 0 0.2em;
-      //float: right;
-      display: inline-block;
-      font-size: 84% ;
-      
-      &.icon{
-        padding: 0 !important ;
-      }
-    }      
-      
-      
-  }
-
-  input[type="button"],
-  input[type="submit"],
-  input[type="reset"],
-  button {
-    cursor: pointer ;
-  }
 
 
 
-  // -------------------
-  // Action (submission to server page)
-  input[type="submit"],  
-  input[type="button"],
-  button[type="submit"], 
-  button[type="button"] {
-    color: @btn-default-color ; 
-    background-color: @btn-default-bg;
-    border-color: @btn-default-border ;      
-    
-    &:hover,
-    &.hover{
-      color: @btn-default-hover-color ; 
-      background-color: @btn-default-hover-bg;
-      border-color: @btn-default-hover-border ;         
-    }
-    &:active,
-    &.active{
-      color: @btn-default-active-color ; 
-      background-color: @btn-default-active-bg;
-      border-color: @btn-default-active-border ;      
-    }
-    
-  }
-  
-  // -------------------
-  // Neutral (no submission to server page)
-  /* a.button.neutral, */
-  input[type="button"].neutral,
-  input[type="submit"].neutral,
-  input[type="reset"],
-  input[type="reset"].neutral,
-  button.neutral,
-  button[type="reset"] {
-    color: @btn-neutral-color ; 
-    background-color: @btn-neutral-bg;
-    border-color: @btn-neutral-border ;  
-        
-    &:hover {
-      color: @btn-neutral-hover-color ;
-      background-color: @btn-neutral-hover-bg;
-      border-color: @btn-neutral-hover-border ;          
-    }
-    
-    &:active {
-      color: @btn-neutral-active-color;
-      background-color: @btn-neutral-active-bg;
-      border-color: @btn-neutral-active-border ;          
-    }
-  }
-  // just for testing and documentation
-  input[type="reset"].neutral-hover,
-  button.neutral-hover {
-    color: @btn-neutral-hover-color ;
-    background-color: @btn-neutral-hover-bg;
-    border-color: @btn-neutral-hover-border ;              
-  }
-  // just for testing and documentation
-  input[type="reset"].neutral-active,
-  button.neutral-active {
-      color: @btn-neutral-active-color;
-      background-color: @btn-neutral-active-bg;
-      border-color: @btn-neutral-active-border ;          
-  }
-  
-  
-  
-  
-
-  // PENDENT: Neu
-  input[type="button"]{
-    &.inline{}
-    &.below{
-      clear: both !important;
-      float: none;
-      margin-top: 0.3em;
-      overflow: hidden ;
-    }
-    
-  }
-
-  input[type="button"]:focus,
-  input[type="submit"]:focus,
-  button:focus {
-    background-color: #FFFFA0;
-    border-color: #fe5f14;
-  }
-
-  // PENDENT: anschauen
-//   button:hover:enabled,
-//   input[type="button"]:hover:enabled,
-//   input[type="submit"]:hover:enabled {
-//     color: #fff ;
-//   }
 
 
-  // Container fuer Buttons
-  div.buttons{
-    padding: 1.0em ;
-    clear: left ; 
-    display: block;
-    // PENDENT: anschauen, ist fuer Anzeige von Positionsdetails
-    &.positions{
-      margin: 0 0 -2.0em 20.0em;
-      padding: 0 ;
-    }
-    &.below{
-      padding: 0 ;
-      margin: 0 ;
-    }
-  }
-  .col .buttons{
-    padding: 1.0em 1.0em 1.0em 0 !important;
-    //border: #ff00ff 1px solid // TEST
-  }
+
+
 
 
 
@@ -302,19 +153,11 @@ form {
   // --------------------------------------
 
   label {
-    cursor: pointer;
+    cursor: text;
     vertical-align: top;
     display: inline-block;
-    width: 92% ;
-
-    // PENDENT: MIXIN-anlegen fuer .Buttons
-    &.button{
-      background-color: #99CCFF;
-      border: 1px #53619B solid;
-      border-radius: 3px;
-      color: #06C;
-      padding: 0px 4px;
-    }
+    width: 88% ;
+    color: @brand-data-label-color ;
     &:hover {
       color: #000 ;
       text-decoration: underline ;
@@ -340,10 +183,10 @@ form {
 
     // Heading within FIELDSET */
     h4 {
-    font-weight: normal ;
-    font-size: @font-size-h4 ;
-    margin: 0;
-    padding: 0 0 0.2em 0;
+      font-weight: normal ;
+      font-size:   @h4-size ;
+      margin:      0;
+      padding:     0 0 0.2em 0;
     }
   }
 
@@ -354,11 +197,8 @@ form {
   // DIMENSIONS
   // --------------------------------------
   input{
-
-    // -------------------
     // 1 Lined input field
-    //
-
+    // PENDENT: bei Verwendung von weiteren HTML5-Typen Typ-Deklaration erweitern
     &[type="text"],
     &[type="password"]{
       &.wi-smallest     { width:     @input-wi-smallest    ; } //   2.0em
@@ -367,29 +207,28 @@ form {
       &.wi-mediumsmall  { width:     @input-wi-mediumsmall ; } //   8.8em
       &.wi-normal       { width:     @input-wi-normal      ; } //  12.0em
       &.wi-lightwide    { width:     @input-wi-lightwide   ; } //  12.0em
-      &.wi-wide         { min-width: @input-wi-wide        ; } //  18.0em
+      &.wi-wide         { width:     @input-wi-wide        ; } //  18.0em
       &.wi-wider        { min-width: @input-wi-wider       ; } //  24.0em
       &.wi-verywide     { min-width: @input-wi-verywide    ; } //  36.0em
-
+      // data types
       &.wi-date         { width: @input-wi-small       ; } //
       &.wi-number       { width: @input-wi-small       ; } //
       &.wi-tinynumber   { width: @input-wi-verysmall   ; } //
       &.wi-largenumber  { width: @input-wi-mediumsmall ; } //
-
+      // combined minus dimensions (take care of the double hyphen -- )
+      &.wi-lightwide--verysmall { width: @input-wi-lightwide--verysmall; }
+      &.wi-wide--verysmall      { width: @input-wi-wide--verysmall !important; }
+      //&.wi-wide--verysmall      { width: 203px; }
     }
-
     // Password (Standard size) // PENDENT: Standardgroesse ??
      &[type="password"]{
       //min-width: @input-wi-normal ;
     }
-
-    // OBSOLETE // PENDENT: ggf. entfernen
+    // OBSOLETE // PENDENT: ggf. entfernen
     .fixed_width {
       width: 250px;
     }
-
-  }
-  // /DIMENSION input
+  } // /DIMENSION input
 
 
   // -------------------
@@ -407,8 +246,38 @@ form {
     &.wi-wider        { min-width: @select-wi-wider       ; }
     &.wi-verywide     { min-width: @select-wi-verywide    ; }
     &.wi-full         { width:     100%                   ; }
-  }
-  // /DIMENSION select
+
+    &.wi-small-normal             { width: @select-wi-small-normal } ;
+    &.wi-small-lightwide          { width: @select-wi-small-lightwide } ;
+    &.wi-small-wide               { width: @select-wi-small-wide } ;
+    &.wi-small-wider              { width: @select-wi-small-wider } ;
+    &.wi-small-verywide           { width: @select-wi-small-verywide } ;
+    &.wi-mediumsmall-normal       { width: @select-wi-mediumsmall-normal } ;
+    &.wi-mediumsmall-lightwide    { width: @select-wi-mediumsmall-lightwide } ;
+    &.wi-mediumsmall-wide         { width: @select-wi-mediumsmall-wide } ;
+    &.wi-mediumsmall-wider        { width: @select-wi-mediumsmall-wider } ;
+    &.wi-mediumsmall-verywide     { width: @select-wi-mediumsmall-verywide } ;
+    &.wi-normal-normal            { width: @select-wi-normal-normal } ;
+    &.wi-normal-lightwide         { width: @select-wi-normal-lightwide } ;
+    &.wi-normal-wide              { width: @select-wi-normal-wide } ;
+    &.wi-normal-wider             { width: @select-wi-normal-wider } ;
+    &.wi-normal-verywide          { width: @select-wi-normal-verywide } ;
+    &.wi-lightwide-normal         { width: @select-wi-lightwide-normal } ;
+    &.wi-lightwide-lightwide      { width: @select-wi-lightwide-lightwide } ;
+    &.wi-lightwide-wide           { width: @select-wi-lightwide-wide } ;
+    &.wi-lightwide-wider          { width: @select-wi-lightwide-wider } ;
+    &.wi-lightwide-verywide       { width: @select-wi-lightwide-verywide } ;
+    &.wi-wide-normal              { width: @select-wi-wide-normal } ;
+    &.wi-wide-lightwide           { width: @select-wi-wide-lightwide } ;
+    &.wi-wide-wide                { width: @select-wi-wide-wide } ;
+    &.wi-wide-wider               { width: @select-wi-wide-wider } ;
+    &.wi-wide-verywide            { width: @select-wi-wide-verywide } ;
+
+
+
+
+
+  } // /DIMENSION select
 
 
   // -------------------
@@ -416,7 +285,7 @@ form {
   //
 
   textarea {
-  
+
     // Standard-Dimensions
     &.wi-smallest     { width:     @textarea-wi-normal      ; } // no smallest, just normal
     &.wi-verysmall    { width:     @textarea-wi-normal      ; } // no verysmall, just normal
@@ -429,8 +298,8 @@ form {
     &.wi-wider        { min-width: @textarea-wi-wider       ; }
     &.wi-verywide     { min-width: @textarea-wi-verywide    ; }
     &.wi-full         { width:     100%                  ; }
-    
-    
+
+
     &.wi-small-small       { width: @textarea-wi-small-small ; }
     &.wi-small-mediumsmall { width: @textarea-wi-small-mediumsmall ; margin: 0 30px 0 0 ; }
     &.wi-small-normal      { width: @textarea-wi-small-normal ; }
@@ -438,7 +307,7 @@ form {
     &.wi-small-wide        { width: @textarea-wi-small-wide ; }
     &.wi-small-wider       { width: @textarea-wi-small-wider ; }
     &.wi-small-verywide    { width: @textarea-wi-small-verywide ; }
-    
+
     &.wi-mediumsmall-small       { width: @textarea-wi-mediumsmall-small ; }
     &.wi-mediumsmall-mediumsmall { width: @textarea-wi-mediumsmall-mediumsmall ; }
     &.wi-mediumsmall-normal      { width: @textarea-wi-mediumsmall-normal ; }
@@ -446,7 +315,7 @@ form {
     &.wi-mediumsmall-wide        { width: @textarea-wi-mediumsmall-wide ; }
     &.wi-mediumsmall-wider       { width: @textarea-wi-mediumsmall-wider ; }
     &.wi-mediumsmall-verywide    { width: @textarea-wi-mediumsmall-verywide ; }
-    
+
     &.wi-normal-small       { width: @textarea-wi-normal-small ; }
     &.wi-normal-mediumsmall { width: @textarea-wi-normal-mediumsmall ; }
     &.wi-normal-normal      { width: @textarea-wi-normal-normal ; }
@@ -454,7 +323,7 @@ form {
     &.wi-normal-wide        { width: @textarea-wi-normal-wide ; }
     &.wi-normal-wider       { width: @textarea-wi-normal-wider ; }
     &.wi-normal-verywide    { width: @textarea-wi-normal-verywide ; }
-    
+
     &.wi-lightwide-small       { width: @textarea-wi-lightwide-small ; }
     &.wi-lightwide-mediumsmall { width: @textarea-wi-lightwide-mediumsmall ; }
     &.wi-lightwide-normal      { width: @textarea-wi-lightwide-normal ; }
@@ -462,7 +331,7 @@ form {
     &.wi-lightwide-wide        { width: @textarea-wi-lightwide-wide ; }
     &.wi-lightwide-wider       { width: @textarea-wi-lightwide-wider ; }
     &.wi-lightwide-verywide    { width: @textarea-wi-lightwide-verywide ; }
-    
+
     &.wi-wide-small       { width: @textarea-wi-wide-small ; }
     &.wi-wide-mediumsmall { width: @textarea-wi-wide-mediumsmall ; }
     &.wi-wide-normal      { width: @textarea-wi-wide-normal ; }
@@ -470,76 +339,112 @@ form {
     &.wi-wide-wide        { width: @textarea-wi-wide-wide ; }
     &.wi-wide-wider       { width: @textarea-wi-wide-wider ; }
     &.wi-wide-verywide    { width: @textarea-wi-wide-verywide ; }
-    
-  }
-  // /DIMENSION textarea
 
+  } // /DIMENSION textarea
+
+  // textarea sizes for JS generated elements
+  // make sure not to use it as a standard
+  td, th { &.wi-date            > input[type="text"] { width: @input-wi-small             ; } }
+  td, th { &.wi-lightwide       > textarea { width: @textarea-wi-wide           ; } }
+  td, th { &.wi-wide            > textarea { width: @textarea-wi-wide           ; } }
+  td, th { &.wi-small-verywide  > textarea { width: @textarea-wi-small-verywide ; } }
+
+  th,
+  td {
+    &.wi-lightwide { textarea, input[type="text"], div.cke_editable, input#order_vendor_id_name { width: @textarea-wi-lightwide; } }
+    &.wi-wide      { textarea, input[type="text"], div.cke_editable, input#order_vendor_id_name { width: @textarea-wi-wide;      } }
+
+  }
 
 
   span {
-  
+
     // Standard-Dimensions
-    &.wi-smallest textarea     , &.wi-smallest div.cke_editable     { width:     @textarea-wi-normal      ; } // no smallest, just normal
-    &.wi-verysmall textarea    , &.wi-verysmall div.cke_editable    { width:     @textarea-wi-normal      ; } // no verysmall, just normal
-    &.wi-small textarea        , &.wi-small div.cke_editable        { width:     @textarea-wi-normal      ; } // no small, just normal
-    &.wi-mediumsmall textarea  , &.wi-mediumsmall div.cke_editable  { width:     @textarea-wi-normal      ; } // no mediumsmall, just normal
-    &.wi-normal textarea       , &.wi-normal div.cke_editable       { width:     @textarea-wi-normal      ; }
-    &.wi-lightwide textarea    , &.wi-lightwide div.cke_editable    { min-width: @textarea-wi-lightwide   ; }
-    &.wi-wide textarea         , &.wi-wide div.cke_editable         { min-width: @textarea-wi-wide        ; }
-    &.wi-wide.strict { max-width: @textarea-wi-wide !important  ; }
-    &.wi-wider textarea        , &.wi-wider div.cke_editable        { min-width: @textarea-wi-wider       ; }
-    &.wi-verywide textarea     , &.wi-verywide div.cke_editable     { min-width: @textarea-wi-verywide    ; }
-    &.wi-full textarea         , &.wi-full div.cke_editable         { width:     100%                  ; }
-    
-    
-    &.wi-small-small textarea       , &.wi-small-small div.cke_editable       { width: @textarea-wi-small-small ; }
-    &.wi-small-mediumsmall textarea , &.wi-small-mediumsmall div.cke_editable { width: @textarea-wi-small-mediumsmall ; margin: 0 30px 0 0 ; }
-    &.wi-small-normal textarea      , &.wi-small-normal div.cke_editable      { width: @textarea-wi-small-normal ; }
-    &.wi-small-lightwide textarea   , &.wi-small-lightwide div.cke_editable   { width: @textarea-wi-small-lightwide ; }
-    &.wi-small-wide textarea        , &.wi-small-wide div.cke_editable        { width: @textarea-wi-small-wide ; }
-    &.wi-small-wider textarea       , &.wi-small-wider div.cke_editable       { width: @textarea-wi-small-wider ; }
-    &.wi-small-verywide textarea    , &.wi-small-verywide div.cke_editable    { width: @textarea-wi-small-verywide ; }
-    
-    &.wi-mediumsmall-small textarea       , &.wi-mediumsmall-small div.cke_editable       { width: @textarea-wi-mediumsmall-small ; }
-    &.wi-mediumsmall-mediumsmall textarea , &.wi-mediumsmall-mediumsmall div.cke_editable { width: @textarea-wi-mediumsmall-mediumsmall ; }
-    &.wi-mediumsmall-normal textarea      , &.wi-mediumsmall-normal div.cke_editable      { width: @textarea-wi-mediumsmall-normal ; }
-    &.wi-mediumsmall-lightwide textarea   , &.wi-mediumsmall-lightwide div.cke_editable   { width: @textarea-wi-mediumsmall-lightwide ; }
-    &.wi-mediumsmall-wide textarea        , &.wi-mediumsmall-wide > div.cke_editable         { width: @textarea-wi-mediumsmall-wide !important ; }
-    &.wi-mediumsmall-wider textarea       , &.wi-mediumsmall-wider div.cke_editable       { width: @textarea-wi-mediumsmall-wider ; }
-    &.wi-mediumsmall-verywide textarea    , &.wi-mediumsmall-verywide div.cke_editable    { width: @textarea-wi-mediumsmall-verywide ; }
-    
-    &.wi-normal-small textarea       , &.wi-normal-small div.cke_editable       { width: @textarea-wi-normal-small ; }
-    &.wi-normal-mediumsmall textarea , &.wi-normal-mediumsmall div.cke_editable { width: @textarea-wi-normal-mediumsmall ; }
-    &.wi-normal-normal textarea      , &.wi-normal-normal div.cke_editable      { width: @textarea-wi-normal-normal ; }
-    &.wi-normal-lightwide textarea   , &.wi-normal-lightwide div.cke_editable   { width: @textarea-wi-normal-lightwide ; }
-    &.wi-normal-wide textarea        , &.wi-normal-wide div.cke_editable        { width: @textarea-wi-normal-wide ; }
-    &.wi-normal-wider textarea       , &.wi-normal-wider div.cke_editable       { width: @textarea-wi-normal-wider ; }
-    &.wi-normal-verywide textarea    , &.wi-normal-verywide div.cke_editable    { width: @textarea-wi-normal-verywide ; }
-    
-    &.wi-lightwide-small textarea       , &.wi-lightwide-small div.cke_editable       { width: @textarea-wi-lightwide-small ; }
-    &.wi-lightwide-mediumsmall textarea , &.wi-lightwide-mediumsmall div.cke_editable { width: @textarea-wi-lightwide-mediumsmall ; }
-    &.wi-lightwide-normal textarea      , &.wi-lightwide-normal div.cke_editable      { width: @textarea-wi-lightwide-normal ; }
-    &.wi-lightwide-lightwide textarea   , &.wi-lightwide-lightwide div.cke_editable   { width: @textarea-wi-lightwide-lightwide ; }
-    &.wi-lightwide-wide textarea        , &.wi-lightwide-wide div.cke_editable        { width: @textarea-wi-lightwide-wide ; }
-    &.wi-lightwide-wider textarea       , &.wi-lightwide-wider div.cke_editable       { width: @textarea-wi-lightwide-wider ; }
-    &.wi-lightwide-verywide textarea    , &.wi-lightwide-verywide div.cke_editable    { width: @textarea-wi-lightwide-verywide ; }
-    
-    &.wi-wide-small textarea       , &.wi-wide-small div.cke_editable       { width: @textarea-wi-wide-small ; }
-    &.wi-wide-mediumsmall textarea , &.wi-wide-mediumsmall div.cke_editable { width: @textarea-wi-wide-mediumsmall ; }
-    &.wi-wide-normal textarea      , &.wi-wide-normal div.cke_editable      { width: @textarea-wi-wide-normal ; }
-    &.wi-wide-lightwide textarea   , &.wi-wide-lightwide div.cke_editable   { width: @textarea-wi-wide-wide ; }
-    &.wi-wide-wide textarea        , &.wi-wide-wide div.cke_editable        { width: @textarea-wi-wide-wide ; }
-    &.wi-wide-wider textarea       , &.wi-wide-wider div.cke_editable       { width: @textarea-wi-wide-wider ; }
-    &.wi-wide-verywide textarea    , &.wi-wide-verywide div.cke_editable    { width: @textarea-wi-wide-verywide ; }
-    
-  }
-  // /DIMENSION textarea
+    &.wi-smallest                { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-normal      ; } } // no smallest, just normal
+    &.wi-verysmall               { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-normal      ; } } // no verysmall, just normal
+    &.wi-small                   { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-normal      ; } } // no small, just normal
+    &.wi-mediumsmall             { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-normal      ; } } // no mediumsmall, just normal
+    &.wi-normal                  { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-normal      ; } }
+    &.wi-lightwide               { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-lightwide   ; } }
+    &.wi-wide                    { padding: 0 ; textarea, & > div.cke_editable { width:     @textarea-wi-wide  !important        ; } }
+    &.wi-wide.strict             {                              max-width: @textarea-wi-wide !important  ; }
+    &.wi-wider                   { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-wider       ; } }
+    &.wi-verywide                { padding: 0 ; textarea, div.cke_editable { min-width: @textarea-wi-verywide    ; } }
+    &.wi-full                    { padding: 0 ; textarea, div.cke_editable { width:     100%                     ; } }
 
 
+    &.wi-small-small             { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-small-small       ; } }
+    &.wi-small-mediumsmall       { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-small-mediumsmall ; margin: 0 30px 0 0 ; } }
+    &.wi-small-normal            { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-small-normal      ; } }
+    &.wi-small-lightwide         { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-small-lightwide   ; } }
+    &.wi-small-wide              { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-small-wide        ; } }
+    &.wi-small-wider             { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-small-wider       ; } }
+    &.wi-small-verywide          { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-small-verywide    ; } }
+
+    &.wi-mediumsmall-small       { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-mediumsmall-small       ; } }
+    &.wi-mediumsmall-mediumsmall { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-mediumsmall-mediumsmall ; } }
+    &.wi-mediumsmall-normal      { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-mediumsmall-normal      ; } }
+    &.wi-mediumsmall-lightwide   { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-mediumsmall-lightwide   ; } }
+    &.wi-mediumsmall-wide        { padding: 0 ; textarea, &.wi-mediumsmall-wide > div.cke_editable { width: @textarea-wi-mediumsmall-wide !important ; } }
+    &.wi-mediumsmall-wider       { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-mediumsmall-wider       ; } }
+    &.wi-mediumsmall-verywide    { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-mediumsmall-verywide    ; } }
+
+    &.wi-normal-small            { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-normal-small       ; } }
+    &.wi-normal-mediumsmall      { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-normal-mediumsmall ; } }
+    &.wi-normal-normal           { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-normal-normal      ; } }
+    &.wi-normal-lightwide        { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-normal-lightwide   ; } }
+    &.wi-normal-wide             { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-normal-wide        ; } }
+    &.wi-normal-wider            { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-normal-wider       ; } }
+    &.wi-normal-verywide         { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-normal-verywide    ; } }
+
+    &.wi-lightwide-small         { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-lightwide-small       ; } }
+    &.wi-lightwide-mediumsmall   { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-lightwide-mediumsmall ; } }
+    &.wi-lightwide-normal        { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-lightwide-normal      ; } }
+    &.wi-lightwide-lightwide     { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-lightwide-lightwide   ; } }
+    &.wi-lightwide-wide          { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-lightwide-wide        ; } }
+    &.wi-lightwide-wider         { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-lightwide-wider       ; } }
+    &.wi-lightwide-verywide      { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-lightwide-verywide    ; } }
+
+    &.wi-wide-small              { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-wide-small       ; } }
+    &.wi-wide-mediumsmall        { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-wide-mediumsmall ; } }
+    &.wi-wide-normal             { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-wide-normal      ; } }
+    &.wi-wide-lightwide          { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-wide-wide        ; } }
+    &.wi-wide-wide               { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-wide-wide        ; } }
+    &.wi-wide-wider              { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-wide-wider       ; } }
+    &.wi-wide-verywide           { padding: 0 ; textarea, div.cke_editable { width:     @textarea-wi-wide-verywide    ; } }
+
+  } // /DIMENSION textarea
 
 
+// -------------------
+// Input, Select & Textarea-Elements within TD & TH elements
+//
+// PENDENT: Dieses Konstrukt sollte nicht noetig sein und behoben werden, vor allem die Funktion L.button_tag()
+th,
+td {
+  &.wi-smallest      { input[type="text"], select           { width:     @input-wi-smallest         ; } }
+  &.wi-verysmall     { input[type="text"], select           { width:     @input-wi-verysmall        ; } }
+  &.wi-small         { input[type="text"], select           { width:     @input-wi-small            ; } }
+  &.wi-mediumsmall   { input[type="text"], select           { width:     @input-wi-mediumsmall      ; } }
+  &.wi-normal        { input[type="text"], select, textarea, div.cke_editable { width:     @input-wi-normal           ; } }
+  &.wi-lightwide     { input[type="text"], select, textarea, div.cke_editable { width:     @input-wi-lightwide        ; } }
+  &.wi-wide          { input[type="text"], select, textarea, div.cke_editable { width:     @input-wi-wide !important  ; } }
+  &.wi-wide.strict   { input[type="text"], select, textarea, div.cke_editable { max-width: @input-wi-wide !important  ; } }
+  &.wi-wider         { input[type="text"], select, textarea, div.cke_editable { width:     @input-wi-wider !important ; } }
+  &.wi-verywide      { input[type="text"], select, textarea, div.cke_editable { min-width: @input-wi-verywide         ; } }
+  &.wi-full          { input[type="text"], select, textarea, div.cke_editable { width:     100% ; } }
+  // Combinations
+  &.wi-mediumsmall-wide       { input[type="text"], select, textarea, div.cke_editable { width: @textarea-wi-mediumsmall-wide  ; } }
+  &.wi-small-mediumsmall      { input[type="text"], select, textarea, div.cke_editable { width: @textarea-wi-small-mediumsmall ; } }
+  &.wi-mediumsmall-lightwide  { input[type="text"], select, textarea, div.cke_editable { width: @textarea-wi-mediumsmall-lightwide ; } }
 
+  &.below       { input[type="text"], select, textarea, div.cke_editable { clear: both; margin-top: 0.4em  ; } }
 
+}
+// TEMPORAER: PENDENT: sollte behoben sein, weshalb dieses Konstrukt nicht mehr noetig sein sollte
+td.wi-lightwide > span.customer_vendor_picker > input { width:     @input-wi-lightwide        ; }
+td.wi-wide      > span.customer_vendor_picker > input { width:     @input-wi-wide             ; }
+td.wi-wider     > span.customer_vendor_picker > input { width:     @input-wi-wider            ; }
 
 
 
@@ -582,6 +487,7 @@ form {
   td {
     div.rowspan-table{
       display: table-row ;
+      float: left;
 
       div.label-n-value{
         display: table-cell ;
@@ -589,7 +495,7 @@ form {
         height: 1.6em !important ; // the cell have not the same height if they are made with DIVs
 
         float: left;
-        padding: 0 2.3em 0 0 ;
+        padding: 0 2.0em 0 0 ;
         //overflow: hidden ;
         b{
           font-weight: normal;
@@ -609,18 +515,18 @@ form {
     display: block;
     overflow: hidden ;
     font-size: @font-size-smaller ;
-    margin: 0 ;
     border: 1px #dcdcdc solid;
+    margin: 0 ;
     line-height: 120%;
-    //padding: 0.1em 0.28em 0.4em 0.28em;
-    padding: 0.2em 0.28em !important;
+    padding: 0.2em 0.28em 0.2em 0.2em !important;
+
     &::before{
-      content: "" ;
+      //content: "" ;
     }
     &.below{
       margin-top: 0.2em;
     }
-    &.numeric, 
+    &.numeric,
     &.right{
       text-align: right;
     }
@@ -644,7 +550,7 @@ form {
 
   // -------------------
   // Boxes
-  // 
+  //
 
   div.boxes{
     margin: 0 0 0.9em 0 ;
@@ -657,8 +563,8 @@ form {
 
       label{
         float: right;
-        width: 92% ;
-        font-size: @font-size-h3 ;
+        width: 88% ;
+        font-size: @h3-size ;
         padding: 0 0 0.6em 0 ;
         line-height: 1.2em ;
       }
@@ -673,7 +579,7 @@ form {
       overflow: hidden ;
       label{
         float: left;
-        width: 92% ;
+        width: 88% ;
       }
       input[type="checkbox"],
       input[type="radio"]{
@@ -685,11 +591,19 @@ form {
 
   // -------------------
   // Boxes horizontal
-  // 
+  //
 
   td.horizontal {
-    input[type="radio"]{
-      float: none !important;
+    input[type="radio"],
+    input[type="checkbox"]{
+      float: left !important;
+      clear: none !important;
+      width: auto;
+    }
+    label{
+      width: auto !important;
+      margin-right: 2.0em ;
+      float: left !important;
       clear: none !important;
     }
   }
@@ -698,9 +612,6 @@ form {
 
 
 
-
-}
-// /form
 
 
 // --------------------------------------
@@ -713,10 +624,10 @@ table.tbl-plain {
   th {
     label{
       display: inline-block;
-      
+
       &:link,
       &:visited {
-        color: #888 ;
+        color: @gray ;
         text-decoration: none ;
       }
       &:hover{
@@ -728,24 +639,41 @@ table.tbl-plain {
   td{
     input[type="radio"],
     input[type="checkbox"]{
-      float: left; 
+      float: left;
       clear: left;
       &~label{
         float: left;
-        width: 75%;
+        width: auto;
         margin-left: 0.2em ;
+        line-height: 1.4em ;
         //clear: left;
       }
     }
     // Date-Field generated by the function L.Date_Tag
     span.wi-date {
-      padding: 0 ; 
+      padding: 0 ;
       input[type="text"],
       input[type="date"]{
         width: @input-wi-small ;
       }
     }
   }
+}
+
+
+// --------------------------------------
+// FAKE-ELEMENTS
+// --------------------------------------
+// Yes, there exists some foolery
+// Substitution for Elements as readonly containers
+div.fake-textarea {
+  width: @textarea-wi-lightwide;
+  height: 150px;
+  background-color: white;
+  overflow: auto;
+  border: 1px #999999 solid;
+
+  &.fake-wi-wide { width: @textarea-wi-wide ; }
 }
 
 
@@ -788,7 +716,7 @@ div.admin{
       display: table-cell;
       vertical-align: bottom;
     }
-  
+
     .ms2side__options > p.ms2side__hide,
     .ms2side__updown  > p.ms2side__hide {
       cursor: default;
@@ -796,9 +724,9 @@ div.admin{
       border: 1px solid grey;
       background-color: #D4D4D4 !important;
     }
-  
+
   }
-  
+
 }
 
 // --------------------------------------
@@ -806,7 +734,7 @@ div.admin{
 // --------------------------------------
 
 .frame-header-quicksearch input::placeholder {
-  color: #666 ;
+  color: @gray-mediumdark ;
 }
 
 #content input::placeholder {
@@ -822,15 +750,23 @@ div.admin{
 span.customer_vendor_picker {
   padding: 0 ;
 }
-
+input#vendor_id_name.ui-autocomplete-input,
+input#customer_id_name.ui-autocomplete-input {
+  &.wi-wide{ width: @input-wi-wide  ; }
+}
 
 // --------------------------------------
 // DIVERS JQUERY-/AJAX-STUFF
 // --------------------------------------
 
-  table td span.project_picker {
-   padding: 0 !important;
-  }
+table td span.project_picker {
+  padding: 0 !important;
+}
+
+
+
+
+
 
 
 

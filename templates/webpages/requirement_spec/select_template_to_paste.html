@@ -1,17 +1,17 @@
 [% USE LxERP %]
 [% USE HTML %]
 [% USE L %]
-[% BLOCK text_blocks %]
 
-[% IF blocks.size %]
-  <li>[% title %]:
-    <ol>
-      [% FOREACH block = blocks %]
-        <li>[% HTML.escape(block.title) %]</li>
-      [% END %]
-    </ol>
-  </li>
-[% END %]
+[% BLOCK text_blocks %]
+  [% IF blocks.size %]
+    <li>[% title %]:
+      <ol>
+        [% FOREACH block = blocks %]
+          <li>[% HTML.escape(block.title) %]</li>
+        [% END %]
+      </ol>
+    </li>
+  [% END %]
 [% END %]
 
 [% IF !TEMPLATES.size %]
@@ -83,4 +83,4 @@
 
 [% END %]
 
-<p><a href="#" onclick='$("#jqueryui_popup_dialog").dialog("close");'>[% LxERP.t8("Abort") %]</a></p>
+<p><a href="#" onclick='$("#jqueryui_popup_dialog").dialog("close");' class="button neutral">[% LxERP.t8("Abort") %]</a></p>

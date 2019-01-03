@@ -506,7 +506,7 @@ sub form_header {
                         $form->{"delivered"} ? "checked" : "",  $locale->text('Delivery Order(s) for full qty created') if $form->{"type"} =~ /_order$/;
   push @tmp, sprintf qq|<input name="closed" id="closed" type="checkbox" class="checkbox" value="1" %s><label for="closed">%s</label>|,
                         $form->{"closed"}    ? "checked" : "",  $locale->text('Closed')    if $form->{id};
-  $TMPL_VAR->{openclosed} = sprintf qq|<tr><td colspan=%d align=center>%s</td></tr>\n|, 2 * scalar @tmp, join "\n", @tmp if @tmp;
+  $TMPL_VAR->{openclosed} = sprintf qq|<tr><th colspan=%d><div class="list">%s</div></th></tr>\n|, 2 * scalar @tmp, join "\n", @tmp if @tmp;
 
   my $vc = $form->{vc} eq "customer" ? "customers" : "vendors";
 
@@ -1187,7 +1187,7 @@ sub orders {
   };
   push @options, $locale->text('Open')                                                                    if $form->{open};
   push @options, $locale->text('Closed')                                                                  if $form->{closed};
-  push @options, $locale->text('Delivery Order created')                                                               if $form->{delivered};
+  push @options, $locale->text('Delivery Order created')                                                  if $form->{delivered};
   push @options, $locale->text('Not delivered')                                                           if $form->{notdelivered};
   push @options, $locale->text('Periodic invoices active')                                                if $form->{periodic_invoices_active};
   push @options, $locale->text('Reqdate not set or before current month')                                 if $form->{reqdate_unset_or_old};

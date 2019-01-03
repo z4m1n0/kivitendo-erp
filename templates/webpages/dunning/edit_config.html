@@ -7,8 +7,9 @@
 
 <form method="post" action="dn.pl" name="Form" id="form">
 
-<table class="tbl-list wi-full">
-  
+<div class="wrapper">
+<table class="tbl-list wi-moderate">
+  <caption>[% 'Dunning levels & dunning types' | $T8 %]</caption>
   <thead>
     <tr>
       <th class="center">[% 'Dunning Level' | $T8 %]</th>
@@ -25,14 +26,14 @@
     </tr>
   </thead>
   <tbody>
-    [% SET odd = '1' %] 
-    [% USE DUNNING_it = Iterator(DUNNING) %] 
-    [% FOREACH row = DUNNING_it %] 
+    [% SET odd = '1' %]
+    [% USE DUNNING_it = Iterator(DUNNING) %]
+    [% FOREACH row = DUNNING_it %]
     <tr>
-      <td class="center"> 
+      <td class="center">
         <input type="hidden" name="dunning_level_[% DUNNING_it.count %]" value="[% DUNNING_it.count %]">
         <input type="hidden" name="id_[% DUNNING_it.count %]" value="[% HTML.escape(row.id) %]">
-        [% DUNNING_it.count %] 
+        [% DUNNING_it.count %]
       </td>
       <td>
         <input type="text" name="dunning_description_[% DUNNING_it.count %]" value="[% HTML.escape(row.dunning_description) %]">
@@ -40,9 +41,9 @@
       <td class="center">
         <input type="checkbox" name="active_[% DUNNING_it.count %]" value="1" [% IF row.active %]checked[% END %]>
       </td>
-      <td class="center"> 
+      <td class="center">
         <input type="checkbox" name="email_[% DUNNING_it.count %]" value="1" [% IF row.email %]checked[% END %]>
-        <button type="button" onclick="set_email_window('email_subject_[% DUNNING_it.count %]', 'email_body_[% DUNNING_it.count %]', 'email_attachment_[% DUNNING_it.count %]')"> [% 'L' | $T8 %]</button> 
+        <button type="button" onclick="set_email_window('email_subject_[% DUNNING_it.count %]', 'email_body_[% DUNNING_it.count %]', 'email_attachment_[% DUNNING_it.count %]')"> [% 'L' | $T8 %]</button>
         <input type="hidden" name="email_body_[% DUNNING_it.count %]" value="[% HTML.escape(row.email_body) %]">
         <input type="hidden" name="email_subject_[% DUNNING_it.count %]" value="[% HTML.escape(row.email_subject) %]">
         <input type="hidden" name="email_attachment_[% DUNNING_it.count %]" value="[% HTML.escape(row.email_attachment) %]">
@@ -69,15 +70,15 @@
     </tr>
       [% IF DUNNING_it.last %]
         [% SET rowcount = DUNNING_it.size + 1 %]
-      [% END %] 
-    [% END %] 
-    
-    [% UNLESS rowcount %][% SET rowcount = '1' %][% END %] 
+      [% END %]
+    [% END %]
+
+    [% UNLESS rowcount %][% SET rowcount = '1' %][% END %]
     <tr>
-      <td class="center"> 
+      <td class="center">
         <input type="hidden" name="dunning_level_[% rowcount %]" value="[% rowcount %]">
         <input type="hidden" name="id_[% rowcount %]">
-        [% rowcount %] 
+        [% rowcount %]
       </td>
       <td>
         <input type="text" name="dunning_description_[% rowcount %]">
@@ -85,9 +86,9 @@
       <td class="center">
         <input type="checkbox" name="active_[% rowcount %]" value="1" checked>
       </td>
-      <td class="center"> 
+      <td class="center">
         <input type="checkbox" name="email_[% rowcount %]" value="1" checked>
-        <button type="button" onclick="set_email_window('email_subject_[% rowcount %]', 'email_body_[% rowcount %]', 'email_attachment_[% rowcount %]')"> [% 'L' | $T8 %]</button> 
+        <button type="button" onclick="set_email_window('email_subject_[% rowcount %]', 'email_body_[% rowcount %]', 'email_attachment_[% rowcount %]')"> [% 'L' | $T8 %]</button>
         <input type="hidden" name="email_body_[% rowcount %]">
         <input type="hidden" name="email_subject_[% rowcount %]">
         <input type="hidden" name="email_attachment_[% rowcount %]">
@@ -113,8 +114,8 @@
       </td>
     </tr>
   </tbody>
-
 </table>
+</div><!-- /.wrapper -->
 
 <input type="hidden" name="rowcount" value="[% HTML.escape(rowcount) %]">
 
@@ -122,44 +123,44 @@
 
 <p>[% 'If the automatic creation of invoices for fees and interest is switched on for a dunning level then the following accounts will be used for the invoice.' | $T8 %]</p>
 
- 
+
 <table class="tbl-horizontal">
-	<tbody>
-		<tr>
-			<th>[% 'Account for fees' | $T8 %]</th>
-			<td> 
-        <select name="AR_amount_fee">
+  <tbody>
+    <tr>
+      <th>[% 'Account for fees' | $T8 %]</th>
+      <td>
+        <select name="AR_amount_fee" class="wi-verywide">
           [% FOREACH row = SELECT_AR_AMOUNT %]
           <option value="[% HTML.escape(row.id) %]" [% IF row.AR_amount_fee_selected %] selected[% END %]>[% HTML.escape(row.accno) %]--[% HTML.escape(row.description) %]</option>
-          [% END %] 
+          [% END %]
         </select>
-			</td>
-		</tr>
-		<tr>
-			<th>[% 'Account for interest' | $T8 %]</th>
-			<td> 
-        <select name="AR_amount_interest">
+      </td>
+    </tr>
+    <tr>
+      <th>[% 'Account for interest' | $T8 %]</th>
+      <td>
+        <select name="AR_amount_interest" class="wi-verywide">
           [% FOREACH row = SELECT_AR_AMOUNT %]
           <option value="[% HTML.escape(row.id) %]" [% IF row.AR_amount_interest_selected %]selected[% END %]>[% HTML.escape(row.accno) %]--[% HTML.escape(row.description) %]</option>
-          [% END %] 
+          [% END %]
         </select>
-			</td>
-		</tr>
-		<tr>
-			<th>[% 'Record in' | $T8 %]</th>
-			<td> 
-        <select name="AR">
+      </td>
+    </tr>
+    <tr>
+      <th>[% 'Record in' | $T8 %]</th>
+      <td>
+        <select name="AR" class="wi-verywide">
           [% FOREACH row = SELECT_AR %]
           <option value="[% HTML.escape(row.id) %]" [% IF row.AR_selected %]selected[% END %]>[% HTML.escape(row.accno) %]--[% HTML.escape(row.description) %]</option>
-          [% END %] 
+          [% END %]
         </select>
-			</td>
-		</tr>
-	</tbody>
+      </td>
+    </tr>
+  </tbody>
 </table>
 
 <input type="hidden" name="callback" value="[% HTML.escape(callback) %]">
 
-</div>
+</div><!-- /.wrapper -->
 
 </form>

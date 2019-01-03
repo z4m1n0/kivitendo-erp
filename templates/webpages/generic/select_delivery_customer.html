@@ -12,32 +12,32 @@
 
 
 <table class="tbl-list">
-	<thead>
-		<tr>
-			<th>&nbsp;</th>
-			[% FOREACH col = HEADER %] 
+  <thead>
+    <tr>
+      <th>&nbsp;</th>
+      [% FOREACH col = HEADER %]
         <th><a href="[% HTML.escape(col.callback) %]">[% col.column_title %]</a></th>
-			[% END %] 
-		</tr>
-	</thead>
-	<tbody>
-		[% FOREACH row = DELIVERY %] 
-		<tr class="listrow[% loop.count % 2 %]">
-			<td><button type="button" onclick="customer_selected('[% loop.count %]')" class="neutral">Auswahl</button></td>
-			<td> <input type="hidden" id="id_[% loop.count %]" name="id_[% loop.count %]" value="[% HTML.escape(row.id) %]">
-			<input type="hidden" id="name_[% loop.count %]" name="name_[% loop.count %]" value="[% HTML.escape(row.name) %]">
-			[% HTML.escape(row.name) %] </td>
-			<td>[% HTML.escape(row.customernumber) %]</td>
-			<td>[% HTML.escape(row.address) %]</td>
-<!-- 
+      [% END %]
+    </tr>
+  </thead>
+  <tbody>
+    [% FOREACH row = DELIVERY %]
+    <tr class="listrow[% loop.count % 2 %]">
+      <td><button type="button" onclick="customer_selected('[% loop.count %]')" class="neutral">Auswahl</button></td>
+      <td> <input type="hidden" id="id_[% loop.count %]" name="id_[% loop.count %]" value="[% HTML.escape(row.id) %]">
+      <input type="hidden" id="name_[% loop.count %]" name="name_[% loop.count %]" value="[% HTML.escape(row.name) %]">
+      [% HTML.escape(row.name) %] </td>
+      <td>[% HTML.escape(row.customernumber) %]</td>
+      <td>[% HTML.escape(row.address) %]</td>
+<!--
        <td>
         <input type="hidden" id="description_[% loop.count %]" name="description_[% loop.count %]" value="[% HTML.escape(row.description) %]">
         [% HTML.escape(row.description) %]
-       </td>		
+       </td>
  -->
-		</tr>
-		[% END %] 
-	</tbody>
+    </tr>
+    [% END %]
+  </tbody>
 </table>
 
 </form>

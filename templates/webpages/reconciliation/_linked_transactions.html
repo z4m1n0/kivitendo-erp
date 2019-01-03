@@ -7,7 +7,7 @@
 
 [% IF !SELF.LINKED_TRANSACTIONS.size %]
   <tbody>
-    <td colspan="11"><p class="message_hint">[% 'No data was found.' | $T8 %]</p></td>
+    <td colspan="11"><p class="message message_hint">[% 'No data was found.' | $T8 %]</p></td>
   </tbody>
 [% ELSE %]
   [% FOREACH link = SELF.LINKED_TRANSACTIONS %]

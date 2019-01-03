@@ -2,14 +2,14 @@
 [% USE L %]
 
 <div id="datev_check_configuration">
+<div class="wrapper">
+
+<p>[% LxERP.t8('It is possible to make a quick DATEV export everytime you post a record to ensure things work nicely with their data requirements. This will result in a slight overhead though you can enable this for each type of record independently.') %]</p>
+
+
 
 <table class="tbl-horizontal">
   <tbody>
-  <tr>
-    <td colspan="3">
-      [% LxERP.t8('It is possible to make a quick DATEV export everytime you post a record to ensure things work nicely with their data requirements. This will result in a slight overhead though you can enable this for each type of record independently.') %]
-    </td>
-  </tr>
   <tr>
     <th>[% LxERP.t8('Check on sales invoice') %]</th>
     <td>[% L.yes_no_tag('defaults.datev_check_on_sales_invoice', SELF.defaults.datev_check_on_sales_invoice) %]</td>
@@ -37,5 +37,6 @@
   </tr>
   </tbody>
 </table>
-	
-</div>
+
+</div><!-- /.wrapper -->
+</div><!-- /#datev_check_configuration.wrapper -->

@@ -2,17 +2,7 @@
 [% USE LxERP %]
 [% USE HTML %]
 
-<div class="wrapper">
-<form action="controller.pl" method="post" id="filter_form">
-
-<div class="filter_toggle">
-  <a href="#" onClick="javascript:$('.filter_toggle').toggle()" class="button toggle neutral off">[% LxERP.t8('Show Filter') %]</a>
-  [% IF SELF.filter_summary %]([% LxERP.t8("Current filter") %]: [% SELF.filter_summary %])[% END %]
-</div>
-
-<div class="filter_toggle" style="display:none">
-  <a href="#" onClick="javascript:$('.filter_toggle').toggle()" class="button toggle neutral on">[% LxERP.t8('Hide Filter') %]</a>
- 
+[% BLOCK filter_toggle_panel %]
   <table id="filter_table" class="tbl-horizontal">
     <tbody>
     <tr>
@@ -27,7 +17,7 @@
     </tr>
     <tr>
       <th>[% LxERP.t8("Sent on") %]</th>
-      <td>[% L.date_tag("filter.sent_on:date::ge", filter.sent_on_date__ge) %] [% LxERP.t8("To Date") %] [% L.date_tag("filter.sent_on:date::le", filter.sent_on_date__le) %] 
+      <td>[% L.date_tag("filter.sent_on:date::ge", filter.sent_on_date__ge) %] [% LxERP.t8("To Date") %] [% L.date_tag("filter.sent_on:date::le", filter.sent_on_date__le) %]
       </td>
     </tr>
     <tr>
@@ -37,12 +27,18 @@
     </tr>
     </tbody>
   </table>
-
   [% L.hidden_tag("sort_by", FORM.sort_by) %]
   [% L.hidden_tag("sort_dir", FORM.sort_dir) %]
   [% L.hidden_tag("page", FORM.page) %]
-
   <div class="buttons">[% L.button_tag('$("#filter_form").resetForm()', LxERP.t8('Reset')) %]</div>
+[% END %]
+
+<div class="wrapper">
+<form action="controller.pl" method="post" id="filter_form">
+
+[% INCLUDE common/toggle_panel.html %]
+
+
 
 </div>
 

@@ -12,40 +12,40 @@
 
 [% IF SHOW_EDIT_OPTIONS %]
 <table class="tbl-horizontal">
-	<caption>[% '' | $T8 %]</caption>
-	<colgroup> <col class="wi-small"><col class="wi-lightwide"> </colgroup> 
-	<tbody>
-		<tr>
-			<th>[% 'Template' | $T8 %]</th>
-			<td>
-			  <select name="formname">
+  <caption>[% '' | $T8 %]</caption>
+  <colgroup> <col class="wi-small"><col class="wi-lightwide"> </colgroup>
+  <tbody>
+    <tr>
+      <th>[% 'Template' | $T8 %]</th>
+      <td>
+        <select name="formname">
           [% FOREACH row = FORMNAME %]<option value="[% HTML.escape(row.value) %]" [% IF row.value == formname %]selected[% END %]>[% HTML.escape(row.label) %]</option>[% END %]
         </select>
       </td>
-		</tr>
+    </tr>
     [% IF LANGUAGE.size %]
-		<tr>
-			<th>[% 'Language' | $T8 %]</th>
-			<td>
+    <tr>
+      <th>[% 'Language' | $T8 %]</th>
+      <td>
         <select name="language">
           <option></option>
           [% FOREACH row = LANGUAGE %]<option value="[% HTML.escape(row.value) %]" [% IF row.value == language %]selected[% END %]>[% HTML.escape(row.label) %]</option>[% END %]
-        </select>			
-			</td>
-		</tr>
+        </select>
+      </td>
+    </tr>
     [% END %]
     [% IF PRINTER.size %]
-		<tr>
-			<th>[% 'Printer' | $T8 %]</th>
-			<td>
+    <tr>
+      <th>[% 'Printer' | $T8 %]</th>
+      <td>
       <select name="printer">
         <option></option>
         [% FOREACH row = PRINTER %]<option value="[% HTML.escape(row.value) %]" [% IF row.value == printer %]selected[% END %]>[% HTML.escape(row.label) %]</option>[% END %]
-      </select>			
-			</td>
-		</tr>
-		[% END %]
-	</tbody>
+      </select>
+      </td>
+    </tr>
+    [% END %]
+  </tbody>
 </table>
 
 <input type="hidden" name="display_nextsub" value="display_template">
@@ -54,7 +54,7 @@
 
 [% IF SHOW_CONTENT %]
   <h2>
-    [% IF CAN_EDIT %][% 'Edit file' | $T8 %][% ELSE %][% 'Display file' | $T8 %][% END %] 
+    [% IF CAN_EDIT %][% 'Edit file' | $T8 %][% ELSE %][% 'Display file' | $T8 %][% END %]
     [% HTML.escape(display_filename) %]
   </h2>
 

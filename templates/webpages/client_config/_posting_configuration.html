@@ -1,13 +1,14 @@
 [% USE L %]
 [% USE LxERP %]
+[% USE T8 %]
 
 <div id="posting_configuration">
 
-<div class="wrapper">
-	
+<div class="wrapper" id="wrapper-5">
+
 <table class="tbl-horizontal">
   <caption>[% 'Changeable after posting' | $T8 %]</caption>
-  <colgroup> <col class="wi-small"><col class="wi-mediumsmall"><col class="wi-normal"> </colgroup> 
+  <colgroup> <col class="wi-small"><col class="wi-mediumsmall"><col class="wi-normal"> </colgroup>
   <tbody>
     <tr>
       <th>[% LxERP.t8('Sales invoices') %]</th>
@@ -45,7 +46,7 @@
 
 <table class="tbl-horizontal">
   <caption>[% 'Show "mark as paid' | $T8 %]</caption>
-  <colgroup> <col class="wi-small"><col class="wi-small"><col class="wi-normal"> </colgroup> 
+  <colgroup> <col class="wi-small"><col class="wi-small"><col class="wi-normal"> </colgroup>
   <tbody>
     <tr>
       <th>[% LxERP.t8('Sales Invoices') %]</th>
@@ -69,10 +70,11 @@
     </tr>
   </tbody>
 </table>
-		
-</div>
-<div class="wrapper">
-	
+
+</div><!-- /.wrapper -->
+
+<div class="wrapper" id="wrapper-6">
+
 <table class="tbl-horizontal">
   <caption>[% 'Methods & Preferences' | $T8 %]</caption>
   <tbody>
@@ -104,9 +106,10 @@
     </tr>
   </tbody>
 </table>
-		
-</div>	
-</div>
+
+</div><!-- /.wrapper -->
+
+</div><!-- /#posting_configuration -->
 
 
 

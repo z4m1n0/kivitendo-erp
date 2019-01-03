@@ -1,7 +1,7 @@
 [% USE HTML %]
 [% USE T8 %]
 [% USE L %]
-[% USE LxERP %] 
+[% USE LxERP %]
 
 <h1>[% 'Contacts' | $T8 %]</h1>
 
@@ -11,63 +11,50 @@
 
 <table class="tbl-horizontal">
   <tbody>
-  <tr>
-    <th> [% 'Name' | $T8 %] </th>
-    <td> 
-    <input type="text" name="filter.cp_name" size="35" class="initial_focus">
-    </td>
-  </tr>
-  <tr>
-    <th> [% 'Greeting' | $T8 %] </th>
-    <td> 
-    <input type="text" name="filter.cp_greeting" size="35">
-    </td>
-  </tr>
-  <tr>
-    <th> [% 'Title' | $T8 %] </th>
-    <td> 
-    <input type="text" name="filter.cp_title" size="35">
-    </td>
-  </tr>
-  <tr>
-    <th> [% 'E-mail' | $T8 %] </th>
-    <td> 
-    <input type="text" name="filter.cp_email" size="35">
-    </td>
-  </tr>
-  <tr>
-    <th> [% 'Department' | $T8 %] </th>
-    <td> 
-    <input type="text" name="filter.cp_abteilung" size="35">
-    </td>
-  </tr>
-  <tr>
-    <th> [% 'Project' | $T8 %] </th>
-    <td> 
-    <input type="text" name="filter.cp_project" size="35">
-    </td>
-  </tr>
-  [% CUSTOM_VARIABLES_FILTER_CODE %] 
-  <tr>
-    <th>[% 'Scope' | $T8 %] </th>
-    <td> 
-    <input name="filter.status" type="radio" value="active" checked>
-    [% 'Active' | $T8 %] 
-    <input name="filter.status" type="radio" value="all">
-    [% 'All' | $T8 %] 
-    <input name="filter.status" type="radio" value="orphaned">
-    [% 'Orphaned' | $T8 %] </td>
-  </tr>
+    <tr>
+      <th>[% 'Name' | $T8 %] </th>
+      <td><input type="text" name="filter.cp_name" class="wi-lightwide" class="initial_focus"></td>
+    </tr>
+    <tr>
+      <th>[% 'Greeting' | $T8 %] </th>
+      <td><input type="text" name="filter.cp_greeting" class="wi-lightwide"></td>
+    </tr>
+    <tr>
+      <th>[% 'Title' | $T8 %] </th>
+      <td><input type="text" name="filter.cp_title" class="wi-lightwide"></td>
+    </tr>
+    <tr>
+      <th>[% 'E-mail' | $T8 %] </th>
+      <td><input type="text" name="filter.cp_email" class="wi-lightwide"></td>
+    </tr>
+    <tr>
+      <th>[% 'Department' | $T8 %] </th>
+      <td><input type="text" name="filter.cp_abteilung" class="wi-lightwide"></td>
+    </tr>
+    <tr>
+      <th>[% 'Project' | $T8 %] </th>
+      <td><input type="text" name="filter.cp_project" class="wi-lightwide"></td>
+    </tr>
+    [% CUSTOM_VARIABLES_FILTER_CODE %]
+    <tr>
+      <th>[% 'Scope' | $T8 %] </th>
+      <td>
+        <input name="filter.status" type="radio" value="active" checked id="rd1"> <label for="rd1">[% 'Active' | $T8 %]</label>
+        <input name="filter.status" type="radio" value="all" id="rd2"> <label for="rd2">[% 'All' | $T8 %]</label>
+        <input name="filter.status" type="radio" value="orphaned" id="rd3"> <label for="rd3">[% 'Orphaned' | $T8 %]</label>
+      </td>
+    </tr>
   </tbody>
 </table>
-		
+
+
 </div>
 
 
-<div class="wrapper form-addition">
+<div class="wrapper form-addition control-panel">
   <h3 class="caption">[% 'Include in Report' | $T8 %] </h3>
 
- 
+
   <div class="list col">
     <h4>[% 'Numbers & IDs' | $T8 %]</h4>
     <div>
@@ -79,7 +66,7 @@
       <label for="l_vcnumber"> [% 'Customer/Vendor Number' | $T8 %] </label>
     </div>
   </div>
-  
+
   <div class="list col">
     <h4> [% 'Customer' | $T8 %] </h4>
     <div>
@@ -99,7 +86,7 @@
       <label for="l_cp_abteilung"> [% 'Department' | $T8 %] </label>
     </div>
     <div>
-      [% L.checkbox_tag('l.cp_position', value='Y', label=LxERP.t8('Function/position')) %] 
+      [% L.checkbox_tag('l.cp_position', value='Y', label=LxERP.t8('Function/position')) %]
     </div>
     <div>
       <input name="l.cp_gender" id="l_cp_gender" type="checkbox" value="Y">
@@ -110,7 +97,7 @@
       <label for="l_cp_birthday"> [% 'Birthday' | $T8 %] </label>
     </div>
   </div>
-  
+
   <div class="list col">
     <h4> [% 'Address' | $T8 %] </h4>
     <div>
@@ -126,7 +113,7 @@
       <label for="l_cp_city"> [% 'City' | $T8 %] </label>
     </div>
   </div>
-  
+
   <div class="list col">
     <h4> [% 'Contact' | $T8 %] </h4>
     <div>
@@ -138,18 +125,18 @@
       <label for="l_cp_mobile"> [% 'Mobile' | $T8 %] </label>
     </div>
     <div>
-      [% L.checkbox_tag('l.cp_privatphone', value='Y', label=LxERP.t8('Private Phone'), checked=1) %] 
+      [% L.checkbox_tag('l.cp_privatphone', value='Y', label=LxERP.t8('Private Phone'), checked=1) %]
     </div>
     <div>
-      [% L.checkbox_tag('l.cp_fax', value='Y', label=LxERP.t8('Fax')) %] 
+      [% L.checkbox_tag('l.cp_fax', value='Y', label=LxERP.t8('Fax')) %]
     </div>
     <div>
-      [% L.checkbox_tag('l.cp_email', value='Y', label=LxERP.t8('E-mail'), checked=1) %] 
+      [% L.checkbox_tag('l.cp_email', value='Y', label=LxERP.t8('E-mail'), checked=1) %]
     </div>
     <div>
-      [% L.checkbox_tag('l.cp_privatemail', value='Y', label=LxERP.t8('Private E-mail')) %] 
+      [% L.checkbox_tag('l.cp_privatemail', value='Y', label=LxERP.t8('Private E-mail')) %]
     </div>
-    [% CUSTOM_VARIABLES_INCLUSION_CODE %] 
+    [% CUSTOM_VARIABLES_INCLUSION_CODE %]
   </div>
 
 </div>

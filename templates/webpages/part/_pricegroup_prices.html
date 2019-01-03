@@ -6,10 +6,10 @@
 [% IF SELF.all_pricegroups.size %]
 <table class="tbl-horizontal">
   <caption>[% 'Preisgruppen' | $T8 %]</caption>
-  <colgroup> 
-    <col class="wi-mediumsmall">
+  <colgroup>
+    <col class="wi-small">
     <col class="wi-lightwide">
-  </colgroup> 
+  </colgroup>
   <thead>
     <tr>
       <th> [% 'Price group' | $T8 %] </th>
@@ -20,16 +20,17 @@
   [% FOREACH pricegroup = SELF.all_pricegroups %]
     [% SET pricegroup_id = pricegroup.id
            price         = prices_map.$pricegroup_id %]
-  <tr>
-    <th>
-      [% L.hidden_tag('prices[+].pricegroup_id', pricegroup.id) %]
-      [% L.hidden_tag('prices[].price_id', price.id) # id not used? %]
-      [% L.hidden_tag('prices[].pricegroup', pricegroup.pricegroup) %][% HTML.escape(pricegroup.pricegroup) %]
-    </th>
-    <td> [% L.input_tag('prices[].price', price.price_as_number, size=11, class='wi-small numeric reformat_number') %] </td>
-  </tr>
+    <tr>
+      <th>
+        [% L.hidden_tag('prices[+].pricegroup_id', pricegroup.id) %]
+        [% L.hidden_tag('prices[].price_id', price.id) # id not used? %]
+        [% L.hidden_tag('prices[].pricegroup', pricegroup.pricegroup) %][% HTML.escape(pricegroup.pricegroup) %]
+      </th>
+      <td> [% L.input_tag('prices[].price', price.price_as_number, size=11, class='wi-small numeric reformat_number') %] </td>
+    </tr>
   [% END %]
-  [% # followed by Storage-Table %] 
-  <!-- </tbody> -->
-<!-- </table> -->
+  [% # followed by Storage-Table %]
+
+  </tbody>
+</table>
 [% END %]

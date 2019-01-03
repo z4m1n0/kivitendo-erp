@@ -11,22 +11,22 @@
 <form method="post" action="generictranslations.pl" id="form">
 
 <table class="tbl-list width-moderate">
-	<thead>
-		<tr>
-			<th>&nbsp;</th>
-			<th>[% 'Remittance information prefix' | $T8 %]</th>
-			<th>[% 'Remittance information optional Vendor/Customer No postfix' | $T8 %]</th>
-		</tr>
-	</thead>
-	<tbody>
-		[% FOREACH language = LANGUAGES %] 
-		<tr>
-			<th>[% IF language.id == 'default' %] [% 'Default (no language selected)' | $T8 %] [% ELSE %] [% HTML.escape(language.description) %] [% END %]</th>
-			<td><input name="translation__[% language.id %]" value="[% HTML.escape(language.translation) %]" type="text" class="wi-wide"></td>
-			<td><input name="translation__[% language.id %]__vc" value="[% HTML.escape(language.translation_vc) %]" type="text" class="wi-wide"></td>
-		</tr>
-		[% END %] 
-	</tbody>
+  <thead>
+    <tr>
+      <th>&nbsp;</th>
+      <th>[% 'Remittance information prefix' | $T8 %]</th>
+      <th>[% 'Remittance information optional Vendor/Customer No postfix' | $T8 %]</th>
+    </tr>
+  </thead>
+  <tbody>
+    [% FOREACH language = LANGUAGES %]
+    <tr>
+      <th>[% IF language.id == 'default' %] [% 'Default (no language selected)' | $T8 %] [% ELSE %] [% HTML.escape(language.description) %] [% END %]</th>
+      <td><input name="translation__[% language.id %]" value="[% HTML.escape(language.translation) %]" type="text" class="wi-wide"></td>
+      <td><input name="translation__[% language.id %]__vc" value="[% HTML.escape(language.translation_vc) %]" type="text" class="wi-wide"></td>
+    </tr>
+    [% END %]
+  </tbody>
 </table>
 
 </form>

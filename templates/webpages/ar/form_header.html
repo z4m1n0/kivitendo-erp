@@ -21,21 +21,21 @@
 [% L.hidden_tag('follow_up_rowcount', 1) %]
 <input type="hidden" name="lastmtime" value="[% HTML.escape(lastmtime) %]">
 
-[% IF saved_message %]<p class="message_info">[% saved_message | html  %]</p>[% END %]
+[% IF saved_message %]<p class="message message_info">[% saved_message | html  %]</p>[% END %]
 
 <div class="tabwidget">
 
 <ul>
-	<li><a href="#ui-tabs-basic-data">[% 'Basic Data' | $T8 %]</a></li>
-	[% IF id %] 
-    [% IF INSTANCE_CONF.get_doc_storage %] 
+  <li><a href="#ui-tabs-basic-data">[% 'Basic Data' | $T8 %]</a></li>
+  [% IF id %]
+    [% IF INSTANCE_CONF.get_doc_storage %]
       <li><a href="controller.pl?action=File/list&file_type=attachment&object_type=invoice&object_id=[% HTML.url(id) %]">[% 'Attachments' | $T8 %]</a></li>
-    [% END %] 
-    [% IF AUTH.assert('record_links', 1) %] 
+    [% END %]
+    [% IF AUTH.assert('record_links', 1) %]
       <li><a href="controller.pl?action=RecordLinks/ajax_list&object_model=Invoice&object_id=[% HTML.url(id) %]">[% 'Linked Records' | $T8 %]</a></li>
-    [% END %] 
+    [% END %]
       <li><a href="[% 'controller.pl?action=AccTrans/list_transactions&trans_id=' _ HTML.url(id) | html %]">[% LxERP.t8('Transactions') %]</a></li>
-	[% END %] 
+  [% END %]
 </ul>
 
 
@@ -100,7 +100,7 @@
         [% L.hidden_tag('forex', forex) %]
         [% IF show_exch %]
           <!-- PENDENT: Testen und Design ggf. anpassen -->
-          &nbsp; [% 'Exchangerate' | $T8 %]: 
+          &nbsp; [% 'Exchangerate' | $T8 %]:
           [% IF forex %]
             [% L.hidden_tag('exchangerate', LxERP.format_amount(exchangerate, 5)) %][% LxERP.format_amount(exchangerate, 5) %]
           [% ELSE %]
@@ -302,7 +302,7 @@
       <td></td>
       [% IF show_exch %]
         <td></td>
-      [% END %] 
+      [% END %]
       <td></td>
       <td></td>
     </tr>
@@ -317,7 +317,7 @@
       <td></td>
       [% IF show_exch %]
         <td></td>
-      [% END %] 
+      [% END %]
       <td></td>
       <td></td>
     </tr>

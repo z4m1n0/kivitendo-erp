@@ -32,22 +32,22 @@
 <div class="wrapper">
 
   <table class="tbl-horizontal col">
-    <colgroup> <col class="wi-small"><col class="wi-lightwide"> </colgroup> 
+    <colgroup> <col class="wi-small"><col class="wi-lightwide"> </colgroup>
     <tbody>
-      [% IF SELF.is_sales %] 
+      [% IF SELF.is_sales %]
       <tr>
         <th>[% 'Customer' | $T8 %]</th>
-        <td>[% P.customer_vendor.picker('letter.customer_id', letter.customer_id, type='customer', class='wi-wide') %]</td>
+        <td class="wi-wider">[% P.customer_vendor.picker('letter.customer_id', letter.customer_id, type='customer', class='wi-wider') %]</td>
       </tr>
-      [% ELSE %] 
+      [% ELSE %]
       <tr>
         <th>[% 'Vendor' | $T8 %]</th>
-        <td>[% P.customer_vendor.picker('letter.vendor_id', letter.vendor_id, type='vendor', class='wi-wide') %]</td>
+        <td class="wi-wider">[% P.customer_vendor.picker('letter.vendor_id', letter.vendor_id, type='vendor', class='wi-wider') %]</td>
       </tr>
-      [% END %] 
+      [% END %]
       <tr>
         <th>[% 'Contact Person' | $T8 %]</th>
-        <td>[% L.select_tag('letter.cp_id', letter.customer_vendor_id ? letter.customer_vendor.contacts : [], value_key='cp_id', title_key='full_name', default=letter.cp_id, class='wi-wide') %]</td>
+        <td class="wi-wider">[% L.select_tag('letter.cp_id', letter.customer_vendor_id ? letter.customer_vendor.contacts : [], value_key='cp_id', title_key='full_name', default=letter.cp_id, class='wi-wider') %]</td>
       </tr>
     </tbody>
   </table>
@@ -85,37 +85,34 @@
 
 <div class="wrapper">
 
-  <table class="tbl-horizontal">
-    <colgroup> <col class="wi-small"><col class="wi-wider"> </colgroup> 
-    <tbody>
-      <tr>
-        <th>[% 'Date' | $T8 %]</th>
-        <td>[% L.date_tag('letter.date_as_date', letter.date_as_date, readonly=readonly) %]</td>
-      </tr>
-      <tr>
-        <th>[% 'Subject' | $T8 %]</th>
-        <td><textarea name='letter.subject' rows=1 class="wi-wider">[% letter.subject | html %]</textarea>
-        </td>
-      </tr>
-      <tr>
-        <th>[% 'Greeting' | $T8 %]</th>
-        <td> <input type="text" name='letter.greeting' value="[% letter.greeting | html %]" class="wi-wider">
-        </td>
-      </tr>
-      <tr>
-        <th>[% 'Body' | $T8 %]</th>
-        <td>[% L.textarea_tag('letter.body_as_restricted_html', letter.body_as_restricted_html, rows=20, class="texteditor wi-wider") %]</td>
-      </tr>
-      <tr>
-        <th>[% 'Internal Notes' | $T8 %]</th>
-        <td><textarea name='letter.intnotes' rows=4 class="wi-wider">[% letter.intnotes | html %]</textarea>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<table class="tbl-horizontal">
+  <colgroup> <col class="wi-small"><col class="wi-wider"> </colgroup>
+  <tbody>
+    <tr>
+      <th>[% 'Date' | $T8 %]</th>
+      <td>[% L.date_tag('letter.date_as_date', letter.date_as_date, readonly=readonly, class='wi-date') %]</td>
+    </tr>
+    <tr>
+      <th>[% 'Subject' | $T8 %]</th>
+      <td><textarea name='letter.subject' rows="1" class="wi-wider">[% letter.subject | html %]</textarea></td>
+    </tr>
+    <tr>
+      <th>[% 'Greeting' | $T8 %]</th>
+      <td><input type="text" name='letter.greeting' value="[% letter.greeting | html %]" class="wi-wider"> </td>
+    </tr>
+    <tr>
+      <th>[% 'Body' | $T8 %]</th>
+      <td class="wi-wider">[% L.textarea_tag('letter.body_as_restricted_html', letter.body_as_restricted_html, rows=20, class='texteditor wi-wider') %]</td>
+    </tr>
+    <tr>
+      <th>[% 'Internal Notes' | $T8 %]</th>
+      <td><textarea name='letter.intnotes' rows="4" class="wi-wider">[% letter.intnotes | html %]</textarea></td>
+    </tr>
+  </tbody>
+</table>
 
-  <div id="email_inputs" class="hidden"></div>
-  <div id="print_options" class="hidden">[% print_options %]</div>
+<div id="email_inputs" class="hidden"></div>
+<div id="print_options" class="hidden">[% print_options %]</div>
 
 </div><!-- /.wrapper -->
 
@@ -123,7 +120,9 @@
 
 [% PROCESS 'webdav/_list.html' %]
 <div id="ui-tabs-1">
+  <div class="wrapper">
   [% LxERP.t8("Loading...") %]
+  </div>
 </div>
 
 </div><!-- /.tabwidget -->

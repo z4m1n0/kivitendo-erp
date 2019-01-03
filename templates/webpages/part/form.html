@@ -3,6 +3,7 @@
 [% USE LxERP %]
 [% USE L %]
 [% USE P %]
+
 <h1>[% FORM.title %] [% IF SELF.part.id %]: [% HTML.escape(SELF.part.displayable_name) %][% END %]</h1>
 
 [% INCLUDE 'common/flash.html' %]
@@ -72,8 +73,8 @@
       [% PROCESS part/_sales_price_information.html id=SELF.part.id %]
     </div>
   [% END %]
-  
-  [% IF AUTH.assert('shop_part_edit', 1) && SELF.part.id %]
+
+  [% IF AUTH.assert('shop_part_edit', 1) && SELF.part.id && SELF.part.shop %]
     <div id="shop_variables" class="ui-tabs-panel">
       [% PROCESS 'part/_shop.html' %]
     </div>
@@ -87,8 +88,10 @@
 
   [% IF SELF.part.id %]
     <div id="price_rules" class="ui-tabs-panel">
-      <div id="price_rules_customer_report"></div>
-      <div id="price_rules_vendor_report"></div>
+      <div class="wrapper">
+        <div id="price_rules_customer_report"></div>
+        <div id="price_rules_vendor_report"></div>
+      </div><!-- /.wrapper -->
     </div>
   [% END %]
 

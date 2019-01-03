@@ -47,20 +47,22 @@
 </script>
 
 [% select_options = [ [ 0, LxERP.t8("Billing Address") ] ] ;
-   FOREACH shipto = vc_obj.shipto ;
-     tmpcity  = shipto.shiptozipcode _ ' ' _ shipto.shiptocity ;
-     tmptitle = [ shipto.shiptoname, shipto.shiptostreet, tmpcity ] ;
-     CALL select_options.import([ [ loop.count, tmptitle.grep('\S').join("; ") ] ]) ;
-   END ;
-   '' %]
+    FOREACH shipto = vc_obj.shipto ;
+      tmpcity  = shipto.shiptozipcode _ ' ' _ shipto.shiptocity ;
+      tmptitle = [ shipto.shiptoname, shipto.shiptostreet, tmpcity ] ;
+      CALL select_options.import([ [ loop.count, tmptitle.grep('\S').join("; ") ] ]) ;
+    END ;
+   ''
+%]
+<form action="#" name="fake-shipto-dialog" id="fake-shipto-dialog">
 
-<div class="select-item">
- [% LxERP.t8("Copy address from master data") %]:
- [% L.select_tag("", select_options, id="shipto_to_copy", style="width: 300px") %]
- [% L.button_tag("kivi.SalesPurchase.copy_shipto_address()", LxERP.t8("Copy"), type="button", class="neutral") %]
+<div class="select-item control-panel">
+  [% LxERP.t8("Copy address from master data") %]:
+  [% L.select_tag("", select_options, id="shipto_to_copy", class="wi-normal") %]
+  [% L.button_tag("kivi.SalesPurchase.copy_shipto_address()", LxERP.t8("Copy"), type="button", class="button neutral") %]
 </div>
 
-<table class="tbl-horizontal">
+<table class="tbl-horizontal checkered wi-moderate">
   <thead>
     <tr>
       <td></td>
@@ -77,7 +79,7 @@
    <tr>
     <th>[% LxERP.t8('Company Name') %]</th>
     <td>[% HTML.escape(vc_obj.name) %]</td>
-    <td>[% L.input_tag("shiptoname", shiptoname, "size", "35") %]</td>
+    <td>[% L.input_tag("shiptoname", shiptoname, "size", "35", class="wi-normal") %]</td>
    </tr>
    <tr>
     <th>[% LxERP.t8('Department') %]</th>
@@ -157,3 +159,4 @@
  [% L.button_tag("kivi.SalesPurchase.clear_shipto_fields()", LxERP.t8("Clear fields"), class="neutral") %]
  [% L.button_tag("\$('#shipto_dialog').dialog('close');", LxERP.t8("Abort"), class="neutral") %]
 </div>
+</form>

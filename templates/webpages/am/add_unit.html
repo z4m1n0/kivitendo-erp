@@ -7,10 +7,10 @@
 
 <form method="post" action="[% HTML.escape(script) %]" id="form">
 <div class="wrapper">
-	<input type="hidden" name="type" value="unit">
- 
+  <input type="hidden" name="type" value="unit">
+
   <table class="tbl-horizontal">
-    	<colgroup> <col class="wi-normal"><col class="wi-lightwide"> </colgroup> 
+      <colgroup> <col class="wi-normal"><col class="wi-lightwide"> </colgroup>
     <tbody>
       <tr>
         <th>[% 'Unit' | $T8 %]</th>
@@ -18,11 +18,11 @@
       </tr>
       <tr>
         <th>[% 'Base unit' | $T8 %]</th>
-        <td> 
+        <td>
           <select name="new_base_unit" class="wi-normal">
-            [% FOREACH row = NEW_BASE_UNIT_DDBOX %] 
+            [% FOREACH row = NEW_BASE_UNIT_DDBOX %]
               <option [% row.selected %]>[% row.name %]</option>
-            [% END %] 
+            [% END %]
           </select>
         </td>
       </tr>
@@ -35,16 +35,16 @@
 
   <table class="tbl-horizontal">
     <caption>[% '' | $T8 %]</caption>
-    <colgroup> <col class="wi-normal"><col class="wi-lightwide"><col class="wi-small"><col class="wi-lightwide"> </colgroup> 
+    <colgroup> <col class="wi-normal"><col class="wi-lightwide"><col class="wi-small"><col class="wi-lightwide"> </colgroup>
     <tbody>
-      [% FOREACH language = LANGUAGES %] 
+      [% FOREACH language = LANGUAGES %]
         <tr>
           <th>[% language.description %]</th>
           <td><input type="text" name="new_localized_[% language.id %]" class="wi-normal" maxlength="20"></td>
           <th>[% 'Plural' | $T8 %]</th>
           <td><input type="text" name="new_localized_plural_[% language.id %]" class="wi-normal" maxlength="20"></td>
         </tr>
-      [% END %] 
+      [% END %]
     </tbody>
   </table>
 

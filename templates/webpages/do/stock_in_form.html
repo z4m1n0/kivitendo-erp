@@ -8,25 +8,25 @@
 [% UNLESS delivered %]
 <script type="text/javascript"><!--
 
-warehouses = new Array();
-[% USE WAREHOUSES_it = Iterator(WAREHOUSES) %][% FOREACH wh = WAREHOUSES_it %]
-warehouses[[% WAREHOUSES_it.count - 1 %]] = new Array();
-[% USE BINS_it = Iterator(wh.BINS) %][% FOREACH bin = BINS_it %]warehouses[[% WAREHOUSES_it.count - 1 %]][[% BINS_it.count - 1 %]] = ["[% JavaScript.escape(bin.description) %]", "[% JavaScript.escape(bin.id) %]"];
-[% END %]
-[% END %]
+  warehouses = new Array();
+  [% USE WAREHOUSES_it = Iterator(WAREHOUSES) %]
+  [% FOREACH wh = WAREHOUSES_it %]
+    warehouses[[% WAREHOUSES_it.count - 1 %]] = new Array();
+    [% USE BINS_it = Iterator(wh.BINS) %]
+    [% FOREACH bin = BINS_it %]
+      warehouses[[% WAREHOUSES_it.count - 1 %]][[% BINS_it.count - 1 %]] = ["[% JavaScript.escape(bin.description) %]", "[% JavaScript.escape(bin.id) %]"];
+    [% END %]
+  [% END %]
 
 function warehouse_selected(row, index, initial_bin_index) {
   var cname = "bin_id_" + row;
   var control = document.getElementById(cname);
-
   for (var i = control.options.length - 1; i >= 0; i--) {
     control.options[i] = null;
   }
-
   for (i = 0; i < warehouses[index].length; i++) {
     control.options[i] = new Option(warehouses[index][i][0], warehouses[index][i][1]);
   }
-
   if (!initial_bin_index)
     initial_bin_index = 0;
   control.options[initial_bin_index].selected = true;
@@ -70,20 +70,20 @@ $(function(){
 [% END %]
 
 <table class="tbl-plain">
-	<tbody>
-		<tr>
-			<td>[% 'Part Number' | $T8 %]</td>
-			<td>[% HTML.escape(PART_INFO.partnumber) %]</td>
-		</tr>
-		<tr>
-			<td>[% 'Description' | $T8 %]</td>
-			<td>[% HTML.escape(PART_INFO.description) %]</td>
-		</tr>
-		<tr>
-			<td>[% 'Qty according to delivery order' | $T8 %]</td>
-			<td>[% HTML.escape(do_qty) %] [% HTML.escape(do_unit) %]</td>
-		</tr>
-	</tbody>
+  <tbody>
+    <tr>
+      <td>[% 'Part Number' | $T8 %]</td>
+      <td>[% HTML.escape(PART_INFO.partnumber) %]</td>
+    </tr>
+    <tr>
+      <td>[% 'Description' | $T8 %]</td>
+      <td>[% HTML.escape(PART_INFO.description) %]</td>
+    </tr>
+    <tr>
+      <td>[% 'Qty according to delivery order' | $T8 %]</td>
+      <td>[% HTML.escape(do_qty) %] [% HTML.escape(do_unit) %]</td>
+    </tr>
+  </tbody>
 </table>
 
 
@@ -98,67 +98,64 @@ $(function(){
 <input type="hidden" name="row"            value="[% HTML.escape(row) %]">
 
 <table class="tbl-list">
-<thead>
-	<tr>
-		<th>&nbsp;</th>
-		<th>[% 'Warehouse' | $T8 %]</th>
-		<th>[% 'Bin' | $T8 %]</th>
-		<th>[% 'Charge Number' | $T8 %]</th>
-		[% IF INSTANCE_CONF.get_show_bestbefore %] 
-      <th>[% 'Best Before' | $T8 %]</th>
-		[% END %] 
-		<th>[% 'Qty' | $T8 %]</th>
-		<th>[% 'Unit' | $T8 %]</th>
-	</tr>
-</thead>
-
-<tbody>
-
-[% FOREACH row = STOCK_INFO %]
-  <tr [% IF row.stock_error %] class="tr_error"[% ELSE %]class="listrow[% loop.count % 2 %]"[% END %]>
-    <td>[% loop.count %]</td>
-    [% IF delivered %]
-      <td>[% HTML.escape(row.warehouse_description) %]</td>
-      <td>[% HTML.escape(row.bin_description) %]</td>
-      <td>[% HTML.escape(row.chargenumber) %]</td>
+  <thead>
+    <tr>
+      <th>&nbsp;</th>
+      <th>[% 'Warehouse' | $T8 %]</th>
+      <th>[% 'Bin' | $T8 %]</th>
+      <th>[% 'Charge Number' | $T8 %]</th>
       [% IF INSTANCE_CONF.get_show_bestbefore %]
-        <td>[% HTML.escape(row.bestbefore) %]</td>
+        <th>[% 'Best Before' | $T8 %]</th>
       [% END %]
-      <td>[% HTML.escape(LxERP.format_amount(row.qty)) %]</td>
-      <td>[% HTML.escape(row.unit) %]</td>
-    [% ELSE %]
-      <td>
-        <select name="warehouse_id_[% loop.count %]" onchange="warehouse_selected([% loop.count %], this.selectedIndex)">
-          [% FOREACH wh = WAREHOUSES %]
-            <option value="[% HTML.escape(wh.id) %]"[% IF wh.id == row.warehouse_id %] selected[% END %] [% IF wh.id == PART_INFO.warehouse_id && STOCK_INFO.size == 1  %] selected[% END %]>[% HTML.escape(wh.description) %]</option>
+      <th>[% 'Qty' | $T8 %]</th>
+      <th>[% 'Unit' | $T8 %]</th>
+    </tr>
+  </thead>
+  <tbody>
+    [% FOREACH row = STOCK_INFO %]
+      <tr [% IF row.stock_error %]class="tr_error"[% END %]>
+        <td>[% loop.count %]</td>
+        [% IF delivered %]
+          <td>[% HTML.escape(row.warehouse_description) %]</td>
+          <td>[% HTML.escape(row.bin_description) %]</td>
+          <td>[% HTML.escape(row.chargenumber) %]</td>
+          [% IF INSTANCE_CONF.get_show_bestbefore %]
+            <td>[% HTML.escape(row.bestbefore) %]</td>
           [% END %]
-        </select>
-      </td>
-      <td><select name="bin_id_[% loop.count %]" id="bin_id_[% loop.count %]"></select></td>
-      <td><input type="text" name="chargenumber_[% loop.count %]" value="[% HTML.escape(row.chargenumber) %]"></td>
-      [% IF INSTANCE_CONF.get_show_bestbefore %]
-        <td>[% L.date_tag('bestbefore_'_ loop.count, row.bestbefore) %]</td>
-      [% END %]
-      <td><input type="text" name="qty_[% loop.count %]" size="12" value="[% HTML.escape(LxERP.format_amount(row.qty)) %]"></td>
-      <td>
-        <select name="unit_[% loop.count %]">
-          [% FOREACH unit = UNITS %]
-            <option[% IF unit.selected %] selected[% END %]>[% HTML.escape(unit.name) %]</option>
+          <td>[% HTML.escape(LxERP.format_amount(row.qty)) %]</td>
+          <td>[% HTML.escape(row.unit) %]</td>
+        [% ELSE %]
+          <td>
+            <select name="warehouse_id_[% loop.count %]" onchange="warehouse_selected([% loop.count %], this.selectedIndex)">
+              [% FOREACH wh = WAREHOUSES %]
+                <option value="[% HTML.escape(wh.id) %]"[% IF wh.id == row.warehouse_id %] selected[% END %] [% IF wh.id == PART_INFO.warehouse_id && STOCK_INFO.size == 1  %] selected[% END %]>[% HTML.escape(wh.description) %]</option>
+              [% END %]
+            </select>
+          </td>
+          <td><select name="bin_id_[% loop.count %]" id="bin_id_[% loop.count %]"></select></td>
+          <td><input type="text" name="chargenumber_[% loop.count %]" value="[% HTML.escape(row.chargenumber) %]"></td>
+          [% IF INSTANCE_CONF.get_show_bestbefore %]
+            <td>[% L.date_tag('bestbefore_'_ loop.count, row.bestbefore) %]</td>
           [% END %]
-        </select>
-      </td>
-    <input type="hidden" name="delivery_order_items_stock_id_[% loop.count %]" value="[% HTML.escape(row.delivery_order_items_stock_id) %]">
-    [% END %]
-  </tr>
-[% END %]<!-- /FOREACH row = STOCK_INFO -->
-
-</tbody>
+          <td><input type="text" name="qty_[% loop.count %]" size="12" value="[% HTML.escape(LxERP.format_amount(row.qty)) %]"></td>
+          <td>
+            <select name="unit_[% loop.count %]">
+              [% FOREACH unit = UNITS %]
+                <option[% IF unit.selected %] selected[% END %]>[% HTML.escape(unit.name) %]</option>
+              [% END %]
+            </select>
+            <input type="hidden" name="delivery_order_items_stock_id_[% loop.count %]" value="[% HTML.escape(row.delivery_order_items_stock_id) %]">
+          </td>
+        [% END %]
+      </tr>
+    [% END %]<!-- /FOREACH row = STOCK_INFO -->
+  </tbody>
 </table>
 
 
 <div class="buttons">
   [% IF delivered %]
-    <button type="button" name="action" onclick="window.close()">[% 'Close Window' | $T8 %]</button>
+    <button type="button" name="action" onclick="window.close()" class="neutral">[% 'Close Window' | $T8 %]</button>
   [% ELSE %]
     <input type="submit" name="action" value="[% 'Update' | $T8 %]">
     <input type="submit" name="action" value="[% 'Continue' | $T8 %]">
@@ -166,4 +163,3 @@ $(function(){
 </div>
 
 </form>
-

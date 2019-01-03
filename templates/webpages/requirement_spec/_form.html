@@ -61,7 +61,7 @@
   </p>
 [% END %]
 
-<p>
+<div class="buttons">
 [% IF submit_as != 'post' %]
   [% L.ajax_submit_tag("controller.pl?action=RequirementSpec/update",  "#" _ id_prefix, LxERP.t8("Save"), id=id_prefix _ '_submit') %]
   <script type="text/javascript"><!--
@@ -76,6 +76,6 @@
   });
 --></script>
 [% END %]
- </p>
-</div>
+ </div><!-- /.buttons -->
+</div><!-- /.wrapper -->
 </form>

@@ -70,55 +70,55 @@
 
 <form method="post" name="Form" action="wh.pl" id="form">
 <div class="wrapper">
- 
+
 <table class="tbl-horizontal">
-	<tbody>
-		<tr>
-			<th>[% 'Warehouse' | $T8 %]:</th>
-			<td> 
-			<select name="warehouse_id" id="warehouse_id" onchange="warehouse_selected(warehouses[this.selectedIndex]['id'], 0)" class="wi-normal">
-				<option value="">---</option>
-				[% FOREACH warehouse = WAREHOUSES %] 
+  <tbody>
+    <tr>
+      <th>[% 'Warehouse' | $T8 %]:</th>
+      <td>
+      <select name="warehouse_id" id="warehouse_id" onchange="warehouse_selected(warehouses[this.selectedIndex]['id'], 0)" class="wi-normal">
+        <option value="">---</option>
+        [% FOREACH warehouse = WAREHOUSES %]
           <option value="[% HTML.escape(warehouse.id) %]">[% warehouse.description %]</option>
-				[% END %] 
-			</select>
-			</td>
-		</tr>
-		<tr>
-			<th>[% 'Bin' | $T8 %]:</th>
-			<td>
+        [% END %]
+      </select>
+      </td>
+    </tr>
+    <tr>
+      <th>[% 'Bin' | $T8 %]:</th>
+      <td>
         <select name="bin_id" id="bin_id" class="wi-normal">
-			</select>
-			</td>
-		</tr>
-		<tr>
-			<th>[% 'Part Number' | $T8 %]:</th>
-			<td><input type="text" name="partnumber" id="partnumber" class="wi-normal">
-			</td>
-		</tr>
-		<tr>
-			<th>[% 'Parts Classification' | $T8 %]:</th>
-			<td>[% P.part.select_classification('classification_id', class='wi-normal') %]</td>
-		</tr>
-		<tr>
-			<th>[% 'Part Description' | $T8 %]:</th>
-			<td><input type="text" name="description" class="wi-normal">
-			</td>
-		</tr>
-		<tr>
-			<th>[% 'Charge Number' | $T8 %]:</th>
-			<td><input type="text" name="chargenumber" class="wi-normal">
-			</td>
-		</tr>
-		[% IF INSTANCE_CONF.get_show_bestbefore %] 
+      </select>
+      </td>
+    </tr>
+    <tr>
+      <th>[% 'Part Number' | $T8 %]:</th>
+      <td><input type="text" name="partnumber" id="partnumber" class="wi-normal">
+      </td>
+    </tr>
+    <tr>
+      <th>[% 'Parts Classification' | $T8 %]:</th>
+      <td>[% P.part.select_classification('classification_id', class='wi-normal') %]</td>
+    </tr>
+    <tr>
+      <th>[% 'Part Description' | $T8 %]:</th>
+      <td><input type="text" name="description" class="wi-normal">
+      </td>
+    </tr>
+    <tr>
+      <th>[% 'Charge Number' | $T8 %]:</th>
+      <td><input type="text" name="chargenumber" class="wi-normal">
+      </td>
+    </tr>
+    [% IF INSTANCE_CONF.get_show_bestbefore %]
       <tr>
         <th>[% 'Best Before' | $T8 %]:</th>
         <td> [% L.date_tag('bestbefore') %] </td>
       </tr>
-		[% END %] 
-		<tr>
-			<th>[% 'Transfer Quantity' | $T8 %]:</th>
-			<td> 
+    [% END %]
+    <tr>
+      <th>[% 'Transfer Quantity' | $T8 %]:</th>
+      <td>
         <select name="qty_op" class="wi-normal">
           <option value="dontcare">---</option>
           <option value="atleast">[% 'At least' | $T8 %]</option>
@@ -129,22 +129,24 @@
         <select name="qty_unit" class="wi-small">
           [% FOREACH unit = UNITS %]
             <option>[% unit.name %]</option>
-          [% END %] 
+          [% END %]
         </select>
-			</td>
-		</tr>
-		<tr>
-			<th>[% 'From Date' | $T8 %]</th>
-			<td> <span class="wi-date">[% L.date_tag('fromdate') %]</span> </td>
-		</tr>
-		<tr>
-			<th>[% 'To Date' | $T8 %]</th>
-			<td> <span class="wi-date">[% L.date_tag('todate') %]</span> </td>
-		</tr>
-	</tbody>
+      </td>
+    </tr>
+    <tr>
+      <th>[% 'From Date' | $T8 %]</th>
+      <td> <span class="wi-date">[% L.date_tag('fromdate') %]</span> </td>
+    </tr>
+    <tr>
+      <th>[% 'To Date' | $T8 %]</th>
+      <td> <span class="wi-date">[% L.date_tag('todate') %]</span> </td>
+    </tr>
+  </tbody>
 </table>
 
-<div class="form-addition">
+</div><!-- /.wrapper -->
+
+<div class="form-addition control-panel">
 <h3>[% 'Include in Report' | $T8 %]</h3>
 
 <div class="col list">
@@ -193,12 +195,12 @@
     <input name="l_date" id="l_date" type="checkbox" value="Y" checked>
     <label for="l_date">[% 'Date' | $T8 %]</label>
   </div>
-  [% IF INSTANCE_CONF.get_show_bestbefore %] 
+  [% IF INSTANCE_CONF.get_show_bestbefore %]
     <div>
       <input name="l_bestbefore" id="l_bestbefore" type="checkbox" value="Y" checked>
       <label for="l_bestbefore">[% 'Best Before' | $T8 %]</label>
     </div>
-  [% END %] 
+  [% END %]
   <div>
     <input name="l_trans_id" id="l_trans_id" type="checkbox" value="Y">
     <label for="l_trans_id">[% 'Trans Id' | $T8 %]</label>
@@ -228,5 +230,4 @@
 </div><!-- /.form-addition -->
 
 
-</div><!-- /.wrapper -->
 </form>

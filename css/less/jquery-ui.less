@@ -549,41 +549,31 @@ button.ui-button::-moz-focus-inner {
   border: 1px solid black; // Custom
 
   .ui-dialog-titlebar {
-    padding: 0.4em 1.0em;
-    //position: relative;
-    // Custom
-    //-khtml-border-radius:0.4em; //  Konqueror
-    //-moz-border-radius:0.4em; //  Firefox
-    //-webkit-border-radius:0.4em; //  Safari, Chrome
-    //behavior:url(border-radius.htc);
-    border: none;
-    background: @h1-bg-color ;
-    color: @h1-text-color ;
-    font-weight: normal;
-    //margin: 5px;
-    //padding: 0.5em;
-    position: relative;
-    text-align: left;
-    font-size:@font-size-h3;
+    padding:      0.4em 1.0em;
+    border:       none;
+    background:   @h1-bg ;
+    color:        @h1-color ;
+    font-weight:  normal;
+    position:     relative;
+    text-align:   left;
+    font-size:    @h3-size;
 
     .ui-dialog-title {
-      float: left;
-      //margin: .1em 0;
-      white-space: nowrap;
-      //width: 90%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: block;
+      float:           left;
+      white-space:     nowrap;
+      overflow:        hidden;
+      text-overflow:   ellipsis;
+      display:         block;
     }
 
     .ui-dialog-titlebar-close {
-      position: absolute;
-      right: .3em;
-      top: 50%;
-      width: 21px;
-      margin: -10px 0 0 0;
-      padding: 1px;
-      height: 20px;
+      position:     absolute;
+      right:        0.3em;
+      top:          50%;
+      width:        21px;
+      margin:       10px 0 0 0;
+      padding:      1px;
+      height:       20px;
     }
   }
   // /.ui-dialog-titlebar
@@ -957,11 +947,11 @@ body .ui-tooltip {
 .ui-widget select,
 .ui-widget textarea,
 .ui-widget button {
-  font-size: @font-size-small ;
+  font-size: @font-size-smaller ;
 }
 .ui-widget-content {
   border: 1px solid #dddddd;
-  //background: #eeeeee url(images/ui-bg_highlight-soft_100_eeeeee_1x100.png) 50% top repeat-x;
+  //background: #eeeeee url(ui-lightness/images/ui-bg_highlight-soft_100_eeeeee_1x100.png) 50% top repeat-x;
   background: none ;
   color: #333333;
 }
@@ -987,7 +977,7 @@ body .ui-tooltip {
 .ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default {
   border: 1px solid #cccccc;
-  //background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
+  //background: #f6f6f6 url(ui-lightness/images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
   background: none ;
   font-weight: bold;
   color: #1c94c4;
@@ -1005,7 +995,7 @@ body .ui-tooltip {
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus {
   border: 1px solid #fbcb09;
-  //background: #fdf5ce url(images/ui-bg_glass_100_fdf5ce_1x400.png) 50% 50% repeat-x;
+  //background: #fdf5ce url(ui-lightness/images/ui-bg_glass_100_fdf5ce_1x400.png) 50% 50% repeat-x;
   background: none ;
   font-weight: bold;
   color: #c77405;
@@ -1014,14 +1004,14 @@ body .ui-tooltip {
 .ui-state-hover a:hover,
 .ui-state-hover a:link,
 .ui-state-hover a:visited {
-  color: #c77405;
-  text-decoration: none;
+  color: #000;
+  text-decoration: underline;
 }
 .ui-state-active,
 .ui-widget-content .ui-state-active,
 .ui-widget-header .ui-state-active {
   border: 1px solid #fbd850;
-  //background: #ffffff url(images/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x;
+  //background: #ffffff url(ui-lightness/images/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x;
   background: none ;
   font-weight: bold;
   color: #eb8f00;
@@ -1041,7 +1031,7 @@ body .ui-tooltip {
 .ui-widget-content .ui-state-highlight,
 .ui-widget-header .ui-state-highlight {
   border: 1px solid #fed22f;
-  //background: #ffe45c url(images/ui-bg_highlight-soft_75_ffe45c_1x100.png) 50% top repeat-x;
+  //background: #ffe45c url(ui-lightness/images/ui-bg_highlight-soft_75_ffe45c_1x100.png) 50% top repeat-x;
   background: none ;
   color: #363636;
 }
@@ -1054,7 +1044,7 @@ body .ui-tooltip {
 .ui-widget-content .ui-state-error,
 .ui-widget-header .ui-state-error {
   border: 1px solid #cd0a0a;
-  //background: #b81900 url(images/ui-bg_diagonals-thick_18_b81900_40x40.png) 50% 50% repeat;
+  //background: #b81900 url(ui-lightness/images/ui-bg_diagonals-thick_18_b81900_40x40.png) 50% 50% repeat;
   background: none ;
   color: #ffffff;
 }
@@ -1339,7 +1329,7 @@ body .ui-tooltip {
 
 // Overlays */
 .ui-widget-overlay {
-  //background: #666666 url(images/ui-bg_diagonals-thick_20_666666_40x40.png) 50% 50% repeat;
+  //background: #666666 url(ui-lightness/images/ui-bg_diagonals-thick_20_666666_40x40.png) 50% 50% repeat;
   background: #666666 ;
   opacity: .5;
   filter: Alpha(Opacity=50);
@@ -1347,7 +1337,7 @@ body .ui-tooltip {
 .ui-widget-shadow {
   margin: -5px 0 0 -5px;
   padding: 5px;
-  //background: #000000 url(images/ui-bg_flat_10_000000_40x100.png) 50% 50% repeat-x;
+  //background: #000000 url(ui-lightness/images/ui-bg_flat_10_000000_40x100.png) 50% 50% repeat-x;
   background: #000000 ;
   opacity: .2;
   filter: Alpha(Opacity=20);

@@ -51,10 +51,11 @@
 
   [% IF !SELF.requirement_spec.project_id %]
     <p>[% LxERP.t8("This requirement spec is currently not linked to a project.") %]</p>
-
   [% ELSE %]
     [% INCLUDE 'requirement_spec/_project_link_details.html' requirement_spec=SELF.requirement_spec %]
   [% END %]
+
 [% END %]
 </div><!-- /.wrapper -->
-</div>
+
+</div><!-- /#basic_settings -->

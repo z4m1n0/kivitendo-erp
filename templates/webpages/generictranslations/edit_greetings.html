@@ -11,26 +11,26 @@
 
 <form method="post" action="generictranslations.pl" id="form">
 
- 
+
 <table class="tbl-list">
-	<thead>
-		<tr>
-			<th>&nbsp;</th>
-			<th>[% 'male' | $T8 %]</th>
-			<th>[% 'female' | $T8 %]</th>
-		</tr>
-	</thead>
-	<tbody>
-		[% FOREACH language = LANGUAGES %] 
-		<tr>
-			<td>[% IF language.id == 'default' %] [% 'Default (no language selected)' | $T8 %] [% ELSE %] [% HTML.escape(language.description) %] [% END %]</td>
-			<td><input name="translation__[% language.id %]__male" value="[% HTML.escape(language.male) %]" class="wi-wide" type="text"></td>
-			<td><input name="translation__[% language.id %]__female" value="[% HTML.escape(language.female) %]" class="wi-wide" type="text"> </td>
-		</tr>
-		[% END %] 
-	</tbody>
+  <thead>
+    <tr>
+      <th>&nbsp;</th>
+      <th>[% 'male' | $T8 %]</th>
+      <th>[% 'female' | $T8 %]</th>
+    </tr>
+  </thead>
+  <tbody>
+    [% FOREACH language = LANGUAGES %]
+    <tr>
+      <td>[% IF language.id == 'default' %] [% 'Default (no language selected)' | $T8 %] [% ELSE %] [% HTML.escape(language.description) %] [% END %]</td>
+      <td><input name="translation__[% language.id %]__male" value="[% HTML.escape(language.male) %]" class="wi-wide" type="text"></td>
+      <td><input name="translation__[% language.id %]__female" value="[% HTML.escape(language.female) %]" class="wi-wide" type="text"> </td>
+    </tr>
+    [% END %]
+  </tbody>
 </table>
-  
+
 </form>
- 
+
 </div><!-- /.wrapper -->

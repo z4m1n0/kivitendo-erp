@@ -15,24 +15,24 @@
 </p>
 
 <table class="tbl-list">
-	<thead>
-		<tr>
-			<th>[% 'Insert Date' | $T8 %]</th>
-			<th>[% 'Employee' | $T8 %]</th>
-			<th>[% 'Bin' | $T8 %]</th>
-			<th class="right">[% 'Target Qty' | $T8 %]</th>
-		</tr>
-	</thead>
-	<tbody>
-		[% FOREACH ac = already_counted %] 
+  <thead>
+    <tr>
+      <th>[% 'Insert Date' | $T8 %]</th>
+      <th>[% 'Employee' | $T8 %]</th>
+      <th>[% 'Bin' | $T8 %]</th>
+      <th class="right">[% 'Target Qty' | $T8 %]</th>
+    </tr>
+  </thead>
+  <tbody>
+    [% FOREACH ac = already_counted %]
       <tr>
         <td>[% ac.itime_as_timestamp %]</td>
         <td>[% ac.employee.safe_name %]</td>
         <td>[% ac.bin.full_description %]</td>
         <td class="numeric">[% ac.qty_as_number %] [% ac.part.unit %]</td>
       </tr>
-		[% END %] 
-	</tbody>
+    [% END %]
+  </tbody>
 </table>
 
 <p>
