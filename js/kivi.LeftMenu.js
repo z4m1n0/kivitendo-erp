@@ -2,7 +2,7 @@ namespace('kivi.LeftMenu', function(ns) {
   'use strict';
   ns.init = function(sections) {
     sections.forEach(function(b,i){
-      var a=$('<a class="ml">').append($('<span class="mii ms">').append($('<div>').addClass(b[3])),$('<span class="mic">').append(b[0]));
+        var a=$('<a class="ml">').append(b[0]);
       if(b[5])a.attr('href', b[5]);
       if(b[6])a.attr('target', b[6]);
       $('#html-menu').append($('<div class="mi">').addClass(b[4]).addClass(b[1]).attr('id','mi'+b[2]).append(a))
