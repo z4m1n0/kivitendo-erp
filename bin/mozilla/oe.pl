@@ -330,7 +330,8 @@ sub setup_oe_action_bar {
         t8('Update'),
         submit    => [ '#form', { action => "update" } ],
         id        => 'update_button',
-        checks   => [ 'kivi.validate_form' ],
+        class     => 'inline',
+        checks    => [ 'kivi.validate_form' ],
         accesskey => 'enter',
       ],
 
@@ -515,7 +516,7 @@ sub form_header {
                         $form->{"delivered"} ? "checked" : "",  $locale->text('Delivery Order(s) for full qty created') if $form->{"type"} =~ /_order$/;
   push @tmp, sprintf qq|<input name="closed" id="closed" type="checkbox" class="checkbox" value="1" %s><label for="closed">%s</label>|,
                         $form->{"closed"}    ? "checked" : "",  $locale->text('Closed')    if $form->{id};
-  $TMPL_VAR->{openclosed} = sprintf qq|<tr><td colspan=%d align=center>%s</td></tr>\n|, 2 * scalar @tmp, join "\n", @tmp if @tmp;
+  $TMPL_VAR->{openclosed} = sprintf qq|<tr><th colspan=%d><div class="list">%s</div></th></tr>\n|, 2 * scalar @tmp, join "\n", @tmp if @tmp;
 
   my $vc = $form->{vc} eq "customer" ? "customers" : "vendors";
 
@@ -661,6 +662,18 @@ sub form_header {
     $TMPL_VAR->{transport_cost_reminder_article} = SL::DB::Part->new(id => $::instance_conf->get_transport_cost_reminder_article_number_id)->load;
   }
 
+  # following 4 lines came from form_footer, comments/notes are now in upper part of the page
+  my $introws = max 5, $form->numtextrows($form->{intnotes}, 35, 8);
+
+  my $TMPL_VAR = $::request->cache('tmpl_var', {});
+
+  $TMPL_VAR->{notes}    = qq|<textarea name="notes" class="texteditor" wrap="soft" style="width: 300px; height: 150px">| . H($form->{notes}) . qq|</textarea>|;
+  $TMPL_VAR->{intnotes} = qq|<textarea name=intnotes rows="$introws" cols="35">| . H($form->{intnotes}) . qq|</textarea>|;
+
+  $TMPL_VAR->{ALL_DELIVERY_TERMS} = SL::DB::Manager::DeliveryTerm->get_all_sorted(); # moved from sub form_footer
+
+
+
   print $form->parse_html_template("oe/form_header", {
     %$TMPL_VAR,
     %type_check_vars,
@@ -680,12 +693,12 @@ sub form_footer {
 
   $form->{invtotal} = $form->{invsubtotal};
 
-  my $introws = max 5, $form->numtextrows($form->{intnotes}, 35, 8);
+  #my $introws = max 5, $form->numtextrows($form->{intnotes}, 35, 8);
 
   my $TMPL_VAR = $::request->cache('tmpl_var', {});
 
-  $TMPL_VAR->{notes}    = qq|<textarea name="notes" class="texteditor" wrap="soft" style="width: 350px; height: 150px">| . H($form->{notes}) . qq|</textarea>|;
-  $TMPL_VAR->{intnotes} = qq|<textarea name=intnotes rows="$introws" cols="35">| . H($form->{intnotes}) . qq|</textarea>|;
+  #$TMPL_VAR->{notes}    = qq|<textarea name="notes" class="texteditor" wrap="soft" style="width: 350px; height: 150px">| . H($form->{notes}) . qq|</textarea>|;
+  #$TMPL_VAR->{intnotes} = qq|<textarea name=intnotes rows="$introws" cols="35">| . H($form->{intnotes}) . qq|</textarea>|;
 
   if( $form->{customer_id} && !$form->{taxincluded_changed_by_user} ) {
     my $customer = SL::DB::Customer->new(id => $form->{customer_id})->load();
@@ -1187,7 +1200,7 @@ sub orders {
   };
   push @options, $locale->text('Open')                                                                    if $form->{open};
   push @options, $locale->text('Closed')                                                                  if $form->{closed};
-  push @options, $locale->text('Delivery Order created')                                                               if $form->{delivered};
+  push @options, $locale->text('Delivery Order created')                                                  if $form->{delivered};
   push @options, $locale->text('Not delivered')                                                           if $form->{notdelivered};
   push @options, $locale->text('Periodic invoices active')                                                if $form->{periodic_invoices_active};
   push @options, $locale->text('Reqdate not set or before current month')                                 if $form->{reqdate_unset_or_old};

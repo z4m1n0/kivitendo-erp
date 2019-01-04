@@ -417,6 +417,8 @@ sub form_header {
 
   setup_ir_action_bar();
 
+  $form->{ALL_DELIVERY_TERMS} = SL::DB::Manager::DeliveryTerm->get_all_sorted(); # moved to here from sub form_footer
+
   $form->header();
 
   print $form->parse_html_template("ir/form_header", \%TMPL_VAR);
@@ -468,10 +470,10 @@ sub form_footer {
   foreach my $item (@{ $form->{taxaccounts_array} }) {
     if ($form->{"${item}_base"}) {
       if ($form->{taxincluded}) {
-        $form->{"${item}_total"} = $form->round_amount( ($form->{"${item}_base"} * $form->{"${item}_rate"}
-                                                                                 / (1 + $form->{"${item}_rate"})), 2);
+        $form->{"${item}_total"} = $form->round_amount( ($form->{"${item}_base"} * $form->{"${item}_rate"} / (1 + $form->{"${item}_rate"})), 2);
         $form->{"${item}_netto"} = $form->round_amount( ($form->{"${item}_base"} - $form->{"${item}_total"}), 2);
-      } else {
+      } 
+      else {
         $form->{"${item}_total"} = $form->round_amount( $form->{"${item}_base"} * $form->{"${item}_rate"}, 2);
         $form->{invtotal} += $form->{"${item}_total"};
       }
@@ -523,7 +525,7 @@ sub form_footer {
     $totalpaid += $form->{"paid_$i"};
   }
 
-  $form->{ALL_DELIVERY_TERMS} = SL::DB::Manager::DeliveryTerm->get_all_sorted();
+  # $form->{ALL_DELIVERY_TERMS} = SL::DB::Manager::DeliveryTerm->get_all_sorted(); # moved to sub form_header
 
   print $form->parse_html_template('ir/form_footer', {
     totalpaid           => $totalpaid,
