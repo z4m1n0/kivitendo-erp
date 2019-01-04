@@ -18,7 +18,7 @@
 
   [%- SET show_deliveries = ( SELF.cv.id && ((SELF.is_customer && AUTH.assert('sales_all_edit', 1)) || (SELF.is_vendor && AUTH.assert('purchase_all_edit', 1))) ) -%]
   <div class="tabwidget" id="customer_vendor_tabs">
-    <ul>
+    <ul class="ui-tabs">
       <li><a href="#billing">[% 'Billing Address' | $T8 %]</a></li>
       <li><a href="#bank">[% 'Bank account' | $T8 %]</a></li>
       <li><a href="#shipto">[% 'Shipping Address' | $T8 %]</a></li>
