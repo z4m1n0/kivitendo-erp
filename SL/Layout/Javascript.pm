@@ -69,8 +69,6 @@ sub stylesheets {
     qw(
       dhtmlsuite/menu-item.css
       dhtmlsuite/menu-bar.css
-      icons16.css
-      menu.css
     ),
     ( map { $_->stylesheets } $_[0]->sub_layouts ),
     $_[0]->sub_layouts_by_name->{actionbar}->stylesheets,
