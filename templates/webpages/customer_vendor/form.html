@@ -26,12 +26,12 @@
       [% IF show_deliveries %]
         <li><a href="#deliveries">[% 'Supplies' | $T8 %]</a></li>
       [% END %]
-      [%- IF INSTANCE_CONF.get_webdav %]
+      [% IF INSTANCE_CONF.get_webdav %]
         <li><a href="#ui-tabs-webdav">[% 'WebDAV' | $T8 %]</a></li>
-      [%- END %]
-      [%- IF INSTANCE_CONF.get_doc_storage %]
+      [% END %]
+      [% IF INSTANCE_CONF.get_doc_storage %]
         <li><a href="controller.pl?action=File/list&file_type=attachment&object_type=[% FORM.db == 'vendor' ? 'vendor' : 'customer' %]&object_id=[% SELF.cv.id %]">[% 'Attachments' | $T8 %]</a></li>
-      [%- END %]
+      [% END %]
       <li><a href="#vcnotes">[% 'Notes' | $T8 %]</a></li>
 
       [% IF ( cv_cvars.size ) %]
@@ -81,8 +81,7 @@
   </div>
 </form>
 
-<script type="text/javascript">
-<!--
+<script type="text/javascript"><!--
   function submitInputButton(action)
   {
     var $hidden = $("<input type='hidden' name='action' value='CustomerVendor/" + action + "'>"),
@@ -99,5 +98,4 @@
     }
     return true;
   }
--->
-</script>
+--></script>
