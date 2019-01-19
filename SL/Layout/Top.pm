@@ -22,9 +22,10 @@ sub pre_content {
   );
 }
 
-sub stylesheets {
- 'frame_header/header.css';
-}
+# Only one CSS-File is used for standard design which are compiled from the LESS-Files in /css/less
+#sub stylesheets {
+# 'frame_header/header.css';
+#}
 
 sub javascripts {
   'jquery-ui.js',

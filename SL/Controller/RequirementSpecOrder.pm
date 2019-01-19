@@ -192,7 +192,7 @@ sub setup {
   my ($self) = @_;
 
   $::auth->assert('requirement_spec_edit');
-  $::request->{layout}->use_stylesheet("${_}.css") for qw(jquery.contextMenu requirement_spec);
+  $::request->{layout}->use_stylesheet("${_}.css") for qw(jquery.contextMenu);
   $::request->{layout}->use_javascript("${_}.js")  for qw(jquery.jstree jquery/jquery.contextMenu client_js requirement_spec);
 
   return 1;

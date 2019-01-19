@@ -38,8 +38,7 @@ sub use_javascript {
 sub use_stylesheet {
   my $self = shift;
   qw(
-    main.css
-    menu.css
+    style.css
   ),
   $self->SUPER::use_stylesheet(@_);
 }
