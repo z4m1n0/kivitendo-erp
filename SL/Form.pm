@@ -465,7 +465,7 @@ sub header {
 
   # output
   print $self->create_http_response(content_type => 'text/html', charset => 'UTF-8');
-  print $doctypes{$params{doctype} || 'transitional'}, $/;
+  print $doctypes{$params{doctype} || 'html5'}, $/;
   print <<EOT;
 <html>
  <head>
