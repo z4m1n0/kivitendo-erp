@@ -8,7 +8,7 @@ use SL::JSON qw(to_json);
 use URI;
 
 sub stylesheets {
-  qw(icons16.css icons24.css menu.css)
+  #qw(icons16.css icons24.css menu.css) # no need for that with new design
 }
 
 sub javascripts_inline {
