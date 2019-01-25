@@ -662,6 +662,8 @@ sub form_header {
     $TMPL_VAR->{transport_cost_reminder_article} = SL::DB::Part->new(id => $::instance_conf->get_transport_cost_reminder_article_number_id)->load;
   }
 
+  $TMPL_VAR->{ALL_DELIVERY_TERMS} = SL::DB::Manager::DeliveryTerm->get_all_sorted(); # moved from sub form_footer
+
   print $form->parse_html_template("oe/form_header", {
     %$TMPL_VAR,
     %type_check_vars,
