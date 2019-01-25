@@ -313,7 +313,8 @@ sub display_row {
     $column_data{description} = (($rows > 1) # if description is too large, use a textbox instead
                                 ? $cgi->textarea( -name => "description_$i", -id => "description_$i", -default => $form->{"description_$i"}, -rows => $rows, -class => "wi-lightwide")
                                 : $cgi->textfield(-name => "description_$i", -id => "description_$i",   -value => $form->{"description_$i"}, -class => "wi-lightwide") )
-                                . $cgi->button(-value => $locale->text('L'), -onClick => "kivi.SalesPurchase.edit_longdescription($i)", -class => "wi-tiny neutral");
+#                               . $cgi->button(-value => $locale->text('L'), -onClick => "kivi.SalesPurchase.edit_longdescription($i)", -class => "wi-tiny neutral");
+                                . q|<a href="javascript:kivi.SalesPurchase.edit_longdescription(| . $i . q|);" class="button-image edit" title="| . t8('Edit long description') . q|"><img src="image/pencil.png"></a>|;
 
     my $qty_dec = ($form->{"qty_$i"} =~ /\.(\d+)/) ? length $1 : 2;
 
