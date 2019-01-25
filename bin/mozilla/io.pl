@@ -172,7 +172,7 @@ sub display_row {
     serialnr projectnr reqdate subtotal marge listprice lastcost onhand
   );
   my %column_def = (
-    runningnumber => { width => 5,     value => $locale->text('No.'),                  display => 1, },
+    runningnumber => { width => 2,     value => $locale->text('No.'),                  display => 1, },
     partnumber    => { width => 8,     value => $locale->text('Number'),               display => 1, },
     type_and_classific
                   => { width => 2,     value => $locale->text('Type'),                 display => 1, },
@@ -186,7 +186,7 @@ sub display_row {
     serialnr      => { width => 10,    value => $locale->text('Serial No.'),           display => !$is_quotation },
     projectnr     => { width => 10,    value => $locale->text('Project'),              display => 1, },
     price_source  => { width => 5,     value => $locale->text('Price Source'),         display => !$is_delivery_order, },
-    sellprice     => { width => 15,    value => $locale->text('Price'),                display => !$is_delivery_order, },
+    sellprice     => { width => 10,    value => $locale->text('Price'),                display => !$is_delivery_order, },
     discount      => { width => 5,     value => $locale->text('Discount'),             display => !$is_delivery_order, },
     linetotal     => { width => 10,    value => $locale->text('Extended'),             display => !$is_delivery_order, },
     bin           => { width => 10,    value => $locale->text('Bin'),                  display => 0, },
