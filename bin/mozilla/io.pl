@@ -218,7 +218,7 @@ sub display_row {
   my $deliverydate  = $locale->text('Required by');
 
   # special alignings
-  my %align  = map { $_ => 'right' } qw(qty ship right discount linetotal stock_in_out weight ship_missing);
+  my %align  = map { $_ => 'right' } qw(right linetotal stock_in_out weight ship_missing);
   my %nowrap = map { $_ => 1 }       qw(description unit  price_source);
 
   $form->{marge_total}           = 0;
@@ -302,22 +302,22 @@ sub display_row {
     my $rows            = $form->numtextrows($form->{"description_$i"}, 30, 6);
 
     # quick delete single row
-    $column_data{runningnumber}  = q|<a onclick= "$('#partnumber_| . $i . q|').val(''); $('#update_button').click();">| .
-                                   q|<img height="10px" width="10px" src="image/cross.png" alt="| . $locale->text('Remove') . q|"></a> |;
-    $column_data{runningnumber} .= $cgi->textfield(-name => "runningnumber_$i", -id => "runningnumber_$i", -size => 5,  -value => $i);    # HuT
+    $column_data{runningnumber}  = q|<a onclick="$('#partnumber_| . $i . q|').val(''); $('#update_button').click();" class="row-position">| .
+                                   q|<img src="image/cross.png" alt="| . $locale->text('Remove') . q|"></a> |;
+    $column_data{runningnumber} .= $cgi->textfield(-name => "runningnumber_$i", -id => "runningnumber_$i", -size => 2,  -value => $i, -class => "row-position wi-smallest");    # HuT
 
 
     $column_data{partnumber}    = $cgi->textfield(-name => "partnumber_$i",    -id => "partnumber_$i",    -size => 12, -value => $form->{"partnumber_$i"});
     $column_data{type_and_classific} = SL::Presenter::Part::type_abbreviation($form->{"part_type_$i"}).
                                        SL::Presenter::Part::classification_abbreviation($form->{"classification_id_$i"}) if $form->{"id_$i"};
     $column_data{description} = (($rows > 1) # if description is too large, use a textbox instead
-                                ? $cgi->textarea( -name => "description_$i", -id => "description_$i", -default => $form->{"description_$i"}, -rows => $rows, -columns => 30)
-                                : $cgi->textfield(-name => "description_$i", -id => "description_$i",   -value => $form->{"description_$i"}, -size => 30))
-                                . $cgi->button(-value => $locale->text('L'), -onClick => "kivi.SalesPurchase.edit_longdescription($i)");
+                                ? $cgi->textarea( -name => "description_$i", -id => "description_$i", -default => $form->{"description_$i"}, -rows => $rows, -class => "wi-lightwide")
+                                : $cgi->textfield(-name => "description_$i", -id => "description_$i",   -value => $form->{"description_$i"}, -class => "wi-lightwide") )
+                                . $cgi->button(-value => $locale->text('L'), -onClick => "kivi.SalesPurchase.edit_longdescription($i)", -class => "wi-tiny neutral");
 
     my $qty_dec = ($form->{"qty_$i"} =~ /\.(\d+)/) ? length $1 : 2;
 
-    $column_data{qty}  = $cgi->textfield(-name => "qty_$i", -size => 5, -class => "numeric", -value => $form->format_amount(\%myconfig, $form->{"qty_$i"}, $qty_dec));
+    $column_data{qty}  = $cgi->textfield(-name => "qty_$i", -class => "numeric wi-verysmall", -value => $form->format_amount(\%myconfig, $form->{"qty_$i"}, $qty_dec));
     $column_data{qty} .= $cgi->button(-onclick => "calculate_qty_selection_dialog('qty_$i', '', 'formel_$i', '')", -value => $locale->text('*/'))
                        . $cgi->hidden(-name => "formel_$i", -value => $form->{"formel_$i"})
       if $form->{"formel_$i"};
@@ -377,23 +377,25 @@ sub display_row {
     my $edit_discounts  = $main::auth->assert('edit_prices', 1) && !$::form->{"active_discount_source_$i"};
     $column_data{sellprice}   = (!$edit_prices)
                                 ? $cgi->hidden(   -name => "sellprice_$i", -id => "sellprice_$i", -value => $sellprice_value) . $sellprice_value
-                                : $cgi->textfield(-name => "sellprice_$i", -id => "sellprice_$i", -size => 10, -class => "numeric", -value => $sellprice_value);
+                                : $cgi->textfield(-name => "sellprice_$i", -id => "sellprice_$i", -size => 10, -class => "numeric wi-verysmall", -value => $sellprice_value);
     $column_data{discount}    = (!$edit_discounts)
                                   ? $cgi->hidden(   -name => "discount_$i", -id => "discount_$i", -value => $discount_value) . $discount_value . ' %'
-                                  : $cgi->textfield(-name => "discount_$i", -id => "discount_$i", -size => 3, -"data-validate" => "number", -class => "numeric", -value => $discount_value);
+                                  : $cgi->textfield(-name => "discount_$i", -id => "discount_$i", -size => 3, -"data-validate" => "number", -class => "numeric wi-smallest", -value => $discount_value);
 
     if ($is_delivery_order) {
       $column_data{stock_in_out} =  calculate_stock_in_out($i);
     }
 
-    $column_data{serialnr}  = qq|<input name="serialnumber_$i" size="15" value="$form->{"serialnumber_$i"}">|;
+    $column_data{serialnr}  = qq|<input name="serialnumber_$i" class="wi-normal" value="$form->{"serialnumber_$i"}" type="text">|;
     $column_data{projectnr} = NTI($cgi->popup_menu(
       '-name' => "project_id_$i",
       '-values' => \@projectnumber_values,
       '-labels' => \%projectnumber_labels,
-      '-default' => $form->{"project_id_$i"}
+      '-default' => $form->{"project_id_$i"},
+      '-type' => "text",
+      '-class' => "wi-normal"
     ));
-    $column_data{reqdate}   = qq|<input name="reqdate_$i" size="11" data-validate="date" value="$form->{"reqdate_$i"}">|;
+    $column_data{reqdate}   = qq|<input name="reqdate_$i" class="wi-normal" data-validate="date" value="$form->{"reqdate_$i"}" type="text">|;
     $column_data{subtotal}  = sprintf qq|<input type="checkbox" name="subtotal_$i" value="1" %s>|, $form->{"subtotal_$i"} ? 'checked' : '';
 
 # begin marge calculations
@@ -430,10 +432,10 @@ sub display_row {
 
     map { $form->{"${_}_$i"} = $form->format_amount(\%myconfig, $form->{"${_}_$i"}, 2) } qw(marge_absolut marge_percent);
 
-    $column_data{marge} = sprintf qq|<font %s>%s &nbsp;%s%%</font>|,
+    $column_data{marge} = sprintf qq|<span class=\"data\" %s>%s &nbsp;%s%%</span>|,
       $marge_color, $form->{"marge_absolut_$i"}, $form->{"marge_percent_$i"};
-    $column_data{listprice} = $form->format_amount(\%myconfig, $form->{"listprice_$i"}, 2);
-    $column_data{lastcost}  = sprintf qq|<input size="5" name="lastcost_$i" value="%s">|, $form->format_amount(\%myconfig, $form->{"lastcost_$i"}, $decimalplaces);
+    $column_data{listprice} = "<span class=\"data\">" . $form->format_amount(\%myconfig, $form->{"listprice_$i"}, 2) . "</span>";
+    $column_data{lastcost}  = sprintf qq|<input class="wi-normal" name="lastcost_$i" value="%s" type="text">|, $form->format_amount(\%myconfig, $form->{"lastcost_$i"}, $decimalplaces);
 # / marge calculations ending
 
 # Calculate total weight
@@ -443,7 +445,7 @@ sub display_row {
     if ($form->{"id_$i"}) {
       my $part         = IC->get_basic_part_info(id => $form->{"id_$i"});
       my $onhand_color = $part->{onhand} < $part->{rop} ? 'color="#ff0000"' : '';
-      $column_data{onhand} = sprintf "<font %s>%s %s</font>",
+      $column_data{onhand} = sprintf "<span class=\"data\" %s>%s %s</span>",
                       $onhand_color,
                       $form->format_amount(\%myconfig, $part->{onhand}, 2),
                       $part->{unit};
@@ -451,7 +453,7 @@ sub display_row {
 # / calculate onhand
 
     my @ROW1 = map { { value => $column_data{$_}, align => $align{$_}, nowrap => $nowrap{$_} } } grep { $column_def{$_}{display} } @header_sort;
-    my @ROW2 = map { { value => sprintf "<b>%s</b> %s", $column_def{$_}{value}, $column_data{$_} } } grep { $column_def{$_}{display} } @row2_sort;
+    my @ROW2 = map { { value => sprintf "<span class=\"label horizontal\">%s</span> %s", $column_def{$_}{value}, "<span class=\"value\">$column_data{$_}</span>" } } grep { $column_def{$_}{display} } @row2_sort;
 
     my @hidden_vars;
     # add hidden ids for persistent (item|invoice)_ids and previous (converted_from*) ids
