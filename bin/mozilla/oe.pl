@@ -517,7 +517,7 @@ sub form_header {
                         $form->{"delivered"} ? "checked" : "",  $locale->text('Delivery Order(s) for full qty created') if $form->{"type"} =~ /_order$/;
   push @tmp, sprintf qq|<input name="closed" id="closed" type="checkbox" class="checkbox" value="1" %s><label for="closed">%s</label>|,
                         $form->{"closed"}    ? "checked" : "",  $locale->text('Closed')    if $form->{id};
-  $TMPL_VAR->{openclosed} = sprintf qq|<tr><td colspan=%d align=center>%s</td></tr>\n|, 2 * scalar @tmp, join "\n", @tmp if @tmp;
+  $TMPL_VAR->{openclosed} = sprintf qq|<tr><th colspan=%d><div class="list">%s</div></th></tr>\n|, 2 * scalar @tmp, join "\n", @tmp if @tmp;
 
   my $vc = $form->{vc} eq "customer" ? "customers" : "vendors";
 
