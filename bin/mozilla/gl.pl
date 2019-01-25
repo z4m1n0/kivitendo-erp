@@ -926,7 +926,7 @@ sub display_rows {
 
     print qq|<tr valign=top>
     $accno
-    <td id="chart_balance_$i" align="right">${balance}</td>
+    <td id="chart_balance_$i" class="right">${balance}</td>
     $fx_transaction
     <td class="right"><input name="debit_$i" type="text" class="wi-small numeric" value="$form->{"debit_$i"}" accesskey=$i $copy2credit $debitreadonly></td>
     <td class="right"><input name="credit_$i" type="text" class="wi-small numeric" value="$form->{"credit_$i"}" $creditreadonly></td>
