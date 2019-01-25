@@ -891,7 +891,7 @@ sub display_rows {
           $checked = ($form->{"fx_transaction_$i"}) ? "1" : "";
           my $x = ($checked) ? "x" : "";
           $fx_transaction = qq|
-      <td><input type=hidden name="fx_transaction_$i" value="$checked">$x</td>
+      <td><input type="hidden" name="fx_transaction_$i" value="$checked">$x</td>
     |;
         }
         $form->hide_form("accno_$i");
