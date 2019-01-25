@@ -1182,7 +1182,7 @@ sub orders {
   };
   push @options, $locale->text('Open')                                                                    if $form->{open};
   push @options, $locale->text('Closed')                                                                  if $form->{closed};
-  push @options, $locale->text('Delivery Order created')                                                               if $form->{delivered};
+  push @options, $locale->text('Delivery Order created')                                                  if $form->{delivered};
   push @options, $locale->text('Not delivered')                                                           if $form->{notdelivered};
   push @options, $locale->text('Periodic invoices active')                                                if $form->{periodic_invoices_active};
   push @options, $locale->text('Reqdate not set or before current month')                                 if $form->{reqdate_unset_or_old};
