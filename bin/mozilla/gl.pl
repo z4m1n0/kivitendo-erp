@@ -862,7 +862,7 @@ sub display_rows {
     if ($init) {
       if ($form->{transfer}) {
         $fx_transaction = qq|
-        <td><input name="fx_transaction_$i" class=checkbox type=checkbox value=1></td>
+        <td><input name="fx_transaction_$i" type="checkbox" value="1"></td>
     |;
       }
 
@@ -899,7 +899,7 @@ sub display_rows {
       } else {
         if ($form->{transfer}) {
           $fx_transaction = qq|
-      <td><input name="fx_transaction_$i" class=checkbox type=checkbox value=1></td>
+      <td><input name="fx_transaction_$i" type="checkbox" value="1"></td>
     |;
         }
       }
