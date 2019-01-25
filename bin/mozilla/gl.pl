@@ -806,14 +806,14 @@ sub display_rows {
   for my $i (1 .. $form->{rowcount}) {
     if ($form->{show_details}) {
       $source = qq|
-      <td><input name="source_$i" value="$form->{"source_$i"}" size="16"></td>|;
+      <td><input name="source_$i" value="$form->{"source_$i"}" class="wi-verysmall" type="text"></td>|;
       $memo = qq|
-      <td><input name="memo_$i" value="$form->{"memo_$i"}" size="16"></td>|;
+      <td><input name="memo_$i" value="$form->{"memo_$i"}" class="wi-small" type="text"></td>|;
     } else {
       $source_hidden = qq|
-      <input type="hidden" name="source_$i" value="$form->{"source_$i"}" size="16">|;
+      <input type="hidden" name="source_$i" value="$form->{"source_$i"}">|;
       $memo_hidden = qq|
-      <input type="hidden" name="memo_$i" value="$form->{"memo_$i"}" size="16">|;
+      <input type="hidden" name="memo_$i" value="$form->{"memo_$i"}">|;
     }
 
     my %taxchart_labels = ();
@@ -927,9 +927,9 @@ sub display_rows {
     $accno
     <td id="chart_balance_$i" align="right">${balance}</td>
     $fx_transaction
-    <td><input name="debit_$i" size="8" value="$form->{"debit_$i"}" accesskey=$i $copy2credit $debitreadonly></td>
-    <td><input name="credit_$i" size=8 value="$form->{"credit_$i"}" $creditreadonly></td>
-    <td><input type="hidden" name="tax_$i" value="$form->{"tax_$i"}">$form->{"tax_$i"}</td>
+    <td class="right"><input name="debit_$i" type="text" class="wi-small numeric" value="$form->{"debit_$i"}" accesskey=$i $copy2credit $debitreadonly></td>
+    <td class="right"><input name="credit_$i" type="text" class="wi-small numeric" value="$form->{"credit_$i"}" $creditreadonly></td>
+    <td class="right"><input name="tax_$i" type="hidden" value="$form->{"tax_$i"}">$form->{"tax_$i"}</td>
     $tax_ddbox|;
 
     if ($form->{show_details}) {
