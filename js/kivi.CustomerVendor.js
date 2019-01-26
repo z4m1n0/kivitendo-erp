@@ -146,7 +146,7 @@ namespace('kivi.CustomerVendor', function(ns) {
       $widgetWrapper = $(widgetWrapper);
 
       $widgetWrapper
-        .html('<img src="image/map.png" alt="'+ kivi.t8("Map") +'" title="'+ kivi.t8("Map") +'" />')
+        .html('<img src="image/map-earth-link.png" alt="'+ kivi.t8("Map") +'" title="'+ kivi.t8("Map") +'" />')
         .click(function() {
           showMap();
         });
