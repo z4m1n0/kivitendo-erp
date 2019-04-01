@@ -1,3 +1,8 @@
+/* ------------------------------------------------------------- */
+/* MAIN LOGIN (main_login.less)                                  */
+/* ------------------------------------------------------------- */
+
+
 // ----------------------------------------------------------------------------
 //
 // LOGIN and LOGGED IN PAGE
@@ -66,8 +71,8 @@ div.login {
 
     div.separate-form{
       background-color: #ddd ;
-      border: 1px @gray-medium solid;
-      border-radius: 6px ;
+      border: 1px @gray-standard solid;
+      border-radius: @controlpanel-radius ;
       display: block ;
       margin: 0 auto ;
       width: 100% ;
@@ -87,9 +92,11 @@ div.login {
     }
 
     .message {
-      width: 100% !important;
-      min-width: auto;
-      max-width: inherit;
+      width: 100% ;
+      word-wrap: normal;
+			min-width: 0;
+      //min-width: auto;
+      //max-width: inherit;
     }
   } // /.login-elements
 } // /.login
