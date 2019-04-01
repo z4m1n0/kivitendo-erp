@@ -25,12 +25,14 @@
         // Toggle to minimum
         $("#toggler-1").click(function(){
           $(wrapper).animate({height:"30px"},200).addClass("bordered");
+          $(toggles_id).addClass("max");
           $(this).toggle();
           $("#toggler-2").toggle();
         });
         // Toggle back to maximum
         $("#toggler-2").click(function(){
           $(wrapper).animate({height:hi},200).removeClass("bordered");
+          $(toggles_id).removeClass("max");
           $(this).toggle();
           $("#toggler-1").toggle();
         });
