@@ -334,7 +334,6 @@ namespace('kivi.Part', function(ns) {
     },
     ajax_data: function(term) {
       var data = {
-        'filter.all:substr:multi::ilike': term,
         current:  this.$real.val(),
       };
 
@@ -355,6 +354,23 @@ namespace('kivi.Part', function(ns) {
 
       if (this.o.convertible_unit)
         data['filter.unit_obj.convertible_to'] = this.o.convertible_unit;
+
+      if (this.o.vendor_selector || this.o.customer_selector) {
+        if (this.o.vendor_selector) {
+          data['filter.all_with_makemodel:substr:multi::ilike'] = term;
+          if ($(this.o.vendor_selector).val()) {
+            data['filter.makemodels.make'] = $(this.o.vendor_selector).val().split(',');
+          }
+        }
+        if (this.o.customer_selector) {
+          data['filter.all_with_customer_partnumber:substr:multi::ilike'] = term;
+          if ($(this.o.customer_selector).val()) {
+            data['filter.customerprices.customer_id'] = $(this.o.customer_selector).val().split(',');
+          }
+        }
+      } else {
+        data['filter.all:substr:multi::ilike'] = term;
+      }
 
       return data;
     },

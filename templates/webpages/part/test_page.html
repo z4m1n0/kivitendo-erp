@@ -6,6 +6,15 @@
 <br>
 Alle: <br>
 [% P.part.picker('part_id') %] text<br>
+Alle mit Lieferanten-Artikel-Nr aller Lieferanten: <br>
+[% P.hidden_tag('vendor_ids_empty', '') %]
+[% P.part.picker('part_id', undef, vendor_selector='#vendor_ids_empty') %] text<br>
+Alle mit Lieferanten-Artikel-Nr bestimmter Lieferanten: <br>
+[% P.hidden_tag('vendor_ids', '1015,11545') %]
+[% P.part.picker('part_id', undef, vendor_selector='#vendor_ids') %] text<br>
+Alle mit Kunden-Artikel-Nr bestimmter Kunden: <br>
+[% P.hidden_tag('customer_ids', '1323') %]
+[% P.part.picker('part_id', undef, customer_selector='[name="customer_ids"]') %] text<br>
 Nur Waren: <br>
 [% P.part.picker('part_id2', undef, part_type='part') %]<br>
 Nur Dienstleistungen: <br>
