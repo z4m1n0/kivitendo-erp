@@ -14,7 +14,7 @@
     </thead>
     <tbody>
       <tr valign="top" class="listrow">
-        <td>[% P.part.picker('add_item.parts_id', '', fat_set_item=1, style='width: 300px', class="add_item_input") %]</td>
+        <td>[% SET sn = SELF.cv _ '_selector'; P.part.picker('add_item.parts_id', '', fat_set_item=1, style='width: 300px', class="add_item_input", $sn = '#order_' _ SELF.cv _ '_id') %]</td></td>
         <td>[% L.input_tag('add_item.description', '', class="add_item_input") %]</td>
         <td>
           [% L.input_tag('add_item.qty_as_number', '', size = 5, class="add_item_input numeric") %]
