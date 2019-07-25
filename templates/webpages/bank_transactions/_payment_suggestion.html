@@ -1,4 +1,6 @@
-[%- USE P -%][%- USE HTML -%][%- USE LxERP -%]
+[% USE P %]
+[% USE HTML %]
+[% USE LxERP %]
 [% SELECT_OPTIONS = invoice.get_payment_select_options_for_bank_transaction(bt_id) %]
 [% is_skonto_pt   = SELECT_OPTIONS.1.selected %]
 [% formatted_skonto_amount          = LxERP.format_amount(invoice.skonto_amount, 2) %]
