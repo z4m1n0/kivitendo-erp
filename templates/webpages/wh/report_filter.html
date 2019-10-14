@@ -97,7 +97,7 @@
     </tr>
     <tr>
       <th>[% 'Part Number' | $T8 %]:</th>
-      <td><input type="text" name="partnumber" value="[% partnumber %] class="wi-normal">
+      <td><input type="text" name="partnumber" value="[% partnumber %]" class="wi-normal">
       </td>
     </tr>
     <tr>
@@ -166,25 +166,43 @@
 
   <div class="list col">
     <h4>[% 'Store & Articles' | $T8 %]</h4>
-    <input name="l_warehousedescription" id="l_warehousedescription" type="checkbox" value="Y" checked>
-    <label for="l_warehousedescription">[% 'Warehouse' | $T8 %]</label>
-    <input name="l_bindescription" id="l_bindescription" type="checkbox" value="Y" checked>
-    <label for="l_bindescription">[% 'Bin' | $T8 %]</label>
-    <input name="l_partnumber" id="l_partnumber" type="checkbox" value="Y" checked>
-    <label for="l_partnumber">[% 'Part Number' | $T8 %]</label>
-    <input name="l_chargenumber" id="l_chargenumber" type="checkbox" value="Y" checked>
-    <label for="l_chargenumber">[% 'Charge Number' | $T8 %]</label>
+    <div>
+      <input name="l_warehousedescription" id="l_warehousedescription" type="checkbox" value="Y" checked>
+      <label for="l_warehousedescription">[% 'Warehouse' | $T8 %]</label>
+    </div>
+    <div>
+      <input name="l_bindescription" id="l_bindescription" type="checkbox" value="Y" checked>
+      <label for="l_bindescription">[% 'Bin' | $T8 %]</label>
+    </div>
+    <div>
+      <input name="l_partnumber" id="l_partnumber" type="checkbox" value="Y" checked>
+      <label for="l_partnumber">[% 'Part Number' | $T8 %]</label>
+    </div>
+    <div>
+      <input name="l_chargenumber" id="l_chargenumber" type="checkbox" value="Y" checked>
+      <label for="l_chargenumber">[% 'Charge Number' | $T8 %]</label>
+    </div>
   </div>
   <div class="list col">
     <h4>[% 'Options' | $T8 %]</h4>
-    [% IF INSTANCE_CONF.get_show_bestbefore %] <input name="l_bestbefore" id="l_bestbefore" type="checkbox" value="Y" checked>
-    <label for="l_bestbefore">[% 'Best Before' | $T8 %]</label>
-    [% END %] <input name="subtotal" id="subtotal" type="checkbox" value="Y">
-    <label for="subtotal">[% 'Subtotal' | $T8 %]</label>
-    <input name="include_empty_bins" id="include_empty_bins" type="checkbox" value="Y">
-    <label for="include_empty_bins">[% 'Include empty bins' | $T8 %]</label>
-    <input name="include_invalid_warehouses" id="include_invalid_warehouses" type="checkbox" value="Y">
-    <label for="include_invalid_warehouses">[% 'Include invalid warehouses ' | $T8 %]</label>
+    [% IF INSTANCE_CONF.get_show_bestbefore %]
+    <div>
+      <input name="l_bestbefore" id="l_bestbefore" type="checkbox" value="Y" checked>
+      <label for="l_bestbefore">[% 'Best Before' | $T8 %]</label>
+    </div>
+    [% END %]
+    <div>
+      <input name="subtotal" id="subtotal" type="checkbox" value="Y">
+      <label for="subtotal">[% 'Subtotal' | $T8 %]</label>
+    </div>
+    <div>
+      <input name="include_empty_bins" id="include_empty_bins" type="checkbox" value="Y">
+      <label for="include_empty_bins">[% 'Include empty bins' | $T8 %]</label>
+    </div>
+    <div>
+      <input name="include_invalid_warehouses" id="include_invalid_warehouses" type="checkbox" value="Y">
+      <label for="include_invalid_warehouses">[% 'Include invalid warehouses ' | $T8 %]</label>
+    </div>
   </div>
   <div class="list col">
     <h4>[% 'Values & Prices' | $T8 %]</h4>
