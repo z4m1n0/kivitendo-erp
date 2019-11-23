@@ -3,7 +3,16 @@
  [%- IF delivered %]
  [%- SET RO = ' readonly' %]
  [%- END %]
-
+ [%- IF vc == 'customer' %]
+ [%- IF returns == '1' %]
+ [%- SET is_transfer_out = '0' %]
+ [%- SET use_for_wash = '0' %]
+ [%- ELSE %]
+ [%- SET is_transfer_out = '1' %]
+ [%- END %]
+ [%- ELSE %]
+ [%- SET is_transfer_out = '0' %]
+ [%- END %]
     <tr>
      <td>
       <table>

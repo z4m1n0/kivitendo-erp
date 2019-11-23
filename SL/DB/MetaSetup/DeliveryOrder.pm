@@ -31,6 +31,7 @@ __PACKAGE__->meta->columns(
   oreqnumber              => { type => 'text' },
   payment_id              => { type => 'integer' },
   reqdate                 => { type => 'date' },
+  returns                 => { type => 'integer', default => '0' },
   salesman_id             => { type => 'integer' },
   shippingpoint           => { type => 'text' },
   shipto_id               => { type => 'integer' },

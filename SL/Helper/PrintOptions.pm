@@ -68,9 +68,13 @@ sub get_print_options {
     ($form->{type} eq 'invoice' && $form->{storno}) ? (
       opthash("storno_invoice",      $form->{PD}{storno_invoice},      $locale->text('Storno Invoice')),
     ) : undef,
-    ($form->{type} =~ /_delivery_order$/) ? (
+    ($form->{type} =~ /_delivery_order$/ && !$form->{returns} ) ? (
       opthash($form->{type},         $form->{PD}{$form->{type}},       $locale->text('Delivery Order')),
       opthash('pick_list',           $form->{PD}{pick_list},           $locale->text('Pick List')),
+    ) : undef,
+    ($form->{type} =~ /_delivery_order$/ && $form->{returns} ) ? (
+      opthash("returns_delivery_order",$form->{PD}{returns_delivery_order},
+                                                                       $locale->text('Returns Delivery Order')),
     ) : undef,
     ($form->{type} =~ /^letter$/) ? (
       opthash('letter',              $form->{PD}{letter},              $locale->text('Letter')),

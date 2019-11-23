@@ -89,6 +89,19 @@
     [% LxERP.t8('Transfer of assemblies uses the assembly\'s default warehouse instead of the destination warehouse.') %]<br>
    </td>
   </tr>
+  <tr>
+   <td align="right">[% LxERP.t8('Split Returns of Assemblies in Components') %]</td>
+   <td>
+    [% L.input_tag('defaults.transfer_returns_into_components', SELF.defaults.transfer_returns_into_components, size="5") %]
+   </td>
+   <td>
+    [% LxERP.t8('On transfer into warehouse of returns sales delivery orders the whole assembly or the components may be transfered') %]<br><br>
+    [% LxERP.t8('0 means not to split into components') %]<br>
+    [% LxERP.t8('1 means only split into Components of the first level') %]<br>
+    [% LxERP.t8('2 means split into the first two levels of components') %]<br>
+    [% LxERP.t8('n ...') %]<br>
+   </td>
+  </tr>
   <tr><td colspan="3"><hr /></td></tr>
   <tr>
   <tr>

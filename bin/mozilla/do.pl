@@ -69,15 +69,25 @@ sub set_headings {
   my $form     = $main::form;
   my $locale   = $main::locale;
 
+
+  if ($form->{formname} eq 'returns_delivery_order') {
+    $form->{returns} = 1;
+  }
+  $form->{returns} = 0 unless $form->{returns};
+
   if ($form->{type} eq 'purchase_delivery_order') {
     $form->{vc}    = 'vendor';
     $form->{title} = $action eq "edit" ? $locale->text('Edit Purchase Delivery Order') : $locale->text('Add Purchase Delivery Order');
   } else {
     $form->{vc}    = 'customer';
-    $form->{title} = $action eq "edit" ? $locale->text('Edit Sales Delivery Order') : $locale->text('Add Sales Delivery Order');
+    $form->{title} = $action eq "edit" ? ($form->{returns} ? $locale->text('Edit Returns Delivery Order')
+                                                           : $locale->text('Edit Sales Delivery Order'))
+                                       : ($form->{returns} ? $locale->text('Add Returns Delivery Order')
+                                                           : $locale->text('Add Sales Delivery Order'));
   }
 
-  $form->{heading} = $locale->text('Delivery Order');
+  $form->{heading} = $form->{returns} ? $locale->text('Returns Delivery Order')
+                                      : $locale->text('Delivery Order');
 
   $main::lxdebug->leave_sub();
 }
@@ -96,7 +106,7 @@ sub add {
   set_headings("add");
 
   $form->{show_details} = $::myconfig{show_form_details};
-  $form->{callback} = build_std_url('action=add', 'type', 'vc') unless ($form->{callback});
+  $form->{callback} = build_std_url('action=add', 'type', 'vc', 'returns') unless ($form->{callback});
 
   order_links();
   prepare_order();
@@ -705,7 +715,9 @@ sub orders {
   push @hidden_variables, $form->{vc}, qw(l_closed l_notdelivered open closed delivered notdelivered donumber ordnumber serialnumber cusordnumber
                                           transaction_description transdatefrom transdateto reqdatefrom reqdateto
                                           type vc employee_id salesman_id project_id parts_partnumber parts_description
-                                          insertdatefrom insertdateto business_id all department_id);
+                                          department
+                                          returns
+                                          insertdatefrom insertdateto business_id);
 
   my $href = build_std_url('action=orders', grep { $form->{$_} } @hidden_variables);
 
@@ -928,7 +940,7 @@ sub save {
 
   $form->{simple_save} = 1;
   if (!$params{no_redirect} && !$form->{print_and_save}) {
-    delete @{$form}{ary_diff([keys %{ $form }], [qw(login id script type cursor_fokus)])};
+    delete @{$form}{ary_diff([keys %{ $form }], [qw(login id returns script type cursor_fokus)])};
     edit();
     $::dispatcher->end_request;
   }
@@ -1181,6 +1193,12 @@ sub invoice_multi {
   $main::lxdebug->leave_sub();
 }
 
+sub returns_delivery_order {
+  $::form->{returns} = 1;
+  $::form->{orig_id} = $::form->{id};
+  save_as_new();
+}
+
 sub save_as_new {
   $main::lxdebug->enter_sub();
 
@@ -1222,6 +1240,7 @@ sub calculate_stock_in_out {
   my $all_units = AM->retrieve_all_units();
 
   my $in_out   = $form->{type} =~ /^sales/ ? 'out' : 'in';
+     $in_out   = 'in' if $form->{returns} == 1;
   my $sinfo    = DO->unpack_stock_information('packed' => $form->{"stock_${in_out}_${i}"});
 
   my $do_qty   = AM->sum_with_unit($::form->{"qty_$i"}, $::form->{"unit_$i"});
@@ -1566,6 +1585,7 @@ sub transfer_in {
   }
 
   DO->transfer_in_out('direction' => 'in',
+                      'cancelled' => ($form->{returns} == 1 ? 1:0 ),
                       'requests'  => \@all_requests);
 
   SL::DB::DeliveryOrder->new(id => $form->{id})->load->update_attributes(delivered => 1);
@@ -1747,6 +1767,7 @@ sub dispatcher {
   my $locale   = $main::locale;
 
   foreach my $action (qw(update print save transfer_out transfer_out_default sort
+                         returns_delivery_order
                          transfer_in transfer_in_default mark_closed save_as_new invoice delete)) {
     if ($form->{"action_${action}"}) {
       call_sub($action);
@@ -1775,6 +1796,60 @@ sub transfer_in_default {
   transfer_in_out_default('direction' => 'in');
 
   $main::lxdebug->leave_sub();
+}
+
+sub storno_in_out {
+
+  my $form     = $main::form;
+  my %params   = @_;
+  my $corrtype = SL::DB::Manager::TransferType->get_first(where =>
+                                [ direction => $params{direction}, description => 'correction']);
+  my $items = SL::DB::Manager::Inventory->get_all(where =>
+                    [ oe_id => $form->{id},'trans_type.direction' => $params{direction},
+                       'trans_type.description' => { ne => 'correction'} ], with_objects => ['trans_type'] );
+
+  my $comment = $params{direction} eq 'out' ? $::locale->text('Storno of Transfer Out'): $::locale->text('Storno of Transfer In');
+  my @transfers;
+
+  foreach my $item ( @{ $items } ) {
+    push @transfers, {
+      'parts_id'               => $item->parts_id,
+      'dst_warehouse_id'       => $item->warehouse_id,
+      'dst_bin_id'             => $item->bin_id,
+      'chargenumber'           => $item->chargenumber,
+      'bestbefore'             => $item->bestbefore,
+      'qty'                    => - $item->qty,
+      'oe_id'                  => $form->{id},
+      'shippingdate'           => 'current_date',
+      'transfer_type'          => 'correction',
+      'project_id'             => $item->project_id,
+      'comment'                => $comment,
+    };
+    my $item_stock_id = $item->delivery_order_items_stock_id;
+    # set old item to correction
+    $item->update_attributes(trans_type_id => $corrtype->id , delivery_order_items_stock_id => '' );
+    # delete item_stock
+    if ( $item_stock_id > 0 ) {
+        my $stock = SL::DB::Manager::DeliveryOrderItemsStock->get_first(where =>
+                      [ id => $item_stock_id ] );
+        $stock->delete if $stock;
+    }
+  }
+
+  WH->transfer(@transfers);
+
+
+  SL::DB::DeliveryOrder->new(id => $form->{id})->load->update_attributes(delivered => 0);
+
+  $form->{snumbers} = qq|donumber_| . $form->{donumber};
+  $form->{addition} = "STORNO";
+  $form->save_history;
+
+  set_callback('sales_delivery_order')    if $params{direction} eq 'out';
+  set_callback('purchase_delivery_order') if $params{direction} eq 'in';
+  set_callback('sales_delivery_order')    if $form->{returns} == 1;
+  $form->redirect;
+
 }
 
 # Falls das Standardlagerverfahren aktiv ist, wird
@@ -1929,12 +2004,14 @@ sub transfer_in_out_default {
     push @all_requests, @{ DO->unpack_stock_information('packed' => $form->{"stock_${prefix}_$i"}) };
   }
   DO->transfer_in_out('direction' => $prefix,
+                      'cancelled' => ($form->{returns} == 1 ? 1:0 ),
                       'requests'  => \@all_requests);
 
   SL::DB::DeliveryOrder->new(id => $form->{id})->load->update_attributes(delivered => 1);
 
   $form->{callback} = 'do.pl?action=edit&type=sales_delivery_order&id=' . $form->escape($form->{id}) if $params{direction} eq 'out';
   $form->{callback} = 'do.pl?action=edit&type=purchase_delivery_order&id=' . $form->escape($form->{id}) if $params{direction} eq 'in';
+  set_callback('sales_delivery_order')    if $form->{returns} == 1;
   $form->redirect;
 
 }
@@ -1976,6 +2053,14 @@ sub sort {
 
     $main::lxdebug->leave_sub();
     save();
+}
+
+sub set_callback {
+  my $type = shift;
+  my $form = $main::form;
+  $form->{callback} = 'do.pl?action=edit&type='.$type.'&id='.$form->escape($form->{id});
+  $form->{callback} .= '&ui_tab=' .$form->{ui_tab}  if ($form->{ui_tab});
+  $form->{callback} .= '&returns='.$form->{returns} if ($form->{returns});
 }
 
 __END__

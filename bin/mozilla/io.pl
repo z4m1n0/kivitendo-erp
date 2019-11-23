@@ -149,12 +149,11 @@ sub display_row {
   my $show_marge         = (!$is_purchase || $is_invoice || $is_credit_note) && !$is_delivery_order;
 
   if ($is_delivery_order) {
-    if ($form->{type} eq 'sales_delivery_order') {
+    $stock_in_out_title = $locale->text('Transfer To Stock');
+    $stock_in_out       = 'in';
+    if ($form->{type} eq 'sales_delivery_order' && $form->{returns} == 0) {
       $stock_in_out_title = $locale->text('Release From Stock');
       $stock_in_out       = 'out';
-    } else {
-      $stock_in_out_title = $locale->text('Transfer To Stock');
-      $stock_in_out       = 'in';
     }
 
     retrieve_partunits();

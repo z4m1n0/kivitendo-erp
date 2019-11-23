@@ -53,6 +53,9 @@ sub action_save {
 
   $defaults->{$_} = $::form->parse_amount(\%::myconfig, $defaults->{$_}) for qw(customer_hourly_rate);
 
+  #silent ignore negative values
+  $defaults->{transfer_returns_into_components} = 0 if $defaults->{transfer_returns_into_components} < 0;
+
   $self->defaults->assign_attributes(%{ $defaults });
 
   my %errors_idx;

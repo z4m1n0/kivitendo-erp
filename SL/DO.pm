@@ -77,6 +77,7 @@ sub transactions {
          dord.${vc}_id, dord.globalproject_id,
          dord.closed, dord.delivered, dord.shippingpoint, dord.shipvia,
          dord.transaction_description, dord.itime::DATE AS insertdate,
+         dord.returns,
          pr.projectnumber AS globalprojectnumber,
          dep.description AS department,
          e.name AS employee,
@@ -303,7 +304,10 @@ sub _save {
   my $ic_cvar_configs = CVar->get_configs(module => 'IC',
                                           dbh    => $dbh);
 
-  my $trans_number     = SL::TransNumber->new(type => $form->{type}, dbh => $dbh, number => $form->{donumber}, id => $form->{id});
+  my $type = $form->{type};
+  $type    = 'returns_delivery_order' if $form->{returns};
+
+  my $trans_number     = SL::TransNumber->new(type => $type, dbh => $dbh, number => $form->{donumber}, id => $form->{id});
   $form->{donumber}  ||= $trans_number->create_unique;
   $form->{employee_id} = (split /--/, $form->{employee})[1] if !$form->{employee_id};
   $form->get_employee($dbh) unless ($form->{employee_id});
@@ -389,6 +393,9 @@ SQL
                 conv_i($form->{"id"}), conv_i($position), conv_i($form->{"id_$i"}));
       $h_item_id->finish();
     }
+
+    $form->{"qty_$i"}      = - $form->{"qty_$i"}      if $form->{"returns"};
+    $form->{"colliqty_$i"} = - $form->{"colliqty_$i"} if $form->{"returns"};
 
     $form->{"qty_$i"} = $form->parse_amount($myconfig, $form->{"qty_$i"});
 
@@ -480,6 +487,29 @@ SQL
     }
     delete $form->{"converted_from_orderitems_id_$i"};
   }
+  if ($form->{saveasnew} && $form->{returns}) {
+    RecordLinks->create_links('dbh'        => $dbh,
+                              'mode'       => 'ids',
+                              'from_table' => 'delivery_orders',
+                              'from_ids'   => $form->{orig_id},
+                              'to_table'   => 'delivery_orders',
+                              'to_id'      => $form->{id},
+                            );
+    my @links = RecordLinks->get_links(
+      from_table => 'oe',
+      to_id      => $form->{orig_id},
+      to_table   => 'delivery_orders',
+    );
+    foreach my $link ( @links ) {
+      RecordLinks->create_links('dbh'        => $dbh,
+                                'mode'       => 'ids',
+                                'from_table' => 'oe',
+                                'from_ids'   => $link->{from_id},
+                                'to_table'   => 'delivery_orders',
+                                'to_id'      => $form->{id},
+                              );
+    }
+  }
 
   # 1. search for orphaned dois; processed_dois may be empty (no transfer) TODO: be supersafe and alter same statement for doi and oi
   $query  = sprintf 'SELECT id FROM delivery_order_items_stock WHERE delivery_order_item_id in
@@ -516,7 +546,7 @@ SQL
          delivered = ?, department_id = ?, language_id = ?, shipto_id = ?,
          globalproject_id = ?, employee_id = ?, salesman_id = ?, cp_id = ?, transaction_description = ?,
          is_sales = ?, taxzone_id = ?, taxincluded = ?, payment_id = ?, currency_id = (SELECT id FROM currencies WHERE name = ?),
-         delivery_term_id = ?
+         delivery_term_id = ?, returns = ?
        WHERE id = ?|;
 
   @values = ($form->{donumber}, $form->{ordnumber},
@@ -531,7 +561,7 @@ SQL
              $form->{transaction_description},
              $form->{type} =~ /^sales/ ? 't' : 'f',
              conv_i($form->{taxzone_id}), $form->{taxincluded} ? 't' : 'f', conv_i($form->{payment_id}), $form->{currency},
-             conv_i($form->{delivery_term_id}),
+             conv_i($form->{delivery_term_id}), conv_i($form->{returns}),
              conv_i($form->{id}));
   do_query($form, $dbh, $query, @values);
 
@@ -701,6 +731,7 @@ sub retrieve {
          d.description AS department, dord.language_id,
          dord.shipto_id,
          dord.itime, dord.mtime,
+         dord.returns,
          dord.globalproject_id, dord.delivered, dord.transaction_description,
          dord.taxzone_id, dord.taxincluded, dord.payment_id, (SELECT cu.name FROM currencies cu WHERE cu.id=dord.currency_id) AS currency,
          dord.delivery_term_id, dord.itime::DATE AS insertdate
@@ -814,6 +845,9 @@ sub retrieve {
                                            trans_id   => $doi->{delivery_order_items_id},
                                           );
     map { $doi->{"ic_cvar_$_->{name}"} = $_->{value} } @{ $cvars };
+
+    $doi->{qty}     = - $doi->{qty}      if $form->{returns};
+    $doi->{colliqty}= - $doi->{colliqty} if $form->{returns};
   }
 
   if ($mode eq 'single') {
@@ -1191,6 +1225,37 @@ sub check_stock_availability {
   return @errors;
 }
 
+sub assembly_components {
+  my ($self,$form,$entry,$ass_qty,$level) = @_;
+  $::lxdebug->message(LXDebug->DEBUG2(),"assembly_components parts_id=".$entry->id." ass_qty=".$ass_qty." level=".$level);
+  my $subitems;
+  if ( $level > 0 ) {
+    $subitems = SL::DB::Manager::Assembly->get_all(
+      with_objects => ['part'],
+      where   => [ id => $entry->parts_id , parts_id => { ne => undef } ],
+    );
+  }
+  if ( $level > 0 && $subitems && scalar (@{$subitems}) > 0 ) {
+    foreach my $subentry (@{$subitems}) {
+      $::lxdebug->message(LXDebug->DEBUG2(),"addComponent call for id=".$subentry->id." parts_id=".$subentry->parts_id);
+      $self->assembly_components($form,$subentry,$entry->qty*$ass_qty,$level -1);
+    }
+  } else {
+    $::lxdebug->message(LXDebug->DEBUG2(),"add ".$entry->qty." * ".$ass_qty." partnumber=".$entry->part->partnumber);
+    my ( $comp ) = grep { $_->{id} == $entry->parts_id } @{ $form->{DO_components} };
+    if ( $comp ) {
+      $comp->{qty} += $entry->qty * $ass_qty;
+      $::lxdebug->message(LXDebug->DEBUG2(),"found part ".$comp->{id}." add qty to ".$comp->{qty});
+    } else {
+      push @{ $form->{DO_components} },
+        { id   => $entry->parts_id,
+          qty  => $entry->qty * $ass_qty ,
+          unit => $entry->part->unit
+        };
+    }
+  }
+}
+
 sub transfer_in_out {
   $main::lxdebug->enter_sub();
 
@@ -1212,21 +1277,58 @@ sub transfer_in_out {
   my @transfers;
 
   foreach my $request (@{ $params{requests} }) {
-    push @transfers, {
-      'parts_id'                      => $request->{parts_id},
-      "${prefix}_warehouse_id"        => $request->{warehouse_id},
-      "${prefix}_bin_id"              => $request->{bin_id},
-      'chargenumber'                  => $request->{chargenumber},
-      'bestbefore'                    => $request->{bestbefore},
-      'qty'                           => $request->{qty},
-      'unit'                          => $request->{unit},
-      'oe_id'                         => $form->{id},
-      'shippingdate'                  => 'current_date',
-      'transfer_type'                 => $params{direction} eq 'in' ? 'stock' : 'shipped',
-      'project_id'                    => $request->{project_id},
-      'delivery_order_items_stock_id' => $request->{delivery_order_items_stock_id},
-      'comment'                       => $request->{comment},
-    };
+    my $transfertype = $params{direction} eq 'in' ? 'stock'  : 'shipped';
+    if ( $request->{qty} < 0 ) {
+      $transfertype   = $params{direction}  eq 'in' ? 'shipped': 'stock';
+      $prefix         = $params{direction}  eq 'in' ? 'src'    : 'dst';
+      $request->{qty} = - $request->{qty};
+    } elsif ( $params{cancelled} ) {
+      $transfertype   = "cancelled";
+      # $locale->text('cancelled');
+    }
+
+    my @components;
+    my $level = 0;
+    my $assembly;
+
+    if ( $params{cancelled} ) {
+      $level = $::instance_conf->get_transfer_returns_into_components;
+      if($level > 0) {
+        $assembly = SL::DB::Manager::Assembly->get_first(
+          with_objects => ['part'],
+          where   => [ id => $request->{parts_id}, parts_id => { ne => undef } ],
+        );
+        $level = 0 unless $assembly;
+      }
+    }
+    if($level > 0 && $assembly) {
+      $form->{DO_components} = ();
+      $self->assembly_components($form,$assembly,$request->{qty},$level);
+      push @components, @{ $form->{DO_components} };
+    } else {
+      push @components, { id   => $request->{parts_id},
+                          qty  => $request->{qty} ,
+                          unit => $request->{unit}
+                        };
+    }
+    foreach my $comp (@components) {
+      push @transfers, {
+        'parts_id'                      => $comp->{id},
+        "${prefix}_warehouse_id"        => $request->{warehouse_id},
+        "${prefix}_bin_id"              => $request->{bin_id},
+        'chargenumber'                  => $request->{chargenumber},
+        'bestbefore'                    => $request->{bestbefore},
+        'qty'                           => $comp->{qty},
+        'unit'                          => $comp->{unit},
+        'position'                      => $request->{position},
+        'oe_id'                         => $form->{id},
+        'shippingdate'                  => 'current_date',
+        'transfer_type'                 => $transfertype,
+        'project_id'                    => $request->{project_id},
+        'delivery_order_items_stock_id' => $request->{delivery_order_items_stock_id},
+        'comment'                       => $request->{comment},
+      };
+    }
   }
 
   WH->transfer(@transfers);
