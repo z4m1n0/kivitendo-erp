@@ -832,8 +832,10 @@ sub retrieve {
                                           );
     map { $doi->{"ic_cvar_$_->{name}"} = $_->{value} } @{ $cvars };
 
-    $doi->{qty}     = - $doi->{qty}      if $form->{returns};
-    $doi->{colliqty}= - $doi->{colliqty} if $form->{returns};
+    if ($mode eq 'single') {
+      $doi->{qty}     = - $doi->{qty}      if $form->{returns};
+      $doi->{colliqty}= - $doi->{colliqty} if $form->{returns};
+    }
   }
 
   if ($mode eq 'single') {
