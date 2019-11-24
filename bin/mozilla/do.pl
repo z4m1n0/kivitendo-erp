@@ -329,11 +329,27 @@ sub setup_do_action_bar {
 
       'separator',
 
-      action => [
-        t8('Invoice'),
-        submit => [ '#form', { action => "invoice" } ],
-        disabled => !$::form->{id} ? t8('This record has not been saved yet.') : undef,
-      ],
+      combobox => [
+        action => [ t8('Workflow') ],
+        action => [
+          t8('Credit Note'),
+          submit => [ '#form', { action => "credit_note" } ],
+          disabled => !$::form->{id} ? t8('This record has not been saved yet.') : undef,
+          only_if  => $::form->{returns},
+        ],
+        action => [
+          t8('Invoice'),
+          submit => [ '#form', { action => "invoice" } ],
+          disabled => !$::form->{id} ? t8('This record has not been saved yet.') : undef,
+          only_if  => !$::form->{returns},
+        ],
+        action => [
+          t8('Returns Delivery Order'),
+          submit => [ '#form', { action => "returns_delivery_order" } ],
+          disabled => !$::form->{id} ? t8('This record has not been saved yet.') : undef,
+          only_if  => $is_customer && !$::form->{returns},
+        ],
+      ], # end of combobox "Workflow"
 
       combobox => [
         action => [ t8('Export') ],
@@ -974,6 +990,13 @@ sub delete {
   $main::lxdebug->leave_sub();
 }
 
+sub credit_note {
+  if ($::form->{returns}) {
+    ;
+  }
+  invoice();
+}
+
 sub invoice {
   $main::lxdebug->enter_sub();
 
@@ -1000,16 +1023,24 @@ sub invoice {
 
   my ($script, $buysell);
   if ($form->{type} eq 'purchase_delivery_order') {
+    $form->{type}   = "invoice";
     $form->{title}  = $locale->text('Add Vendor Invoice');
     $form->{script} = 'ir.pl';
     $script         = "ir";
     $buysell        = 'sell';
-
   } else {
+    $form->{type}   = "invoice";
     $form->{title}  = $locale->text('Add Sales Invoice');
     $form->{script} = 'is.pl';
     $script         = "is";
     $buysell        = 'buy';
+    if ( $form->{returns} ) {
+      $form->{title}  = $locale->text('Add Credit Note');
+      $buysell        = 'sell';
+      $form->{type}   = "credit_note";
+      delete $form->{form_name};
+      delete $form->{returns};
+    }
   }
 
   for my $i (1 .. $form->{rowcount}) {
@@ -1028,8 +1059,6 @@ sub invoice {
     $form->{"donumber_$i"} = $form->{donumber};
     $form->{"converted_from_delivery_order_items_id_$i"} = delete $form->{"delivery_order_items_id_$i"};
   }
-
-  $form->{type} = "invoice";
 
   # locale messages
   $main::locale = Locale->new("$myconfig{countrycode}", "$script");
@@ -1767,6 +1796,7 @@ sub dispatcher {
   my $locale   = $main::locale;
 
   foreach my $action (qw(update print save transfer_out transfer_out_default sort
+                         credit_note
                          returns_delivery_order
                          transfer_in transfer_in_default mark_closed save_as_new invoice delete)) {
     if ($form->{"action_${action}"}) {

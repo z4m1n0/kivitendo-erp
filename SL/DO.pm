@@ -495,20 +495,6 @@ SQL
                               'to_table'   => 'delivery_orders',
                               'to_id'      => $form->{id},
                             );
-    my @links = RecordLinks->get_links(
-      from_table => 'oe',
-      to_id      => $form->{orig_id},
-      to_table   => 'delivery_orders',
-    );
-    foreach my $link ( @links ) {
-      RecordLinks->create_links('dbh'        => $dbh,
-                                'mode'       => 'ids',
-                                'from_table' => 'oe',
-                                'from_ids'   => $link->{from_id},
-                                'to_table'   => 'delivery_orders',
-                                'to_id'      => $form->{id},
-                              );
-    }
   }
 
   # 1. search for orphaned dois; processed_dois may be empty (no transfer) TODO: be supersafe and alter same statement for doi and oi
