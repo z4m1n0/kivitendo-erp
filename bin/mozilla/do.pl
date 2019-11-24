@@ -308,7 +308,7 @@ sub setup_do_action_bar {
           submit   => [ '#form', { action => "transfer_out_default" } ],
           checks   => [ 'kivi.validate_form' ],
           disabled => $::form->{delivered} ? t8('This record has already been delivered.') : undef,
-          only_if  => $is_customer && $::instance_conf->get_transfer_default,
+          only_if  => $::instance_conf->get_transfer_default,
         ],
         action => [
           t8('Transfer in'),
