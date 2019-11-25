@@ -502,7 +502,7 @@ sub form_header {
   $::form->{HIDDENS} = [ map { +{ name => $_, value => $::form->{$_} } } (@custom_hidden) ];
 
   setup_do_action_bar();
-
+  set_headings($form->{"id"} ? "edit" : "add");
   $form->header();
   # Fix für Bug 1082 Erwartet wird: 'abteilungsNAME--abteilungsID'
   # und Erweiterung für Bug 1760:
