@@ -250,6 +250,8 @@ sub setup_do_action_bar {
   my @transfer_qty   = qw(kivi.SalesPurchase.delivery_order_check_transfer_qty);
   my @req_trans_desc = qw(kivi.SalesPurchase.check_transaction_description) x!!$::instance_conf->get_require_transaction_description_ps;
   my $is_customer    = $::form->{vc} eq 'customer';
+  my $isdelivered = t8('This record has already been delivered.');
+  $isdelivered    = t8('This record has already been transferred in.') if $::form->{returns};
 
   for my $bar ($::request->layout->get('actionbar')) {
     $bar->add(
@@ -265,7 +267,7 @@ sub setup_do_action_bar {
           t8('Save'),
           submit   => [ '#form', { action => "save" } ],
           checks   => [ 'kivi.validate_form' ],
-          disabled => $::form->{delivered} ? t8('This record has already been delivered.') : undef,
+          disabled => $::form->{delivered} ? $isdelivered : undef,
         ],
         action => [
           t8('Save as new'),
@@ -289,7 +291,7 @@ sub setup_do_action_bar {
         submit   => [ '#form', { action => "delete" } ],
         confirm  => t8('Do you really want to delete this object?'),
         disabled => !$::form->{id}                                                                              ? t8('This record has not been saved yet.')
-                  : $::form->{delivered}                                                                        ? t8('This record has already been delivered.')
+                  : $::form->{delivered}                                                                        ? $isdelivered
                   : ($::form->{vc} eq 'customer' && !$::instance_conf->get_sales_delivery_order_show_delete)    ? t8('Deleting this type of record has been disabled in the configuration.')
                   : ($::form->{vc} eq 'vendor'   && !$::instance_conf->get_purchase_delivery_order_show_delete) ? t8('Deleting this type of record has been disabled in the configuration.')
                   :                                                                                               undef,
@@ -301,28 +303,31 @@ sub setup_do_action_bar {
           submit   => [ '#form', { action => "transfer_out" } ],
           checks   => [ 'kivi.validate_form', @transfer_qty ],
           disabled => $::form->{delivered} ? t8('This record has already been delivered.') : undef,
-          only_if  => $is_customer,
+          only_if  => $is_customer && !$::form->{returns},
         ],
         action => [
           t8('Transfer out via default'),
           submit   => [ '#form', { action => "transfer_out_default" } ],
           checks   => [ 'kivi.validate_form' ],
           disabled => $::form->{delivered} ? t8('This record has already been delivered.') : undef,
-          only_if  => $::instance_conf->get_transfer_default,
+          only_if  => $is_customer && !$::form->{returns} && $::instance_conf->get_transfer_default,
         ],
         action => [
           t8('Transfer in'),
           submit   => [ '#form', { action => "transfer_in" } ],
           checks   => [ 'kivi.validate_form', @transfer_qty ],
-          disabled => $::form->{delivered} ? t8('This record has already been delivered.') : undef,
-          only_if  => !$is_customer,
+          disabled => !$::form->{id}       ? t8('This record has not been saved yet.')
+                    : $::form->{delivered} ? $isdelivered
+                    : undef,
+          only_if  => !$is_customer || $::form->{returns},
         ],
         action => [
           t8('Transfer in via default'),
           submit   => [ '#form', { action => "transfer_in_default" } ],
           checks   => [ 'kivi.validate_form' ],
-          disabled => $::form->{delivered} ? t8('This record has already been delivered.') : undef,
-          only_if  => !$is_customer && $::instance_conf->get_transfer_default,
+          disabled => !$::form->{id} ? t8('This record has not been saved yet.')
+                    : $::form->{delivered} ? $isdelivered : undef,
+          only_if  => (!$is_customer || $::form->{returns}) && $::instance_conf->get_transfer_default,
         ],
       ], # end of combobox "Transfer out"
 
@@ -1619,7 +1624,8 @@ sub transfer_in {
 
   SL::DB::DeliveryOrder->new(id => $form->{id})->load->update_attributes(delivered => 1);
 
-  $form->{callback} = 'do.pl?action=edit&type=purchase_delivery_order&id=' . $form->escape($form->{id});
+  #$form->{callback} = 'do.pl?action=edit&type=purchase_delivery_order&id=' . $form->escape($form->{id});
+  set_callback($form->{returns} == 1 ?'sales_delivery_order':'purchase_delivery_order');
   $form->redirect;
 
   $main::lxdebug->leave_sub();
