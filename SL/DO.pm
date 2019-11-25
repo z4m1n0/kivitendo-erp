@@ -370,6 +370,7 @@ SQL
   my $h_item_stock = prepare_query($form, $dbh, $q_item_stock);
 
   my $in_out       = $form->{type} =~ /^sales/ ? 'out' : 'in';
+  $in_out          = 'in' if $form->{returns} == 1;
 
   for my $i (1 .. $form->{rowcount}) {
     next if (!$form->{"id_$i"});
@@ -840,6 +841,7 @@ sub retrieve {
 
   if ($mode eq 'single') {
     my $in_out = $form->{type} =~ /^sales/ ? 'out' : 'in';
+    $in_out    = 'in' if $form->{returns};
 
     $query =
       qq|SELECT id as delivery_order_items_stock_id, qty, unit, bin_id,
@@ -930,6 +932,7 @@ sub order_details {
   my $h_bin_wh = prepare_query($form, $dbh, $q_bin_wh);
 
   my $in_out   = $form->{type} =~ /^sales/ ? 'out' : 'in';
+  $in_out      = 'in' if $form->{returns};
 
   my $num_si   = 0;
 
