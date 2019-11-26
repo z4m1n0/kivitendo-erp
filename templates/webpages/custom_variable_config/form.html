@@ -36,8 +36,7 @@
     <tr>
       <th>[% 'Options' | $T8 %]<sup>(5)</sup></th>
       <td>
-        <textarea name="[% config.options %]" id="[% config.options %]" class="wi-wider" cols="5" rows="3">[% SELF.config.options %]</textarea>
-        [% #L.input_tag("config.options", SELF.config.options, class='wi-wider') %]
+        [% L.textarea_tag("config.options", SELF.config.options, cols='5' rows='3' class='wi-wider') %]
       </td>
     </tr>
     <tr>
