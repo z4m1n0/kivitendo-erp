@@ -162,6 +162,7 @@ __PACKAGE__->meta->columns(
   transfer_default_services                 => { type => 'boolean', default => 'true' },
   transfer_default_use_master_default_bin   => { type => 'boolean', default => 'false' },
   transfer_default_warehouse_for_assembly   => { type => 'boolean', default => 'false' },
+  transfer_returns_into_components          => { type => 'integer', default => '0' },
   transport_cost_reminder_article_number_id => { type => 'integer' },
   vendornumber                              => { type => 'text' },
   version                                   => { type => 'varchar', length => 8 },
