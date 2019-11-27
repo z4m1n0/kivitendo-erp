@@ -273,34 +273,22 @@
       <tr>
       </tr>
     [% ELSE %]
-    <tr>
-      <th>[% 'Invoice' | $T8 %]</th>
-      <!-- <th>[% 'Invoice Date' | $T8 %]</th> -->
-      <td>[% L.date_tag('invdate', invdate, onchange='kivi.SalesPurchase.set_duedate_on_reference_date_change("invdate")', class='wi-date') %]</td>
-      <td><input type="text" name="invnumber" id="invnumber" value="[% HTML.escape(invnumber) %]" class="wi-small"></td>
-    </tr>
-    <tr>
-      <th>[% 'Due Date' | $T8 %]</th>
-      <td>
-       <span class="condensed" id="duedate_container"[% IF payment_terms_obj.auto_calculation %] style="display:none"[% END %]>[% L.date_tag('duedate', duedate, class='wi-date') %]</span>
-       <span class="condensed" id="duedate_fixed"[% IF !payment_terms_obj.auto_calculation %] style="display:none"[% END %]>[% HTML.escape(duedate, class='wi-date') %]</span>
-      </td>
-      <td></td>
-    </tr>
-    <tr>
-      <th>[% 'Delivery Order Number' | $T8 %]</th>
-      <td></td>
-      <td><input type="text" name="donumber" id="donumber" value="[% HTML.escape(donumber) %]" class="wi-small"></td>
-    </tr>
-  [% END %]
-    <tr>
-      <th>[% 'Delivery Date' | $T8 %]</th>
-      <td>[% L.date_tag('deliverydate', deliverydate, class='wi-date') %]</td>
-      <td></td>
-   </tr>
+      <tr>
+        <th>[% 'Invoice' | $T8 %]</th>
+        <td>[% L.date_tag('invdate', invdate, onchange='kivi.SalesPurchase.set_duedate_on_reference_date_change("invdate")', class='wi-date') %]</td>
+        <td><input type="text" name="invnumber" id="invnumber" value="[% HTML.escape(invnumber) %]" class="wi-small"></td>
+      </tr>
+      <tr>
+        <th>[% 'Due Date' | $T8 %]</th>
+        <td>
+        <span class="condensed" id="duedate_container"[% IF payment_terms_obj.auto_calculation %] style="display:none"[% END %]>[% L.date_tag('duedate', duedate, class='wi-date') %]</span>
+        <span class="condensed" id="duedate_fixed"[% IF !payment_terms_obj.auto_calculation %] style="display:none"[% END %]>[% HTML.escape(duedate, class='wi-date') %]</span>
+        </td>
+        <td></td>
+      </tr>
+    [% END %]
     <tr>
       <th>[% 'Order' | $T8 %]</th>
-      <!-- <th>[% 'Order Date' | $T8 %]</th> -->
       <td>[% L.date_tag('orddate', orddate, class='wi-date') %]</td>
       <td><input type="text" name="ordnumber" id="ordnumber" value="[% HTML.escape(ordnumber) %]" class="wi-small"></td>
     </tr>
@@ -308,20 +296,30 @@
     </tr>
     <tr>
       <th>[% 'Quotation' | $T8 %]</th>
-      <!-- <th>[% 'Quotation Date' | $T8 %]</th> -->
       <td>[% L.date_tag('quodate', quodate, class='wi-date') %]</td>
       <td><input type="text" name="quonumber" id="quonumber" value="[% HTML.escape(quonumber) %]" class="wi-small"></td>
     </tr>
     <tr>
+      <th>[% 'Delivery Date' | $T8 %]</th>
+      <td>[% L.date_tag('deliverydate', deliverydate, class='wi-date') %]</td>
+      <td></td>
     </tr>
+    [% UNLESS is_type_credit_note %]
+      <tr>
+        <th>[% 'Delivery Order Number' | $T8 %]</th>
+        <td></td>
+        <td><input type="text" name="donumber" id="donumber" value="[% HTML.escape(donumber) %]" class="wi-small"></td>
+      </tr>
+    [% END %]
     <tr>
       <th>[% 'Customer Order Number' | $T8 %]</th>
-      <td>&nbsp;</td>
+      <td></td>
       <td><input type="text" name="cusordnumber" id="cusordnumber" value="[% HTML.escape(cusordnumber) %]" class="wi-small"></td>
     </tr>
     <tr>
-      <th>[% 'Project' | $T8 %]</th>
-      <td colspan="2">[% L.select_tag('globalproject_id', ALL_PROJECTS, title_key = 'projectnumber', default = globalproject_id, with_empty = '1', onChange = "document.getElementById('update_button').click();", class="wi-lightwide") %]</td>
+      <th>[% 'Project Number' | $T8 %]</th>
+      <td></td>
+      <td>[% L.select_tag('globalproject_id', ALL_PROJECTS, title_key = 'projectnumber', default = globalproject_id, with_empty = '1', onChange = "document.getElementById('update_button').click();", class="wi-small") %]</td>
     </tr>
     </tbody>
   </table>
