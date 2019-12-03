@@ -252,17 +252,14 @@ sub areainput_tag {
   my $minrows = delete $attributes{min_rows} || 1;
   my $maxrows = delete $attributes{max_rows};
   my $rows    = $::form->numtextrows($value, $cols, $maxrows, $minrows);
-  my $class   = $attributes{class}; # Do not delete attribute/hash element
 
   $attributes{id} ||= _tag_id();
   my $id            = $attributes{id};
 
   return $self->textarea_tag($name, $value, %attributes, rows => $rows, cols => $cols) if $rows > 1;
-  # PENDENT: Hier sollte noch eine Klasse an kivi.switch_areainput_to_textarea uebergeben werden
-  # PENDENT: ID gugusli aus button entfernen, wird nicht angezeigt im browser (war nur Test)
   return '<span class="switch-form-element">'
     . $self->input_tag($name, $value, %attributes, size => $cols)
-    . "<button class=\"wi-tiny icon\"><img src=\"image/pencil.png\" onclick=\"kivi.switch_areainput_to_textarea('${id}','".$class."')\"></button>"
+    . "<span class=\"wi-tiny icon\"><img src=\"image/pencil.png\" onclick=\"kivi.switch_areainput_to_textarea('${id}','".$attributes{class}."')\"></span>"
     . '</span>';
 }
 
