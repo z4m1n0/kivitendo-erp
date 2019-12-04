@@ -254,7 +254,7 @@ namespace('kivi', function(k){
     });
 
     // now add a picker div after the original input
-    var popup_button = $('<span>').addClass('ppp_popup_button');
+    var popup_button = $('<span>').addClass('ui-autocomplete');
     $dummy.after(popup_button);
     popup_button.click(open_dialog);
     var pp = {
