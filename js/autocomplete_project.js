@@ -204,7 +204,7 @@ namespace('kivi', function(k){
     });
 
     // now add a picker div after the original input
-    var pcont  = $('<span>').addClass('position-absolute');
+    var pcont  = $('<span>').addClass('ui-autocomplete');
     var picker = $('<div>');
     $dummy.after(pcont);
     pcont.append(picker);
