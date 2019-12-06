@@ -43,6 +43,7 @@
       [% NEXT UNLESS (var.config.processed_flags.editable && ITEM.part.cvar_by_name(var.config.name).is_valid) %]
       [% SET n = n + 1 %]
       <td>
+	<b>[% var.config.description %]</b>      
         [% L.hidden_tag('order.orderitems[].custom_variables[+].config_id', var.config.id) %]
         [% L.hidden_tag('order.orderitems[].custom_variables[].id', var.id) %]
         [% L.hidden_tag('order.orderitems[].custom_variables[].sub_module', var.sub_module) %]
