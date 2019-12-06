@@ -330,7 +330,6 @@ body div.center {
   color: #ffffff;
   text-decoration: underline;
   /*underline*/
-
 }
 #frame-header span.frame-header-element span.mandate {
   text-transform: uppercase ;
@@ -376,9 +375,9 @@ body div.center {
 #frame-header div.frame-header-quicksearch {
   display: block;
   overflow: hidden;
-  margin: 0 auto;
+  margin: 0.1em auto 0 auto;
   text-align: center;
-  width: 70%;
+  width: auto;
 }
 #frame-header div.frame-header-quicksearch span.frame-header-quicksearch input {
   font-size: 9pt;
@@ -439,7 +438,6 @@ body div.center {
   color: #1b1b0e;
   vertical-align: middle;
   /* List 2nd Level (Vertical) */
-
 }
 #menuv3 > ul > li:hover {
   background-color: #ccccbb;
@@ -1867,7 +1865,7 @@ td div.rowspan-table div.label-n-value b {
 table td > span.data {
   display: block;
   overflow: hidden ;
-  height: 15.299999999999999pt;
+  height: 15.3pt;
   font-size: 9pt;
   color: #1b1b0e;
   border: 1px #ccccbb solid;
@@ -3369,7 +3367,7 @@ ul {
 ul.footnotes {
   list-style-type: none !important ;
   list-style-position: outside ;
-  margin: 1.0em 0 0 1.8em !important ;
+  margin: 0 0 0 1.8em !important ;
 }
 ul.footnotes li sup {
   display: inline-block;
@@ -4803,7 +4801,6 @@ div.logged-in .message {
   font-weight: normal;
   font-size: 100% ;
   /* margin:       0 0 1.2em 0; */
-
   padding: 0 0 0.0em 0;
   display: block;
 }
@@ -5739,7 +5736,6 @@ ul.context-menu-list li.context-menu-item.context-menu-submenu:after {
 ul.context-menu-list li.context-menu-item > .context-menu-list {
   display: none;
   /* re-positioned by js */
-
   right: -5px;
   top: 5px;
 }
@@ -5755,9 +5751,7 @@ ul.context-menu-list li.context-menu-item > label > textarea {
 }
 ul.context-menu-list .context-menu-input {
   /* vertically align inside labels */
-
   /* position checkboxes and radios as icons */
-
 }
 ul.context-menu-list .context-menu-input > label > * {
   vertical-align: top;
@@ -6738,7 +6732,6 @@ span.customer_vendor_picker {
   font: menu;
   font-size: 11pt;
   /*hps: vorher 12px */
-
   line-height: 16px;
   overflow: hidden;
 }
@@ -6766,7 +6759,6 @@ span.customer_vendor_picker {
 .ms2side__header {
   color: #666;
   /* hps */
-
   font-size: 9pt;
   line-height: 1.0em;
   padding: 0 0 0.3em 0;
@@ -6797,25 +6789,19 @@ span.customer_vendor_picker {
   border: 1px solid black;
   width: auto !important;
   /* hps */
-
   background-color: #e0e0d6;
   /* hps */
-
   color: #1b1b0e;
   /* hps */
-
   border-color: 1px #292914 solid;
   /* hps */
-
   border-radius: 3px;
   /* hps */
-
 }
 .ms2side__options p.ms2side_hover,
 .ms2side__updown p.ms2side_hover {
   background-color: #3C3C3B;
   /* hps */
-
   border-color: #000000;
   color: #ffffff ;
   cursor: pointer;
@@ -6830,7 +6816,6 @@ span.customer_vendor_picker {
 .ms2side__div select {
   width: 12.0em;
   /*hps:400px*/
-
   float: left;
 }
 /* ------------------------------------------------------------- */
@@ -6845,11 +6830,8 @@ span.customer_vendor_picker {
   color: #fff;
   max-width: 400px ;
   /* Use this next selector to style things like font-size and line-height: */
-
   /* These next classes handle the styles for the little arrow attached to the tooltip. */
-
   /* By default, the arrow will inherit the same colors and border as what is set on the main tooltip itself. */
-
 }
 .tooltipster-default .tooltipster-content {
   font-size: 10pt;
@@ -6868,11 +6850,8 @@ span.customer_vendor_picker {
   left: 0;
   z-index: -1;
   /* This next selector defines the color of the border on the outside of the arrow. */
-
   /* This will automatically match the color and size of the border set on the main tooltip styles. */
-
   /* Set display: none; if you would like a border around the tooltip but no border around the arrow */
-
 }
 /* If you're using the icon option, use this next selector to style them */
 .tooltipster-icon {
@@ -7464,9 +7443,6 @@ body div.admin > form {
 /* ------------------------------------------------------------- */
 /* RESPONSIVE (responsive.less)                          */
 /* ------------------------------------------------------------- */
-@media screen and (max-device-width: 479px) {
-  
-}
 @media screen and (min-device-width: 480px) and (max-device-width: 767px) {
   body #content .tbl-horizontal th {
     width: 208px;
@@ -7598,9 +7574,6 @@ body div.admin > form {
   .tbl-horizontal th.wi-verywide {
     width: 208px;
   }
-}
-@media screen and (min-device-width: 1110px) {
-  
 }
 /* ------------------------------------------------------------- */
 /* PRINT (print.less)                                            */
@@ -7749,7 +7722,6 @@ body div.admin > form {
     background-color: none !important;
     background: none !important;
     /* rest needed for Firefox: */
-  
     overflow: visible    !important;
   }
   #content textarea {
