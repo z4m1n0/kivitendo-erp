@@ -75,10 +75,13 @@
      [% IF SELF.orphaned %]
        <td></td>
        <td></td>
-     [% END %]
-     <td></td>
-     <td colspan="2">[% L.button_tag('$("#assortment_picker").data("part_picker").open_dialog()', LxERP.t8('Add multiple items'), class='neutral') %]</td>
-     <!-- <td></td> -->
+       <td></td>
+       <td colspan="2">[% L.button_tag('$("#assortment_picker").data("part_picker").open_dialog()', LxERP.t8('Add multiple items'), class='neutral') %]</td>
+     [% ELSE %]
+       <td></td>
+       <td></td>
+       <td></td>
+     [% END %]  
      <td></td>
      <td></td>
      <td></td>
