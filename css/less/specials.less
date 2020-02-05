@@ -14,7 +14,9 @@
 //
 // CONTENTS:
 // - ACCOUNT LIST
-
+// - ROW POSITON DETAILS (E.G. SALES ORDER)
+// - TABLE #DISPLAY ROW
+// - DIV #CSV IMPORT REPORT TABLE WRAPPER
 // ----------------------------------------------------------------------------
 
 
@@ -27,7 +29,7 @@
   border-width: 0;
   thead{
     th{
-      //background-color: #E3E3E3 ; 
+      //background-color: #E3E3E3 ;
     }
 
   }
@@ -77,30 +79,30 @@
 
 td.row-position-detail{
   padding: 0 0 0.2em 0.4em !important;
-  
+
   div.table{
     display:             table;
     div.field{
       display:           table-row;
       padding:           0.1em 0 ;
       height:           2.0em !important; ;
-      
-      span.label{ 
+
+      span.label{
         width:           10.0em;
-        height:         2.0em !important; 
+        height:         2.0em !important;
         vertical-align: middle;
         display:         table-cell ;
         padding:         0.3em 0 0 0;
       }
-      
+
       span.value{
         height:         2.0em ;
-        span.data{ 
+        span.data{
           padding:       0.3em 0 0.2em 0.5em !important;
           display:       block;
         }
       }
-      
+
     } //div.field
   } // /div.table
 
@@ -127,5 +129,14 @@ table#display_row{
     }
   }
 
-} 
+}
 
+
+
+// --------------------------------------
+// DIV #CSV IMPORT REPORT TABLE WRAPPER
+// --------------------------------------
+
+div#csv_import_report_table_wrapper{
+  overflow-x: scroll;
+}

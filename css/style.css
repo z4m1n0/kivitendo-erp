@@ -52,7 +52,7 @@
   font-weight: normal;
   color: #292914 !important;
   padding: 0.2em 0 0.2em 0.2em;
-  margin: 0.1em 0 0.4em 0 ;
+  margin: 0.1em 0 0.4em 0;
   text-align: left;
   letter-spacing: 0.12em;
 }
@@ -173,7 +173,7 @@ a.cti_call_action {
   background-repeat: no-repeat;
 }
 .interact {
-  color: #808080;
+  color: gray;
 }
 .interact:hover {
   color: black;
@@ -231,7 +231,7 @@ body .layout-actionbar {
   float: right !important;
   width: auto;
   top: 68px ;
-  right: 0.2em ;
+  right: 0.2em;
   margin: 0 0.4em 0 0;
   padding: 0;
   background: none;
@@ -288,7 +288,7 @@ body #content .wrapper > table.tbl-horizontal:last-child {
 }
 body .full-width {
   width: 100% ;
-  padding: 0 0 1.0em 0 ;
+  padding: 0 0 1em 0;
   margin: 0 0 0 0;
 }
 body div.center {
@@ -354,20 +354,20 @@ body div.center {
 }
 #frame-header span.frame-header-left {
   float: left;
-  padding: 0 1.0em 0 0.2em ;
-  margin-right: 1.0em ;
+  padding: 0 1em 0 0.2em;
+  margin-right: 1em;
 }
 #frame-header span.frame-header-left > span {
-  padding-right: 1.0em ;
+  padding-right: 1em;
 }
 #frame-header span.frame-header-right {
   float: right;
   vertical-align: middle;
-  padding: 0 1.2em 0 1.0em ;
-  margin-left: 1.0em;
+  padding: 0 1.2em 0 1em;
+  margin-left: 1em;
 }
 #frame-header span.frame-header-right > span {
-  padding-left: 1.0em ;
+  padding-left: 1em;
 }
 #frame-header #ajax-spinner {
   display: none;
@@ -386,7 +386,7 @@ body div.center {
   width: auto !important;
   min-width: 5em;
   max-width: 7em;
-  padding: 0 0.2em ;
+  padding: 0 0.2em;
   border-width: 1px ;
   border-style: solid;
   border-top-color: #949494;
@@ -454,7 +454,7 @@ body div.center {
 }
 #menuv3 > ul > li ul li {
   border-bottom: 1px #666633 solid;
-  padding: 0.45em 0.6em 0.58em 0.8em ;
+  padding: 0.45em 0.6em 0.58em 0.8em;
 }
 #menuv3 > ul > li > ul {
   top: 32px;
@@ -466,7 +466,7 @@ body div.center {
 }
 #menuv3 > ul > li > ul > li div.x {
   background: no-repeat right url("../image/menu-arrow-to-right-5.png");
-  padding-right: 2.0em ;
+  padding-right: 2em;
 }
 #menuv3 > ul > li > ul > li:hover {
   color: #0e0e07;
@@ -493,7 +493,7 @@ body div.center {
   background-color: #ccccbb;
 }
 #menuv3 > ul > li > ul > li > ul > li:first-child {
-  border-top: 1px #800040 solid ;
+  border-top: 1px #800040 solid;
 }
 li.sub {
   position: relative;
@@ -539,7 +539,7 @@ body > div#layout-split-right > #content + div.wrapper {
   padding-top: 4em ;
 }
 body > div#layout-split-right > #content > form {
-  margin-top: 0.6em ;
+  margin-top: 0.6em;
 }
 body > div#layout-split-right > #content > form + div.wrapper {
   padding-top: 4em ;
@@ -710,10 +710,10 @@ div.layout-split-right.folded {
 }
 #main_menu_div .DHTMLSuite_menuBar_top > div .DHTMLSuite_menuItem_textContent {
   font-size: 90% ;
-  padding: 0.1em 0.2em 0.2em 0.2em ;
+  padding: 0.1em 0.2em 0.2em 0.2em;
 }
 #main_menu_div .DHTMLSuite_menuBar_top > div .DHTMLSuite_menuItem_top_arrowShowSub {
-  margin: 0 0.2em 0.2em 0.2em ;
+  margin: 0 0.2em 0.2em 0.2em;
 }
 #main_menu_div .DHTMLSuite_menuBar_top .DHTMLSuite_menuItem_top_regular,
 #main_menu_div .DHTMLSuite_menuBar_top .DHTMLSuite_menuItem_top_over,
@@ -763,7 +763,7 @@ div.layout-split-right.folded {
 }
 .DHTMLSuite_menuBar_sub .DHTMLSuite_menuItem_sub_over,
 .DHTMLSuite_menuBar_sub .DHTMLSuite_menuItem_sub_active {
-  color: #8d6a00;
+  color: #8D6A00;
   background-color: #ffffff;
 }
 /* ------------------------------------------------------------- */
@@ -893,7 +893,7 @@ div.layout-split-right.folded {
   position: relative;
   width: 100%;
   text-align: left;
-  padding: 0.6em 0.6em 0.6em 1.0em;
+  padding: 0.6em 0.6em 0.6em 1em;
   border-bottom: none !important;
   background-color: #ccccbb;
   color: #292914;
@@ -937,7 +937,7 @@ form {
 form.box {
   display: block;
   overflow: hidden ;
-  padding: 0 0 1.6em 0 ;
+  padding: 0 0 1.6em 0;
 }
 input,
 textarea,
@@ -948,14 +948,14 @@ select {
   border-color: darkgray lightgray lightgray;
   border-style: solid;
   outline: none;
-  background-color: #fff ;
+  background-color: #fff;
 }
 input[type="text"].accent,
 textarea[type="text"].accent,
 select[type="text"].accent {
   font-weight: bold ;
   font-size: 130% !important ;
-  padding: 0.6em auto !important ;
+  padding: 0.6em auto !important;
 }
 textarea {
   resize: vertical;
@@ -976,7 +976,7 @@ select.helper {
   background-color: #ffffff;
 }
 select > option {
-  padding-left: 0.6em ;
+  padding-left: 0.6em;
 }
 input[type="file"] {
   padding: 0.8em;
@@ -1813,7 +1813,7 @@ td.below textarea,
 th.below div.cke_editable,
 td.below div.cke_editable {
   clear: both;
-  margin-top: 0.4em  ;
+  margin-top: 0.4em;
 }
 td.wi-lightwide > span.customer_vendor_picker > input {
   width: 220px;
@@ -1844,19 +1844,19 @@ input[type=text].emphasized {
 }
 td img.ui-datepicker-trigger {
   vertical-align: middle ;
-  padding: 0 0.2em ;
+  padding: 0 0.2em;
 }
 td div.rowspan-table {
   display: table-row;
   float: left;
-  margin: 0.8em 2.8em 0.8em 0 ;
+  margin: 0.8em 2.8em 0.8em 0;
 }
 td div.rowspan-table div.label-n-value {
   display: table-cell;
   vertical-align: middle;
-  height: 1.6em !important ;
+  height: 1.6em !important;
   float: left;
-  padding: 0 2.0em 0 0 ;
+  padding: 0 2em 0 0;
 }
 td div.rowspan-table div.label-n-value b {
   font-weight: normal;
@@ -1908,23 +1908,23 @@ table td > span.data.right {
   text-align: right ;
 }
 div.boxes {
-  margin: 0 0 0.9em 0 ;
+  margin: 0 0 0.9em 0;
   overflow: hidden ;
   max-width: 800px ;
 }
 div.boxes h3 {
-  padding: 0.2em 0 0.2em 0.0em;
+  padding: 0.2em 0 0.2em 0em;
 }
 div.boxes h3 label {
   float: left;
   width: 88% ;
   font-size: 13pt;
-  padding: 0 0 0.6em 0.2em ;
-  line-height: 1.2em ;
+  padding: 0 0 0.6em 0.2em;
+  line-height: 1.2em;
 }
 div.boxes > div {
   clear: both;
-  margin: 0 0 0.6em 0 ;
+  margin: 0 0 0.6em 0;
   padding: 0;
   display: block ;
   overflow: hidden ;
@@ -1936,7 +1936,7 @@ div.boxes > div label {
 div.boxes > div input[type="checkbox"],
 div.boxes > div input[type="radio"] {
   float: left;
-  margin-right: 0.6em ;
+  margin-right: 0.6em;
 }
 td.horizontal input[type="radio"],
 td.horizontal input[type="checkbox"] {
@@ -1946,7 +1946,7 @@ td.horizontal input[type="checkbox"] {
 }
 td.horizontal label {
   width: auto !important;
-  margin-right: 2.0em ;
+  margin-right: 2em;
   float: left !important;
   clear: none !important;
 }
@@ -1972,8 +1972,8 @@ table.tbl-list td input[type="checkbox"] ~ label,
 table.tbl-plain td input[type="checkbox"] ~ label {
   float: left;
   width: auto;
-  margin-left: 0.2em ;
-  line-height: 1.4em ;
+  margin-left: 0.2em;
+  line-height: 1.4em;
 }
 table.tbl-horizontal td span.wi-date,
 table.tbl-list td span.wi-date,
@@ -2002,11 +2002,11 @@ div.admin form {
   font-size: 10pt;
 }
 div.admin form input[type="checkbox"] {
-  margin: 0.2em 0.6em 0.3em 0 ;
+  margin: 0.2em 0.6em 0.3em 0;
   float: left;
 }
 div.admin form h3 {
-  margin: 1.2em 0 0.6em 0 ;
+  margin: 1.2em 0 0.6em 0;
   display: block;
 }
 .ms2side {
@@ -2014,11 +2014,11 @@ div.admin form h3 {
   overflow: hidden;
 }
 .ms2side p {
-  margin: 0 0 0.4em 0 ;
+  margin: 0 0 0.4em 0;
 }
 .ms2side .ms2side__div .ms2side__header {
-  width: 12.0em ;
-  height: 2.2em ;
+  width: 12em;
+  height: 2.2em;
   display: table-cell;
   vertical-align: bottom;
 }
@@ -2033,7 +2033,7 @@ div.admin form h3 {
   color: #666666;
 }
 #content input::placeholder {
-  color: #999 ;
+  color: #999;
 }
 span.customer_vendor_picker {
   padding: 0 ;
@@ -2060,7 +2060,7 @@ table td span.project_picker {
   width: auto;
   min-width: 60em;
   max-width: 40em;
-  padding: 0.6em 0.8em ;
+  padding: 0.6em 0.8em;
   border-radius: 0.6em;
   border-style: solid;
   border-width: 1px;
@@ -2089,7 +2089,7 @@ table td span.project_picker {
   width: auto;
   min-width: 60em;
   max-width: 40em;
-  padding: 0.6em 0.8em ;
+  padding: 0.6em 0.8em;
   border-radius: 0.6em;
   border-style: solid;
   border-width: 1px;
@@ -2111,15 +2111,15 @@ table td span.project_picker {
   color: #ae0014;
 }
 .message_warning {
-  color: #8d6a00;
+  color: #8D6A00;
   background-color: #ffe38d;
-  border-color: 1px solid #8d6a00;
+  border-color: 1px solid #8D6A00;
 }
 .message_warning h4 {
-  color: #8d6a00;
+  color: #8D6A00;
 }
 .message_warning p {
-  color: #8d6a00;
+  color: #8D6A00;
 }
 .message_hint,
 .message_info {
@@ -2160,11 +2160,11 @@ table td span.project_picker {
 .message h4 {
   font-weight: bold;
   font-size: 110%;
-  margin: 0.4em 1.0em 0.2em 0 ;
+  margin: 0.4em 1em 0.2em 0;
   padding: 0;
 }
 .message p {
-  margin: 0 1.0em 0.6em 0 ;
+  margin: 0 1em 0.6em 0;
   padding: 0;
 }
 .message_error > .message_error,
@@ -2195,7 +2195,7 @@ table td span.project_picker {
   display: none;
 }
 p.message {
-  padding: 0.6em !important ;
+  padding: 0.6em !important;
 }
 #content > form > .message,
 #content > form > .ui-tabs > .ui-tabs-panel > .message {
@@ -2237,7 +2237,7 @@ p.message {
 body > div.login .message {
   width: 100% ;
   text-align: center ;
-  margin: 0 auto 1.0em auto ;
+  margin: 0 auto 1em auto;
 }
 .flash_message.flash_message_error {
   background-color: #ffaeb7;
@@ -2261,13 +2261,13 @@ body > div.login .message {
 }
 .flash_message.flash_message_warning {
   background-color: #ffe38d;
-  border-color: 1px solid #8d6a00;
-  color: #8d6a00;
+  border-color: 1px solid #8D6A00;
+  color: #8D6A00;
 }
 .flash_message.flash_message_warning a.button.wi-tiny,
 .flash_message.flash_message_warning a.icon-close {
-  border: 1px solid #8d6a00;
-  color: #8d6a00;
+  border: 1px solid #8D6A00;
+  color: #8D6A00;
 }
 .flash_message.flash_message_info {
   background-color: #ebf8fc;
@@ -2283,7 +2283,7 @@ body > div.login .message {
   font-weight: bold;
   float: left;
   display: block ;
-  padding-right: 1.0em ;
+  padding-right: 1em;
 }
 .flash_message .flash_notification {
   float: left;
@@ -2291,8 +2291,8 @@ body > div.login .message {
 }
 .flash_message a.button.wi-tiny {
   font-size: 76% ;
-  padding: 0 0.2em 0 0.2em ;
-  margin: 0 0.4em 0 0.4em  ;
+  padding: 0 0.2em 0 0.2em;
+  margin: 0 0.4em 0 0.4em;
   width: auto ;
   background-color: transparent;
 }
@@ -2344,7 +2344,7 @@ body > div.login .message {
 .flash_message div.message-container > div.flash_notification div.detail {
   display: block;
   clear: both ;
-  padding-top: 0.9em ;
+  padding-top: 0.9em;
 }
 .flash_message div.message-container > div.flash_notification div.detail span {
   display: block;
@@ -2447,14 +2447,14 @@ table th div.description {
 }
 table td.highlight,
 table th.highlight {
-  background-color: #b4f4fe;
+  background-color: #B4F4FE;
 }
 table td h3,
 table th h3,
 table td h4,
 table th h4 {
   margin: 0 !important ;
-  padding: 0.8em 0 0.2em 0 !important ;
+  padding: 0.8em 0 0.2em 0 !important;
 }
 table td > a,
 table th > a {
@@ -2486,12 +2486,12 @@ table td > input + div.description,
 table th > input + div.description,
 table td > select + div.description,
 table th > select + div.description {
-  margin-top: 0.4em ;
+  margin-top: 0.4em;
 }
 table td span.label,
 table th span.label {
   display: block ;
-  padding: 0 0 0.5em 0 ;
+  padding: 0 0 0.5em 0;
   color: #292914;
 }
 table td span.below,
@@ -2501,18 +2501,18 @@ table th span.below {
 }
 table td span.below input,
 table th span.below input {
-  margin: 0.6em 0 0 0 !important ;
+  margin: 0.6em 0 0 0 !important;
 }
 table td span.below input[type="checkbox"],
 table th span.below input[type="checkbox"] {
-  padding: 0.6em 0.6em 0 0 ;
+  padding: 0.6em 0.6em 0 0;
 }
 table td span.above,
 table th span.above {
   overflow: hidden ;
   display: block ;
-  margin-bottom: 0.4em ;
-  padding: 0.3em 0.3em 0 0 !important ;
+  margin-bottom: 0.4em;
+  padding: 0.3em 0.3em 0 0 !important;
 }
 table td + input.below,
 table th + input.below {
@@ -2526,7 +2526,7 @@ table th select.below {
   clear: left ;
   float: none ;
   overflow: hidden ;
-  margin: 0.3em 0 0 0 ;
+  margin: 0.3em 0 0 0;
 }
 table td textarea,
 table th textarea {
@@ -2543,19 +2543,19 @@ table tr.header-caption th {
 }
 table tr.separator th,
 table tr.separator td {
-  padding-bottom: 3.0em ;
+  padding-bottom: 3em;
 }
 table tr.separator.below th,
 table tr.separator.below td {
-  padding-bottom: 3.0em ;
+  padding-bottom: 3em;
 }
 table tr.separator.above th,
 table tr.separator.above td {
-  padding-top: 3.0em ;
+  padding-top: 3em;
   padding-bottom: 0   ;
 }
 table tr.total-sub {
-  height: 2.0em ;
+  height: 2em;
 }
 table tr.total-sub td {
   border-top: 1px solid #666633;
@@ -2573,7 +2573,7 @@ table th.caption {
   font-weight: normal;
   color: #292914 !important;
   padding: 0.2em 0 0.2em 0.2em;
-  margin: 0.1em 0 0.4em 0 ;
+  margin: 0.1em 0 0.4em 0;
   text-align: left;
   letter-spacing: 0.12em;
   white-space: nowrap ;
@@ -2599,7 +2599,7 @@ table tfoot tr th,
 table tfoot tr td {
   vertical-align: middle ;
   border-bottom: #666633 2px solid;
-  height: 1.8em ;
+  height: 1.8em;
   padding-top: 0.6em !important;
   padding-bottom: 0.6em !important;
 }
@@ -2673,7 +2673,7 @@ table.tbl-horizontal,
 table.tbl-plain,
 table.tbl-list,
 table.tbl-list-plain {
-  margin-bottom: 0.6em ;
+  margin-bottom: 0.6em;
   border-collapse: collapse ;
   border: none ;
 }
@@ -2681,21 +2681,21 @@ table.tbl-horizontal tr td > span,
 table.tbl-plain tr td > span,
 table.tbl-list tr td > span,
 table.tbl-list-plain tr td > span {
-  padding: 0.3em 0.3em 0.6em 0 ;
+  padding: 0.3em 0.3em 0.6em 0;
 }
 table.tbl-horizontal th,
 table.tbl-horizontal td {
   background: none ;
-  padding-top: 0.3em ;
-  padding-right: 0.2em ;
-  padding-bottom: 0.2em ;
-  padding-left: 0.3em ;
+  padding-top: 0.3em;
+  padding-right: 0.2em;
+  padding-bottom: 0.2em;
+  padding-left: 0.3em;
 }
 table.tbl-horizontal th > input[type="checkbox"],
 table.tbl-horizontal td > input[type="checkbox"],
 table.tbl-horizontal th > input[type="radio"],
 table.tbl-horizontal td > input[type="radio"] {
-  margin: 0.2em 0.3em 0 0 !important ;
+  margin: 0.2em 0.3em 0 0 !important;
 }
 table.tbl-horizontal th > input,
 table.tbl-horizontal td > input,
@@ -2707,7 +2707,7 @@ table.tbl-horizontal th > input.addition,
 table.tbl-horizontal td > input.addition,
 table.tbl-horizontal th > select.addition,
 table.tbl-horizontal td > select.addition {
-  margin-top: 0.3em !important ;
+  margin-top: 0.3em !important;
 }
 table.tbl-horizontal th .label-above,
 table.tbl-horizontal td .label-above {
@@ -2775,11 +2775,11 @@ table.tbl-horizontal td > span.plain-data {
 }
 table.tbl-horizontal td > span.label {
   color: #292914;
-  padding: 0 0.3em 0.5em 0 !important ;
+  padding: 0 0.3em 0.5em 0 !important;
 }
 table.tbl-horizontal td > span.button-inline {
   margin: 0 !important ;
-  padding: 0.3em 0 0 0 ;
+  padding: 0.3em 0 0 0;
   clear: both ;
   display: inline-block;
   vertical-align: middle ;
@@ -2789,7 +2789,7 @@ table.tbl-horizontal td > span.button-inline input[type="button"],
 table.tbl-horizontal td > span.button-inline button,
 table.tbl-horizontal td > span.button-inline a.button {
   float: left ;
-  margin: 0 0.3em 0 0 !important ;
+  margin: 0 0.3em 0 0 !important;
 }
 table.tbl-horizontal td > span.customer_vendor_picker {
   padding: 0 !important ;
@@ -2804,7 +2804,7 @@ table.tbl-horizontal td > span.switch-form-element {
   margin: -0.3em 1px 0 0 !important;
 }
 table.tbl-horizontal td > div.data {
-  padding: 0.1363em 0 ;
+  padding: 0.1363em 0;
 }
 table.tbl-horizontal td .plus1 {
   display: inline-block;
@@ -2816,7 +2816,7 @@ table.tbl-horizontal td > .condensed {
 }
 table.tbl-horizontal td > .condensed input,
 table.tbl-horizontal td > .condensed select {
-  margin-top: 0.2em ;
+  margin-top: 0.2em;
 }
 table.tbl-horizontal td > span.wi-small-wide {
   margin: 0 24px 0 0 ;
@@ -2827,7 +2827,7 @@ table.tbl-horizontal thead th {
   font-weight: normal;
   color: #292914 !important;
   padding: 0.2em 0 0.2em 0.2em;
-  margin: 0.1em 0 0.4em 0 ;
+  margin: 0.1em 0 0.4em 0;
   text-align: left;
   letter-spacing: 0.12em;
   border: none ;
@@ -2855,11 +2855,11 @@ table.tbl-horizontal.checkered tbody tr th {
   border-color: #666633;
   border-width: 1px ;
   border-style: solid ;
-  padding: 0.3em 0.6em ;
+  padding: 0.3em 0.6em;
 }
 table.tbl-horizontal.expanded th.caption {
-  padding-top: 1.2em ;
-  padding-bottom: 0.6em ;
+  padding-top: 1.2em;
+  padding-bottom: 0.6em;
 }
 table.tbl-plain tbody td a,
 table.tbl-list tbody td a,
@@ -2869,27 +2869,27 @@ table.tbl-list-plain tbody td a {
 table.tbl-list {
   border-spacing: 1px ;
   border-collapse: collapse ;
-  margin: 0 0 1.0em 0 ;
+  margin: 0 0 1em 0;
 }
 table.tbl-list > caption {
-  margin: 0.1em 0 0.0em 0 ;
+  margin: 0.1em 0 0em 0;
 }
 table.tbl-list td,
 table.tbl-list th {
-  padding: 0.2em 0.4em ;
+  padding: 0.2em 0.4em;
   white-space: normal ;
   vertical-align: middle ;
 }
 table.tbl-list > thead > tr th:first-child,
 table.tbl-list > tbody > tr th:first-child,
 table.tbl-list > tfoot > tr td:first-child {
-  padding-left: 0.8em !important ;
+  padding-left: 0.8em !important;
 }
 table.tbl-list thead {
   display: table-header-group;
 }
 table.tbl-list thead tr {
-  height: 2.2em ;
+  height: 2.2em;
 }
 table.tbl-list thead tr th {
   color: #ffffff;
@@ -2978,7 +2978,7 @@ table.tbl-list-plain thead td,
 table.tbl-plain thead td,
 table.tbl-list-plain tbody td,
 table.tbl-plain tbody td {
-  padding: 3px 0.3em 4px 0.3em !important ;
+  padding: 3px 0.3em 4px 0.3em !important;
 }
 table.tbl-list-plain thead th,
 table.tbl-plain thead th {
@@ -2993,7 +2993,7 @@ table.tbl-list-plain tr th,
 table.tbl-plain tr th,
 table.tbl-list-plain tr td,
 table.tbl-plain tr td {
-  padding: 0.3em inherit 0.3em 0.3em ;
+  padding: 0.3em inherit 0.3em 0.3em;
 }
 table.tbl-list-plain.condensed caption,
 table.tbl-plain.condensed caption {
@@ -3003,7 +3003,7 @@ table.tbl-list-plain.condensed td,
 table.tbl-plain.condensed td,
 table.tbl-list-plain.condensed th,
 table.tbl-plain.condensed th {
-  padding: 0.1em 7px 0.1em 1px ;
+  padding: 0.1em 7px 0.1em 1px;
 }
 table.tbl-list-plain.lined tr,
 table.tbl-plain.lined tr {
@@ -3039,17 +3039,17 @@ table.clear {
 }
 table.test th,
 table.test-plain th {
-  background-color: #b3b3b3 ;
+  background-color: #b3b3b3;
   color: #0e0e07;
   font-weight: normal ;
 }
 table.test th.caption,
 table.test-plain th.caption {
-  background-color: #b3b3b3 ;
+  background-color: #b3b3b3;
 }
 table.test td,
 table.test-plain td {
-  background-color: #cfcdd2 ;
+  background-color: #cfcdd2;
 }
 table.test td.longdesc,
 table.test-plain td.longdesc,
@@ -3063,27 +3063,27 @@ table.test-plain td.long-description {
 }
 table.test table,
 table.test-plain table {
-  border: 1px #0000ff solid ;
+  border: 1px #0000ff solid;
   border-collapse: collapse ;
 }
 table.test table td,
 table.test-plain table td,
 table.test table th,
 table.test-plain table th {
-  border: 1px #c20d18 dotted !important ;
+  border: 1px #c20d18 dotted !important;
 }
 table.test th {
   border: 1px #666666 solid !important;
-  background-color: #b3b3b3 ;
-  color: #000 ;
+  background-color: #b3b3b3;
+  color: #000;
   font-weight: normal ;
 }
 table.test th.caption {
   background-color: transparent;
 }
 table.test td {
-  border: 1px #000 solid ;
-  background-color: #cfcdd2 ;
+  border: 1px #000 solid;
+  background-color: #cfcdd2;
 }
 table.test td.longdesc,
 table.test td.longdescription,
@@ -3092,12 +3092,12 @@ table.test td.long-description {
   border: 1px solid green !important ;
 }
 table.test table {
-  border: 2px #0000ff solid ;
+  border: 2px #0000ff solid;
   border-collapse: collapse ;
 }
 table.test table td,
 table.test table th {
-  border: 1px #c20d18 dotted !important ;
+  border: 1px #c20d18 dotted !important;
 }
 table.wi-smallest,
 table colgroup col.wi-smallest {
@@ -3263,8 +3263,8 @@ table.wi-moderate td,
 table.width-moderate th,
 table.moderate-width th,
 table.wi-moderate th {
-  padding-left: 0.6em ;
-  padding-right: 1.2em ;
+  padding-left: 0.6em;
+  padding-right: 1.2em;
 }
 div.wrapper table.tbl-list tr,
 div.cols table.tbl-list tr {
@@ -3272,14 +3272,14 @@ div.cols table.tbl-list tr {
   border-right: 1px solid #666633;
 }
 #content .ui-tabs-panel > table.tbl-list caption {
-  margin-left: 0.3em ;
+  margin-left: 0.3em;
 }
 #content .ui-tabs-panel > table.tbl-list caption {
-  margin-left: 0.3em ;
+  margin-left: 0.3em;
 }
 #content > table.tbl-plain,
 #content > table.tbl-list-plain {
-  margin-top: 1.0em ;
+  margin-top: 1em;
 }
 span.sort {
   display: inline-block;
@@ -3316,7 +3316,7 @@ span.sort_symbol a.descending {
   border-left: 1px #666633 solid;
 }
 span.sort_symbol a.active {
-  color: #ffffff ;
+  color: #ffffff;
 }
 span.sort_symbol a:link,
 span.sort_symbol a:visited {
@@ -3367,7 +3367,7 @@ ul {
 ul.footnotes {
   list-style-type: none !important ;
   list-style-position: outside ;
-  margin: 0 0 0 1.8em !important ;
+  margin: 0 0 0 1.8em !important;
 }
 ul.footnotes li sup {
   display: inline-block;
@@ -3378,18 +3378,18 @@ ul.footnotes li > ul {
   position: relative;
   list-style-type: circle ;
   list-style-position: outside ;
-  margin: 0.3em 0 0.3em 1.4em !important ;
+  margin: 0.3em 0 0.3em 1.4em !important;
 }
 ul li ul {
   list-style-type: circle ;
   list-style-position: outside ;
 }
 div.table {
-  margin-bottom: 1.0em ;
+  margin-bottom: 1em;
 }
 div.table.col {
   float: left ;
-  margin-right: 1.6em ;
+  margin-right: 1.6em;
 }
 div.table div.caption {
   clear: left ;
@@ -3401,7 +3401,7 @@ div.table div.field {
   clear: left ;
   display: block ;
   overflow: hidden ;
-  margin-right: 2.0em ;
+  margin-right: 2em;
 }
 div.table div.field span.label {
   display: inline-block;
@@ -3421,13 +3421,13 @@ div.list {
 }
 div.list.col {
   float: left ;
-  margin-right: 2.6em !important ;
+  margin-right: 2.6em !important;
   width: auto ;
   min-width: 110px ;
 }
 div.list h4 {
-  padding: 0.6em 0 0.2em 0.0em !important ;
-  margin: 0.2em 0 0 0 ;
+  padding: 0.6em 0 0.2em 0em !important;
+  margin: 0.2em 0 0 0;
   font-weight: normal;
   font-size: 11pt;
   font-family: "Helvetica Neue", Helvetica, Arial;
@@ -3435,7 +3435,7 @@ div.list h4 {
 }
 div.list > p,
 div.list > div {
-  padding: 0.2em 0 0.2em 0 !important ;
+  padding: 0.2em 0 0.2em 0 !important;
   margin: 0 !important ;
   white-space: normal ;
 }
@@ -3444,7 +3444,7 @@ div.list > div > input[type="checkbox"],
 div.list > p > input[type="radio"],
 div.list > div > input[type="radio"] {
   padding: 0 ;
-  margin: 0.3em 0.3em 0 0 ;
+  margin: 0.3em 0.3em 0 0;
   float: left ;
 }
 div.list > p label,
@@ -3458,7 +3458,7 @@ div.list > p {
 div.list > input[type="checkbox"] {
   clear: both;
   float: left;
-  margin-right: 0.4em ;
+  margin-right: 0.4em;
 }
 div.list > label {
   width: 82% ;
@@ -3469,7 +3469,7 @@ div.list div {
 div.list > div.no-rows > input[type="checkbox"],
 div.list > div.no-rows > input[type="radio"] {
   padding: 0 ;
-  margin: 0.3em 0.3em 0 0 ;
+  margin: 0.3em 0.3em 0 0;
   clear: left ;
 }
 div.list > div.no-rows label {
@@ -3586,7 +3586,7 @@ input[type="submit"].wi-verytiny,
 input[type="reset"].wi-verytiny,
 button.wi-verytiny {
   font-size: 8pt !important;
-  padding: 0.0em 0.3em 0.1em 0.3em;
+  padding: 0em 0.3em 0.1em 0.3em;
   display: inline-block;
   min-height: 17px;
   max-height: 17px;
@@ -3675,7 +3675,7 @@ input[type="reset"].positions,
 input[type="reset"].neutral.positions,
 button.neutral.positions,
 button[type="reset"].positions {
-  padding-right: 1.2em ;
+  padding-right: 1.2em;
 }
 input[type="button"].below {
   clear: both !important;
@@ -3773,11 +3773,11 @@ a.button.toggle {
 }
 a.button.toggle.off::after {
   content: " ▸";
-  padding-right: 1.0em;
+  padding-right: 1em;
 }
 a.button.toggle.on::after {
   content: " ▾";
-  padding-right: 1.0em;
+  padding-right: 1em;
 }
 a.button.toggle.with-panel {
   margin-bottom: 0 ;
@@ -3846,7 +3846,7 @@ a.button.toggle:hover {
   text-decoration: none;
 }
 div.buttons {
-  padding: 1.0em ;
+  padding: 1em;
   clear: left ;
   display: block;
 }
@@ -3869,7 +3869,7 @@ div.buttons.below {
 }
 .col > .buttons,
 .wrapper * .buttons {
-  padding: 1.0em 1.0em 1.0em 0 !important;
+  padding: 1em 1em 1em 0 !important;
 }
 .button-image {
   display: inline-block;
@@ -3898,7 +3898,7 @@ input[type="button"].button-image.delete {
   overflow: hidden ;
 }
 .control-panel span.label {
-  padding-right: 0.6em ;
+  padding-right: 0.6em;
 }
 .form-addition {
   padding: 0.8em 1em 1.4em 1.2em !important;
@@ -3917,7 +3917,7 @@ input[type="button"].button-image.delete {
   font-style: normal;
 }
 .form-addition div.list {
-  margin-top: 0.2em !important ;
+  margin-top: 0.2em !important;
 }
 .select-item {
   display: inline-block;
@@ -3934,7 +3934,7 @@ input[type="button"].button-image.delete {
 }
 .select-item input,
 .select-item select {
-  margin-left: 0.6em ;
+  margin-left: 0.6em;
 }
 .select-item span.label {
   float: left ;
@@ -3949,15 +3949,15 @@ input[type="button"].button-image.delete {
 }
 .select-item .floating-boxes {
   display: table ;
-  margin: 0.4em 0 0.8em 0 ;
+  margin: 0.4em 0 0.8em 0;
 }
 .select-item .floating-boxes .floating-box {
   display: table-cell;
   float: left ;
   font-size: 9pt;
-  height: 1.9em ;
+  height: 1.9em;
   vertical-align: middle;
-  padding: 0 2.0em 0 0 ;
+  padding: 0 2em 0 0;
 }
 .select-item .floating-boxes .floating-box .button,
 .select-item .floating-boxes .floating-box button {
@@ -3970,7 +3970,7 @@ input[type="button"].button-image.delete {
   height: 160%;
 }
 .select-item .floating-boxes .floating-box input[type="checkbox"] {
-  margin: 0 0.4em 0 0 ;
+  margin: 0 0.4em 0 0;
 }
 .select-item .floating-boxes .floating-box select {
   margin: -0.3em 0 0 0;
@@ -3980,7 +3980,7 @@ input[type="button"].button-image.delete {
   vertical-align: top ;
 }
 .wrapper > .select-item {
-  margin: 0.8em 0 1.0em 0 ;
+  margin: 0.8em 0 1em 0;
 }
 .toggle_panel.control-panel {
   border: none !important;
@@ -3997,7 +3997,7 @@ input[type="button"].button-image.delete {
 }
 .toggle_panel span.summary {
   font-size: 10pt;
-  padding-left: 2.0em;
+  padding-left: 2em;
   color: #292914;
 }
 .toggle_panel .toggle_panel_block {
@@ -4033,16 +4033,16 @@ input[type="button"].button-image.delete {
 }
 #content .input-panel p {
   font-size: 9pt;
-  margin: 0 0 0.4em 0 ;
+  margin: 0 0 0.4em 0;
 }
 #content .input-panel table.condensed {
   margin-bottom: 0.1em;
 }
 #content .input-panel table.condensed caption {
-  padding-top: 0.1em ;
+  padding-top: 0.1em;
 }
 #content .input-panel table.condensed td span.label {
-  padding-right: 0.6em ;
+  padding-right: 0.6em;
 }
 #content .input-panel table.condensed td span.label.above {
   margin-bottom: 0em ;
@@ -4063,7 +4063,7 @@ input[type="button"].button-image.delete {
 }
 .paginate > a,
 .paginate > span {
-  padding: 0.4em 0.6em !important ;
+  padding: 0.4em 0.6em !important;
   margin-top: -1px;
 }
 .paginate .paginate-prev {
@@ -4104,7 +4104,7 @@ table.jump-to {
   border: 1px #666633 solid;
   border-radius: 0.6em;
   background-color: #f5f5f1;
-  margin: 0.8em 2.0em 0 1.2em !important;
+  margin: 0.8em 2em 0 1.2em !important;
 }
 table.jump-to.right {
   float: right;
@@ -4118,8 +4118,8 @@ div.float-cells-table {
 div.float-cells-table div.caption {
   float: left;
   display: block;
-  width: auto:
-    padding: 0 2.0em 0 0;
+  width: auto;
+  padding: 0 2em 0 0;
   margin: 0;
 }
 div.float-cells-table div.cells {
@@ -4131,7 +4131,7 @@ div.float-cells-table div.cells {
 }
 div.float-cells-table div.cells div.cell {
   float: left;
-  padding: 0 2.0em 0 0;
+  padding: 0 2em 0 0;
   border-right: 1px #fff solid;
   background-color: #FC6;
 }
@@ -4156,7 +4156,7 @@ h1 {
   margin: 0;
   font-weight: normal;
   font-size: 12pt;
-  line-height: 1.2em ;
+  line-height: 1.2em;
 }
 #content > h1 {
   position: fixed;
@@ -4186,17 +4186,17 @@ h2 {
 }
 #content > h2,
 .admin > h2 {
-  padding: 0.6em 0.2em ;
-  margin: 0.6em 0 0 0 ;
+  padding: 0.6em 0.2em;
+  margin: 0.6em 0 0 0;
 }
 #content ui-tabs-panel .wrapper > h2,
 .admin ui-tabs-panel .wrapper > h2 {
-  padding: 0 0.2em 0.6em 0.2em ;
+  padding: 0 0.2em 0.6em 0.2em;
   margin: 1.6em 0 0.4em 0;
 }
 #content .wrapper > h2,
 .admin .wrapper > h2 {
-  padding: 2.0em 0.2em 0.6em 0.2em ;
+  padding: 2em 0.2em 0.6em 0.2em;
   margin: 0 ;
   font-weight: normal;
   clear: both;
@@ -4214,7 +4214,7 @@ h2.error {
 h2.record-title {
   padding: 0.6em 0 0 0 !important;
   font-size: 13pt;
-  color: #000000;
+  color: #000;
 }
 h2.record-title small {
   color: #000000;
@@ -4232,7 +4232,7 @@ h3 {
   font-weight: normal;
   color: #292914 !important;
   padding: 0.2em 0 0.2em 0.2em;
-  margin: 0.1em 0 0.4em 0 ;
+  margin: 0.1em 0 0.4em 0;
   text-align: left;
   letter-spacing: 0.12em;
 }
@@ -4242,10 +4242,10 @@ h3.caption {
 #content h3 {
   color: #000000;
   padding-left: 0 ;
-  margin: 0.8em 0 0.4em 0 ;
+  margin: 0.8em 0 0.4em 0;
 }
 #content .wrapper h3 {
-  margin-top: 1.0em ;
+  margin-top: 1em;
 }
 #content .wrapper h3:first-child {
   margin-top: 0 ;
@@ -4394,7 +4394,7 @@ div.longdesc ol li {
 div.description {
   display: block;
   float: left ;
-  padding: 0 0 0.6em 0 ;
+  padding: 0 0 0.6em 0;
 }
 div.description.wi-verysmall {
   width: 80px;
@@ -4438,7 +4438,7 @@ span.label {
   font-style: normal ;
 }
 span.value {
-  color: #000 ;
+  color: #000;
 }
 .center {
   margin: 0 auto;
@@ -4447,7 +4447,7 @@ span.value {
 .accent div.label {
   float: left ;
   font-size: 80% ;
-  padding-top: 0.8em ;
+  padding-top: 0.8em;
 }
 .accent div.data {
   float: left ;
@@ -4473,7 +4473,7 @@ pre.filecontent {
 .wrapper {
   overflow: hidden ;
   margin: 1em 1em 1em 1.2em;
-  padding: 0 0 1.0em 0 ;
+  padding: 0 0 1em 0;
   clear: both ;
   display: block ;
   border: 1px transparent solid ;
@@ -4483,7 +4483,7 @@ pre.filecontent {
   margin-left: 0 !important ;
 }
 .wrapper.test {
-  background-color: #FFE67C ;
+  background-color: #FFE67C;
 }
 .wrapper .tbl-horizontal,
 .wrapper .tbl-plain {
@@ -4494,7 +4494,7 @@ pre.filecontent {
 }
 .wrapper.toggled {
   display: inline-block !important;
-  width: 98.6% ;
+  width: 98.6%;
 }
 .wrapper.toggled > table.tbl-horizontal,
 .wrapper.toggled > div.col {
@@ -4563,11 +4563,11 @@ pre.filecontent {
   clear: left ;
 }
 .wrapper > p {
-  max-width: 36.0em ;
+  max-width: 36em;
   overflow: hidden ;
   font-size: 9pt;
   line-height: 140%;
-  padding-bottom: 1.0em ;
+  padding-bottom: 1em;
 }
 .plus,
 .minus,
@@ -4637,12 +4637,12 @@ div.login h1 {
   vertical-align: middle;
   background-color: green ;
   color: white ;
-  padding: 0.8em 0 ;
+  padding: 0.8em 0;
   z-index: 10 ;
 }
 div#login #login-elements,
 div.login #login-elements {
-  width: 34.0em ;
+  width: 34em;
   margin: 0 auto ;
   text-align: center ;
   display: block ;
@@ -4663,8 +4663,8 @@ div#login #login-elements div.logo,
 div.login #login-elements div.logo {
   width: auto;
   clear: both;
-  margin: 3.0em auto 1.0em auto ;
-  padding: 2.0em 0 0 0 ;
+  margin: 3em auto 1em auto;
+  padding: 2em 0 0 0;
 }
 div#login #login-elements form,
 div.login #login-elements form {
@@ -4673,13 +4673,13 @@ div.login #login-elements form {
 }
 div#login #login-elements div.separate-form,
 div.login #login-elements div.separate-form {
-  background-color: #ddd ;
+  background-color: #ddd;
   border: 1px #888888 solid;
   border-radius: 0.6em;
   display: block ;
   margin: 0 auto ;
   width: 100% ;
-  padding: 0 0.6em 1.0em 0.6em ;
+  padding: 0 0.6em 1em 0.6em;
 }
 div#login #login-elements table.login,
 div.login #login-elements table.login {
@@ -4689,11 +4689,11 @@ div.login #login-elements table.login {
 }
 div#login #login-elements table.login input[type="submit"],
 div.login #login-elements table.login input[type="submit"] {
-  margin-top: 0.2em ;
+  margin-top: 0.2em;
 }
 div#login #login-elements table.login caption,
 div.login #login-elements table.login caption {
-  margin: 0.7em 0 0.4em 0 ;
+  margin: 0.7em 0 0.4em 0;
 }
 div#login #login-elements table.login td select,
 div.login #login-elements table.login td select {
@@ -4707,9 +4707,9 @@ div.login #login-elements .message {
 }
 div.logged-in {
   margin: 0 auto ;
-  padding: 1.0em 0.5em 2.0em 0.5em ;
-  width: 60.0em;
-  min-width: 60.0em;
+  padding: 1em 0.5em 2em 0.5em;
+  width: 60em;
+  min-width: 60em;
   overflow: hidden;
 }
 div.logged-in .col {
@@ -4730,21 +4730,21 @@ div.logged-in .message {
 /* ------------------------------------------------------------- */
 #requirement_spec_version {
   padding: 0.6em 1em 1.2em 1.8em;
-  letter-spacing: 0.16em ;
+  letter-spacing: 0.16em;
   font-size: 110% ;
 }
 #column-container {
   padding-left: 0;
   padding-right: 0;
   margin-left: 0;
-  margin-top: 0.2em ;
+  margin-top: 0.2em;
   margin-right: 0;
   overflow: hidden ;
 }
 #column-container #tree-column {
   float: left;
   width: 30em;
-  padding: 0.3em 1.2em 2.0em 0.8em;
+  padding: 0.3em 1.2em 2em 0.8em;
   border-right: 1px #000 solid;
   background-color: none;
 }
@@ -4768,7 +4768,7 @@ div.logged-in .message {
 #column-container #content-column {
   float: left;
   width: 58em;
-  padding-left: 3.0em;
+  padding-left: 3em;
   background-color: none;
 }
 #column-container #content-column #column-content .section {
@@ -4801,7 +4801,7 @@ div.logged-in .message {
   font-weight: normal;
   font-size: 100% ;
   /* margin:       0 0 1.2em 0; */
-  padding: 0 0 0.0em 0;
+  padding: 0 0 0em 0;
   display: block;
 }
 #column-container #content-column #column-content .section .section-header .section-description div span.label {
@@ -4815,20 +4815,20 @@ div.logged-in .message {
 }
 #column-container #content-column #column-content .section .section-header .section-context-menu h3 {
   background-color: #000;
-  color: #000 !important ;
+  color: #000 !important;
 }
 #column-container #content-column #column-content .section .section-header .section-context-menu h3 span.label {
   font-weight: normal;
 }
 #column-container #content-column #column-content .section .section-header #section-list-empty {
-  border: 1px #0C42FF solid ;
-  background-color: #BBCDFF ;
-  padding: 0.6em ;
+  border: 1px #0C42FF solid;
+  background-color: #BBCDFF;
+  padding: 0.6em;
 }
 #column-container #content-column #column-content .function-block {
   border-top: 1px solid #bbb;
   margin: 0 ;
-  padding: 0.8em 0 1.8em 0 ;
+  padding: 0.8em 0 1.8em 0;
   overflow: hidden;
   display: block;
   clear: both;
@@ -4845,7 +4845,7 @@ div.logged-in .message {
 }
 #column-container #content-column #column-content .function-block .function-block-content .function-block-header .function-block-number {
   font-weight: normal;
-  width: 5.0em ;
+  width: 5em;
   display: block;
   float: left;
 }
@@ -4854,7 +4854,7 @@ div.logged-in .message {
   overflow: hidden;
   float: left;
   width: 80%;
-  padding-bottom: 1.0em ;
+  padding-bottom: 1em;
   font-weight: normal;
 }
 #column-container #content-column #column-content .function-block .function-block-content .function-block-header .function-block-desc p {
@@ -4866,7 +4866,7 @@ div.logged-in .message {
 }
 #column-container #content-column #column-content .function-block .function-block-content .function-block-properties {
   display: block ;
-  margin: 0 0 0 5.0em;
+  margin: 0 0 0 5em;
   padding: 0 ;
   overflow: hidden;
   clear: both;
@@ -4890,14 +4890,14 @@ div.logged-in .message {
 }
 #column-container #content-column #column-content .function-block .sub-function-block-container .sub-function-block-header {
   border-top: 1px solid #ccc;
-  padding: 0.4em 0 0.4em 0.6em ;
+  padding: 0.4em 0 0.4em 0.6em;
   font-size: 86% ;
   letter-spacing: 0.2em;
 }
 #column-container #content-column #column-content .function-block .sub-function-block-container .sub-function-block {
   border-top: 1px solid #ccc;
   margin: 0.2em 0 0.2em 0;
-  padding: 0.2em 0 0.4em 0 ;
+  padding: 0.2em 0 0.4em 0;
 }
 #column-container #content-column #column-content .function-block .sub-function-block-container .sub-function-block .sub-function-block-content {
   margin: 0.2em 0 0.2em 0;
@@ -4907,7 +4907,7 @@ div.logged-in .message {
   font-weight: normal;
   font-size: 120% ;
   color: #666666;
-  margin-top: 1.0em ;
+  margin-top: 1em;
 }
 #column-container #content-column #column-content .function-block-form > div {
   padding: 0.4em;
@@ -4932,7 +4932,7 @@ div.logged-in .message {
   color: #bbb;
 }
 #requirement_spec_tabs #function-blocks-tab {
-  margin-top: 1.4em ;
+  margin-top: 1.4em;
 }
 .requirement-spec-text-block {
   border-left: 0;
@@ -4978,7 +4978,7 @@ div.logged-in .message {
   width: 66% ;
 }
 #time_cost_estimate table tbody tr.section th {
-  line-height: 2.2em ;
+  line-height: 2.2em;
   color: #000000;
 }
 #time_cost_estimate table tbody tr.section th b {
@@ -5016,25 +5016,25 @@ div.function-block * table.tbl-horizontal td {
   font-size: 14pt;
 }
 #tbl-accounts tbody tr.heading.th1 th {
-  padding: 1.0em 0 0.4em 0 ;
+  padding: 1em 0 0.4em 0;
 }
 #tbl-accounts tbody tr.heading.th2 {
   font-size: 11pt;
 }
 #tbl-accounts tbody tr.heading.th2 th {
-  padding: 1.0em 0 0.4em 0 ;
+  padding: 1em 0 0.4em 0;
 }
 #tbl-accounts tbody tr.heading.th3 {
   font-size: 10pt;
 }
 #tbl-accounts tbody tr.heading.th3 th {
-  padding: 1.0em 0 0.4em 0 ;
+  padding: 1em 0 0.4em 0;
 }
 #tbl-accounts tbody td:first-child {
   text-align: right !important;
 }
 #tbl-accounts tbody tr.ajax-account-details td {
-  padding: 0.8em 0 1.0em 4.0em ;
+  padding: 0.8em 0 1em 4em;
 }
 td.row-position-detail {
   padding: 0 0 0.2em 0.4em !important;
@@ -5044,18 +5044,18 @@ td.row-position-detail div.table {
 }
 td.row-position-detail div.table div.field {
   display: table-row;
-  padding: 0.1em 0 ;
-  height: 2.0em !important;
+  padding: 0.1em 0;
+  height: 2em !important;
 }
 td.row-position-detail div.table div.field span.label {
-  width: 10.0em;
-  height: 2.0em !important;
+  width: 10em;
+  height: 2em !important;
   vertical-align: middle;
   display: table-cell;
   padding: 0.3em 0 0 0;
 }
 td.row-position-detail div.table div.field span.value {
-  height: 2.0em ;
+  height: 2em;
 }
 td.row-position-detail div.table div.field span.value span.data {
   padding: 0.3em 0 0.2em 0.5em !important;
@@ -5063,10 +5063,13 @@ td.row-position-detail div.table div.field span.value span.data {
 }
 table#display_row tbody tr td a.row-position {
   float: left;
-  padding: 0.6em 0.2em 0 0 ;
+  padding: 0.6em 0.2em 0 0;
 }
 table#display_row tbody tr td input.row-position {
   float: left;
+}
+div#csv_import_report_table_wrapper {
+  overflow-x: scroll;
 }
 /* ------------------------------------------------------------- */
 /* JQUERY UI (jquery-ui.less)                                    */
@@ -5211,12 +5214,12 @@ table#display_row tbody tr td input.row-position {
   cursor: pointer;
   position: relative;
   margin-top: 2px;
-  padding: .5em .5em .5em .7em;
+  padding: 0.5em 0.5em 0.5em 0.7em;
   min-height: 0;
 }
 .ui-accordion .ui-accordion-header .ui-accordion-header-icon {
   position: absolute;
-  left: .5em;
+  left: 0.5em;
   top: 50%;
   margin-top: -8px;
 }
@@ -5232,7 +5235,7 @@ table#display_row tbody tr td input.row-position {
   padding-left: 2.2em;
 }
 .ui-accordion .ui-accordion-noicons {
-  padding-left: .7em;
+  padding-left: 0.7em;
 }
 .ui-autocomplete {
   position: absolute;
@@ -5243,7 +5246,7 @@ table#display_row tbody tr td input.row-position {
 }
 .ui-autocomplete .ui-menu-item a:hover {
   background-color: #292914;
-  color: #fff ;
+  color: #fff;
 }
 .ui-autocomplete li a {
   display: block ;
@@ -5254,14 +5257,14 @@ table#display_row tbody tr td input.row-position {
 .ui-autocomplete li a:hover {
   background-color: #C9C9C9;
   border: none ;
-  color: #000 ;
+  color: #000;
 }
 .ui-button {
   display: inline-block;
   position: relative;
   padding: 0;
   line-height: normal;
-  margin-right: .1em;
+  margin-right: 0.1em;
   cursor: pointer;
   vertical-align: middle;
   text-align: center;
@@ -5290,27 +5293,27 @@ button.ui-button-icons-only {
   line-height: normal;
 }
 .ui-button-text-only .ui-button-text {
-  padding: .4em 1em;
+  padding: 0.4em 1em;
 }
 .ui-button-icon-only .ui-button-text,
 .ui-button-icons-only .ui-button-text {
-  padding: .4em;
+  padding: 0.4em;
   text-indent: -9999999px;
 }
 .ui-button-text-icon-primary .ui-button-text,
 .ui-button-text-icons .ui-button-text {
-  padding: .4em 1em .4em 2.1em;
+  padding: 0.4em 1em 0.4em 2.1em;
 }
 .ui-button-text-icon-secondary .ui-button-text,
 .ui-button-text-icons .ui-button-text {
-  padding: .4em 2.1em .4em 1em;
+  padding: 0.4em 2.1em 0.4em 1em;
 }
 .ui-button-text-icons .ui-button-text {
   padding-left: 2.1em;
   padding-right: 2.1em;
 }
 input.ui-button {
-  padding: .4em 1em;
+  padding: 0.4em 1em;
 }
 .ui-button-icon-only .ui-icon,
 .ui-button-text-icon-primary .ui-icon,
@@ -5328,12 +5331,12 @@ input.ui-button {
 .ui-button-text-icon-primary .ui-button-icon-primary,
 .ui-button-text-icons .ui-button-icon-primary,
 .ui-button-icons-only .ui-button-icon-primary {
-  left: .5em;
+  left: 0.5em;
 }
 .ui-button-text-icon-secondary .ui-button-icon-secondary,
 .ui-button-text-icons .ui-button-icon-secondary,
 .ui-button-icons-only .ui-button-icon-secondary {
-  right: .5em;
+  right: 0.5em;
 }
 .ui-buttonset {
   margin-right: 7px;
@@ -5349,7 +5352,7 @@ button.ui-button::-moz-focus-inner {
 }
 .ui-datepicker {
   width: 17em;
-  padding: .2em .2em 0;
+  padding: 0.2em 0.2em 0;
   display: none;
 }
 .ui-datepicker.ui-widget-content {
@@ -5405,7 +5408,7 @@ button.ui-button::-moz-focus-inner {
   margin: 1px 0;
 }
 .ui-datepicker .ui-datepicker-header .ui-datepicker-title select.ui-datepicker-month {
-  margin-right: 0.2em ;
+  margin-right: 0.2em;
 }
 .ui-datepicker .ui-datepicker-header select.ui-datepicker-month-year {
   width: 100%;
@@ -5451,11 +5454,11 @@ button.ui-button::-moz-focus-inner {
   text-decoration: none;
 }
 .ui-datepicker table td a.ui-state-hover {
-  color: #ffffff ;
+  color: #ffffff;
   background-color: #1b1b0e;
 }
 .ui-datepicker table.ui-datepicker-calendar .ui-state-highlight {
-  color: #ffffff ;
+  color: #ffffff;
   background-color: #1b1b0e;
   border: 1px #888888 solid;
 }
@@ -5463,9 +5466,9 @@ button.ui-button::-moz-focus-inner {
   color: #292914;
 }
 .ui-datepicker table.ui-datepicker-calendar td a.ui-state-hover {
-  color: #ffffff ;
+  color: #ffffff;
   background-color: #000000;
-  border: #000000 ;
+  border: #000000;
 }
 .ui-datepicker table.ui-datepicker-calendar td a.ui-state-active {
   border: 1px solid #292914;
@@ -5482,9 +5485,9 @@ button.ui-button::-moz-focus-inner {
 }
 .ui-datepicker .ui-datepicker-buttonpane button {
   float: right;
-  margin: .5em .2em .4em;
+  margin: 0.5em 0.2em 0.4em;
   cursor: pointer;
-  padding: .2em .6em .3em .6em;
+  padding: 0.2em 0.6em 0.3em 0.6em;
   width: auto;
   overflow: visible;
 }
@@ -5506,7 +5509,7 @@ button.ui-button::-moz-focus-inner {
 }
 .ui-datepicker.ui-datepicker-multi .ui-datepicker-group table {
   width: 95%;
-  margin: 0 auto .4em;
+  margin: 0 auto 0.4em;
 }
 .ui-datepicker.ui-datepicker-multi .ui-datepicker-group-last .ui-datepicker-header,
 .ui-datepicker.ui-datepicker-multi .ui-datepicker-group-middle .ui-datepicker-header {
@@ -5531,7 +5534,7 @@ button.ui-button::-moz-focus-inner {
 }
 img.ui-datepicker-trigger {
   vertical-align: middle;
-  margin-left: 0.2em ;
+  margin-left: 0.2em;
 }
 .ui-dialog {
   z-index: 8001 ;
@@ -5543,7 +5546,7 @@ img.ui-datepicker-trigger {
   border-radius: 0.6em;
 }
 .ui-dialog .ui-dialog-titlebar {
-  padding: 0.4em 1.0em;
+  padding: 0.4em 1em;
   border: none;
   background-color: #292914 !important;
   color: #e0e0d6 !important;
@@ -5590,7 +5593,7 @@ img.ui-datepicker-trigger {
   float: right;
 }
 .ui-dialog .ui-dialog-buttonpane button {
-  margin: .5em .4em .5em 0;
+  margin: 0.5em 0.4em 0.5em 0;
   cursor: pointer;
 }
 .ui-dialog .ui-resizable-se {
@@ -5625,7 +5628,7 @@ img.ui-datepicker-trigger {
 .ui-menu .ui-menu-item a {
   text-decoration: none;
   display: block;
-  padding: 2px .4em;
+  padding: 2px 0.4em;
   line-height: 1.5;
   min-height: 0;
   font-weight: normal;
@@ -5646,7 +5649,7 @@ img.ui-datepicker-trigger {
 }
 .ui-menu .ui-state-disabled {
   font-weight: normal;
-  margin: .4em 0 .2em;
+  margin: 0.4em 0 0.2em;
   line-height: 1.5;
 }
 .ui-menu .ui-state-disabled a {
@@ -5665,8 +5668,8 @@ img.ui-datepicker-trigger {
 }
 .ui-menu .ui-icon {
   position: absolute;
-  top: .2em;
-  left: .2em;
+  top: 0.2em;
+  left: 0.2em;
 }
 .ui-menu .ui-menu-icon {
   position: static;
@@ -5714,7 +5717,7 @@ ul.context-menu-list li.context-menu-item.disabled {
 ul.context-menu-list li.context-menu-item.hover,
 ul.context-menu-list li.context-menu-item.disabled.hover {
   cursor: default ;
-  background-color: #EEE ;
+  background-color: #EEE;
 }
 ul.context-menu-list li.context-menu-item .icon {
   min-height: 18px;
@@ -5819,7 +5822,7 @@ ul.context-menu-list .context-menu-input > label > textarea {
   filter: inherit;
 }
 .ui-slider-horizontal {
-  height: .8em;
+  height: 0.8em;
 }
 .ui-slider-horizontal .ui-slider-handle {
   top: -0.3em;
@@ -5836,7 +5839,7 @@ ul.context-menu-list .context-menu-input > label > textarea {
   right: 0;
 }
 .ui-slider-vertical {
-  width: .8em;
+  width: 0.8em;
   height: 100px;
 }
 .ui-slider-vertical .ui-slider-handle {
@@ -5866,9 +5869,9 @@ ul.context-menu-list .context-menu-input > label > textarea {
   background: none;
   color: inherit;
   padding: 0;
-  margin: .2em 0;
+  margin: 0.2em 0;
   vertical-align: middle;
-  margin-left: .4em;
+  margin-left: 0.4em;
   margin-right: 22px;
 }
 .ui-spinner .ui-spinner-button {
@@ -5905,25 +5908,25 @@ ul.context-menu-list .context-menu-input > label > textarea {
 }
 .ui-tabs {
   position: relative;
-  padding: .2em;
+  padding: 0.2em;
 }
 .ui-tabs .ui-tabs-nav {
   margin: 0;
-  padding: .2em .2em 0;
+  padding: 0.2em 0.2em 0;
 }
 .ui-tabs .ui-tabs-nav li {
   list-style: none;
   float: left;
   position: relative;
   top: 0;
-  margin: 1px .2em 0 0;
+  margin: 1px 0.2em 0 0;
   border-bottom-width: 0;
   padding: 0;
   white-space: nowrap;
 }
 .ui-tabs .ui-tabs-nav li a {
   float: left;
-  padding: .5em 1em;
+  padding: 0.5em 1em;
   text-decoration: none;
   cursor: pointer;
 }
@@ -5940,7 +5943,7 @@ ul.context-menu-list .context-menu-input > label > textarea {
 .ui-tabs .ui-tabs-panel {
   display: block;
   border-width: 0;
-  padding: 0.4em 0 1.0em 0;
+  padding: 0.4em 0 1em 0;
 }
 .ui-tabs .ui-tabs-nav li a,
 .ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-active a {
@@ -5951,12 +5954,12 @@ ul.context-menu-list .context-menu-input > label > textarea {
   z-index: 9999;
   max-width: 300px;
   padding: 8px;
-  -webkit-box-shadow: 0 0 5px #aaa ;
+  -webkit-box-shadow: 0 0 5px #aaa;
   box-shadow: 0 0 5px #aaa;
   background-color: #666633 !important;
 }
 .ui-tooltip .ui-tooltip-content {
-  color: #ffffff ;
+  color: #ffffff;
 }
 body .ui-tooltip {
   border-width: 2px ;
@@ -5985,7 +5988,7 @@ body .ui-tooltip {
   overflow: auto ;
   font-size: 11pt ;
   min-width: 220px;
-  min-height: 4.0em ;
+  min-height: 4em;
 }
 .cke_editable:focus {
   outline: none ;
@@ -5995,7 +5998,7 @@ body .ui-tooltip {
 .cke_editable p {
   font-size: 10pt !important;
   padding: 0  ;
-  margin: 0 0 0.4em 0 ;
+  margin: 0 0 0.4em 0;
   font-weight: normal;
 }
 div.cke_editable.wi-small-wide {
@@ -6078,12 +6081,12 @@ body > .ui-dialog > .ui-dialog-content > p > .cke_editable {
   font-weight: bold;
 }
 .ui-priority-secondary {
-  opacity: .7;
+  opacity: 0.7;
   filter: alpha(opacity=70);
   font-weight: normal;
 }
 .ui-state-disabled {
-  opacity: .35;
+  opacity: 0.35;
   filter: alpha(opacity=35);
   background-image: none;
 }
@@ -6644,15 +6647,15 @@ body > .ui-dialog > .ui-dialog-content > p > .cke_editable {
   background-position: -80px -224px;
 }
 .ui-widget-overlay {
-  background: #666666 ;
-  opacity: .5;
+  background: #666666;
+  opacity: 0.5;
   filter: alpha(opacity=50);
 }
 .ui-widget-shadow {
   margin: -5px 0 0 -5px;
   padding: 5px;
-  background: #000000 ;
-  opacity: .2;
+  background: #000000;
+  opacity: 0.2;
   filter: alpha(opacity=20);
   border-radius: 0.6em;
 }
@@ -6760,7 +6763,7 @@ span.customer_vendor_picker {
   color: #666;
   /* hps */
   font-size: 9pt;
-  line-height: 1.0em;
+  line-height: 1em;
   padding: 0 0 0.3em 0;
   display: block;
 }
@@ -6776,7 +6779,7 @@ span.customer_vendor_picker {
   overflow: hidden;
 }
 .ms2side__options {
-  padding-top: 1.0em !important;
+  padding-top: 1em !important;
 }
 .ms2side__updown {
   font-size: 10pt;
@@ -6803,7 +6806,7 @@ span.customer_vendor_picker {
   background-color: #3C3C3B;
   /* hps */
   border-color: #000000;
-  color: #ffffff ;
+  color: #ffffff;
   cursor: pointer;
 }
 .ms2side__options > p.ms2side__hide,
@@ -6814,7 +6817,7 @@ span.customer_vendor_picker {
   background-color: #D4D4D4 !important;
 }
 .ms2side__div select {
-  width: 12.0em;
+  width: 12em;
   /*hps:400px*/
   float: left;
 }
@@ -6836,7 +6839,7 @@ span.customer_vendor_picker {
 .tooltipster-default .tooltipster-content {
   font-size: 10pt;
   line-height: 16px;
-  padding: 1.2em 1.0em 1.2em 1.4em;
+  padding: 1.2em 1em 1.2em 1.4em;
   overflow: hidden;
   background-color: #666633;
 }
@@ -7099,7 +7102,7 @@ span.customer_vendor_picker {
   font-size: 9pt;
   line-height: 16px;
   background-color: #666633;
-  padding: 1.0em 1.4em;
+  padding: 1em 1.4em;
 }
 /* ------------------------------------------------------------- */
 /* JQUERY CHART-PICKER (jquery.chartpicker.less)                 */
@@ -7173,7 +7176,7 @@ span.ppp_popup_button {
   margin-left: 0 !important;
 }
 .wrapper > .col {
-  margin-right: 1.6em ;
+  margin-right: 1.6em;
 }
 .wrapper > .col > .tbl-horizontal {
   margin-right: 0 !important ;
@@ -7182,7 +7185,7 @@ span.ppp_popup_button {
   padding-left: 0 ;
 }
 #content .ui-tabs-panel div.wrapper:first-child {
-  margin-top: 1.5em ;
+  margin-top: 1.5em;
 }
 .ui-tabs-panel > div.select-item {
   margin: 1.8em 2em 0.8em 1.2em !important;
@@ -7198,11 +7201,11 @@ span.ppp_popup_button {
 }
 .ui-dialog-content .select-item,
 .ui-widget-content .select-item {
-  margin: 1em 1em 1.0em 0;
+  margin: 1em 1em 1em 0;
 }
 .ui-dialog-content .buttons,
 .ui-widget-content .buttons {
-  padding: 1.0em 1.0em 1.0em 0;
+  padding: 1em 1em 1em 0;
 }
 /* ------------------------------------------------------------- */
 /* JQUERY-UI OVERRIDES (jquery-ui_overrides.less)                */
@@ -7411,17 +7414,17 @@ body div.admin h1 + .wrapper {
 body div.admin .logo {
   width: auto;
   clear: both;
-  margin: 3.0em auto 1.0em auto;
-  padding: 2.0em 0 0 0;
+  margin: 3em auto 1em auto;
+  padding: 2em 0 0 0;
 }
 body div.admin .separate-form {
-  background-color: #ddd ;
+  background-color: #ddd;
   border: 1px #888888 solid;
   border-radius: 0.6em;
   display: block ;
-  width: 24.0em;
+  width: 24em;
   margin: 0 auto ;
-  padding: 0.7em 0.6em 1.0em 0.6em ;
+  padding: 0.7em 0.6em 1em 0.6em;
 }
 body div.admin .tabwidget {
   padding: 2.4em 0 0 0 !important;
@@ -7430,7 +7433,7 @@ body div.admin .tabwidget .ui-tabs-nav {
   top: 66px;
 }
 body div.admin .tabwidget .ui-tabs-panel {
-  padding: 2.0em 1.0em 1.0em 1.0em ;
+  padding: 2em 1em 1em 1em;
   overflow: hidden;
   height: auto;
   min-height: 300px ;
@@ -7438,7 +7441,7 @@ body div.admin .tabwidget .ui-tabs-panel {
 body div.admin > form {
   display: block ;
   margin-top: 1px ;
-  padding-top: 1.2em ;
+  padding-top: 1.2em;
 }
 /* ------------------------------------------------------------- */
 /* RESPONSIVE (responsive.less)                          */
@@ -7580,7 +7583,7 @@ body div.admin > form {
 /* ------------------------------------------------------------- */
 @media print {
   body {
-    margin-left: 1.4em ;
+    margin-left: 1.4em;
   }
   #menuv3,
   #html-menu,
@@ -7608,7 +7611,7 @@ body div.admin > form {
     margin: 0 0 0 0 !important;
   }
   #content {
-    padding: 1.0em 0 0 0 !important ;
+    padding: 1em 0 0 0 !important;
     margin: 0 ;
   }
   #content td,
@@ -7637,7 +7640,7 @@ body div.admin > form {
     font-size: 9pt;
     font-weight: bold;
     padding: 0.1em 0 0.1em 0.2em;
-    margin: 0.1em 0 0.1em 0 ;
+    margin: 0.1em 0 0.1em 0;
     display: table-cell;
   }
   #content .tbl-horizontal tbody tr td,
@@ -7645,14 +7648,14 @@ body div.admin > form {
     border-color: #666633;
     border-width: 0.3pt !important;
     border-style: solid ;
-    padding: 0.3em 0.6em ;
+    padding: 0.3em 0.6em;
   }
   #content .tbl-horizontal tbody tr th,
   #content .tbl-horizontal tbody tr span.label {
     font-size: 6pt !important;
   }
   #content .tbl-list {
-    margin-top: 1.2em ;
+    margin-top: 1.2em;
     width: 96% !important ;
   }
   #content .tbl-list caption {
@@ -7718,7 +7721,7 @@ body div.admin > form {
     -webkit-appearance: none !important;
     -moz-appearance: none !important;
     border: none;
-    color: #000 !important ;
+    color: #000 !important;
     background-color: none !important;
     background: none !important;
     /* rest needed for Firefox: */
@@ -7751,7 +7754,7 @@ body div.admin > form {
     padding: 0 0 0.4em 0.2em !important;
   }
   #content div.cke_editable {
-    min-height: 1.8em  !important;
+    min-height: 1.8em !important;
     height: auto !important;
     border: none;
     overflow: hidden !important;
@@ -7814,11 +7817,11 @@ body.developing > header {
 body.developing > header h1 {
   float: left;
   color: #e0e0d6;
-  padding: 1.0em;
+  padding: 1em;
 }
 body.developing > header nav {
   float: right;
-  padding: 1.0em;
+  padding: 1em;
 }
 body.developing > header nav a:link,
 body.developing > header nav a:visited {
@@ -7832,14 +7835,14 @@ body.developing .wrapper h2,
 body.developing .wrapper h3,
 body.developing .wrapper h4 {
   clear: both;
-  width: 60.0em;
+  width: 60em;
   max-width: 60em;
 }
 body.developing > p,
 body.developing > h2,
 body.developing > h3,
 body.developing > h4 {
-  margin-left: 0.8em ;
+  margin-left: 0.8em;
 }
 body.developing h2,
 body.developing h3,
@@ -7859,10 +7862,10 @@ body.developing h4 {
   font-size: 110%;
 }
 body.developing pre {
-  margin: 0 0 1.0em 0 ;
-  padding: 0.6em ;
-  border: 1px #000 solid ;
-  background-color: #ddd ;
+  margin: 0 0 1em 0;
+  padding: 0.6em;
+  border: 1px #000 solid;
+  background-color: #ddd;
   display: inline-block;
   clear: both;
 }
@@ -7870,10 +7873,10 @@ body.developing pre code {
   padding: 0 ;
 }
 body.developing div.code-highlighted {
-  margin: 0 0 1.0em 0 ;
-  padding: 0.6em ;
-  border: 1px #000 solid ;
-  background-color: #ddd ;
+  margin: 0 0 1em 0;
+  padding: 0.6em;
+  border: 1px #000 solid;
+  background-color: #ddd;
   display: inline-block;
 }
 body.developing p.picture {
@@ -7892,7 +7895,7 @@ body.developing .wrapper .tbl-horizontal tbody {
 }
 body.developing .wrapper .tbl-horizontal caption,
 body.developing .wrapper .tbl-horizontal th {
-  padding-left: 0.6em ;
+  padding-left: 0.6em;
 }
 body.developing .wrapper .tbl-horizontal th.caption {
   border-top: none;
@@ -7922,10 +7925,10 @@ body.developing .wrapper table.tbl-list > tbody > tr td:first-child {
 body.developing .wrapper div.test-box {
   font-size: 80% ;
   overflow: visible;
-  padding: 0.3em 0.5em ;
+  padding: 0.3em 0.5em;
   background-color: #9D9E9D;
   float: left;
-  border: 1px #000 dotted ;
+  border: 1px #000 dotted;
 }
 body.developing input[type="submit"],
 body.developing input[type="button"],

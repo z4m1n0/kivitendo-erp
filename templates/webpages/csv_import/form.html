@@ -173,10 +173,11 @@
 
 [%
   INCLUDE 'common/toggle_panel.html'
-  block_name    = 'panel_1'
-  toggle_class  = 'toggle_panel_1'
-  button_closed = LxERP.t8("Show settings")
-  button_open   = LxERP.t8("Hide settings")
+  block_name     = 'panel_1'
+  toggle_class   = 'toggle_panel_1'
+  display_status = 'open'
+  button_closed  = LxERP.t8("Show settings")
+  button_open    = LxERP.t8("Hide settings")
 %]
 
 </div><!-- /.col -->
@@ -213,11 +214,12 @@
 [% END # panel_2 %]
 
 [%
-  #INCLUDE 'common/toggle_panel.html'
-  block_name    = 'panel_2'
-  toggle_class  = 'toggle_panel_2'
-  button_closed = LxERP.t8("Show mappings (csv_import)")
-  button_open   = LxERP.t8("Hide mappings (csv_import)s")
+  INCLUDE 'common/toggle_panel.html'
+  block_name     = 'panel_2'
+  toggle_class   = 'toggle_panel_2'
+  display_status = 'open'
+  button_closed  = LxERP.t8("Show mappings (csv_import)")
+  button_open    = LxERP.t8("Hide mappings (csv_import)")
 %]
 
 [% END # UNLESS SELF.worker.is_multiplexed %]
@@ -329,7 +331,7 @@
 [% END # panel_3 %]
 
 [%
-  #INCLUDE 'common/toggle_panel.html'
+  INCLUDE 'common/toggle_panel.html'
   block_name    = 'panel_3'
   toggle_class  = 'toggle_panel_3'
   button_closed = LxERP.t8("Show help text")
