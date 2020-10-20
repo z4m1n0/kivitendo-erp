@@ -552,6 +552,7 @@ body > div#layout-split-right > #content > form > .tabwidget > ui-tabs-panel .ta
 }
 body > div#layout-split-right > #content > form > .tabwidget > ul.ui-tabs-nav {
   top: 69px;
+  width: calc(100% - 200px);
 }
 body > div#layout-split-right > #content > #requirement_spec_tabs.tabwidget > ul.ui-tabs-nav {
   top: 69px !important ;
@@ -4568,6 +4569,9 @@ pre.filecontent {
   font-size: 9pt;
   line-height: 140%;
   padding-bottom: 1em;
+}
+.horizontal-scroll-wrapper {
+  overflow-x: auto;
 }
 .plus,
 .minus,

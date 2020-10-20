@@ -285,7 +285,10 @@ body > div#layout-split-right {
           .wrapper{ margin-top: 2em; }
           .tabwidget ul.ui-tabs-nav{ position: relative; }
         }
-        & > ul.ui-tabs-nav{ top: 69px; }
+        & > ul.ui-tabs-nav{
+          top: 69px;
+          width: calc(100% - 200px);
+        }
 
       } // / > .tabwidget
     } // / > form
@@ -587,6 +590,3 @@ div.layout-split-right.folded {
   }
 
 } // /.DHTMLSuite_menuBar_sub
-
-
-
