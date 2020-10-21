@@ -7,7 +7,7 @@
 <div class="wrapper" id="wrapper-4">
 
 <table class="tbl-horizontal">
-  <caption> [% 'Last Number of Organisations' | $T8 %] </caption>
+  <caption> [% 'Last Number for...' | $T8 %] </caption>
   <colgroup> <col class="wi-small"><col class="wi-normal"> </colgroup>
   <tbody>
     <tr>
@@ -18,20 +18,21 @@
       <th>[% LxERP.t8('Vendor') %]</th>
       <td>[% L.input_tag("defaults.vendornumber", SELF.defaults.vendornumber, size="15", class="wi-normal") %]</td>
     </tr>
-  </tbody>
-</table>
-
-<table class="tbl-horizontal">
-  <caption> [% 'Order Papers' | $T8 %] </caption>
-  <colgroup><col class="wi-small"><col class="wi-normal"></colgroup>
-  <tbody>
     <tr>
-      <th>[% LxERP.t8('Sales Order') %]</th>
+      <th></th>
+      <td></td>
+    </tr>
+    <tr>
+      <th>[% LxERP.t8('Order') %]</th>
       <td>[% L.input_tag("defaults.sonumber", SELF.defaults.sonumber, size="15", class="wi-normal") %]</td>
     </tr>
     <tr>
       <th>[% LxERP.t8('Purchase Order') %]</th>
       <td>[% L.input_tag("defaults.ponumber", SELF.defaults.ponumber, size="15", class="wi-normal") %]</td>
+    </tr>
+    <tr>
+      <th>[% LxERP.t8('Sales quotation') %]</th>
+      <td>[% L.input_tag("defaults.sqnumber", SELF.defaults.sqnumber, size="15", class="wi-normal") %]</td>
     </tr>
     <tr>
       <th>[% LxERP.t8('Invoice') %]</th>
@@ -53,20 +54,13 @@
       <th>[% LxERP.t8('Purchase Delivery Order') %]</th>
       <td>[% L.input_tag("defaults.pdonumber", SELF.defaults.pdonumber, size="15", class="wi-normal") %]</td>
     </tr>
-  </tbody>
-</table>
-
-<table class="tbl-horizontal">
-  <caption> [% 'Articles & Assortment' | $T8 %] </caption>
-  <colgroup><col class="wi-small"><col class="wi-normal"></colgroup>
-  <tbody>
+    <tr>
+      <th></th>
+      <td></td>
+    </tr>
     <tr>
       <th>[% LxERP.t8('Article') %]</th>
       <td>[% L.input_tag("defaults.articlenumber", SELF.defaults.articlenumber, size="15", class="wi-normal") %]</td>
-    </tr>
-    <tr>
-      <th>[% LxERP.t8('Sales Quotation') %]</th>
-      <td>[% L.input_tag("defaults.sqnumber", SELF.defaults.sqnumber, size="15", class="wi-normal") %]</td>
     </tr>
     <tr>
       <th>[% LxERP.t8('Service') %]</th>
