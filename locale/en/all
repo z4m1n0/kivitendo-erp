@@ -2748,7 +2748,6 @@ $self->{texts} = {
   'Reqdate is after #1'         => '',
   'Reqdate is before #1'        => '',
   'Reqdate not set or before current month' => '',
-  'Request Quotation'           => '',
   'Request Quotations'          => '',
   'Request for Quotation'       => '',
   'Request for Quotation Number' => '',
