@@ -13,13 +13,13 @@
 <form method="post" action="controller.pl" id="stocktaking_form">
 
 <div class="select-item control-panel">
-  [% "Select article" | $T8 %] [% P.part.picker("part_id", "") %]
+  [% "Select Article" | $T8 %] [% P.part.picker("part_id", "") %]
 </div>
 
 <div id="stock"></div>
 
-<table id="stocktaking_settings_table" class="tbl-horizontal">
-  <caption>[% 'Settings stocktaking' | $T8 %]</caption>
+<table id="stocktaking_registration_table" class="tbl-horizontal">
+  <caption>[% 'Registration' | $T8 %]</caption>
   <colgroup><col class="wi-mediumsmall"><col class="wi-wide"></colgroup>
   <tbody>
     <tr>

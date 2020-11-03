@@ -136,7 +136,7 @@
 </table>
 
 <table class="tbl-horizontal">
-  <caption>[% 'Number & Dates' | $T8 %]</caption>
+  <caption>[% 'Numbers & Dates' | $T8 %]</caption>
   <tbody>
     <tr>
       <th>[% 'Invoice Number' | $T8 %]</th>
@@ -258,7 +258,7 @@
           [% END %]
         </td>
         <td>
-          [% IF changeable && loop.last && paid_missing > 0 %] <input type="button" id="ap_set_to_paid_missing" value="[% " set to paid missing" | $t8 %]"> [% END %]
+          [% IF changeable && loop.last && paid_missing > 0 %] <input type="button" id="ap_set_to_paid_missing" value="[% 'Set to paid missing' | $t8 %]"> [% END %]
         </td>
         [% IF ( !defaultcurrency || (currency != defaultcurrency) ) %]
           <td>
