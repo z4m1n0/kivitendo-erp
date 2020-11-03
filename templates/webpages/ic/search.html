@@ -75,18 +75,23 @@
         <td>[% L.yes_no_tag('shop', shop, default='', with_empty=1, empty_title='', class='wi-mediumsmall') %]</td>
       </tr>
       [% CUSTOM_VARIABLES_FILTER_CODE %]
+      <tr>
+        <th class="caption" colspan="2"> [% 'Illustrations' | $T8 %]</th>
+      </tr>
+      <tr>
+        <th>[% 'Drawing' | $T8 %]</th>
+        <td>[% L.input_tag("drawing", "", class="wi-wide") %]</td>
+      </tr>
+      <tr>
+        <th>[% 'Microfiche' | $T8 %]</th>
+        <td>[% L.input_tag("microfiche", "", class="wi-wide") %]</td>
+      </tr>
     </tbody>
   </table>
 
   <table class="tbl-horizontal">
-    <caption> [% 'Scope' | $T8 %]</caption>
+    <caption> [% 'Options' | $T8 %]</caption>
     <colgroup> <col class="wi-small"><col class="wi-wide"> </colgroup>
-    <thead>
-      <tr>
-        <th>[% 'Scope' | $T8 %]</th>
-        <th>[% 'Composition' | $T8 %]</th>
-      </tr>
-    </thead>
     <tbody>
       <tr>
         <td>
@@ -97,14 +102,19 @@
           [% L.radio_button_tag('itemstatus', value='orphaned', id='itemstatus_orphaned', label=LxERP.t8('Orphaned')) %]<br>
           [% L.radio_button_tag('itemstatus', value='', id='itemstatus_all', label=LxERP.t8('All')) %]
         </td>
-        <td>
+      </tr>
+      <tr>
+        <th class="caption" colspan="2">[% 'Assemblies' | $T8 %]</th>
+      </tr>
+      <tr>
+        <td colspan="2">
           [% L.radio_button_tag('bom', id='bom_0', value=0, checked=1, label=LxERP.t8('Top Level Designation only')) %]<br>
           [% L.radio_button_tag('bom', id='bom_1', value=1, label=LxERP.t8('Individual Items')) %]<br>
           [% L.radio_button_tag('bom', id='bom_2', value=2, label=LxERP.t8('Search for Items used in Assemblies')) %]
         </td>
       </tr>
       <tr>
-        <th class="caption" colspan="2">[% 'State' | $T8 %]</th>
+        <th class="caption" colspan="2">[% 'Status' | $T8 %]</th>
       </tr>
       <tr>
         <td colspan="2">
@@ -132,29 +142,17 @@
       </tr>
     </tbody>
   </table>
-
-<table class="tbl-horizontal">
-  <caption>[% 'Handling' | $T8 %]</caption>
-  <colgroup> <col class="wi-small"><col class="wi-wide"> </colgroup>
-  <tbody>
-    <tr>
-      <th>[% 'Insert Date' | $T8 %]</th>
-      <td class="wi-date">[% L.date_tag('insertdatefrom') %] [% 'Bis' | $T8 %] [% L.date_tag('insertdateto') %]</td>
-    </tr>
-    <tr>
-      <th class="caption" colspan="2"> [% 'Illustrations' | $T8 %]</th>
-    </tr>
-    <tr>
-      <th>[% 'Drawing' | $T8 %]</th>
-      <td>[% L.input_tag("drawing", "", class="wi-wide") %]</td>
-    </tr>
-    <tr>
-      <th>[% 'Microfiche' | $T8 %]</th>
-      <td>[% L.input_tag("microfiche", "", class="wi-wide") %]</td>
-    </tr> </tbody>
-</table>
-
-  </div><!-- /.wrapper -->
+  <table class="tbl-horizontal">
+    <caption>[% 'Handling' | $T8 %]</caption>
+    <colgroup> <col class="wi-small"><col class="wi-wide"> </colgroup>
+    <tbody>
+      <tr>
+        <th>[% 'Insert Date' | $T8 %]</th>
+        <td class="wi-date">[% L.date_tag('insertdatefrom') %] [% 'Bis' | $T8 %] [% L.date_tag('insertdateto') %]</td>
+      </tr>
+    </tbody>
+  </table>
+</div><!-- /.wrapper -->
 
 
 <div class="wrapper form-addition control-panel">
@@ -162,7 +160,7 @@
   <h3 class="caption"> [% 'Include in Report' | $T8 %] </h3>
   <!-- PENDENT: Klasse col noetig in form-adddition -->
   <div class="col list">
-    <h4>[% 'Article info ' | $T8 %]</h4>
+    <h4>[% 'Article' | $T8 %]</h4>
     <p>[% L.checkbox_tag('l_partnumber', label=LxERP.t8('Part Number'), checked=1, value='Y') %]</p>
     <p>[% L.checkbox_tag('l_description', label=LxERP.t8('Part Description'), checked=1, value='Y') %]</p>
     <p>[% L.checkbox_tag('l_serialnumber', label=LxERP.t8('Serial Number'), value='Y') %]</p>
