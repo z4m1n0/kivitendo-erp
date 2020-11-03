@@ -98,7 +98,7 @@
       <td>[% L.input_tag('cv.bcc', SELF.cv.bcc, class='wi-lightwide') %]</td>
     </tr>
     <tr><!-- PENDENT: Funktion der Link-Erzeugung verbessern, z.B. falls z.B. Schema (http:// oder https://) schon angegeben -->
-      <th>[% IF SELF.cv.homepage %]<a href="http://[% HTML.escape(SELF.cv.homepage) %]" title="[% 'Open this Website in a new window' | $T8 %]" target="_blank">[% 'Homepage' | $T8 %]</a>[% ELSE %][% 'Homepage' | $T8 %][% END %]</th>
+      <th>[% IF SELF.cv.homepage %]<a href="http://[% HTML.escape(SELF.cv.homepage) %]" title="[% 'Open in new window' | $T8 %]" target="_blank">[% 'Homepage' | $T8 %]</a>[% ELSE %][% 'Homepage' | $T8 %][% END %]</th>
       <td>[% L.input_tag('cv.homepage', SELF.cv.homepage, class='wi-lightwide', title = LxERP.t8('Example: http://kivitendo.de')) %]</td>
     </tr>
 
@@ -173,15 +173,15 @@
 <div class="col">
 
 <table class="tbl-horizontal">
-  <caption>[% 'IDs & Numbers' | $T8 %]</caption>
+  <caption>[% 'Numbers & IDs' | $T8 %]</caption>
   <colgroup><col class="wi-small"><col class="wi-lightwide"></colgroup>
   <tbody>
     <tr>
       [% IF SELF.is_vendor() %]
-        <th>[% 'Vendor No.' | $T8 %]</th>
+        <th>[% 'Vendor Number' | $T8 %]</th>
         <td>[% L.input_tag('cv.vendornumber', SELF.cv.vendornumber, class='wi-normal') %]</td>
       [% ELSE %]
-        <th>[% 'Customer No.' | $T8 %]</th>
+        <th>[% 'Customer Number' | $T8 %]</th>
         <td>[% L.input_tag('cv.customernumber', SELF.cv.customernumber, class='wi-normal') %]</td>
       [% END %]
     </tr>
