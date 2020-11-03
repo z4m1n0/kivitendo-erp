@@ -113,7 +113,7 @@
       [% L.hidden_tag('import_id', IMPORT.id) %]
 
       <div class="shop_table shop_table_address">
-      
+
         <div class="shop_table-row listheading">
           <div class="shop_table-cell">[% 'Shop Billing Address' | $T8 %]</div>
           <div class="shop_table-cell"></div>
@@ -191,7 +191,7 @@
         [% ELSE %]
           <div>[% L.ajax_submit_tag("controller.pl?action=ShopOrder/apply_customer",  "#delivery", LxERP.t8("Apply customer")) %]</div>
         [% END %]
-        
+
       </div><!-- /.shop_table /.shop_table_address -->
 
     </form><!-- /#billing -->
@@ -407,7 +407,6 @@
 
 
 <table class="tbl-list wi-moderate">
-  <caption>[% 'FILL THIS CAPTION' | $T8 %]</caption>
   <thead>
     <tr>
       <th>[% 'Position'          | $T8 %]</th>

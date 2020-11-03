@@ -155,7 +155,7 @@
         <td class="long-desc">[% LxERP.t8('Set the invoice skonto date (if exists) as the default execution date for SEPA export.') %]</td>
       </tr>
       <tr>
-        <th>[% 'Buffer Substraction' | $T8 %]</th>
+        <th>[% 'Execution Date Buffer' | $T8 %]</th>
         <td>[% L.input_tag('defaults.sepa_set_skonto_date_buffer_in_days', LxERP.format_amount(SELF.defaults.sepa_set_skonto_date_buffer_in_days, 0), size=10, class='wi-small' ) %]</td>
         <td class="long-desc">[% LxERP.t8('In addition to the above date functions, subtract the following amount of days from the calculated date as a buffer.') %]</td>
       </tr>

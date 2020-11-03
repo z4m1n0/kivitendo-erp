@@ -96,7 +96,7 @@
     [% END %]
     <tr>
       <th></th>
-      <td>[% L.input_tag("new_currency", FORM.new_currency, class='wi-small', placeholder=LxERP.t8('Add new (currency)'), title=LxERP.t8('Add new currency') ) %] </td>
+      <td>[% L.input_tag("new_currency", FORM.new_currency, class='wi-small', placeholder=LxERP.t8('Add new currency'), title=LxERP.t8('Add new currency') ) %] </td>
       <td class="center">[% L.radio_button_tag('defaults.currency_id', value=-1, id='defaults.currency_id__1', checked=(SELF.defaults.currency_id == -1)) %] </td>
     </tr>
     [% IF SELF.all_weightunits.size %]
@@ -130,7 +130,7 @@
     <tbody>
       <tr>
         <th>[% LxERP.t8("Print templates to use") %] </th>
-        <th>[% 'Templates / Master Templates' | $T8 %] </th>
+        <th>[% 'Templates' | $T8 %] </th>
       </tr>
       <tr>
         <th>[% L.radio_button_tag('use_templates', value='existing', id='use_templates_existing', label=LxERP.t8('Use existing templates'), checked=(FORM.use_templates == 'existing')) %] </th>
