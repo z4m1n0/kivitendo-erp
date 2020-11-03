@@ -87,16 +87,11 @@
     <tr>
       <th [%- departments_style -%]>[% 'Department' | $T8 %]</th>
       <td [%- departments_style -%]>[% L.select_tag('department_id', ALL_DEPARTMENTS, default=department_id, title_key='description', with_empty=1, class='wi-wide') %]</td>
-      <td align="left">
-        <table>
-          <tr>
-            <th align="right" width="50%" nowrap>[% 'Delivery Date' | $T8 %]</th>
-            <td align="left">[% L.date_tag('deliverydate', deliverydate) %]</td>
-          </tr>
-        </table>
-      </td>
     </tr>
-
+    <tr>
+      <th align="right" width="50%" nowrap>[% 'Delivery Date' | $T8 %]</th>
+      <td align="left">[% L.date_tag('deliverydate', deliverydate) %]</td>
+    </tr>
     <tr>
       <th>[% 'Description' | $T8 %]</th>
       <td class="wi-wide">[% L.areainput_tag('description', description, readonly=readonly, cols=10, class='wi-wide') %]</td>
@@ -105,24 +100,20 @@
       <th><label for="taxincluded">[% 'MwSt. inkl.' | $T8 %]</label></th>
       <td>[% L.checkbox_tag('taxincluded', checked=taxincluded) %]</td>
     </tr>
+    <tr>
+      <th><label for="ob_transaction">[% 'CB Transaction' | $T8 %]</label></th>
+      <td>[% L.checkbox_tag('ob_transaction' checked=ob_transaction) %]</td>
+    </tr>
+    <tr>
+      <th><label for="cb_transaction">[% 'OB Transaction' | $T8 %]</label></th>
+      <td>[% L.checkbox_tag('cb_transaction' checked=cb_transaction) %]</td>
+    </tr>
     [% IF id %]
     <tr>
       <th>[% 'Mitarbeiter' | $T8 %]</th>
       <td>[% L.input_tag('employee', employee, class='wi-normal', readonly=readonly, class='wi-wide') %]</td>
     </tr>
     [% END %]
-  </tbody>
-</table>
-
-<table class="tbl-horizontal">
-  <tbody>
-    <tr>
-      <th>
-        <span class="label above">[% 'Optional Transaction Type' | $T8 %]</span>
-        <label for="ob_transaction">[% L.checkbox_tag('ob_transaction' checked=ob_transaction) %] [% 'CB Transaction' | $T8 %]</label> <br>
-        <label for="cb_transaction">[% L.checkbox_tag('cb_transaction' checked=cb_transaction) %] [% 'OB Transaction' | $T8 %]</label>
-      </th>
-    </tr>
   </tbody>
 </table>
 
