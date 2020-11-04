@@ -1316,7 +1316,6 @@ $self->{texts} = {
   'Entries for which automatic conversion succeeded:' => '',
   'Entries ready to import'     => '',
   'Entries with errors'         => '',
-  'Entry Group'                 => '',
   'Equity'                      => '',
   'Erfolgsrechnung'             => '',
   'Error'                       => '',
