@@ -4577,16 +4577,15 @@ pre.filecontent {
 .minus,
 .plus0,
 .plus1 {
-  display: inline !important;
   clear: none;
 }
 .minus,
-plus0 {
-  color: #ae0014;
+.plus0 {
+  color: #ae0014 !important;
 }
 .plus,
 .plus1 {
-  color: #003c18;
+  color: #003c18 !important;
 }
 span.unbalanced_ledger {
   background-color: #ffe38d;
