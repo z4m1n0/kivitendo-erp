@@ -458,6 +458,7 @@ body div.center {
 }
 #menuv3 > ul > li > ul {
   top: 32px;
+  z-index: 1000;
 }
 #menuv3 > ul > li > ul > li {
   background-color: #ccccbb;
