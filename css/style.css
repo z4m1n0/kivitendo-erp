@@ -5072,8 +5072,9 @@ table#display_row tbody tr td a.row-position {
 table#display_row tbody tr td input.row-position {
   float: left;
 }
-div#csv_import_report_table_wrapper {
-  overflow-x: scroll;
+#results {
+  clear: left;
+  width: 95vw;
 }
 /* ------------------------------------------------------------- */
 /* JQUERY UI (jquery-ui.less)                                    */
