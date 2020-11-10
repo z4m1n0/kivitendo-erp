@@ -20,8 +20,7 @@
 [% END %]
 
 [% PROCESS 'common/paginate.html' pages=SELF.pages, base_url = SELF.base_url %]
- <div id="csv_import_report_table_wrapper">
- <table class="tbl-list">
+<table class="tbl-list">
 
 [% SET max_col = 0 %]
 [% FOREACH rownum = SELF.display_rows %]
@@ -62,8 +61,7 @@
 [% END %]
 </tbody>
 
- </table>
- </div>
+</table>
 
 [% PROCESS 'common/paginate.html' pages=SELF.pages, base_url = SELF.base_url %]
 
