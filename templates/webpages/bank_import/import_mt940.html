@@ -13,40 +13,35 @@
 
 <h2>[% LxERP.t8("Overview") %]</h2>
 
-<div>
-  <table>
-    <tr>
-      <td>[% LxERP.t8("Total number of entries") %]:</td>
-      <td align="right">[% SELF.statistics.total %]</td>
-    </tr>
-
-    <tr>
-      <td>[% LxERP.t8("Entries with errors") %]:</td>
-      <td align="right">[% SELF.statistics.errors %]</td>
-    </tr>
-
-    <tr>
-      <td>[% LxERP.t8("Already imported entries (duplicates)") %]:</td>
-      <td align="right">[% SELF.statistics.duplicates %]</td>
-    </tr>
-
-    <tr>
+<table class="tbl-horizontal">
+  <tr>
+    <th>[% LxERP.t8("Total number of entries") %]:</th>
+    <td>[% SELF.statistics.total %]</td>
+  </tr>
+  <tr>
+    <th>[% LxERP.t8("Entries with errors") %]:</th>
+    <td>[% SELF.statistics.errors %]</td>
+  </tr>
+  <tr>
+    <th>[% LxERP.t8("Already imported entries (duplicates)") %]:</th>
+    <td>[% SELF.statistics.duplicates %]</td>
+  </tr>
+  <tr>
 [% IF preview %]
-      <td>[% LxERP.t8("Entries ready to import") %]:</td>
-      <td align="right">[% SELF.statistics.to_import %]</td>
+    <th>[% LxERP.t8("Entries ready to import") %]:</th>
+    <td>[% SELF.statistics.to_import %]</td>
 [% ELSE %]
-      <td>[% LxERP.t8("Imported entries") %]:</td>
-      <td align="right">[% SELF.statistics.imported %]</td>
+    <th>[% LxERP.t8("Imported entries") %]:</th>
+    <td>[% SELF.statistics.imported %]</td>
 [% END %]
-    </tr>
-  </table>
-</div>
+  </tr>
+</table>
 
 [% IF SELF.statistics.total %]
 
 <h2>[% LxERP.t8("Transactions") %]</h2>
 
-<table>
+<table class="tbl-list">
   <thead>
     <tr class="listheading">
       <th>[% LxERP.t8("Transaction date") %]</th>
@@ -59,15 +54,14 @@
       <th>[% LxERP.t8("Information") %]</th>
     </tr>
   </thead>
-
   <tbody>
     [% FOREACH transaction = SELF.transactions %]
       <tr class="listrow[% IF transaction.error %]_error[% END %]">
-        <td align="right">[% transaction.transdate.to_kivitendo %]</td>
-        <td align="right">[% transaction.valutadate.to_kivitendo %]</td>
+        <td class="center">[% transaction.transdate.to_kivitendo %]</td>
+        <td class="center">[% transaction.valutadate.to_kivitendo %]</td>
         <td>[% HTML.escape(transaction.remote_name) %]</td>
         <td>[% HTML.escape(transaction.purpose) %]</td>
-        <td align="right">[% LxERP.format_amount(transaction.amount, 2) %]</td>
+        <td class="numeric">[% LxERP.format_amount(transaction.amount, 2) %]</td>
         <td>
           [% IF transaction.remote_bank_code && transaction.remote_account_number %]
             [% HTML.escape(transaction.remote_bank_code) %] / [% HTML.escape(transaction.remote_account_number) %]
