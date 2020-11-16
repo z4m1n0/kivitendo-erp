@@ -54,7 +54,6 @@
     END ;
    ''
 %]
-<form action="#" name="fake-shipto-dialog" id="fake-shipto-dialog">
 
 <div class="select-item control-panel">
   [% LxERP.t8("Copy address from master data") %]:
@@ -171,4 +170,3 @@ END ;
  [% L.button_tag("kivi.SalesPurchase.clear_shipto_fields()", LxERP.t8("Clear fields"), class="neutral") %]
  [% L.button_tag("\$('#shipto_dialog').dialog('close');", LxERP.t8("Abort"), class="neutral") %]
 </div>
-</form>
