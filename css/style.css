@@ -2697,7 +2697,7 @@ table.tbl-horizontal th > input[type="checkbox"],
 table.tbl-horizontal td > input[type="checkbox"],
 table.tbl-horizontal th > input[type="radio"],
 table.tbl-horizontal td > input[type="radio"] {
-  margin: 0.2em 0.3em 0 0 !important;
+  margin: 0 0.3em 0.2em 0 !important;
 }
 table.tbl-horizontal th > input,
 table.tbl-horizontal td > input,
@@ -2722,6 +2722,10 @@ table.tbl-horizontal th.single-col,
 table.tbl-horizontal td.single-col {
   padding-top: 0 ;
   padding-bottom: 0 ;
+}
+table.tbl-horizontal th label,
+table.tbl-horizontal td label {
+  padding-top: 0.3em;
 }
 table.tbl-horizontal th {
   color: #292914;
@@ -3446,7 +3450,7 @@ div.list > div > input[type="checkbox"],
 div.list > p > input[type="radio"],
 div.list > div > input[type="radio"] {
   padding: 0 ;
-  margin: 0.3em 0.3em 0 0;
+  margin: 0 0.3em 0.3em 0;
   float: left ;
 }
 div.list > p label,
