@@ -262,7 +262,7 @@ body #content .wrapper > .col {
   float: left;
   margin-right: 1.6em;
 }
-body #content .wrapper > .col div label {
+body #content .wrapper > .col div > label {
   font-size: 10pt;
   line-height: 12.6pt;
 }
@@ -273,7 +273,7 @@ body #content .wrapper > .col,
 body #content .wrapper > .tbl-horizontal {
   float: left;
   margin-right: 1.6em;
-  padding-bottom: 2px ;
+  padding-bottom: 20px ;
 }
 body #content .wrapper.center {
   margin: 0 auto;
@@ -3983,6 +3983,25 @@ input[type="button"].button-image.delete {
 }
 .wrapper > .select-item {
   margin: 0.8em 0 1em 0;
+}
+div.filtered_select input,
+div.filtered_select select {
+  display: block;
+}
+div.filtered_select input {
+  background-image: url(../../image/glass14x14.png);
+  background-repeat: no-repeat;
+  background-position: 2px 2px;
+  border-radius: 0px;
+  border: solid #a0a0a0 1px;
+  border-bottom: none;
+  padding: 0px;
+  padding-left: 20px;
+  margin: 0;
+  width: 500px;
+}
+div.filtered_select select {
+  width: 522px;
 }
 .toggle_panel.control-panel {
   border: none !important;

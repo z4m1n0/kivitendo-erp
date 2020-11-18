@@ -116,7 +116,7 @@ body {
     display:          block;
     padding:          @content-padding;
     margin:           @content-margin;
-    
+
     .bg-content ;
 
 
@@ -140,7 +140,7 @@ body {
       width:       99%;
       height:      auto;
 
-      
+
       // -----------------------
       // Colums (.col)
       // -----------------------
@@ -150,25 +150,25 @@ body {
         overflow: hidden;
         float: left;
         margin-right: 1.6em;
-        div label {
+        div > label {
           font-size: 10pt;
           line-height: 12.6pt;
         }
         p { font-size: @font-size-small }
       } // /.col
-      
+
       & > .col,
       & > .tbl-horizontal{
         float: left;
         margin-right: 1.6em;
-        padding-bottom: 2px ; // required to avoid crops of buttons
+        padding-bottom: 20px ; // required to avoid crops of buttons
       }
 //      & > .tbl-horizontal:last-child{
 //        margin-right: 0 !important ;
 //      }
 
 
-      
+
       // Centered Column
       &.center{
         margin: 0 auto;
@@ -179,11 +179,11 @@ body {
       &.width-moderate{
         width: auto;
       }
-      
+
       & > table.tbl-horizontal:last-child{
         margin-right: 0 !important ;
       }
-      
+
     } // /.wrapper
 
   } // /#content
@@ -217,4 +217,3 @@ body {
 
 }
 // /body
-
