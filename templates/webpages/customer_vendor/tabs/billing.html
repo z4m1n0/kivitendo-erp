@@ -20,9 +20,11 @@
   <tbody>
     <tr>
       <th>[% IF SELF.is_vendor() %] [% 'Vendor Name' | $T8 %] [% ELSE %] [% 'Customer Name' | $T8 %] [% END %]</th>
-      <td>[% L.input_tag('cv.name', SELF.cv.name, type='text', class='wi-lightwide') %]
-      <label for="cv_natural_person">[% 'natural person' | $T8 %]</label>
-      [% L.checkbox_tag('cv.natural_person', checked = SELF.cv.natural_person, for_submit=1) %]</td>
+      <td>[% L.input_tag('cv.name', SELF.cv.name, type='text', class='wi-lightwide') %]</td>
+    </tr>
+    <tr>
+      <th><label for="cv_natural_person">[% 'natural person' | $T8 %]</label></th>
+      <td>[% L.checkbox_tag('cv.natural_person', checked = SELF.cv.natural_person, for_submit=1) %]</td>
     </tr>
     <tr>
       <th>[% 'Department' | $T8 %]</th>
