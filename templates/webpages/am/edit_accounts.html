@@ -76,13 +76,13 @@ $(function() {
       <th>[% 'Is this a summary account to record' | $T8 %]</th>
       <td>
         [% L.radio_button_tag('summary_account', value => 'AR', disabled => AccountIsPosted, checked  => AR) %]
-        [% 'AR' | $T8 %]<br>
+        <label for="summary_account_AR">[% 'AR' | $T8 %]</label><br>
         [% L.radio_button_tag('summary_account', value => 'AP', disabled => AccountIsPosted, checked  => AP) %]
-        [% 'AP' | $T8 %]<br>
+        <label for="summary_account_AP">[% 'AP' | $T8 %]</label><br>
         [% L.radio_button_tag('summary_account', value => 'IC', disabled => AccountIsPosted, checked  => IC) %]
-        [% 'Inventory' | $T8 %]<br>
+        <label for="summary_account_IC">[% 'Inventory' | $T8 %]</label><br>
         [% L.radio_button_tag('summary_account', value => '', disabled => AccountIsPosted) %]
-        [% 'No summary account' | $T8 %]
+        <label for="summary_account_">[% 'No summary account' | $T8 %]</label>
 
         [% IF AccountIsPosted %]
           [% IF AR %] [% L.hidden_tag('AR', 'AR') %] [% END %]
@@ -215,40 +215,40 @@ $(function() {
     <tr>
       <td><b>[% 'Receivables' | $T8 %]</b><br>
         [% L.radio_button_tag('AR_include_in_dropdown', value => 'AR_amount', disabled => AccountIsPosted, checked  => AR_amount) %]
-        [% 'Revenue' | $T8 %] <br>
+        <label for="AR_include_in_dropdown_AR_amount">[% 'Revenue' | $T8 %]</label><br>
         [% L.radio_button_tag('AR_include_in_dropdown', value => 'AR_paid', disabled => AccountIsPosted, checked  => AR_paid) %]
-        [% 'Receipt' | $T8 %] <br>
+        <label for="AR_include_in_dropdown_AR_paid">[% 'Receipt' | $T8 %]</label><br>
         [% L.radio_button_tag('AR_include_in_dropdown', value => 'AR_tax', disabled => AccountIsPosted, checked  => AR_tax) %]
-        [% 'Tax' | $T8 %] <br>
+        <label for="AR_include_in_dropdown_AR_tax">[% 'Tax' | $T8 %]</label><br>
         [% L.radio_button_tag('AR_include_in_dropdown', value => '', disabled => AccountIsPosted) %]
-        [% 'do not include' | $T8 %]
+        <label for="AR_include_in_dropdown_">[% 'do not include' | $T8 %]</label>
       </td>
       <td><b>[% 'Payables' | $T8 %]</b><br>
         [% L.radio_button_tag('AP_include_in_dropdown', value => 'AP_amount', disabled => AccountIsPosted, checked  => AP_amount) %]
-        [% 'Expense/Asset' | $T8 %] <br>
+        <label for="AP_include_in_dropdown_AP_amount">[% 'Expense/Asset' | $T8 %]</label><br>
         [% L.radio_button_tag('AP_include_in_dropdown', value => 'AP_paid', disabled => AccountIsPosted, checked  => AP_paid) %]
-        [% 'Payment' | $T8 %] <br>
+        <label for="AP_include_in_dropdown_AP_paid">[% 'Payment' | $T8 %]</label><br>
         [% L.radio_button_tag('AP_include_in_dropdown', value => 'AP_tax', disabled => AccountIsPosted, checked  => AP_tax) %]
-        [% 'Tax' | $T8 %] <br>
+        <label for="AP_include_in_dropdown_AP_tax">[% 'Tax' | $T8 %]</label><br>
         [% L.radio_button_tag('AP_include_in_dropdown', value => '', disabled => AccountIsPosted) %]
-        [% 'do not include' | $T8 %]      </td>
+        <label for="AP_include_in_dropdown_">[% 'do not include' | $T8 %]</label></td>
     </tr>
     <tr>
       <td><b>[% 'Parts Inventory' | $T8 %]</b><br>
-        <input name="IC_sale" type="checkbox" value="IC_sale"[% HTML.escape(IC_sale) %]>
-        [% 'Revenue' | $T8 %] <br>
-        <input name="IC_cogs" type="checkbox" value="IC_cogs"[% HTML.escape(IC_cogs) %]>
-        [% 'Expense' | $T8 %] <br>
-        <input name="IC_taxpart" type="checkbox" value="IC_taxpart" [% HTML.escape(IC_taxpart) %]>
-        [% 'Tax' | $T8 %]
+        <input id="IC_sale" name="IC_sale" type="checkbox" value="IC_sale"[% HTML.escape(IC_sale) %]>
+        <label for="IC_sale">[% 'Revenue' | $T8 %]</label><br>
+        <input id="IC_cogs" name="IC_cogs" type="checkbox" value="IC_cogs"[% HTML.escape(IC_cogs) %]>
+        <label for="IC_cogs">[% 'Expense' | $T8 %]</label><br>
+        <input id="IC_taxpart" name="IC_taxpart" type="checkbox" value="IC_taxpart" [% HTML.escape(IC_taxpart) %]>
+        <label for="IC_taxpart">[% 'Tax' | $T8 %]</label>
       </td>
       <td><b>[% 'Service Items' | $T8 %]</b><br>
-        <input name=IC_income type=checkbox value="IC_income"[% HTML.escape(IC_income) %]>
-        [% 'Revenue' | $T8 %] <br>
-        <input name=IC_expense type=checkbox value="IC_expense"[% HTML.escape(IC_expense) %]>
-        [% 'Expense' | $T8 %] <br>
-        <input name=IC_taxservice type=checkbox value="IC_taxservice"[% HTML.escape(IC_taxservice) %]>
-        [% 'Tax' | $T8 %]
+        <input id="IC_income" name="IC_income" type="checkbox" value="IC_income"[% HTML.escape(IC_income) %]>
+        <label for="IC_income">[% 'Revenue' | $T8 %]</label><br>
+        <input id="IC_expense" name="IC_expense" type="checkbox" value="IC_expense"[% HTML.escape(IC_expense) %]>
+        <label for="IC_expense">[% 'Expense' | $T8 %]</label><br>
+        <input id="IC_taxservice" name="IC_taxservice" type="checkbox" value="IC_taxservice"[% HTML.escape(IC_taxservice) %]>
+        <label for="IC_taxservice">[% 'Tax' | $T8 %]</label>
       </td>
     </tr>
   </tbody>
