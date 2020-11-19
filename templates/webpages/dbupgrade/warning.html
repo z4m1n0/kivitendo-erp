@@ -3,6 +3,7 @@
 [% USE LxERP %]
 [% USE L %]
 
+<div class="wrapper">
 <form name="Form" method="post" action="controller.pl">
 
   <input type="hidden" name="action" value="LoginScreen/login">
@@ -39,12 +40,12 @@
 
 </form>
 
-<div id="nodetails" class="filter_toggle">
-  <a href="#" onclick="$('#details,#nodetails').toggle();" class="button toggle off neutral">[% LxERP.t8('Show details') %]</a>
+<div id="nodetails" class="toggle_panel">
+  <a href="#" onclick="$('#details,#nodetails').toggle();" class="button toggle off neutral control-panel">[% LxERP.t8('Show details') %]</a>
 </div>
-<div id="details" style="display: none;" class="filter_toggle">
-  <a href="#" onclick="$('#details,#nodetails').toggle();" class="button toggle on neutral with-panel">[% LxERP.t8('Hide details') %]</a> </p>
-  <div class="filter-toggle-panel">
+<div id="details" style="display: none;" class="toggle_panel">
+  <a href="#" onclick="$('#details,#nodetails').toggle();" class="button toggle on neutral with-panel">[% LxERP.t8('Hide details') %]</a>
+  <div class="filter-toggle-panel toggle_panel_block">
     <p> [% LxERP.t8("List of database upgrades to be applied:") %] </p>
     <ul>
       [% FOREACH upgrade_script = unapplied_scripts %]
@@ -53,4 +54,4 @@
     </ul>
   </div><!-- /.filter-toggle-panel -->
 </div>
-
+</div><!-- /.wrapper -->
