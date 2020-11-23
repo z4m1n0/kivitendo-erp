@@ -423,6 +423,7 @@ body div.center {
   display: block;
   color: #1b1b0e;
   text-decoration: none;
+  padding: 0.45em 0.6em 0.58em 1.3em;
 }
 #menuv3 > ul {
   list-style: none;
@@ -454,7 +455,6 @@ body div.center {
 }
 #menuv3 > ul > li ul li {
   border-bottom: 1px #666633 solid;
-  padding: 0.45em 0.6em 0.58em 0.8em;
 }
 #menuv3 > ul > li > ul {
   top: 32px;
@@ -462,7 +462,6 @@ body div.center {
 }
 #menuv3 > ul > li > ul > li {
   background-color: #ccccbb;
-  padding-left: 12px ;
   margin-left: 1px;
 }
 #menuv3 > ul > li > ul > li div.x {
