@@ -323,11 +323,11 @@
         <td class="long-desc">[% LxERP.t8('Before saving a sales order, this article will be checked and a warning is generated.') %]</td>
       </tr>
       <tr>
-        <td>[% LxERP.t8('Invoice email settings') %]</td>
+        <th>[% LxERP.t8('Invoice email settings') %]</th>
         <td>
           [% L.select_tag('defaults.invoice_mail_settings', [ [ 'cp', LxERP.t8('Contact Person') ],[ 'invoice_mail', LxERP.t8('Invoice email') ],[ 'invoice_mail_cc_cp', LxERP.t8('Invoice email and Contact Person') ]  ], default=SELF.defaults.invoice_mail_settings) %]
         </td>
-        <td>[% 'The invoice recipient can either be a selected contact person (default) or the email adress set in the master data of the customer. Additionally a contact persons mail and the company\'s invoicing mail can be combined.' | $T8 %]</td>
+        <td class="long-desc">[% 'The invoice recipient can either be a selected contact person (default) or the email adress set in the master data of the customer. Additionally a contact persons mail and the company\'s invoicing mail can be combined.' | $T8 %]</td>
       </tr>
       <tr>
         <th class="caption" colspan="3">[% LxERP.t8("Requirement Specs") %]</th>
@@ -421,16 +421,16 @@
 </div></td>
       <!-- <td class="longdesc"></td> -->
     </tr>
-    <tr><td class="listheading" colspan="4">[% 'Displayable Name Preferences' | $T8 %]</td></tr>
+    <tr><th colspan="4">[% 'Displayable Name Preferences' | $T8 %]</th></tr>
     [% FOREACH module=SELF.displayable_name_specs_by_module.keys.sort %]
     [%- SET spec=SELF.displayable_name_specs_by_module.$module -%]
     <tr>
-      <td align="right">[% spec.specs.title %]</td>
+      <th class="left">[% spec.specs.title %]</th>
       <td>
         <table>
           <tr>
-            <th align="left" class="listheading">[% 'Option' | $T8 %]</th>
-            <th align="left" class="listheading">[% 'Name'   | $T8 %]</th>
+            <th class="left">[% 'Option' | $T8 %]</th>
+            <th class="left">[% 'Name'   | $T8 %]</th>
           </tr>
           [% FOREACH option=spec.specs.options %]
           <tr>
@@ -448,7 +448,7 @@
         </table>
       </td>
       [% IF loop.first %]
-      <td>[% 'The display of (mainly) picker results can be configured. To insert the value of one option use <%Name%>.' | $T8 %]<br>
+      <td class="long-desc">[% 'The display of (mainly) picker results can be configured. To insert the value of one option use <%Name%>.' | $T8 %]<br>
         [% 'E.g. "<%customernumber%> <%name%>"' | $T8 %]
       </td>
       [% END %]
