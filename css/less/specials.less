@@ -16,7 +16,7 @@
 // - ACCOUNT LIST
 // - ROW POSITON DETAILS (E.G. SALES ORDER)
 // - TABLE #DISPLAY ROW
-// - #RESULTS (CSV IMPORT RESULTS)
+// - HORIZONTAL SCROLLBAR DISPLAY
 // ----------------------------------------------------------------------------
 
 
@@ -134,11 +134,17 @@ table#display_row{
 
 
 // --------------------------------------
-// DIV #RESULTS (CSV IMPORT RESULTS)
+// HORIZONTAL SCROLLBAR DISPLAY
 // --------------------------------------
 
+// csv import preview/results table
 #results {
   // show below others and limit width so that scrollbar is displayed
   clear: left;
   width: 95vw;
+}
+
+// orders positions table
+#row_table_scroll_id {
+  max-width: 96vw !important;
 }

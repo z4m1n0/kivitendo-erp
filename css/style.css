@@ -4594,7 +4594,7 @@ pre.filecontent {
   padding-bottom: 1em;
 }
 .horizontal-scroll-wrapper {
-  overflow-x: auto;
+  overflow-x: auto !important;
 }
 .plus,
 .minus,
@@ -5097,6 +5097,9 @@ table#display_row tbody tr td input.row-position {
 #results {
   clear: left;
   width: 95vw;
+}
+#row_table_scroll_id {
+  max-width: 96vw !important;
 }
 /* ------------------------------------------------------------- */
 /* JQUERY UI (jquery-ui.less)                                    */
