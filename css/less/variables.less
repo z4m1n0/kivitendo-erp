@@ -12,7 +12,7 @@
 // CONTENTS:
 // - COLORS
 //   - Greys
-//   - Branding
+//   - Base
 //   - Divers Color Specifications
 // - SCAFFOLDING
 //   - Body/Content Background color, Text color
@@ -67,7 +67,7 @@
 
 
 // --------------------------------------
-// COLORS (GREYs, BRAND COLORS & OTHERS)
+// COLORS (GREYs, BASE COLORS & OTHERS)
 // --------------------------------------
 // Base Colors see variables_color[*-9].less
 // Include the preferred color scheme in style.less before including this less file
@@ -76,31 +76,31 @@
 // General text color (label & data)
 // -----------------------
 // Standard text
-@brand-primary:         @brand-text-color;
-@brand-label:           @brand-data-label-color;
-@brand-label-bg:        @brand-lighter;
+@base-primary:         @base-text-color;
+@base-label:           @base-data-label-color;
+@base-label-bg:        @base-lighter;
 
 // -----------------------
 // MESSAGES & INFO TYPES
 // -----------------------
 // color definitions in variables_color_[*-9].less
-@brand-ok:              @color-green-strong;
-@brand-ok-bg:           @color-green-light;
+@base-ok:              @color-green-strong;
+@base-ok-bg:           @color-green-light;
 
-@brand-error:           @color-red-strong;
-@brand-error-bg:        @color-red-light;
+@base-error:           @color-red-strong;
+@base-error-bg:        @color-red-light;
 
-@brand-info:            @color-blue-strong;
-@brand-info-bg:         @color-blue-light;
+@base-info:            @color-blue-strong;
+@base-info-bg:         @color-blue-light;
 
-@brand-warning:         @color-orange-strong;
-@brand-warning-bg:      @color-orange-light;
+@base-warning:         @color-orange-strong;
+@base-warning-bg:      @color-orange-light;
 
 // Positive & negative colors
-@brand-positive:        @color-green-strong;
-@brand-positive-bg:     @color-green-light;
-@brand-negative:        @color-red-strong;
-@brand-negative-bg:     @color-red-light;
+@base-positive:        @color-green-strong;
+@base-positive-bg:     @color-green-light;
+@base-negative:        @color-red-strong;
+@base-negative-bg:     @color-red-light;
 
 
 
@@ -164,8 +164,8 @@
 @border-radius-large:           6px;
 @border-radius-small:           3px;
 
-@component-active-color:        @brand-superlight;
-@component-active-bg:           @brand-primary; // PENDENT: Variable nicht vorgesehen dafuer
+@component-active-color:        @base-superlight;
+@component-active-bg:           @base-primary; // PENDENT: Variable nicht vorgesehen dafuer
 
 @caret-width-base:              4px;
 @caret-width-large:             5px;
@@ -184,7 +184,7 @@
 // --------------------------------------
 // LINKS
 // --------------------------------------
-@link-color:            @brand-link-color;
+@link-color:            @base-link-color;
 @link-hover-color:      darken(@link-color, 15%);
 @link-decoration:       none;
 @link-hover-decoration: underline;
@@ -228,11 +228,11 @@
 @headings-font-family:    @font-family-base;
 @headings-weight:         500;
 @headings-line-height:    1.3em;
-@headings-color:          @brand-heading-color;
+@headings-color:          @base-heading-color;
 @headings-color-accent:   #000;
 
-@headings-color-error:    @brand-error;
-@headings-color-confirm:  @brand-ok;
+@headings-color-error:    @base-error;
+@headings-color-confirm:  @base-ok;
 
 @h1-size:            floor(@font-size-base * 1.1); //  ~**px
 @h2-size:            floor(@font-size-base * 1.2); //  ~**px
@@ -255,11 +255,11 @@
 // Heading 1 (H1)
 // -----------------------
 // Fixed on top of every page together with the action bar
-@brand-h1-color:        @_brand-h1-color;
-@brand-h1-bg:           @_brand-h1-bg;
+@base-h1-color:        @_base-h1-color;
+@base-h1-bg:           @_base-h1-bg;
 @h1-padding:            0.7em 0.5em 0.7em 1.3em;
 @h1-margin:             0;
-@brand-h1-border-top:  @_brand-h1-border-top;
+@base-h1-border-top:  @_base-h1-border-top;
 // -----------------------
 // Heading Controlpanels
 // -----------------------
@@ -275,12 +275,12 @@
 // -----------------------
 // Data types
 // -----------------------
-@heading-and-label-color:   @brand-data-label-color  ;
-@heading-and-label-bg:      @brand-data-label-color  ;
-@data-color:                @brand-data-color ;
+@heading-and-label-color:   @base-data-label-color  ;
+@heading-and-label-bg:      @base-data-label-color  ;
+@data-color:                @base-data-color ;
 
 @long-desc-size:            @font-size-verysmall ;
-@long-desc-color:           @brand-text-color ;
+@long-desc-color:           @base-text-color ;
 
 
 
@@ -563,10 +563,10 @@
 @controlpanel-radius:         @contentbox-radius      ;
 
 // PENDENT: noetig?
-@controlpanel-bg-hover:       @brand-superdark        ;
-@controlpanel-bg-hover-text:  @brand-light            ;
-@controlpanel-active-bg:      @brand-darker            ;
-@controlpanel-active-text:    @brand-lighter          ;
+@controlpanel-bg-hover:       @base-superdark        ;
+@controlpanel-bg-hover-text:  @base-light            ;
+@controlpanel-active-bg:      @base-darker            ;
+@controlpanel-active-text:    @base-lighter          ;
 
 @controlpanel-h3-color:       @h3-size ;
 @controlpanel-h3-size:        110%    ;
@@ -657,21 +657,21 @@
 @message-padding:        0.6em 0.6em 0.5em 0.6em ;
 
 // Error
-@message_error_bg:       @brand-error-bg ;
-@message_error_border:   1px solid @brand-error ;
-@message_error_text:     @brand-error ;
+@message_error_bg:       @base-error-bg ;
+@message_error_border:   1px solid @base-error ;
+@message_error_text:     @base-error ;
 // OK
-@message_ok_bg:          @brand-ok-bg ;
-@message_ok_border:      1px solid @brand-ok ;
-@message_ok_text:        @brand-ok ;
+@message_ok_bg:          @base-ok-bg ;
+@message_ok_border:      1px solid @base-ok ;
+@message_ok_text:        @base-ok ;
 // Info & Hint
-@message_info_bg:        @brand-info-bg ;
-@message_info_border:    1px solid @brand-info ;
-@message_info_text:      @brand-info ;
+@message_info_bg:        @base-info-bg ;
+@message_info_border:    1px solid @base-info ;
+@message_info_text:      @base-info ;
 // Warning
-@message_warning_bg:     @brand-warning-bg ;
-@message_warning_border: 1px solid @brand-warning ;
-@message_warning_text:   @brand-warning ;
+@message_warning_bg:     @base-warning-bg ;
+@message_warning_border: 1px solid @base-warning ;
+@message_warning_text:   @base-warning ;
 // Hint (like Info above, just to make it sure working)
 @message_hint_bg:        @message_info_bg ;
 @message_hint_border:    @message_info_border ;
@@ -689,20 +689,20 @@
 // -----------------------
 // Date picker
 // -----------------------
-@jquery_datepicker-bg-color: @brand-superlight ;
+@jquery_datepicker-bg-color: @base-superlight ;
 
 // -----------------------
 // UI-Dialog
 // -----------------------
-@jquery_ui_dialog-bg-color:   @brand-verylight ;
+@jquery_ui_dialog-bg-color:   @base-verylight ;
 @jquery_ui_dialog-bg-style:   @_bg_style_body ;
 
 // -----------------------
 // TOOLTIPSTER
 // -----------------------
-@jquery_ui_tooltipster-bg-color:       @brand-standard ;
-@jquery_ui_tooltipster-border-color:   @brand-lighter ;
-@jquery_ui_tooltipster-color:         @brand-verylight ;
+@jquery_ui_tooltipster-bg-color:       @base-standard ;
+@jquery_ui_tooltipster-border-color:   @base-lighter ;
+@jquery_ui_tooltipster-color:         @base-verylight ;
 
 
 
@@ -935,15 +935,15 @@
   --gray-verylight:     @gray-verylight;
   --gray-superlight:    @gray-superlight; // White
 
-  --color-standard:     @brand-standard;
-  --color-superlight:   @brand-superlight;
-  --color-verylight:    @brand-verylight;
-  --color-lighter:      @brand-lighter;
-  --color-light:        @brand-light;
-  --color-dark:         @brand-dark;
-  --color-darker:       @brand-darker;
-  --color-verydark:     @brand-verydark;
-  --color-superdark:    @brand-superdark;
+  --color-standard:     @base-standard;
+  --color-superlight:   @base-superlight;
+  --color-verylight:    @base-verylight;
+  --color-lighter:      @base-lighter;
+  --color-light:        @base-light;
+  --color-dark:         @base-dark;
+  --color-darker:       @base-darker;
+  --color-verydark:     @base-verydark;
+  --color-superdark:    @base-superdark;
 
   --msg-ok-strong:        @msg-green-strong;
   --msg-ok-light:         @msg-green-light;
@@ -955,4 +955,3 @@
   --msg-warning-light:    @msg-orange-light;
 
 }
-
