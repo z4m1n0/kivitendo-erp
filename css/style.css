@@ -82,22 +82,22 @@
   border-radius: 6px;
 }
 .mx-button-standard {
-  border: 1px #1b1b0e solid;
-  background-color: #292914;
-  color: #f5f5f1;
+  border: 1px #406449 solid;
+  background-color: #406449;
+  color: #fff;
   text-decoration: none;
 }
 .mx-button-standard-hover-focus:hover {
-  border: 1px #000000 solid;
-  background-color: #1b1b0e;
-  color: #e0e0d6;
+  border: 1px #548360 solid;
+  background-color: #548360;
+  color: #fff;
   text-decoration: none;
 }
 .mx-button-standard-hover-focus:active,
 .mx-button-standard-hover-focus:focus {
-  border: 1px #000000 solid;
-  background-color: #000000;
-  color: #e0e0d6;
+  border: 1px #548360 solid;
+  background-color: #548360;
+  color: #fff;
   text-decoration: none;
 }
 .mx-button-neutral {
@@ -3611,18 +3611,18 @@ input[type="button"],
 input[type="button"].button,
 button[type="submit"],
 button[type="button"] {
-  color: #f5f5f1;
-  background-color: #292914;
-  border: 1px #1b1b0e solid;
+  color: #fff;
+  background-color: #406449;
+  border: 1px #406449 solid;
 }
 input[type="submit"]:hover,
 input[type="button"]:hover,
 input[type="button"].button:hover,
 button[type="submit"]:hover,
 button[type="button"]:hover {
-  color: #e0e0d6;
-  background-color: #1b1b0e;
-  border: 1px #000000 solid;
+  color: #fff;
+  background-color: #548360;
+  border: 1px #548360 solid;
 }
 input[type="submit"]:active,
 input[type="button"]:active,
@@ -3634,9 +3634,9 @@ input[type="button"]:focus,
 input[type="button"].button:focus,
 button[type="submit"]:focus,
 button[type="button"]:focus {
-  color: #e0e0d6;
-  background-color: #000000;
-  border: 1px #000000 solid;
+  color: #fff;
+  background-color: #548360;
+  border: 1px #548360 solid;
 }
 input[type="button"].neutral,
 input[type="submit"].neutral,
@@ -3699,25 +3699,25 @@ a.button {
   border-style: solid;
   border-width: 1px;
   border-radius: 6px;
-  border: 1px #1b1b0e solid;
-  background-color: #292914;
-  color: #f5f5f1;
+  border: 1px #406449 solid;
+  background-color: #406449;
+  color: #fff;
   text-decoration: none;
 }
 a.button.below {
   clear: both !important;
 }
 a.button:hover {
-  border: 1px #000000 solid;
-  background-color: #1b1b0e;
-  color: #e0e0d6;
+  border: 1px #548360 solid;
+  background-color: #548360;
+  color: #fff;
   text-decoration: none;
 }
 a.button:active,
 a.button:focus {
-  border: 1px #000000 solid;
-  background-color: #000000;
-  color: #e0e0d6;
+  border: 1px #548360 solid;
+  background-color: #548360;
+  color: #fff;
   text-decoration: none;
 }
 a.button.neutral:link,
@@ -3814,22 +3814,22 @@ a.button.toggle:hover {
   border-style: solid;
   border-width: 1px;
   border-radius: 6px;
-  border: 1px #1b1b0e solid;
-  background-color: #292914;
-  color: #f5f5f1;
+  border: 1px #406449 solid;
+  background-color: #406449;
+  color: #fff;
   text-decoration: none;
 }
 #content label.button:hover {
-  border: 1px #000000 solid;
-  background-color: #1b1b0e;
-  color: #e0e0d6;
+  border: 1px #548360 solid;
+  background-color: #548360;
+  color: #fff;
   text-decoration: none;
 }
 #content label.button:active,
 #content label.button:focus {
-  border: 1px #000000 solid;
-  background-color: #000000;
-  color: #e0e0d6;
+  border: 1px #548360 solid;
+  background-color: #548360;
+  color: #fff;
   text-decoration: none;
 }
 #content label.button.neutral {
@@ -4187,8 +4187,8 @@ h1 {
   z-index: 1020;
   top: 60px;
   width: 100%;
-  color: #e0e0d6;
-  background-color: #292914;
+  color: #fff;
+  background-color: #406449;
   padding: 0.7em 0.5em 0.7em 1.3em;
   border-top: 1px #666633 solid;
 }
@@ -4198,8 +4198,8 @@ h1 {
   margin: 1.6em 0 0.4em 0;
 }
 body > h1 {
-  color: #e0e0d6;
-  background-color: #292914;
+  color: #fff;
+  background-color: #406449;
   padding: 0.7em 0.5em 0.7em 1.3em;
 }
 h2 {
@@ -5578,8 +5578,8 @@ img.ui-datepicker-trigger {
 .ui-dialog .ui-dialog-titlebar {
   padding: 0.4em 1em;
   border: none;
-  background-color: #292914 !important;
-  color: #e0e0d6 !important;
+  background-color: #406449 !important;
+  color: #fff !important;
   font-weight: normal;
   position: relative;
   text-align: left;
@@ -7395,7 +7395,7 @@ span.ppp_popup_button {
   // Days
   td a {
     &.ui-state-default {
-      color: @brand-dark;
+      color: @base-dark;
     }
     &.ui-state-hover {
       color: #ffffff ;
@@ -7403,9 +7403,9 @@ span.ppp_popup_button {
       border: #000000 ;
     }
     &.ui-state-active {
-      border: 1px solid @brand-dark;
-      background-color: @brand-dark;
-      color: @brand-verylight;
+      border: 1px solid @base-dark;
+      background-color: @base-dark;
+      color: @base-verylight;
     }
 
   }
@@ -7840,13 +7840,13 @@ body div.admin > form {
 /* DEVELOPING (developing.less)                                  */
 /* ------------------------------------------------------------- */
 body.developing > header {
-  background-color: #292914;
+  background-color: #406449;
   display: block;
   overflow: hidden;
 }
 body.developing > header h1 {
   float: left;
-  color: #e0e0d6;
+  color: #fff;
   padding: 1em;
 }
 body.developing > header nav {
@@ -7966,9 +7966,9 @@ body.developing input[type="button"].button,
 body.developing button[type="submit"],
 body.developing button[type="button"],
 body.developing a.button {
-  color: #f5f5f1;
-  background-color: #292914;
-  border: 1px #1b1b0e solid;
+  color: #fff;
+  background-color: #406449;
+  border: 1px #406449 solid;
 }
 body.developing input[type="submit"].hover,
 body.developing input[type="button"].hover,
@@ -7976,9 +7976,9 @@ body.developing input[type="button"].button.hover,
 body.developing button[type="submit"].hover,
 body.developing button[type="button"].hover,
 body.developing a.button.hover {
-  color: #e0e0d6;
-  background-color: #1b1b0e;
-  border: 1px #000000 solid;
+  color: #fff;
+  background-color: #548360;
+  border: 1px #548360 solid;
 }
 body.developing input[type="submit"].active,
 body.developing input[type="button"].active,
@@ -7986,9 +7986,9 @@ body.developing input[type="button"].button.active,
 body.developing button[type="submit"].active,
 body.developing button[type="button"].active,
 body.developing a.button.active {
-  color: #e0e0d6;
-  background-color: #000000;
-  border: 1px #000000 solid;
+  color: #fff;
+  background-color: #548360;
+  border: 1px #548360 solid;
 }
 body.developing input[type="button"].neutral,
 body.developing input[type="submit"].neutral,

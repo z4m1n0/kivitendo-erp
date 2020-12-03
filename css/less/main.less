@@ -93,10 +93,10 @@ h1 {
   z-index:            @zindex-h1; //hps:12
   top:                60px;
   width:              100%;
-  color:              @brand-h1-color ;
-  background-color:   @brand-h1-bg;
+  color:              @base-h1-color ;
+  background-color:   @base-h1-bg;
   padding:            @h1-padding;
-  border-top:         @brand-h1-border-top;
+  border-top:         @base-h1-border-top;
 }
 #content .wrapper h1{
   color:              @headings-color;
@@ -104,8 +104,8 @@ h1 {
   margin:             @margin-from-wrapper ;
 }
 body > h1{
-  color:              @brand-h1-color ;
-  background-color:   @brand-h1-bg ;
+  color:              @base-h1-color ;
+  background-color:   @base-h1-bg ;
   padding:            @h1-padding;
 }
 
@@ -372,7 +372,7 @@ div.instructions {
 // Labels & Values (SPAN)
 // -----------------------
 span.label{
-  //color: @brand-data-label-color ;
+  //color: @base-data-label-color ;
   font-size: @font-size-smaller ;
   font-style: normal ;
   //margin: 0 0.3em 0 0 ; // PENDENT: gehoert nicht hierher
@@ -398,7 +398,7 @@ span.value{
 .accent{
   div.label{
     float: left ;
-    //color: @brand-data-label-color ;
+    //color: @base-data-label-color ;
     font-size: 80% ;
     //&.wi-mediumsmall{ width: 13.6em; } // PENDENT!
     padding-top: 0.8em ;
@@ -590,15 +590,15 @@ pre.filecontent {
 }
 // Negative Values
 .minus,
-.plus0 { color:      @brand-negative !important; }
+.plus0 { color:      @base-negative !important; }
 // Positive Values
 .plus,
-.plus1 { color:     @brand-positive !important; }
+.plus1 { color:     @base-positive !important; }
 
 // unbalanced Ledger
 // PENDENT: wo eingesetzt?
 span.unbalanced_ledger {
-  background-color: @brand-warning-bg;
+  background-color: @base-warning-bg;
 }
 
 
