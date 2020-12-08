@@ -572,7 +572,7 @@ div.layout-split-right.folded {
   height: 100%;
   margin: 27px 0 0 0;
   padding: 0 0 150px 0;
-  background-color: #666633;
+  background-color: #e0e0d6;
   font-size: 10pt;
   border-bottom: 20px #666633 solid;
 }
@@ -611,8 +611,8 @@ div.layout-split-right.folded {
 }
 #layout-split-left #html-menu .s0 a:hover,
 #layout-split-left #html-menu .s0 a:active {
-  background-color: #292914;
-  color: #f5f5f1;
+  background-color: #548360;
+  color: #fff;
   text-decoration: none;
 }
 #layout-split-left #html-menu .s0 a:link,
@@ -621,8 +621,8 @@ div.layout-split-right.folded {
 }
 #layout-split-left #html-menu .s0.menu-open {
   font-weight: normal;
-  background-color: #1b1b0e;
-  color: #e0e0d6;
+  background-color: #406449;
+  color: #fff;
   border-bottom: 0 ;
 }
 #layout-split-left #html-menu .s0.menu-open a {
@@ -631,13 +631,13 @@ div.layout-split-right.folded {
 }
 #layout-split-left #html-menu .s0.menu-open a:hover,
 #layout-split-left #html-menu .s0.menu-open a:active {
-  background-color: #1b1b0e;
-  color: #e0e0d6;
+  background-color: #406449;
+  color: #fff;
   text-decoration: none;
 }
 #layout-split-left #html-menu .s0.menu-open a:link,
 #layout-split-left #html-menu .s0.menu-open a:visited {
-  color: #e0e0d6;
+  color: #fff;
 }
 #layout-split-left #html-menu .s1 {
   font-size: 80% ;
