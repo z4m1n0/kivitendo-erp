@@ -15,6 +15,8 @@
 // - BASE COLORS
 //   - Grey Shades
 //   - BASE COLORS
+// - COLOR SPECIFICATIONS FOR LINKS
+// - COLOR SPECIFICATIONS FOR MESSAGES
 // - MAIN PROPERTIES (STANDARD TEXT COLORS)
 // - SCAFFOLDING (PAGE)
 // - FRAME HEADER
@@ -224,9 +226,16 @@
 
 
 
+// --------------------------------------
+// COLOR SPECIFICATIONS FOR LINKS
+// --------------------------------------
+// should have a high contrast on background
+@links-color:           #2962ce;
+
+
 
 // --------------------------------------
-// COLOR SPECICATIONS FOR MESSAGES
+// COLOR SPECIFICATIONS FOR MESSAGES
 // --------------------------------------
 // strong is for text and borders
 // light  is for background-colors
@@ -265,8 +274,8 @@
 @base-text-color:          @gray-dark ; //
 @base-text-color-accent:   @base-standard ; //
 
-@base-link-color:          @base-dark ; //
-@base-link-color-hover:    @base-darker ; //
+@base-link-color:          @links-color; //
+@base-link-color-hover:    @links-color; //
 
 @base-table-text-color:    @base-superdark ; //
 

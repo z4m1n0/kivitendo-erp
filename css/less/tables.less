@@ -469,17 +469,6 @@ table {
     th {
       color: @t-cell-th-text-color ;
       //vertical-align: top ;
-      & > a {
-        &:link,
-        &:visited {
-          text-decoration:   none ;
-          color:             @t-cell-label-text-accent ;
-        }
-        &:hover,
-        &:active {
-          text-decoration:   underline ;
-        }
-      }
       h4{
         margin: 0 ;
         padding: 0 ;
@@ -681,7 +670,7 @@ table {
             &:link,
             &:visited {
               color:              @t-cell-head-text-accent ;
-              text-decoration:    none ;
+              text-decoration:    underline ;
             }
             &:hover {
               color:              @t-cell-head-text-accent ;
@@ -725,10 +714,6 @@ table {
 
       td, th {
         color:              @table-list-zebra-text-color ;
-        a,
-        a:link,
-        a:visited { color:  @table-list-zebra-link-color ;
-        }
       }
     } // /tbody
 

@@ -424,6 +424,7 @@ body div.center {
   color: #1b1b0e;
   text-decoration: none;
   padding: 0.45em 0.6em 0.58em 1.3em;
+  font-weight: normal;
 }
 #menuv3 > ul {
   list-style: none;
@@ -587,6 +588,8 @@ div.layout-split-right.folded {
 #layout-split-left #html-menu .mi a {
   display: block;
   word-wrap: break-word;
+  text-decoration: none;
+  font-weight: normal;
 }
 #layout-split-left #html-menu .mi:first-child {
   border-top: 2px #666633 solid;
@@ -2729,15 +2732,6 @@ table.tbl-horizontal td label {
 table.tbl-horizontal th {
   color: #292914;
 }
-table.tbl-horizontal th > a:link,
-table.tbl-horizontal th > a:visited {
-  text-decoration: none ;
-  color: #000000;
-}
-table.tbl-horizontal th > a:hover,
-table.tbl-horizontal th > a:active {
-  text-decoration: underline ;
-}
 table.tbl-horizontal th h4 {
   margin: 0 ;
   padding: 0 ;
@@ -2913,7 +2907,7 @@ table.tbl-list thead tr th > a {
 table.tbl-list thead tr th > a:link,
 table.tbl-list thead tr th > a:visited {
   color: #e0e0d6;
-  text-decoration: none ;
+  text-decoration: underline ;
 }
 table.tbl-list thead tr th > a:hover {
   color: #e0e0d6;
@@ -2955,14 +2949,6 @@ table.tbl-list tbody tr.listrow_error {
 table.tbl-list tbody td,
 table.tbl-list tbody th {
   color: #292914;
-}
-table.tbl-list tbody td a,
-table.tbl-list tbody th a,
-table.tbl-list tbody td a:link,
-table.tbl-list tbody th a:link,
-table.tbl-list tbody td a:visited,
-table.tbl-list tbody th a:visited {
-  color: #666633;
 }
 table.tbl-list tfoot {
   display: table-footer-group;
@@ -4279,15 +4265,16 @@ h3.caption {
   margin-top: 0.2em !important;
 }
 a {
-  text-decoration: none;
+  text-decoration: underline;
+  font-weight: bold;
 }
 a:link,
 a:visited,
 a:active {
-  color: #292914;
+  color: #2962ce;
 }
 a:hover {
-  color: #000000;
+  color: #4e7fdc;
   text-decoration: underline;
 }
 a.selected:hover {
@@ -7301,6 +7288,7 @@ span.ppp_popup_button {
 .tabwidget > ul li.ui-state-default a,
 .tabwidget > ul li.ui-state-default a:link {
   color: #1b1b0e;
+  font-weight: normal;
 }
 .tabwidget > ul li.ui-state-hover {
   color: #1b1b0e;
