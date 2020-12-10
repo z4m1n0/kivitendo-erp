@@ -4,13 +4,13 @@
 [% USE L %]
 
 <tr class="tax_row">
-  <td colspan="11"></td>
+  <td colspan="[% 10 + ADD_COL %]"></td>
   <th colspan="3">[% IF TAXINCLUDED %][% 'Including' | $T8 %]&nbsp;[% END %][% TAX.tax.taxdescription %] [% TAX.tax.rate_as_percent %]%</th>
   <td class="numeric">[% LxERP.format_amount(TAX.amount, 2, 0) %]</td>
 </tr>
 [% IF TAXINCLUDED %]
 <tr class="tax_row">
-  <td colspan="11"></td>
+  <td colspan="[% 10 + ADD_COL %]"></td>
   <th colspan="3">[% 'Net amount' | $T8 %]</th>
   <td class="numeric">[% LxERP.format_amount(TAX.netamount, 2, 0) %]</td>
 </tr>
