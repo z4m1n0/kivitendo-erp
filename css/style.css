@@ -4027,6 +4027,9 @@ div.filtered_select select {
   padding: 0 !important;
   margin: 0;
 }
+.toggle_panel .tbl-horizontal {
+  margin-right: 1.6em;
+}
 #content .input-panel {
   display: inline-block;
   overflow: hidden ;
