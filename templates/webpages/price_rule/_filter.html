@@ -52,7 +52,7 @@
   </tbody>
 </table>
 
-<table id="filter_table" class="tbl-horizontal">
+<table id="filter_table2" class="tbl-horizontal">
   <caption>[% 'Dates' | $T8 %]</caption>
   <tbody>
     <tr>
@@ -99,11 +99,9 @@
 
 <div class="col list">
 <h3 class="caption">[% 'Has item type' | $T8 %]</h3>
-<div>
   [% FOREACH type = SELF.all_price_rule_item_types %]
-    [% L.checkbox_tag('filter.has_item_type[]', value=type.0, label=type.1, checked=filter.has_item_type_.${type.0})  %]<br>
+    <div>[% L.checkbox_tag('filter.has_item_type[]', value=type.0, label=type.1, checked=filter.has_item_type_.${type.0})  %]</div>
   [% END %]
-</div>
 </div>
 
 [% L.hidden_tag('sort_by', FORM.sort_by) %]
