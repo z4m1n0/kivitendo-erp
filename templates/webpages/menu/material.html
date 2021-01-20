@@ -1,0 +1,23 @@
+[%- USE T8 %]
+[%- USE L %]
+[%- USE HTML %]
+[%- USE LxERP -%]
+<nav>
+  <div class="nav-wrapper">
+    <a class="brand-logo">Kivitendo</a>
+    <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    <ul id="nav" class="right hide-on-med-and-down">
+      [%- FOREACH node = menu.tree %]
+        [%- NEXT UNLESS node.visible %]
+        <li>[% L.link(menu.href_for_node(node) || '#', menu.name_for_node(node), target=node.target) %]</li>
+      [%- END %]
+    </ul>
+  </div>
+</nav>
+
+<ul id="nav-mobile" class="sidenav">
+  [%- FOREACH node = menu.tree %]
+    [%- NEXT UNLESS node.visible %]
+    <li>[% L.link(menu.href_for_node(node) || '#', menu.name_for_node(node), target=node.target) %]</li>
+  [%- END %]
+</ul>
