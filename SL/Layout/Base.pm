@@ -115,7 +115,7 @@ sub stylesheets {
   my $css_path = $self->get_stylesheet_for_user;
 
   return uniq grep { $_ } map { $self->_find_stylesheet($_, $css_path)  }
-    $self->use_stylesheet, map { $_->stylesheets } $self->sub_layouts;
+    $self->use_stylesheet, map { $_->use_stylesheet } $self->sub_layouts;
 }
 
 sub _find_stylesheet {
@@ -158,7 +158,7 @@ sub javascripts {
   my ($self) = @_;
 
   return uniq grep { $_ } map { $self->_find_javascript($_)  }
-    map({ $_->javascripts } $self->sub_layouts), $self->use_javascript;
+    map({ $_->use_javascript } $self->sub_layouts), $self->use_javascript;
 }
 
 sub _find_javascript {
