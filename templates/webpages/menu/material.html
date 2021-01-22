@@ -19,7 +19,7 @@
 
 [%- BLOCK menu_items %]
  [%- IF MYCONFIG.login %]
-  <li><div>[% 'User' | $T8 %]: [% MYCONFIG.login | html %]<div></li>
+  <li><a>[% 'User' | $T8 %]: [% MYCONFIG.login | html %]</a></li>
  [%- ELSE %]
   <li>[% L.link(C.url_for(controller='LoginScreen', action='user_login'), LxERP.t8('Login')) %]</li>
  [%- END %]
