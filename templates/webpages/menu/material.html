@@ -7,17 +7,33 @@
     <a class="brand-logo">Kivitendo</a>
     <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
     <ul id="nav" class="right hide-on-med-and-down">
-      [%- FOREACH node = menu.tree %]
-        [%- NEXT UNLESS node.visible %]
-        <li>[% L.link(menu.href_for_node(node) || '#', menu.name_for_node(node), target=node.target) %]</li>
-      [%- END %]
+      [% PROCESS menu_items %]
     </ul>
   </div>
 </nav>
 
 <ul id="nav-mobile" class="sidenav">
+  [% PROCESS menu_items %]
+</ul>
+
+
+[%- BLOCK menu_items %]
+ [%- IF MYCONFIG.login %]
+  <li><div>[% 'User' | $T8 %]: [% MYCONFIG.login | html %]<div></li>
+ [%- ELSE %]
+  <li>[% L.link(C.url_for(controller='LoginScreen', action='user_login'), LxERP.t8('Login')) %]</li>
+ [%- END %]
+
+  <li><div class="divider"></div></li>
+
   [%- FOREACH node = menu.tree %]
     [%- NEXT UNLESS node.visible %]
     <li>[% L.link(menu.href_for_node(node) || '#', menu.name_for_node(node), target=node.target) %]</li>
   [%- END %]
-</ul>
+
+  <li><div class="divider"></div></li>
+
+ [%- IF MYCONFIG.login %]
+  <li>[% L.link(C.url_for(controller='LoginScreen', action='logout'), LxERP.t8('Logout')) %]</li>
+ [%- END %]
+[% END %]
