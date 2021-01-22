@@ -13,12 +13,7 @@ sub use_javascript {
 }
 
 sub javascripts_inline {
-<<'EOL';
-  document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('select');
-    var instances = M.FormSelect.init(elems);
-  });
-EOL
+  "M.AutoInit();";
 }
 
 sub get_stylesheet_for_user {
