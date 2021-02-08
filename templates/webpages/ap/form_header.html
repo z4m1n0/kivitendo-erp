@@ -203,7 +203,7 @@
         <input type="hidden" name="tax_[% i %]" value="[% temp = " tax"_ i %][% $temp | html %]">
       </td>
       <td class="numeric">
-        <input type="text" name="amount_[% i %]" size="10" value="[% temp = " amount_"_ i %][% $temp | html %]" class="numeric wi-small">
+        <input type="text" name="amount_[% i %]" size="10" value="[% temp = "amount_"_ i %][% $temp | html %]" class="numeric wi-small">
       </td>
       <td class="numeric">[% temp = "tax_"_ i %][% $temp | html %]</td>
       <td>
@@ -271,7 +271,7 @@
           [% END %]
         </td>
         <td>
-          [% IF changeable && loop.last && paid_missing > 0 %] <input type="button" id="ap_set_to_paid_missing" value="[% 'Set to paid missing' | $t8 %]"> [% END %]
+          [% IF changeable && loop.last && paid_missing > 0 %] <input type="button" id="ap_set_to_paid_missing" value="[% 'Set to paid missing' | $T8 %]"> [% END %]
         </td>
         [% IF ( !defaultcurrency || (currency != defaultcurrency) ) %]
           <td>
