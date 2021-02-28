@@ -168,8 +168,6 @@ sub set_layout {
   $::request->{layout} = $::request->is_mobile
     ? SL::Layout::Dispatcher->new(style => 'mobile_login')
     : SL::Layout::Dispatcher->new(style => 'login');
-
-  $::lxdebug->dump(0,  "layout", $::request->{layout});
 }
 
 sub init_clients {
@@ -185,11 +183,7 @@ sub init_default_client_id {
 sub show_login_form {
   my ($self, %params) = @_;
 
-  if ($::request->is_mobile) {
-    $self->render('login_screen/mobile_login', %params, version => SL::Version->get_version, callback => $::form->{callback});
-  } else {
-    $self->render('login_screen/user_login', %params, version => SL::Version->get_version, callback => $::form->{callback});
-  }
+  $self->render('login_screen/user_login', %params, version => SL::Version->get_version, callback => $::form->{callback});
 }
 
 1;
