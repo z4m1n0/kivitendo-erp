@@ -16,6 +16,7 @@ sub webpages_path {
 
 sub init_sub_layouts {
   [
+    SL::Layout::None->new,
     SL::Layout::MaterialStyle->new,
     SL::Layout::MaterialMenu->new,
   ]
