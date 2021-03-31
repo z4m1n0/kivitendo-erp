@@ -123,7 +123,7 @@ sub parse {
 
       } else {
         # unstructured
-        $transaction{purpose} = substr($line->[0], 5);
+        $transaction{purpose} = substr($line->[0], 4);
       }
 
       $store_transaction->();
