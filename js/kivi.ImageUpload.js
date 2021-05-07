@@ -54,6 +54,8 @@ namespace("kivi.ImageUpload", function(ns) {
   };
 
   ns.upload_selected_files = function(id, type, maxsize) {
+    $("#upload_modal").modal("open");
+
     kivi.FileDB.retrieve_all((myfiles) => {
       let filesize  = 0;
       myfiles.forEach(file => {
@@ -64,7 +66,7 @@ namespace("kivi.ImageUpload", function(ns) {
         }
 
         let data = new FormData();
-        data.append("file", file);
+        data.append("uploadfiles[]", file);
         data.append("action", "File/ajax_files_uploaded");
         data.append("json", "1");
         data.append("object_type", type);
