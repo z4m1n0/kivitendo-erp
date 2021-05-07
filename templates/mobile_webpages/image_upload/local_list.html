@@ -7,7 +7,9 @@
 
   <div id="updoad_result"></div>
 
-  <p>Schritt 1: Bilder machen</p>
+  <div class="container">
+    <h5>[% 'Schritt 1: Bilder machen' | $T8 %]</h5>
+  </div>
 
   <div id="stored-images" class="container">
   </div>
@@ -32,9 +34,13 @@
     </div>
   </div>
 
-    <hr>
+  <hr>
 
-    <p>Schritt 2: Dateien hochladen</p>
+
+  <div class="container">
+    <h5>[% 'Schritt 2: Bilder hochladen' | $T8 %]</h5>
+  </div>
+
   <div class="container">
     <div class="row">
       [% P.M.input_tag("object_number", "", label=LxERP.t8("Number"), class="col s4", onkeyup="kivi.ImageUpload.resolve_object(event)") %]
