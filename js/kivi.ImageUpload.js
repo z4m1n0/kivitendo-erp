@@ -77,11 +77,11 @@ namespace("kivi.ImageUpload", function(ns) {
 
         let xhr = new XMLHttpRequest;
         xhr.open('POST', 'controller.pl', true);
-        xhr.success = ns.attSuccess;
-        xhr.progress = ns.attProgress;
-        xhr.error = ns.attFailed;
-        xhr.abort = ns.attCanceled;
         xhr.send(data);
+        xhr.addEventListener("load", ns.attSuccess);
+        xhr.addEventListener("progress", ns.attProgress);
+        xhr.addEventListener("error", ns.attFailed);
+        xhr.addEventListener("abort", ns.attCanceled);
       });
     });
   };
@@ -89,7 +89,9 @@ namespace("kivi.ImageUpload", function(ns) {
   ns.attProgress = function(event) {
     if (event.lengthComputable) {
       var percentComplete = (event.loaded / event.total) * 100;
-      $("#upload_result").html(percentComplete+" % "+ kivi.t8("uploaded"));
+      $("#upload_progress div").style("width", percentComplete + "%");
+    } else {
+      $("#upload_progress div").removeClass("determinate").addClass("indeterminate");
     }
   };
 
