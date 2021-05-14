@@ -98,7 +98,11 @@ namespace("kivi.FileDB", function(ns) {
   };
 
   ns.open_ro_store = function(callback) {
-    callback(ns.open_store());
+    if (db && db_version == db.version) {
+      callback(ns.open_store("readonly"));
+    } else {
+      request.aftersuccess.push(() => callback(ns.open_store("readonly")));
+    }
   };
 
   ns.open_store = function(mode = "readonly") {
