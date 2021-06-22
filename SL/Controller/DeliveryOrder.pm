@@ -1,4 +1,4 @@
-package SL::Controller::Order;
+package SL::Controller::DeliveryOrder;
 
 use strict;
 use parent qw(SL::Controller::Base);
@@ -14,7 +14,7 @@ use SL::MIME;
 use SL::Util qw(trim);
 use SL::YAML;
 use SL::DB::History;
-use SL::DB::Order;
+use SL::DB::DeliveryOrder;
 use SL::DB::Default;
 use SL::DB::Unit;
 use SL::DB::Part;
@@ -28,7 +28,6 @@ use SL::DB::Translation;
 
 use SL::Helper::CreatePDF qw(:all);
 use SL::Helper::PrintOptions;
-use SL::Helper::ShippedQty;
 use SL::Helper::UserPreferences::PositionsScrollbar;
 use SL::Helper::UserPreferences::UpdatePositions;
 
@@ -69,11 +68,11 @@ sub action_add {
   my ($self) = @_;
 
   $self->order->transdate(DateTime->now_local());
-  my $extra_days = $self->type eq sales_quotation_type() ? $::instance_conf->get_reqdate_interval       :
-                   $self->type eq sales_order_type()     ? $::instance_conf->get_delivery_date_interval : 1;
+  my $extra_days = $self->type eq vendor_in_type()   ? $::instance_conf->get_reqdate_interval       :
+                   $self->type eq customer_in_type() ? $::instance_conf->get_delivery_date_interval : 1;
 
-  if (   ($self->type eq sales_order_type()     &&  $::instance_conf->get_deliverydate_on)
-      || ($self->type eq sales_quotation_type() &&  $::instance_conf->get_reqdate_on)
+  if (   ($self->type eq customer_in_type()     &&  $::instance_conf->get_deliverydate_on)
+      || ($self->type eq vendor_in_type() &&  $::instance_conf->get_reqdate_on)
       && (!$self->order->reqdate)) {
     $self->order->reqdate(DateTime->today_local->next_workday(extra_days => $extra_days));
   }
@@ -81,7 +80,7 @@ sub action_add {
 
   $self->pre_render();
   $self->render(
-    'order/form',
+    'delivery_order/form',
     title => $self->get_title_for('add'),
     %{$self->{template_args}}
   );
@@ -110,7 +109,7 @@ sub action_edit {
   $self->recalc();
   $self->pre_render();
   $self->render(
-    'order/form',
+    'delivery_order/form',
     title => $self->get_title_for('edit'),
     %{$self->{template_args}}
   );
@@ -133,15 +132,15 @@ sub action_edit_collective {
 
   # fall back to save as new if only one id is given
   if (scalar @multi_ids == 1) {
-    $self->order(SL::DB::Order->new(id => $multi_ids[0])->load);
+    $self->order(SL::DB::DeliveryOrder->new(id => $multi_ids[0])->load);
     $self->action_save_as_new();
     return;
   }
 
   # make new order from given orders
-  my @multi_orders = map { SL::DB::Order->new(id => $_)->load } @multi_ids;
+  my @multi_orders = map { SL::DB::DeliveryOrder->new(id => $_)->load } @multi_ids;
   $self->{converted_from_oe_id} = join ' ', map { $_->id } @multi_orders;
-  $self->order(SL::DB::Order->new_from_multi(\@multi_orders, sort_sources_by => 'transdate'));
+  $self->order(SL::DB::DeliveryOrder->new_from_multi(\@multi_orders, sort_sources_by => 'transdate'));
 
   $self->action_edit();
 }
@@ -157,10 +156,10 @@ sub action_delete {
     return $self->js->render();
   }
 
-  my $text = $self->type eq sales_order_type()       ? $::locale->text('The order has been deleted')
-           : $self->type eq purchase_order_type()    ? $::locale->text('The order has been deleted')
-           : $self->type eq sales_quotation_type()   ? $::locale->text('The quotation has been deleted')
-           : $self->type eq request_quotation_type() ? $::locale->text('The rfq has been deleted')
+  my $text = $self->type eq customer_in_type()       ? $::locale->text('The order has been deleted')
+           : $self->type eq customer_out_type()    ? $::locale->text('The order has been deleted')
+           : $self->type eq vendor_in_type()   ? $::locale->text('The quotation has been deleted')
+           : $self->type eq vendor_out_type() ? $::locale->text('The rfq has been deleted')
            : '';
   flash_later('info', $text);
 
@@ -183,10 +182,10 @@ sub action_save {
     return $self->js->render();
   }
 
-  my $text = $self->type eq sales_order_type()       ? $::locale->text('The order has been saved')
-           : $self->type eq purchase_order_type()    ? $::locale->text('The order has been saved')
-           : $self->type eq sales_quotation_type()   ? $::locale->text('The quotation has been saved')
-           : $self->type eq request_quotation_type() ? $::locale->text('The rfq has been saved')
+  my $text = $self->type eq customer_in_type()       ? $::locale->text('The order has been saved')
+           : $self->type eq customer_out_type()    ? $::locale->text('The order has been saved')
+           : $self->type eq vendor_in_type()   ? $::locale->text('The quotation has been saved')
+           : $self->type eq vendor_out_type() ? $::locale->text('The rfq has been saved')
            : '';
   flash_later('info', $text);
 
@@ -211,7 +210,7 @@ sub action_save_as_new {
   }
 
   # load order from db to check if values changed
-  my $saved_order = SL::DB::Order->new(id => $order->id)->load;
+  my $saved_order = SL::DB::DeliveryOrder->new(id => $order->id)->load;
 
   my %new_attrs;
   # Lets assign a new number if the user hasn't changed the previous one.
@@ -227,11 +226,11 @@ sub action_save_as_new {
 
   # Set new reqdate unless changed if it is enabled in client config
   if ($order->reqdate == $saved_order->reqdate) {
-    my $extra_days = $self->type eq sales_quotation_type() ? $::instance_conf->get_reqdate_interval       :
-                     $self->type eq sales_order_type()     ? $::instance_conf->get_delivery_date_interval : 1;
+    my $extra_days = $self->type eq vendor_in_type() ? $::instance_conf->get_reqdate_interval       :
+                     $self->type eq customer_in_type()     ? $::instance_conf->get_delivery_date_interval : 1;
 
-    if (   ($self->type eq sales_order_type()     &&  !$::instance_conf->get_deliverydate_on)
-        || ($self->type eq sales_quotation_type() &&  !$::instance_conf->get_reqdate_on)) {
+    if (   ($self->type eq customer_in_type()     &&  !$::instance_conf->get_deliverydate_on)
+        || ($self->type eq vendor_in_type() &&  !$::instance_conf->get_reqdate_on)) {
       $new_attrs{reqdate} = '';
     } else {
       $new_attrs{reqdate} = DateTime->today_local->next_workday(extra_days => $extra_days);
@@ -244,7 +243,7 @@ sub action_save_as_new {
   $new_attrs{employee}  = SL::DB::Manager::Employee->current;
 
   # Create new record from current one
-  $self->order(SL::DB::Order->new_from($order, destination_type => $order->type, attributes => \%new_attrs));
+  $self->order(SL::DB::DeliveryOrder->new_from($order, destination_type => $order->type, attributes => \%new_attrs));
 
   # no linked records on save as new
   delete $::form->{$_} for qw(converted_from_oe_id converted_from_orderitems_ids);
@@ -420,7 +419,7 @@ sub action_save_and_show_email_dialog {
   $email_form->{subject}             = $form->generate_email_subject();
   $email_form->{attachment_filename} = $form->generate_attachment_filename();
   $email_form->{message}             = $form->generate_email_body();
-  $email_form->{js_send_function}    = 'kivi.Order.send_email()';
+  $email_form->{js_send_function}    = 'kivi.DeliveryOrder.send_email()';
 
   my %files = $self->get_files_for_email_dialog();
   $self->{all_employees} = SL::DB::Manager::Employee->get_all(query => [ deleted => 0 ]);
@@ -433,7 +432,7 @@ sub action_save_and_show_email_dialog {
   );
 
   $self->js
-      ->run('kivi.Order.show_email_dialog', $dialog_html)
+      ->run('kivi.DeliveryOrder.show_email_dialog', $dialog_html)
       ->reinit_widgets
       ->render($self);
 }
@@ -447,7 +446,7 @@ sub action_send_email {
   my $errors = $self->save();
 
   if (scalar @{ $errors }) {
-    $self->js->run('kivi.Order.close_email_dialog');
+    $self->js->run('kivi.DeliveryOrder.close_email_dialog');
     $self->js->flash('error', $_) foreach @{ $errors };
     return $self->js->render();
   }
@@ -520,108 +519,6 @@ sub action_send_email {
   $self->redirect_to(@redirect_params);
 }
 
-# open the periodic invoices config dialog
-#
-# If there are values in the form (i.e. dialog was opened before),
-# then use this values. Create new ones, else.
-sub action_show_periodic_invoices_config_dialog {
-  my ($self) = @_;
-
-  my $config = make_periodic_invoices_config_from_yaml(delete $::form->{config});
-  $config  ||= SL::DB::Manager::PeriodicInvoicesConfig->find_by(oe_id => $::form->{id}) if $::form->{id};
-  $config  ||= SL::DB::PeriodicInvoicesConfig->new(periodicity             => 'm',
-                                                   order_value_periodicity => 'p', # = same as periodicity
-                                                   start_date_as_date      => $::form->{transdate_as_date} || $::form->current_date,
-                                                   extend_automatically_by => 12,
-                                                   active                  => 1,
-                                                   email_subject           => GenericTranslations->get(
-                                                                                language_id      => $::form->{language_id},
-                                                                                translation_type =>"preset_text_periodic_invoices_email_subject"),
-                                                   email_body              => GenericTranslations->get(
-                                                                                language_id      => $::form->{language_id},
-                                                                                translation_type =>"preset_text_periodic_invoices_email_body"),
-  );
-  $config->periodicity('m')             if none { $_ eq $config->periodicity             }       @SL::DB::PeriodicInvoicesConfig::PERIODICITIES;
-  $config->order_value_periodicity('p') if none { $_ eq $config->order_value_periodicity } ('p', @SL::DB::PeriodicInvoicesConfig::ORDER_VALUE_PERIODICITIES);
-
-  $::form->get_lists(printers => "ALL_PRINTERS",
-                     charts   => { key       => 'ALL_CHARTS',
-                                   transdate => 'current_date' });
-
-  $::form->{AR} = [ grep { $_->{link} =~ m/(?:^|:)AR(?::|$)/ } @{ $::form->{ALL_CHARTS} } ];
-
-  if ($::form->{customer_id}) {
-    $::form->{ALL_CONTACTS} = SL::DB::Manager::Contact->get_all_sorted(where => [ cp_cv_id => $::form->{customer_id} ]);
-    my $customer_object = SL::DB::Manager::Customer->find_by(id => $::form->{customer_id});
-    $::form->{postal_invoice}                  = $customer_object->postal_invoice;
-    $::form->{email_recipient_invoice_address} = $::form->{postal_invoice} ? '' : $customer_object->invoice_mail;
-    $config->send_email(0) if $::form->{postal_invoice};
-  }
-
-  $self->render('oe/edit_periodic_invoices_config', { layout => 0 },
-                popup_dialog             => 1,
-                popup_js_close_function  => 'kivi.Order.close_periodic_invoices_config_dialog()',
-                popup_js_assign_function => 'kivi.Order.assign_periodic_invoices_config()',
-                config                   => $config,
-                %$::form);
-}
-
-# assign the values of the periodic invoices config dialog
-# as yaml in the hidden tag and set the status.
-sub action_assign_periodic_invoices_config {
-  my ($self) = @_;
-
-  $::form->isblank('start_date_as_date', $::locale->text('The start date is missing.'));
-
-  my $config = { active                     => $::form->{active}       ? 1 : 0,
-                 terminated                 => $::form->{terminated}   ? 1 : 0,
-                 direct_debit               => $::form->{direct_debit} ? 1 : 0,
-                 periodicity                => (any { $_ eq $::form->{periodicity}             }       @SL::DB::PeriodicInvoicesConfig::PERIODICITIES)              ? $::form->{periodicity}             : 'm',
-                 order_value_periodicity    => (any { $_ eq $::form->{order_value_periodicity} } ('p', @SL::DB::PeriodicInvoicesConfig::ORDER_VALUE_PERIODICITIES)) ? $::form->{order_value_periodicity} : 'p',
-                 start_date_as_date         => $::form->{start_date_as_date},
-                 end_date_as_date           => $::form->{end_date_as_date},
-                 first_billing_date_as_date => $::form->{first_billing_date_as_date},
-                 print                      => $::form->{print}      ? 1                         : 0,
-                 printer_id                 => $::form->{print}      ? $::form->{printer_id} * 1 : undef,
-                 copies                     => $::form->{copies} * 1 ? $::form->{copies}         : 1,
-                 extend_automatically_by    => $::form->{extend_automatically_by}    * 1 || undef,
-                 ar_chart_id                => $::form->{ar_chart_id} * 1,
-                 send_email                 => $::form->{send_email} ? 1 : 0,
-                 email_recipient_contact_id => $::form->{email_recipient_contact_id} * 1 || undef,
-                 email_recipient_address    => $::form->{email_recipient_address},
-                 email_sender               => $::form->{email_sender},
-                 email_subject              => $::form->{email_subject},
-                 email_body                 => $::form->{email_body},
-               };
-
-  my $periodic_invoices_config = SL::YAML::Dump($config);
-
-  my $status = $self->get_periodic_invoices_status($config);
-
-  $self->js
-    ->remove('#order_periodic_invoices_config')
-    ->insertAfter(hidden_tag('order.periodic_invoices_config', $periodic_invoices_config), '#periodic_invoices_status')
-    ->run('kivi.Order.close_periodic_invoices_config_dialog')
-    ->html('#periodic_invoices_status', $status)
-    ->flash('info', t8('The periodic invoices config has been assigned.'))
-    ->render($self);
-}
-
-sub action_get_has_active_periodic_invoices {
-  my ($self) = @_;
-
-  my $config = make_periodic_invoices_config_from_yaml(delete $::form->{config});
-  $config  ||= SL::DB::Manager::PeriodicInvoicesConfig->find_by(oe_id => $::form->{id}) if $::form->{id};
-
-  my $has_active_periodic_invoices =
-       $self->type eq sales_order_type()
-    && $config
-    && $config->active
-    && (!$config->end_date || ($config->end_date > DateTime->today_local))
-    && $config->get_previous_billed_period_start_date;
-
-  $_[0]->render(\ !!$has_active_periodic_invoices, { type => 'text' });
-}
 
 # save the order and redirect to the frontend subroutine for a new
 # delivery order
@@ -713,7 +610,7 @@ sub action_customer_vendor_changed {
     ->val(        '#order_intnotes',         $self->order->intnotes)
     ->val(        '#order_language_id',      $self->order->$cv_method->language_id)
     ->focus(      '#order_' . $self->cv . '_id')
-    ->run('kivi.Order.update_exchangerate');
+    ->run('kivi.DeliveryOrder.update_exchangerate');
 
   $self->js_redisplay_amounts_and_taxes;
   $self->js_redisplay_cvpartnumbers;
@@ -767,7 +664,7 @@ sub action_unit_changed {
   $self->recalc();
 
   $self->js
-    ->run('kivi.Order.update_sellprice', $::form->{item_id}, $item->sellprice_as_number);
+    ->run('kivi.DeliveryOrder.update_sellprice', $::form->{item_id}, $item->sellprice_as_number);
   $self->js_redisplay_line_values;
   $self->js_redisplay_amounts_and_taxes;
   $self->js->render();
@@ -790,7 +687,7 @@ sub action_add_item {
   $self->get_item_cvpartnumber($item);
 
   my $item_id = join('_', 'new', Time::HiRes::gettimeofday(), int rand 1000000000000);
-  my $row_as_html = $self->p->render('order/tabs/_row',
+  my $row_as_html = $self->p->render('delivery_order/tabs/_row',
                                      ITEM => $item,
                                      ID   => $item_id,
                                      SELF => $self,
@@ -821,7 +718,7 @@ sub action_add_item {
       $self->recalc();
       $self->get_item_cvpartnumber($item);
       my $item_id = join('_', 'new', Time::HiRes::gettimeofday(), int rand 1000000000000);
-      my $row_as_html = $self->p->render('order/tabs/_row',
+      my $row_as_html = $self->p->render('delivery_order/tabs/_row',
                                          ITEM => $item,
                                          ID   => $item_id,
                                          SELF => $self,
@@ -838,11 +735,11 @@ sub action_add_item {
 
   $self->js
     ->val('.add_item_input', '')
-    ->run('kivi.Order.init_row_handlers')
-    ->run('kivi.Order.renumber_positions')
+    ->run('kivi.DeliveryOrder.init_row_handlers')
+    ->run('kivi.DeliveryOrder.renumber_positions')
     ->focus('#add_item_parts_id_name');
 
-  $self->js->run('kivi.Order.row_table_scroll_down') if !$::form->{insert_before_item_id};
+  $self->js->run('kivi.DeliveryOrder.row_table_scroll_down') if !$::form->{insert_before_item_id};
 
   $self->js_redisplay_amounts_and_taxes;
   $self->js->render();
@@ -881,7 +778,7 @@ sub action_add_multi_items {
   foreach my $item (@items) {
     $self->get_item_cvpartnumber($item);
     my $item_id = join('_', 'new', Time::HiRes::gettimeofday(), int rand 1000000000000);
-    my $row_as_html = $self->p->render('order/tabs/_row',
+    my $row_as_html = $self->p->render('delivery_order/tabs/_row',
                                        ITEM => $item,
                                        ID   => $item_id,
                                        SELF => $self,
@@ -898,11 +795,11 @@ sub action_add_multi_items {
 
   $self->js
     ->run('kivi.Part.close_picker_dialogs')
-    ->run('kivi.Order.init_row_handlers')
-    ->run('kivi.Order.renumber_positions')
+    ->run('kivi.DeliveryOrder.init_row_handlers')
+    ->run('kivi.DeliveryOrder.renumber_positions')
     ->focus('#add_item_parts_id_name');
 
-  $self->js->run('kivi.Order.row_table_scroll_down') if !$::form->{insert_before_item_id};
+  $self->js->run('kivi.DeliveryOrder.row_table_scroll_down') if !$::form->{insert_before_item_id};
 
   $self->js_redisplay_amounts_and_taxes;
   $self->js->render();
@@ -962,7 +859,7 @@ sub action_reorder_items {
     }
   }
   $self->js
-    ->run('kivi.Order.redisplay_items', \@to_sort)
+    ->run('kivi.DeliveryOrder.redisplay_items', \@to_sort)
     ->render;
 }
 
@@ -992,7 +889,7 @@ sub action_load_second_rows {
     $self->js_load_second_row($item, $item_id, 0);
   }
 
-  $self->js->run('kivi.Order.init_row_handlers') if $self->order->is_sales; # for lastcosts change-callback
+  $self->js->run('kivi.DeliveryOrder.init_row_handlers') if $self->order->is_sales; # for lastcosts change-callback
 
   $self->js->render();
 }
@@ -1029,7 +926,7 @@ sub action_update_row_from_master_data {
     $item->active_price_source($price_src);
 
     $self->js
-      ->run('kivi.Order.update_sellprice', $item_id, $item->sellprice_as_number)
+      ->run('kivi.DeliveryOrder.update_sellprice', $item_id, $item->sellprice_as_number)
       ->html('.row_entry:has(#item_' . $item_id . ') [name = "partnumber"] a', $item->part->partnumber)
       ->val ('.row_entry:has(#item_' . $item_id . ') [name = "order.orderitems[].description"]', $item->description)
       ->val ('.row_entry:has(#item_' . $item_id . ') [name = "order.orderitems[].longdescription"]', $item->longdescription);
@@ -1060,7 +957,7 @@ sub js_load_second_row {
     $item->parse_custom_variable_values;
   }
 
-  my $row_as_html = $self->p->render('order/tabs/_second_row', ITEM => $item, TYPE => $self->type);
+  my $row_as_html = $self->p->render('delivery_order/tabs/_second_row', ITEM => $item, TYPE => $self->type);
 
   $self->js
     ->html('#second_row_' . $item_id, $row_as_html)
@@ -1089,7 +986,7 @@ sub js_redisplay_line_values {
   }
 
   $self->js
-    ->run('kivi.Order.redisplay_line_values', $is_sales, \@data);
+    ->run('kivi.DeliveryOrder.redisplay_line_values', $is_sales, \@data);
 }
 
 sub js_redisplay_amounts_and_taxes {
@@ -1135,7 +1032,7 @@ sub js_redisplay_cvpartnumbers {
   my @data = map {[$_->{cvpartnumber}]} @{ $self->order->items_sorted };
 
   $self->js
-    ->run('kivi.Order.redisplay_cvpartnumbers', \@data);
+    ->run('kivi.DeliveryOrder.redisplay_cvpartnumbers', \@data);
 }
 
 sub js_reset_order_and_item_ids_after_save {
@@ -1165,7 +1062,7 @@ sub js_reset_order_and_item_ids_after_save {
 #
 
 sub init_valid_types {
-  [ sales_order_type(), purchase_order_type(), sales_quotation_type(), request_quotation_type() ];
+  [ customer_in_type(), customer_out_type(), vendor_in_type(), vendor_out_type() ];
 }
 
 sub init_type {
@@ -1181,8 +1078,8 @@ sub init_type {
 sub init_cv {
   my ($self) = @_;
 
-  my $cv = (any { $self->type eq $_ } (sales_order_type(),    sales_quotation_type()))   ? 'customer'
-         : (any { $self->type eq $_ } (purchase_order_type(), request_quotation_type())) ? 'vendor'
+  my $cv = (any { $self->type eq $_ } (customer_in_type(),    vendor_in_type()))   ? 'customer'
+         : (any { $self->type eq $_ } (customer_out_type(), vendor_out_type())) ? 'vendor'
          : die "Not a valid type for order";
 
   return $cv;
@@ -1227,9 +1124,7 @@ sub init_part_picker_classification_ids {
 sub check_auth {
   my ($self) = @_;
 
-  my $right_for = { map { $_ => $_.'_edit' } @{$self->valid_types} };
-
-  my $right   = $right_for->{ $self->type };
+  my $right   = $self->type =~ /customer/ ? 'sales_delivery_order_edit' : 'purchase_delivery_order_edit';
   $right    ||= 'DOES_NOT_EXIST';
 
   $::auth->assert($right);
@@ -1286,7 +1181,7 @@ sub build_shipto_inputs {
 # Needed, if customer/vendor changed.
 sub build_business_info_row
 {
-  $_[0]->p->render('order/tabs/_business_info_row', SELF => $_[0]);
+  $_[0]->p->render('delivery_order/tabs/_business_info_row', SELF => $_[0]);
 }
 
 # build the rows for displaying taxes
@@ -1312,7 +1207,7 @@ sub render_price_dialog {
     ->run(
       'kivi.io.price_chooser_dialog',
       t8('Available Prices'),
-      $self->render('order/tabs/_price_sources_dialog', { output => 0 }, price_source => $price_source)
+      $self->render('delivery_order/tabs/_price_sources_dialog', { output => 0 }, price_source => $price_source)
     )
     ->reinit_widgets;
 
@@ -1329,11 +1224,11 @@ sub load_order {
 
   return if !$::form->{id};
 
-  $self->order(SL::DB::Order->new(id => $::form->{id})->load);
+  $self->order(SL::DB::DeliveryOrder->new(id => $::form->{id})->load);
 
   # Add an empty custom shipto to the order, so that the dialog can render the cvar inputs.
   # You need a custom shipto object to call cvars_by_config to get the cvars.
-  $self->order->custom_shipto(SL::DB::Shipto->new(module => 'OE', custom_variables => [])) if !$self->order->custom_shipto;
+  $self->order->custom_shipto(SL::DB::Shipto->new(module => 'DO', custom_variables => [])) if !$self->order->custom_shipto;
 
   return $self->order;
 }
@@ -1351,9 +1246,9 @@ sub make_order {
   # be retrieved via items until the order is saved. Adding empty items to new
   # order here solves this problem.
   my $order;
-  $order   = SL::DB::Order->new(id => $::form->{id})->load(with => [ 'orderitems', 'orderitems.part' ]) if $::form->{id};
-  $order ||= SL::DB::Order->new(orderitems  => [],
-                                quotation   => (any { $self->type eq $_ } (sales_quotation_type(), request_quotation_type())),
+  $order   = SL::DB::DeliveryOrder->new(id => $::form->{id})->load(with => [ 'orderitems', 'orderitems.part' ]) if $::form->{id};
+  $order ||= SL::DB::DeliveryOrder->new(orderitems  => [],
+                                quotation   => (any { $self->type eq $_ } (vendor_in_type(), vendor_out_type())),
                                 currency_id => $::instance_conf->get_currency_id(),);
 
   my $cv_id_method = $self->cv . '_id';
@@ -1363,16 +1258,10 @@ sub make_order {
   }
 
   my $form_orderitems                  = delete $::form->{order}->{orderitems};
-  my $form_periodic_invoices_config    = delete $::form->{order}->{periodic_invoices_config};
 
   $order->assign_attributes(%{$::form->{order}});
 
   $self->setup_custom_shipto_from_form($order, $::form);
-
-  if (my $periodic_invoices_config_attrs = $form_periodic_invoices_config ? SL::YAML::Load($form_periodic_invoices_config) : undef) {
-    my $periodic_invoices_config = $order->periodic_invoices_config || $order->periodic_invoices_config(SL::DB::PeriodicInvoicesConfig->new);
-    $periodic_invoices_config->assign_attributes(%$periodic_invoices_config_attrs);
-  }
 
   # remove deleted items
   $self->item_ids_to_delete([]);
@@ -1412,7 +1301,7 @@ sub make_item {
   # add_custom_variables adds cvars to an orderitem with no cvars for saving, but
   # they cannot be retrieved via custom_variables until the order/orderitem is
   # saved. Adding empty custom_variables to new orderitem here solves this problem.
-  $item ||= SL::DB::OrderItem->new(custom_variables => []);
+  $item ||= SL::DB::DeliveryOrderItem->new(custom_variables => []);
 
   $item->assign_attributes(%$attr);
 
@@ -1432,7 +1321,7 @@ sub make_item {
 sub new_item {
   my ($record, $attr) = @_;
 
-  my $item = SL::DB::OrderItem->new;
+  my $item = SL::DB::DeliveryOrderItem->new;
 
   # Remove attributes where the user left or set the inputs empty.
   # So these attributes will be undefined and we can distinguish them
@@ -1546,17 +1435,7 @@ sub setup_custom_shipto_from_form {
 sub recalc {
   my ($self) = @_;
 
-  my %pat = $self->order->calculate_prices_and_taxes();
-
-  $self->{taxes} = [];
-  foreach my $tax_id (keys %{ $pat{taxes_by_tax_id} }) {
-    my $netamount = sum0 map { $pat{amounts}->{$_}->{amount} } grep { $pat{amounts}->{$_}->{tax_id} == $tax_id } keys %{ $pat{amounts} };
-
-    push(@{ $self->{taxes} }, { amount    => $pat{taxes_by_tax_id}->{$tax_id},
-                                netamount => $netamount,
-                                tax       => SL::DB::Tax->new(id => $tax_id)->load });
-  }
-  pairwise { $a->{linetotal} = $b->{linetotal} } @{$self->order->items_sorted}, @{$pat{items}};
+  # nothing to do here
 }
 
 # get data for saving, printing, ..., that is not changed in the form
@@ -1615,14 +1494,14 @@ sub save {
       $self->order->custom_shipto(undef);
     }
 
-    SL::DB::OrderItem->new(id => $_)->delete for @{$self->item_ids_to_delete || []};
+    SL::DB::DeliveryOrderItem->new(id => $_)->delete for @{$self->item_ids_to_delete || []};
     $self->order->save(cascade => 1);
 
     # link records
     if ($::form->{converted_from_oe_id}) {
       my @converted_from_oe_ids = split ' ', $::form->{converted_from_oe_id};
       foreach my $converted_from_oe_id (@converted_from_oe_ids) {
-        my $src = SL::DB::Order->new(id => $converted_from_oe_id)->load;
+        my $src = SL::DB::DeliveryOrder->new(id => $converted_from_oe_id)->load;
         $src->update_attributes(closed => 1) if $src->type =~ /_quotation$/;
         $src->link_to_record($self->order);
       }
@@ -1631,9 +1510,9 @@ sub save {
         foreach (@{ $self->order->items_sorted }) {
           my $from_id = $::form->{converted_from_orderitems_ids}->[$idx];
           next if !$from_id;
-          SL::DB::RecordLink->new(from_table => 'orderitems',
+          SL::DB::RecordLink->new(from_table => 'delivery_order_items',
                                   from_id    => $from_id,
-                                  to_table   => 'orderitems',
+                                  to_table   => 'delivery_order_items',
                                   to_id      => $_->id
           )->save;
           $idx++;
@@ -1660,9 +1539,9 @@ sub workflow_sales_or_request_for_quotation {
     return $self->js->render();
   }
 
-  my $destination_type = $::form->{type} eq sales_order_type() ? sales_quotation_type() : request_quotation_type();
+  my $destination_type = $::form->{type} eq customer_in_type() ? vendor_in_type() : vendor_out_type();
 
-  $self->order(SL::DB::Order->new_from($self->order, destination_type => $destination_type));
+  $self->order(SL::DB::DeliveryOrder->new_from($self->order, destination_type => $destination_type));
   $self->{converted_from_oe_id} = delete $::form->{id};
 
   # set item ids to new fake id, to identify them as new items
@@ -1686,7 +1565,7 @@ sub workflow_sales_or_request_for_quotation {
   $_->{render_second_row} = 1 for @{ $self->order->items_sorted };
 
   $self->render(
-    'order/form',
+    'delivery_order/form',
     title => $self->get_title_for('edit'),
     %{$self->{template_args}}
   );
@@ -1703,21 +1582,21 @@ sub workflow_sales_or_purchase_order {
     return $self->js->render();
   }
 
-  my $destination_type = $::form->{type} eq sales_quotation_type()   ? sales_order_type()
-                       : $::form->{type} eq request_quotation_type() ? purchase_order_type()
-                       : $::form->{type} eq purchase_order_type()    ? sales_order_type()
-                       : $::form->{type} eq sales_order_type()       ? purchase_order_type()
+  my $destination_type = $::form->{type} eq vendor_in_type()   ? customer_in_type()
+                       : $::form->{type} eq vendor_out_type() ? customer_out_type()
+                       : $::form->{type} eq customer_out_type()    ? customer_in_type()
+                       : $::form->{type} eq customer_in_type()       ? customer_out_type()
                        : '';
 
   # check for direct delivery
   # copy shipto in custom shipto (custom shipto will be copied by new_from() in case)
   my $custom_shipto;
-  if (   $::form->{type} eq sales_order_type() && $destination_type eq purchase_order_type()
+  if (   $::form->{type} eq customer_in_type() && $destination_type eq customer_out_type()
       && $::form->{use_shipto} && $self->order->shipto) {
-    $custom_shipto = $self->order->shipto->clone('SL::DB::Order');
+    $custom_shipto = $self->order->shipto->clone('SL::DB::DeliveryOrder');
   }
 
-  $self->order(SL::DB::Order->new_from($self->order, destination_type => $destination_type));
+  $self->order(SL::DB::DeliveryOrder->new_from($self->order, destination_type => $destination_type));
   $self->{converted_from_oe_id} = delete $::form->{id};
 
   # set item ids to new fake id, to identify them as new items
@@ -1725,7 +1604,7 @@ sub workflow_sales_or_purchase_order {
     $item->{new_fake_id} = join('_', 'new', Time::HiRes::gettimeofday(), int rand 1000000000000);
   }
 
-  if ($::form->{type} eq sales_order_type() && $destination_type eq purchase_order_type()) {
+  if ($::form->{type} eq customer_in_type() && $destination_type eq customer_out_type()) {
     if ($::form->{use_shipto}) {
       $self->order->custom_shipto($custom_shipto) if $custom_shipto;
     } else {
@@ -1750,7 +1629,7 @@ sub workflow_sales_or_purchase_order {
   $_->{render_second_row} = 1 for @{ $self->order->items_sorted };
 
   $self->render(
-    'order/form',
+    'delivery_order/form',
     title => $self->get_title_for('edit'),
     %{$self->{template_args}}
   );
@@ -1774,7 +1653,6 @@ sub pre_render {
                                                                                                         obsolete => 0 ] ]);
   $self->{all_delivery_terms}         = SL::DB::Manager::DeliveryTerm->get_all_sorted();
   $self->{current_employee_id}        = SL::DB::Manager::Employee->current->id;
-  $self->{periodic_invoices_status}   = $self->get_periodic_invoices_status($self->order->periodic_invoices_config);
   $self->{order_probabilities}        = [ map { { title => ($_ * 10) . '%', id => $_ * 10 } } (0..10) ];
   $self->{positions_scrollbar_height} = SL::Helper::UserPreferences::PositionsScrollbar->new()->get_height();
 
@@ -1797,13 +1675,6 @@ sub pre_render {
     $item->active_discount_source($price_source->discount_from_source($item->active_discount_source));
   }
 
-  if (any { $self->type eq $_ } (sales_order_type(), purchase_order_type())) {
-    # Calculate shipped qtys here to prevent calling calculate for every item via the items method.
-    # Do not use write_to_objects to prevent order->delivered to be set, because this should be
-    # the value from db, which can be set manually or is set when linked delivery orders are saved.
-    SL::Helper::ShippedQty->new->calculate($self->order)->write_to(\@{$self->order->items});
-  }
-
   if ($self->order->number && $::instance_conf->get_webdav) {
     my $webdav = SL::Webdav->new(
       type     => $self->type,
@@ -1818,32 +1689,31 @@ sub pre_render {
 
   $self->get_item_cvpartnumber($_) for @{$self->order->items_sorted};
 
-  $::request->{layout}->use_javascript("${_}.js") for qw(kivi.SalesPurchase kivi.Order kivi.File ckeditor/ckeditor ckeditor/adapters/jquery
-                                                         edit_periodic_invoices_config calculate_qty kivi.Validator follow_up show_history);
+  $::request->{layout}->use_javascript("${_}.js") for qw(kivi.SalesPurchase kivi.DeliveryOrder kivi.File ckeditor/ckeditor ckeditor/adapters/jquery
+                                                         calculate_qty kivi.Validator follow_up show_history);
   $self->setup_edit_action_bar;
 }
 
 sub setup_edit_action_bar {
   my ($self, %params) = @_;
 
-  my $deletion_allowed = (any { $self->type eq $_ } (sales_quotation_type(), request_quotation_type()))
-                      || (($self->type eq sales_order_type())    && $::instance_conf->get_sales_order_show_delete)
-                      || (($self->type eq purchase_order_type()) && $::instance_conf->get_purchase_order_show_delete);
+  my $deletion_allowed = (any { $self->type eq $_ } (vendor_in_type(), vendor_out_type()))
+                      || (($self->type eq customer_in_type())    && $::instance_conf->get_sales_order_show_delete)
+                      || (($self->type eq customer_out_type()) && $::instance_conf->get_purchase_order_show_delete);
 
   for my $bar ($::request->layout->get('actionbar')) {
     $bar->add(
       combobox => [
         action => [
           t8('Save'),
-          call      => [ 'kivi.Order.save', 'save', $::instance_conf->get_order_warn_duplicate_parts,
+          call      => [ 'kivi.DeliveryOrder.save', 'save', $::instance_conf->get_order_warn_duplicate_parts,
                                                     $::instance_conf->get_order_warn_no_deliverydate,
                                                                                                       ],
-          checks    => [ 'kivi.Order.check_save_active_periodic_invoices', ['kivi.validate_form','#order_form'] ],
+          checks    => [ ['kivi.validate_form','#order_form'] ],
         ],
         action => [
           t8('Save as new'),
-          call      => [ 'kivi.Order.save', 'save_as_new', $::instance_conf->get_order_warn_duplicate_parts ],
-          checks    => [ 'kivi.Order.check_save_active_periodic_invoices' ],
+          call      => [ 'kivi.DeliveryOrder.save', 'save_as_new', $::instance_conf->get_order_warn_duplicate_parts ],
           disabled  => !$self->order->id ? t8('This object has not been saved yet.') : undef,
         ],
       ], # end of combobox "Save"
@@ -1854,41 +1724,39 @@ sub setup_edit_action_bar {
         ],
         action => [
           t8('Save and Quotation'),
-          submit   => [ '#order_form', { action => "Order/sales_quotation" } ],
-          only_if  => (any { $self->type eq $_ } (sales_order_type())),
+          submit   => [ '#order_form', { action => "DeliveryOrder/sales_quotation" } ],
+          only_if  => (any { $self->type eq $_ } (customer_in_type())),
         ],
         action => [
           t8('Save and RFQ'),
-          submit   => [ '#order_form', { action => "Order/request_for_quotation" } ],
-          only_if  => (any { $self->type eq $_ } (purchase_order_type())),
+          submit   => [ '#order_form', { action => "DeliveryOrder/request_for_quotation" } ],
+          only_if  => (any { $self->type eq $_ } (customer_out_type())),
         ],
         action => [
           t8('Save and Sales Order'),
-          submit   => [ '#order_form', { action => "Order/sales_order" } ],
-          only_if  => (any { $self->type eq $_ } (sales_quotation_type(), purchase_order_type())),
+          submit   => [ '#order_form', { action => "DeliveryOrder/sales_order" } ],
+          only_if  => (any { $self->type eq $_ } (vendor_in_type(), customer_out_type())),
         ],
         action => [
           t8('Save and Purchase Order'),
-          call      => [ 'kivi.Order.purchase_order_check_for_direct_delivery' ],
-          only_if   => (any { $self->type eq $_ } (sales_order_type(), request_quotation_type())),
+          call      => [ 'kivi.DeliveryOrder.purchase_order_check_for_direct_delivery' ],
+          only_if   => (any { $self->type eq $_ } (customer_in_type(), vendor_out_type())),
         ],
         action => [
           t8('Save and Delivery Order'),
-          call      => [ 'kivi.Order.save', 'save_and_delivery_order', $::instance_conf->get_order_warn_duplicate_parts,
+          call      => [ 'kivi.DeliveryOrder.save', 'save_and_delivery_order', $::instance_conf->get_order_warn_duplicate_parts,
                                                                        $::instance_conf->get_order_warn_no_deliverydate,
                                                                                                                         ],
-          checks    => [ 'kivi.Order.check_save_active_periodic_invoices' ],
-          only_if   => (any { $self->type eq $_ } (sales_order_type(), purchase_order_type()))
+          only_if   => (any { $self->type eq $_ } (customer_in_type(), customer_out_type()))
         ],
         action => [
           t8('Save and Invoice'),
-          call      => [ 'kivi.Order.save', 'save_and_invoice', $::instance_conf->get_order_warn_duplicate_parts ],
-          checks    => [ 'kivi.Order.check_save_active_periodic_invoices' ],
+          call      => [ 'kivi.DeliveryOrder.save', 'save_and_invoice', $::instance_conf->get_order_warn_duplicate_parts ],
         ],
         action => [
           t8('Save and AP Transaction'),
-          call      => [ 'kivi.Order.save', 'save_and_ap_transaction', $::instance_conf->get_order_warn_duplicate_parts ],
-          only_if   => (any { $self->type eq $_ } (purchase_order_type()))
+          call      => [ 'kivi.DeliveryOrder.save', 'save_and_ap_transaction', $::instance_conf->get_order_warn_duplicate_parts ],
+          only_if   => (any { $self->type eq $_ } (customer_out_type()))
         ],
 
       ], # end of combobox "Workflow"
@@ -1899,20 +1767,20 @@ sub setup_edit_action_bar {
         ],
         action => [
           t8('Save and preview PDF'),
-           call => [ 'kivi.Order.save', 'preview_pdf', $::instance_conf->get_order_warn_duplicate_parts,
+           call => [ 'kivi.DeliveryOrder.save', 'preview_pdf', $::instance_conf->get_order_warn_duplicate_parts,
                                                        $::instance_conf->get_order_warn_no_deliverydate,
                                                                                                          ],
         ],
         action => [
           t8('Save and print'),
-          call => [ 'kivi.Order.show_print_options', $::instance_conf->get_order_warn_duplicate_parts,
+          call => [ 'kivi.DeliveryOrder.show_print_options', $::instance_conf->get_order_warn_duplicate_parts,
                                                      $::instance_conf->get_order_warn_no_deliverydate,
                                                                                                       ],
         ],
         action => [
           t8('Save and E-mail'),
           id   => 'save_and_email_action',
-          call => [ 'kivi.Order.save', 'save_and_show_email_dialog', $::instance_conf->get_order_warn_duplicate_parts,
+          call => [ 'kivi.DeliveryOrder.save', 'save_and_show_email_dialog', $::instance_conf->get_order_warn_duplicate_parts,
                                                                      $::instance_conf->get_order_warn_no_deliverydate,
                   ],
           disabled => !$self->order->id ? t8('This object has not been saved yet.') : undef,
@@ -1927,7 +1795,7 @@ sub setup_edit_action_bar {
 
       action => [
         t8('Delete'),
-        call     => [ 'kivi.Order.delete_order' ],
+        call     => [ 'kivi.DeliveryOrder.delete_order' ],
         confirm  => $::locale->text('Do you really want to delete this object?'),
         disabled => !$self->order->id ? t8('This object has not been saved yet.') : undef,
         only_if  => $deletion_allowed,
@@ -1939,7 +1807,7 @@ sub setup_edit_action_bar {
         ],
         action => [
           t8('Follow-Up'),
-          call     => [ 'kivi.Order.follow_up_window' ],
+          call     => [ 'kivi.DeliveryOrder.follow_up_window' ],
           disabled => !$self->order->id ? t8('This object has not been saved yet.') : undef,
           only_if  => $::auth->assert('productivity', 1),
         ],
@@ -2047,28 +1915,6 @@ sub get_files_for_email_dialog {
   return %files;
 }
 
-sub make_periodic_invoices_config_from_yaml {
-  my ($yaml_config) = @_;
-
-  return if !$yaml_config;
-  my $attr = SL::YAML::Load($yaml_config);
-  return if 'HASH' ne ref $attr;
-  return SL::DB::PeriodicInvoicesConfig->new(%$attr);
-}
-
-
-sub get_periodic_invoices_status {
-  my ($self, $config) = @_;
-
-  return                      if $self->type ne sales_order_type();
-  return t8('not configured') if !$config;
-
-  my $active = ('HASH' eq ref $config)                           ? $config->{active}
-             : ('SL::DB::PeriodicInvoicesConfig' eq ref $config) ? $config->active
-             :                                                     die "Cannot get status of periodic invoices config";
-
-  return $active ? t8('active') : t8('inactive');
-}
 
 sub get_title_for {
   my ($self, $action) = @_;
@@ -2076,20 +1922,16 @@ sub get_title_for {
   return '' if none { lc($action)} qw(add edit);
 
   # for locales:
-  # $::locale->text("Add Sales Order");
-  # $::locale->text("Add Purchase Order");
-  # $::locale->text("Add Quotation");
-  # $::locale->text("Add Request for Quotation");
-  # $::locale->text("Edit Sales Order");
-  # $::locale->text("Edit Purchase Order");
-  # $::locale->text("Edit Quotation");
-  # $::locale->text("Edit Request for Quotation");
+  # $::locale->text("Add Sales Delivery Order");
+  # $::locale->text("Add Purchase Delivery Order");
+  # $::locale->text("Edit Sales Delivery Order");
+  # $::locale->text("Edit Purchase Delivery Order");
 
   $action = ucfirst(lc($action));
-  return $self->type eq sales_order_type()       ? $::locale->text("$action Sales Order")
-       : $self->type eq purchase_order_type()    ? $::locale->text("$action Purchase Order")
-       : $self->type eq sales_quotation_type()   ? $::locale->text("$action Quotation")
-       : $self->type eq request_quotation_type() ? $::locale->text("$action Request for Quotation")
+  return $self->type eq customer_in_type()  ? $::locale->text("$action Sales Delivery Order")
+       : $self->type eq customer_out_type() ? $::locale->text("$action Sales Delivery Order")
+       : $self->type eq vendor_in_type()    ? $::locale->text("$action Purchase Delivery Order")
+       : $self->type eq vendor_out_type()   ? $::locale->text("$action Purchase Delivery Quotation")
        : '';
 }
 
@@ -2132,28 +1974,24 @@ sub get_part_texts {
   return $texts;
 }
 
-sub sales_order_type {
-  'sales_order';
+sub customer_in_type {
+  'customer_in_delivery_order';
 }
 
-sub purchase_order_type {
-  'purchase_order';
+sub customer_out_type {
+  'customer_out_delivery_order';
 }
 
-sub sales_quotation_type {
-  'sales_quotation';
+sub vendor_in_type {
+  'vendor_in_delivery_order';
 }
 
-sub request_quotation_type {
-  'request_quotation';
+sub vendor_out_type {
+  'vendor_out_delivery_order';
 }
 
 sub nr_key {
-  return $_[0]->type eq sales_order_type()       ? 'ordnumber'
-       : $_[0]->type eq purchase_order_type()    ? 'ordnumber'
-       : $_[0]->type eq sales_quotation_type()   ? 'quonumber'
-       : $_[0]->type eq request_quotation_type() ? 'quonumber'
-       : '';
+  'donumber'
 }
 
 sub save_and_redirect_to {
@@ -2166,11 +2004,7 @@ sub save_and_redirect_to {
     return $self->js->render();
   }
 
-  my $text = $self->type eq sales_order_type()       ? $::locale->text('The order has been saved')
-           : $self->type eq purchase_order_type()    ? $::locale->text('The order has been saved')
-           : $self->type eq sales_quotation_type()   ? $::locale->text('The quotation has been saved')
-           : $self->type eq request_quotation_type() ? $::locale->text('The rfq has been saved')
-           : '';
+  my $text = $::locale->text('The delivery_order has been saved');
   flash_later('info', $text);
 
   $self->redirect_to(%params, id => $self->order->id);
@@ -2293,15 +2127,15 @@ and ajax.
 
 =over 4
 
-=item * C<SL/Controller/Order.pm>
+=item * C<SL/Controller/DeliveryOrder.pm>
 
 the controller
 
-=item * C<template/webpages/order/form.html>
+=item * C<template/webpages/delivery_order/form.html>
 
 main form
 
-=item * C<template/webpages/order/tabs/basic_data.html>
+=item * C<template/webpages/delivery_order/tabs/basic_data.html>
 
 Main tab for basic_data.
 
@@ -2310,29 +2144,29 @@ reused from generic code.
 
 =over 4
 
-=item * C<template/webpages/order/tabs/_business_info_row.html>
+=item * C<template/webpages/delivery_order/tabs/_business_info_row.html>
 
 For displaying information on business type
 
-=item * C<template/webpages/order/tabs/_item_input.html>
+=item * C<template/webpages/delivery_order/tabs/_item_input.html>
 
 The input line for items
 
-=item * C<template/webpages/order/tabs/_row.html>
+=item * C<template/webpages/delivery_order/tabs/_row.html>
 
 One row for already entered items
 
-=item * C<template/webpages/order/tabs/_tax_row.html>
+=item * C<template/webpages/delivery_order/tabs/_tax_row.html>
 
 Displaying tax information
 
-=item * C<template/webpages/order/tabs/_price_sources_dialog.html>
+=item * C<template/webpages/delivery_order/tabs/_price_sources_dialog.html>
 
 Dialog for selecting price and discount sources
 
 =back
 
-=item * C<js/kivi.Order.js>
+=item * C<js/kivi.DeliveryOrder.js>
 
 java script functions
 

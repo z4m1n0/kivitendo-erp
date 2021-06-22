@@ -59,6 +59,7 @@ sub items { goto &orderitems; }
 sub add_items { goto &add_orderitems; }
 sub payment_terms { goto &payment; }
 sub record_number { goto &donumber; }
+sub number { goto &donumber; }
 
 sub sales_order {
   my $self   = shift;
