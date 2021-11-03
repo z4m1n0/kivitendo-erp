@@ -62,6 +62,7 @@ __PACKAGE__->run_before('recalc',
                           workflow_save_and_sales_or_purchase_reclamation
                           save_and_order
                           save_and_delivery_order
+                          save_and_credit_note
                        )]);
 
 __PACKAGE__->run_before('get_unalterable_data',
@@ -71,6 +72,7 @@ __PACKAGE__->run_before('get_unalterable_data',
                           workflow_save_and_sales_or_purchase_reclamation
                           save_and_order
                           save_and_delivery_order
+                          save_and_credit_note
                         )]);
 
 #
@@ -592,6 +594,28 @@ sub action_save_and_delivery_order {
     controller => 'Order',
     action     => 'add_from_reclamation',
     type       => $to_type,
+    from_id    => $self->reclamation->id,
+  );
+}
+
+# save the reclamation and redirect to the frontend subroutine for a new
+# credit_note
+sub action_save_and_credit_note {
+  my ($self) = @_;
+
+  # always save
+  $self->save_with_render_error();
+
+  if (!$self->reclamation->is_sales) {
+    $self->js->flash('error', t8("Can't convert Purchase Reclamation to Credit Note"));
+    return $self->js->render();
+  }
+
+  # TODO(Tamino): create add_from_reclamation in credit note controller
+  $self->save_and_redirect_to(
+    controller => 'is.pl', # TODO(Tamino): which controller to use?
+    action     => 'add_from_reclamation',
+    type       => 'credit_note',
     from_id    => $self->reclamation->id,
   );
 }
@@ -2232,6 +2256,15 @@ sub _setup_edit_action_bar {
             $::instance_conf->get_reclamation_warn_duplicate_parts,
             $::instance_conf->get_reclamation_warn_no_reqdate,
           ],
+        ],
+        action => [
+          t8('Save and Credit Note'),
+          call      => [
+            'kivi.Reclamation.save', 'save_and_credit_note',
+            $::instance_conf->get_reclamation_warn_duplicate_parts,
+            $::instance_conf->get_reclamation_warn_no_reqdate,
+          ],
+          only_if   => (any { $self->type eq $_ } (sales_reclamation_type())),
         ],
       ], # end of combobox "Workflow"
 
