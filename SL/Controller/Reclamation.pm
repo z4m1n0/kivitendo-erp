@@ -60,6 +60,7 @@ __PACKAGE__->run_before('recalc',
                           save save_as_new print preview_pdf send_email
                           save_and_show_email_dialog
                           workflow_save_and_sales_or_purchase_reclamation
+                          save_and_order
                        )]);
 
 __PACKAGE__->run_before('get_unalterable_data',
@@ -67,6 +68,7 @@ __PACKAGE__->run_before('get_unalterable_data',
                           save save_as_new print preview_pdf send_email
                           save_and_show_email_dialog
                           workflow_save_and_sales_or_purchase_reclamation
+                          save_and_order
                         )]);
 
 #
@@ -80,6 +82,29 @@ sub action_add {
   $self->reclamation->transdate(DateTime->now_local());
 
   $self->pre_render();
+
+  $self->render(
+    'reclamation/form',
+    title => $self->get_title_for('add'),
+    %{$self->{template_args}},
+  );
+}
+
+sub action_add_from_order {
+  my ($self) = @_;
+
+  unless ($::form->{from_id}) {
+    $self->js->flash('error', t8("Can't create new reclamation. No 'from_id' was given."));
+    return $self->js->render();
+  }
+
+  require SL::DB::Order;
+  my $order = SL::DB::Order->new(id => $::form->{from_id})->load;
+  my $reclamation = $order->convert_to_reclamation();
+
+  $self->reclamation($reclamation);
+
+  $self->reinit_after_new_reclamation();
 
   $self->render(
     'reclamation/form',
@@ -457,6 +482,19 @@ sub action_send_email {
   );
 
   $self->redirect_to(@redirect_params);
+}
+
+sub action_save_and_order {
+  my ($self) = @_;
+
+  my $to_type = $self->reclamation->is_sales ? 'sales_order'
+                                             : 'purchase_order';
+  $self->save_and_redirect_to(
+    controller => 'Order',
+    action     => 'add_from_reclamation',
+    type       => $to_type,
+    from_id    => $self->reclamation->id,
+  );
 }
 
 # workflow from purchase to sales reclamation
@@ -1568,9 +1606,11 @@ sub _link_to_from_record {
   my ($self) = @_;
   my @allowed_linked_records = qw(
     SL::DB::Reclamation
+    SL::DB::Order
   );
   my @allowed_linked_record_items = qw(
     SL::DB::ReclamationItem
+    SL::DB::OrderItem
   );
 
   my $from_record_id = delete $::form->{converted_from_record_id};
@@ -2082,6 +2122,14 @@ sub _setup_edit_action_bar {
           #  $::instance_conf->get_reclamation_warn_no_reqdate,
           #],
           only_if   => (any { $self->type eq $_ } (sales_reclamation_type())),
+        ],
+        action => [
+          t8('Save and Order'),
+          call      => [
+            'kivi.Reclamation.save', 'save_and_order',
+            $::instance_conf->get_reclamation_warn_duplicate_parts,
+            $::instance_conf->get_reclamation_warn_no_reqdate,
+          ],
         ],
       ], # end of combobox "Workflow"
 
