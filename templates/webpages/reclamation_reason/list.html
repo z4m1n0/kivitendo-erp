@@ -1,0 +1,26 @@
+[%- USE HTML -%][%- USE LxERP -%][%- USE L -%][%- USE T8 -%]
+[%- INCLUDE 'common/flash.html' %]
+
+<h1>[% title %]</h1>
+
+<p>
+ <table id="partsgroup_list">
+  <thead>
+   <tr class="listheading">
+    <th>[% 'Reclamation Reason'      | $T8 %]</th>
+    <th>[% 'Description' | $T8 %]</th>
+    <th>[% 'Valid for'        | $T8 %]</th>
+   </tr>
+  </thead>
+
+  <tbody>
+    [%- FOREACH rec_reason = RECLAMATION_REASONS %]
+    <tr class="listrow" id="rec_reason_id_[% rec_reason.id %]">
+    <td><a href="[% SELF.url_for(action='edit', id=rec_reason.id) %]">[% HTML.escape(rec_reason.name) %]
+[% # rec_reason.level %]</a></td>
+    <td>[% rec_reason.description | html %]</td>
+    <td>[% rec_reason.valid_for | $T8 %]</td>
+   [%- END %]
+  </tbody>
+ </table>
+</p>

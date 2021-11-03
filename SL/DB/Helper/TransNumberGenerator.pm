@@ -19,6 +19,10 @@ sub do_scoping {
   SL::DB::Manager::DeliveryOrder->type_filter($_[0]);
 }
 
+sub rec_scoping {
+  SL::DB::Manager::Reclamation->type_filter($_[0]);
+}
+
 sub parts_scoping {
  # SL::DB::Manager::Part->type_filter($_[0]);
 }
@@ -30,6 +34,8 @@ my %specs = ( ar                      => { number_column => 'invnumber',        
               purchase_order          => { number_column => 'ordnumber',      number_range_column => 'ponumber',       scoping => \&oe_scoping,    },
               sales_delivery_order    => { number_column => 'donumber',       number_range_column => 'sdonumber',      scoping => \&do_scoping,    },
               purchase_delivery_order => { number_column => 'donumber',       number_range_column => 'pdonumber',      scoping => \&do_scoping,    },
+              sales_reclamation       => { number_column => 'rec_number',     number_range_column => 's_rec_number',   scoping => \&rec_scoping,   },
+              purchase_reclamation    => { number_column => 'rec_number',     number_range_column => 'p_rec_number',   scoping => \&rec_scoping,   },
               customer                => { number_column => 'customernumber', number_range_column => 'customernumber',                             },
               vendor                  => { number_column => 'vendornumber',   number_range_column => 'vendornumber',                               },
               part                    => { number_column => 'partnumber',     number_range_column => 'articlenumber',  scoping => \&parts_scoping, },
