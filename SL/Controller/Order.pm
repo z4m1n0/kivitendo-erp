@@ -56,11 +56,11 @@ use Rose::Object::MakeMethods::Generic
 __PACKAGE__->run_before('check_auth');
 
 __PACKAGE__->run_before('recalc',
-                        only => [ qw(save save_as_new save_and_delivery_order save_and_invoice save_and_ap_transaction
+                        only => [ qw(save save_as_new save_and_delivery_order save_and_reclamation save_and_invoice save_and_ap_transaction
                                      print send_email) ]);
 
 __PACKAGE__->run_before('get_unalterable_data',
-                        only => [ qw(save save_as_new save_and_delivery_order save_and_invoice save_and_ap_transaction
+                        only => [ qw(save save_as_new save_and_delivery_order save_and_reclamation save_and_invoice save_and_ap_transaction
                                      print send_email) ]);
 
 #
@@ -86,6 +86,26 @@ sub action_add {
   $self->render(
     'order/form',
     title => $self->get_title_for('add'),
+    %{$self->{template_args}}
+  );
+}
+
+sub action_add_from_reclamation {
+  my ($self) = @_;
+
+  require SL::DB::Reclamation;
+  my $reclamation = SL::DB::Reclamation->new(id => $::form->{from_id})->load;
+  # TODO(Tamino): don't save the order directly
+  # TODO(Tamino): chance link_to_record in save
+  my $order = $reclamation->convert_to_order();
+
+  $self->order($order);
+
+  $self->recalc();
+  $self->pre_render();
+  $self->render(
+    'order/form',
+    title => $self->get_title_for('edit'),
     %{$self->{template_args}}
   );
 }
@@ -673,6 +693,27 @@ sub action_save_and_delivery_order {
   $self->save_and_redirect_to(
     controller => 'oe.pl',
     action     => 'oe_delivery_order_from_order',
+  );
+}
+
+# save the order and redirect to the frontend subroutine for a new reclamation
+sub action_save_and_reclamation {
+  my ($self) = @_;
+
+  # cann't use save_and_redirect_to, because id is set!
+  my $errors = $self->save();
+  if (scalar @{ $errors }) {
+    $self->js->flash('error', $_) foreach @{ $errors };
+    return $self->js->render();
+  }
+
+  my $to_type = $self->order->is_sales ? 'sales_reclamation'
+                                       : 'purchase_reclamation';
+  $self->redirect_to(
+    controller => 'Reclamation',
+    action     => 'add_from_order',
+    type       => $to_type,
+    from_id    => $self->order->id,
   );
 }
 
@@ -2030,6 +2071,11 @@ sub setup_edit_action_bar {
           checks    => [ 'kivi.Order.check_save_active_periodic_invoices',
                          @req_trans_cost_art, @req_cusordnumber,
           ],
+          only_if   => (any { $self->type eq $_ } (sales_order_type(), purchase_order_type()))
+        ],
+        action => [
+          t8('Save and Reclamation'),
+          call      => [ 'kivi.Order.save', 'save_and_reclamation', $::instance_conf->get_order_warn_duplicate_parts ],
           only_if   => (any { $self->type eq $_ } (sales_order_type(), purchase_order_type()))
         ],
         action => [
