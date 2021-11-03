@@ -82,17 +82,17 @@ sub write_to {
   my $shipped_qty = $self->shipped_qty;
 
   for my $obj (@$objects) {
-    if ('SL::DB::OrderItem' eq ref $obj) {
+    if ('SL::DB::OrderItem' eq ref $obj || 'SL::DB::ReclamationItem' eq ref $obj ) {
       $obj->{shipped_qty} = $shipped_qty->{$obj->id} //= 0;
       $obj->{delivered}   = $shipped_qty->{$obj->id} == $obj->qty;
-    } elsif ('SL::DB::Order' eq ref $obj) {
-      # load all orderitems unless not already loaded
-      $obj->orderitems unless (defined $obj->{orderitems});
-      $self->write_to($obj->{orderitems});
+    } elsif ('SL::DB::Order' eq ref $obj || 'SL::DB::Reclamation' eq ref $obj) {
+      # load all items unless not already loaded
+      $obj->items unless (defined $obj->{items});
+      $self->write_to($obj->{items});
       if ($self->services_deliverable) {
-        $obj->{delivered} = all { $_->{delivered} } grep { !$_->{optional} } @{ $obj->{orderitems} };
+        $obj->{delivered} = all { $_->{delivered} } grep { !$_->{optional} } @{ $obj->{items} };
       } else {
-        $obj->{delivered} = all { $_->{delivered} } grep { !$_->{optional} && !$_->part->is_service } @{ $obj->{orderitems} };
+        $obj->{delivered} = all { $_->{delivered} } grep { !$_->{optional} && !$_->part->is_service } @{ $obj->{items} };
       }
     } else {
       die "unknown reference '@{[ ref $obj ]}' for @{[ __PACKAGE__ ]}::write_to";
@@ -131,12 +131,12 @@ sub normalize_input {
 }
 
 
-sub init_oe_ids {
+sub init_record_ids {
   my ($self) = @_;
 
   croak 'oe_ids not initialized in id mode'            if !$self->objects_or_ids;
   croak 'objects not initialized before accessing ids' if $self->objects_or_ids && !defined $self->objects;
-  croak 'objects need to be Order or OrderItem'        if any  {  ref($_) !~ /^SL::DB::Order(?:Item)?$/ } @{ $self->objects };
+  croak 'objects need to be Order, OrderItem, Reclamation or ReclamationItem' if any  {  ref($_) !~ /^SL::DB::Order(?:Item)?$|^SL::DB::Reclamation(?:Item)?$/ } @{ $self->objects };
 
   [ uniq map { ref($_) =~ /Item/ ? $_->trans_id : $_->id } @{ $self->objects } ]
 }
@@ -170,6 +170,8 @@ sub init_services_deliverable  {
     croak "wrong call, no customer or vendor object referenced";
   }
 }
+
+sub init_oe_ids { goto &init_record_ids }
 
 1;
 
