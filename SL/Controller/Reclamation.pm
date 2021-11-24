@@ -39,8 +39,16 @@ use List::MoreUtils qw(any none pairwise first_index);
 use English qw(-no_match_vars);
 use File::Spec;
 use Cwd;
-use Module::Load qw(load);
 use Sort::Naturally;
+
+# for _link_to_from_record
+use SL::DB::Order
+use SL::DB::OrderItem
+use SL::DB::DeliveryOrder
+use SL::DB::DeliveryOrderItem
+use SL::DB::Invoice
+use SL::DB::PurchaseInvoice
+use SL::DB::InvoiceItem
 
 use Rose::Object::MakeMethods::Generic
 (
