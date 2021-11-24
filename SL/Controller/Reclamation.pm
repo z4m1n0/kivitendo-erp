@@ -1238,7 +1238,7 @@ sub init_models {
       language_id             => t8('Language'),
       department_id           => t8('Department'),
       globalproject_id        => t8('Project Number'),
-      cv_record_number        => t8((ucfirst $self->cv) . ' Record Number'),
+      cv_record_number        => ($self->type eq 'sales_reclamation' ? t8('Customer Record Number') : t8('Vendor Record Number')),
       transaction_description => t8('Description'),
       notes                   => t8('Notes'),
       intnotes                => t8('Internal Notes'),
