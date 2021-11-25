@@ -41,7 +41,7 @@ use File::Spec;
 use Cwd;
 use Sort::Naturally;
 
-# for _link_to_from_record
+# for _link_to_records
 use SL::DB::Order
 use SL::DB::OrderItem
 use SL::DB::DeliveryOrder
@@ -1713,7 +1713,7 @@ sub save {
     SL::DB::ReclamationItem->new(id => $_)->delete for @{$self->item_ids_to_delete || []};
     $self->reclamation->save(cascade => 1);
 
-    $self->_link_to_from_record();
+    $self->_link_to_records();
 
     $self->save_history('SAVED');
 
@@ -1723,7 +1723,7 @@ sub save {
   return $errors;
 }
 
-sub _link_to_from_record {
+sub _link_to_records {
   my ($self) = @_;
   my @allowed_linked_records = qw(
     SL::DB::Reclamation
@@ -1747,7 +1747,6 @@ sub _link_to_from_record {
     unless (any {$from_record_type eq $_} @allowed_linked_records) {
       croak("Not allowed converted_from_record_type_ref: '" . $from_record_type);
     }
-    load $from_record_type;
     my $src = ${from_record_type}->new(id => $from_record_id)->load;
     $src->link_to_record($self->reclamation);
     #clear converted_from;
@@ -1767,7 +1766,6 @@ sub _link_to_from_record {
         unless (any {$from_item_type eq $_} @allowed_linked_record_items ) {
           croak("Not allowed converted_from_record_item_type_ref: '" . $from_item_type);
         }
-        load $from_item_type;
         my $src_item = ${from_item_type}->new(id => $from_item_id)->load;
         $src_item->link_to_record($reclamation_item);
         #clear converted_from;
