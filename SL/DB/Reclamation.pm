@@ -130,17 +130,10 @@ sub is_type {
   return $self->type eq $type;
 }
 
-sub deliverydate {
-  # reclamations doesn't have deliverydate, but it does have reqdate.
-  # deliverydate can be used to determine tax if tax_point isn't set.
-
-  return $_[0]->reqdate;
-}
-
 sub effective_tax_point {
   my ($self) = @_;
 
-  return $self->tax_point || $self->deliverydate || $self->transdate;
+  return $self->tax_point || $self->reqdate || $self->transdate;
 }
 
 sub displayable_type {
