@@ -53,7 +53,6 @@ __PACKAGE__->attr_html('notes');
 __PACKAGE__->attr_sorted('items');
 
 __PACKAGE__->before_save('_before_save_set_rec_number');
-__PACKAGE__->before_save('_before_save_create_new_project');
 __PACKAGE__->before_save('_before_save_remove_empty_custom_shipto');
 __PACKAGE__->before_save('_before_save_set_custom_shipto_module');
 
@@ -64,32 +63,6 @@ sub _before_save_set_rec_number {
 
   $self->create_trans_number if !$self->rec_number;
 
-  return 1;
-}
-
-sub _before_save_create_new_project {
-  my ($self) = @_;
-
-  # force new project, if not set yet
-  if ($::instance_conf->get_reclamation_always_project && !$self->globalproject_id && ($self->type eq 'sales_reclamation')) {
-
-    if (SL::DB::Manager::Project->find_by(projectnumber => $self->rec_number)) {
-      die t8("Error while creating project with project number of new reclamation number, project number #1 already exists!", $self->rec_number)
-    }
-
-    eval {
-      my $new_project = SL::DB::Project->new(
-          projectnumber     => $self->rec_number,
-          description       => $self->customervendor->name,
-          customer_id       => $self->customervendor->id,
-          active            => 1,
-          project_type_id   => $::instance_conf->get_project_type_id,
-          project_status_id => $::instance_conf->get_project_status_id,
-          );
-       $new_project->save;
-       $self->globalproject_id($new_project->id);
-    } or die t8('Could not create new project #1', $@);
-  }
   return 1;
 }
 
