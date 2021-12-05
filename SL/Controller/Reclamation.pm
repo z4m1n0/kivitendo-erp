@@ -735,7 +735,7 @@ sub action_add_item {
 
   my $form_attr = $::form->{add_item};
 
-  unless ($::form_attr->{parts_id}) {
+  unless ($form_attr->{parts_id}) {
     $self->js->flash('error', t8("No part selected"));
     return $self->js->render();
   }
