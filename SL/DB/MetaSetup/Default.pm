@@ -142,7 +142,6 @@ __PACKAGE__->meta->columns(
   purchase_order_show_delete                => { type => 'boolean', default => 'true' },
   purchase_reclamation_show_delete          => { type => 'boolean', default => 'true', not_null => 1 },
   quick_search_modules                      => { type => 'array' },
-  reclamation_always_project                => { type => 'boolean', default => 'false', not_null => 1 },
   reclamation_warn_duplicate_parts          => { type => 'boolean', default => 'true', not_null => 1 },
   reclamation_warn_no_reqdate               => { type => 'boolean', default => 'true', not_null => 1 },
   reqdate_interval                          => { type => 'integer', default => '0' },
