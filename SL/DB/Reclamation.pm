@@ -179,7 +179,7 @@ sub valid_reclamation_reasons {
 
   my $valid_for_type = ($self->type =~ m{sales} ? 'sales' : 'purchase');
   return SL::DB::Manager::ReclamationReason->get_all_sorted(
-      where => [ or => [ valid_for => $valid_for_type , valid_for => 'sales_and_purchase' ] ]);
+      where => [  valid_for => [$valid_for_type , 'sales_and_purchase'] ]);
 }
 
 #TODO(Tamino): change converted_from_ ; put in order
@@ -257,13 +257,14 @@ sub convert_to_delivery_order {
 #TODO(Werner): überprüfen ob alle Felder richtig gestetzt werden
 sub new_from {
   my ($class, $source, %params) = @_;
-  unless (any {ref($source) eq $_} qw(
+  my %allowed_sources = map { $_ => 1 } qw(
     SL::DB::Reclamation
     SL::DB::Order
     SL::DB::DeliveryOrder
     SL::DB::Invoice
     SL::DB::PurchaseInvoice
-  )) {
+  );
+  unless( $allowed_sources{ref $source} ) {
     croak("Unsupported source object type '" . ref($source) . "'");
   }
   croak("A destination type must be given as parameter") unless $params{destination_type};
