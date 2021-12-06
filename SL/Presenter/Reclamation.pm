@@ -3,6 +3,7 @@ package SL::Presenter::Reclamation;
 use strict;
 
 use SL::Presenter::EscapedText qw(escape is_escaped);
+use SL::Presenter::Tag qw(html_tag);
 
 use Exporter qw(import);
 our @EXPORT_OK = qw(sales_reclamation purchase_reclamation);
@@ -28,15 +29,11 @@ sub _rec_record {
 
   croak "Unknown display type '$params{display}'" unless $params{display} =~ m/^(?:inline|table-cell)$/;
 
-  my $link_start = '';
-  my $link_end   = '';
+  my $text = escape($reclamation->rec_number);
   unless ($params{no_link}) {
-    my $action  = 'controller.pl?action=Reclamation/edit';
-    $link_start = '<a href="' . $action . '&amp;type=' . $type . '&amp;id=' . escape($reclamation->id) . '">';
-    $link_end   = '</a>';
+    my $id = $reclamation->id;
+    $text =  html_tag('a', $text, href => escape("controller.pl?action=Reclamation/edit&type=${type}&id=${id}"));
   }
-
-  my $text = join '', ($link_start, escape($reclamation->rec_number), $link_end);
 
   is_escaped($text);
 }
