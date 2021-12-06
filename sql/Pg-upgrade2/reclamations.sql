@@ -5,18 +5,6 @@
 
 CREATE TYPE rec_reasons_valid_for AS ENUM ('none', 'sales', 'purchase', 'sales_and_purchase');
 
-CREATE OR REPLACE FUNCTION set_next_position_reclamation_reasons() RETURNS trigger AS $$
-  DECLARE
-    next_position integer;
-  BEGIN
-    IF NEW.position IS NULL THEN
-      SELECT CASE WHEN max(position) IS NULL THEN 1 ELSE max(position) + 1 END INTO next_position FROM reclamation_reasons;
-      NEW.position := next_position;
-    END IF;
-    RETURN NEW;
-  END;
-$$ LANGUAGE plpgsql;
-
 CREATE TABLE reclamation_reasons (
   id                       SERIAL                      PRIMARY KEY,
   name                     TEXT                        NOT NULL,
@@ -29,9 +17,6 @@ CREATE TABLE reclamation_reasons (
 CREATE TRIGGER mtime_reclamation_reasons
   BEFORE UPDATE ON reclamation_reasons
   FOR EACH ROW EXECUTE PROCEDURE set_mtime();
-CREATE TRIGGER position_reclamation_reasons
-  BEFORE INSERT OR UPDATE ON reclamation_reasons
-  FOR EACH ROW EXECUTE PROCEDURE set_next_position_reclamation_reasons();
 
 CREATE TABLE reclamations (
 --basic
