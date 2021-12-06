@@ -27,7 +27,6 @@ use SL::DB::Translation;
 
 use SL::Helper::CreatePDF qw(:all);
 use SL::Helper::PrintOptions;
-use SL::Helper::ShippedQty;
 use SL::Helper::UserPreferences::PositionsScrollbar;
 use SL::Helper::UserPreferences::UpdatePositions;
 
@@ -900,7 +899,6 @@ sub action_reorder_items {
     partnumber   => sub { $_[0]->part->partnumber },
     description  => sub { $_[0]->description },
     reason       => sub { $_[0]->reason->name },
-    shipped_qty  => sub { $_[0]->shipped_qty },
     qty          => sub { $_[0]->qty },
     sellprice    => sub { $_[0]->sellprice },
     discount     => sub { $_[0]->discount },
@@ -908,15 +906,6 @@ sub action_reorder_items {
   );
 
   $self->get_item_cvpartnumber($_) for @{$self->reclamation->items_sorted};
-
-  if ($::form->{order_by} eq 'shipped_qty') {
-    # Calculate shipped qtys here to prevent calling calculate for every item
-    # via the items method. Do not use write_to_objects to prevent
-    # reclamation->delivered to be set, because this should be the value from
-    # db, which can be set manually or is set when linked delivery orders are
-    # saved.
-    SL::Helper::ShippedQty->new->calculate($self->reclamation)->write_to(\@{$self->reclamation->items});
-  }
 
   my $method = $sort_keys{$::form->{order_by}};
   my @to_sort = map { { old_pos => $_->position, order_by => $method->($_) } } @{ $self->reclamation->items_sorted };
@@ -1893,12 +1882,6 @@ sub pre_render {
     $item->active_discount_source($price_source->discount_from_source($item->active_discount_source));
   }
 
-  # Calculate shipped qtys here to prevent calling calculate for every item via
-  # the items method. Do not use write_to_objects to prevent
-  # reclamation->delivered to be set, because this should be the value from db,
-  # which can be set manually or is set when linked delivery orders are saved.
-  SL::Helper::ShippedQty->new->calculate($self->reclamation)->write_to(\@{$self->reclamation->items});
-
   if ($self->reclamation->record_number && $::instance_conf->get_webdav) {
     my $webdav = SL::Webdav->new(
       type     => $self->type,
@@ -2638,7 +2621,7 @@ the bottom.
 =item *
 
 Ordering item rows with drag and drop is possible. Sorting item rows is
-possible (by partnumber, description, reason, shipped_qty, qty, sellprice
+possible (by partnumber, description, reason, qty, sellprice
 and discount for now).
 
 =item *
