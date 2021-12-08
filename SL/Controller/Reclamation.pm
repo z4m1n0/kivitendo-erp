@@ -1694,14 +1694,14 @@ sub save {
 
 sub _link_to_records {
   my ($self) = @_;
-  my @allowed_linked_records = qw(
+  my %allowed_linked_records = map {$_ => 1} qw(
     SL::DB::Reclamation
     SL::DB::Order
     SL::DB::DeliveryOrder
     SL::DB::Invoice
     SL::DB::PurchaseInvoice
   );
-  my @allowed_linked_record_items = qw(
+  my %allowed_linked_record_items = map {$_ => 1} qw(
     SL::DB::ReclamationItem
     SL::DB::OrderItem
     SL::DB::DeliveryOrderItem
@@ -1713,7 +1713,7 @@ sub _link_to_records {
   if ($from_record_id) {
     my $from_record_type = delete $::form->{converted_from_record_type_ref};
     $from_record_type ||= $self->reclamation->{converted_from_record_type_ref};
-    unless (any {$from_record_type eq $_} @allowed_linked_records) {
+    unless ($allowed_linked_records{$from_record_type}) {
       croak("Not allowed converted_from_record_type_ref: '" . $from_record_type);
     }
     my $src = ${from_record_type}->new(id => $from_record_id)->load;
@@ -1725,14 +1725,14 @@ sub _link_to_records {
       my $idx = -1;
       my $from_record_item_ids = delete $::form->{converted_from_record_item_ids} ;
       my $from_record_item_type_refs = delete $::form->{converted_from_record_item_type_refs} ;
-      foreach my $reclamation_item (@{ $self->reclamation->items_sorted }) {
-        $idx++;
+      for my $idx (0 .. $#{ $self->reclamation->items_sorted }) {
         my $from_item_id = $from_record_item_ids->[$idx];
+        my $reclamation_item = $self->reclamation->items_sorted->[$idx];
         $from_item_id ||= $reclamation_item->{converted_from_record_item_id};
         next if !$from_item_id;
         my $from_item_type = $from_record_item_type_refs->[$idx];
         $from_item_type ||= $reclamation_item->{converted_from_record_item_type_ref};
-        unless (any {$from_item_type eq $_} @allowed_linked_record_items ) {
+        unless ($allowed_linked_record_items{$from_item_type}) {
           croak("Not allowed converted_from_record_item_type_ref: '" . $from_item_type);
         }
         my $src_item = ${from_item_type}->new(id => $from_item_id)->load;
