@@ -9,7 +9,8 @@
    <tr class="listheading">
     <th>[% 'Reclamation Reason'      | $T8 %]</th>
     <th>[% 'Description' | $T8 %]</th>
-    <th>[% 'Valid for'        | $T8 %]</th>
+    <th>[% 'Valid for Sales' | $T8 %]</th>
+    <th>[% 'Valid for Purchase' | $T8 %]</th>
    </tr>
   </thead>
 
@@ -19,7 +20,8 @@
     <td><a href="[% SELF.url_for(action='edit', id=reason.id) %]">[% HTML.escape(reason.name) %]
 [% # reason.level %]</a></td>
     <td>[% reason.description | html %]</td>
-    <td>[% reason.valid_for | $T8 %]</td>
+    <td>[% (reason.valid_for_sales? 'Yes' : 'No') | $T8 %]</td>
+    <td>[% (reason.valid_for_purchase? 'Yes' : 'No') | $T8 %]</td>
    [%- END %]
   </tbody>
  </table>
