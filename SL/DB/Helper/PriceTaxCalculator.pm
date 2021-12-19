@@ -19,6 +19,8 @@ sub calculate_prices_and_taxes {
   require SL::DB::PriceFactor;
   require SL::DB::Unit;
 
+  my $marge_calculations = $self->can('marge_total');
+
   SL::DB::Part->load_cached(map { $_->parts_id } @{ $self->items }) if @{ $self->items || [] };
 
   my %units_by_name       = map { ( $_->name => $_ ) } @{ SL::DB::Manager::Unit->get_all        };
@@ -53,7 +55,7 @@ sub calculate_prices_and_taxes {
   };
 
   $self->netamount(  0);
-  $self->marge_total(0) if $self->can('marge_total'); # TODO(Tamino): hat reclamations nicht!
+  $self->marge_total(0) if $marge_calculations;
 
   SL::DB::Manager::Chart->cache_taxkeys(date => $self->effective_tax_point);
 
@@ -105,7 +107,7 @@ sub _calculate_item {
   my $sellprice = $item->sellprice;
 
   $item->price_factor(      ! $item->price_factor_obj   ? 1 : ($item->price_factor_obj->factor   || 1));
-  $item->marge_price_factor(! $part->price_factor ? 1 : ($part->price_factor->factor || 1)) if $item->can('marge_price_factor');  # TODO(Tamino): hat reclamation_items nicht!
+  $item->marge_price_factor(! $part->price_factor ? 1 : ($part->price_factor->factor || 1)) if $marge_calculations;
   my $linetotal = _round($sellprice * (1 - $item->discount) * $item->qty / $item->price_factor, 2) * $data->{exchangerate};
   $linetotal    = _round($linetotal,                                                            2);
 
