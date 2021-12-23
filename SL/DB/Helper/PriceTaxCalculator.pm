@@ -85,6 +85,7 @@ sub _get_exchangerate {
 
 sub _calculate_item {
   my ($self, $item, $idx, $data, %params) = @_;
+  my $marge_calculations = $self->can('marge_total');
 
   my $part       = SL::DB::Part->load_cached($item->parts_id);
   return unless $part;
