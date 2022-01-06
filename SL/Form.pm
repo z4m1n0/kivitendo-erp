@@ -1100,6 +1100,8 @@ sub get_formname_translation {
     storno_invoice          => $main::locale->text('Storno Invoice'),
     sales_delivery_order    => $main::locale->text('Delivery Order'),
     purchase_delivery_order => $main::locale->text('Delivery Order'),
+    sales_reclamation       => $main::locale->text('Reclamation'),
+    purchase_recalmation    => $main::locale->text('Reclamation'),
     dunning                 => $main::locale->text('Dunning'),
     dunning1                => $main::locale->text('Payment Reminder'),
     dunning2                => $main::locale->text('Dunning'),
