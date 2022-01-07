@@ -430,7 +430,12 @@ sub create_action_bar_actions {
 
     push @actions, action => [
       $type eq 'pdf' ? $::locale->text('PDF export') : $::locale->text('CSV export'),
-      submit => [ '#report_generator_form', {($key => $value, %{$params{action_bar_additional_submit_values}})} ],
+      submit => [ '#report_generator_form', {(
+            $key => $value,
+            defined $params{action_bar_additional_submit_values}
+            ? %{$params{action_bar_additional_submit_values}}
+            : undef
+          )} ],
     ];
   }
 
