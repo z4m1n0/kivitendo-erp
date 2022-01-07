@@ -134,7 +134,6 @@ sub action_add_from_delivery_order {
   }
 
   require SL::DB::DeliveryOrder;
-  # TODO(Tamino): check in new DeliveryOrder Controller
   my $delivery_order = SL::DB::DeliveryOrder->new(id => $::form->{from_id})->load;
   my $reclamation = $delivery_order->convert_to_reclamation();
 
@@ -603,11 +602,10 @@ sub action_save_and_purchase_reclamation {
 sub action_save_and_delivery_order {
   my ($self) = @_;
 
-  # TODO(Tamino): look at DeliveryOrder Controller for add_from_reclamation
   my $to_type = $self->reclamation->is_sales ? 'sales_delivery_order'
                                              : 'purchase_delivery_order';
   $self->save_and_redirect_to(
-    controller => 'Order',
+    controller => 'do.pl',
     action     => 'add_from_reclamation',
     type       => $to_type,
     from_id    => $self->reclamation->id,

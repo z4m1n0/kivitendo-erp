@@ -217,14 +217,13 @@ sub convert_to_order {
   return $order;
 }
 
-# TODO(Tamino): SL::DB:DeliveryOrder->new_from anschauen und testen
 sub convert_to_delivery_order {
-  my ($self, @args) = @_;
+  my ($self, %params) = @_;
 
   my $delivery_order;
   if (!$self->db->with_transaction(sub {
     require SL::DB::DeliveryOrder;
-    $delivery_order = SL::DB::DeliveryOrder->new_from($self, @args);
+    $delivery_order = SL::DB::DeliveryOrder->new_from($self, %params);
     $delivery_order->save;
     $self->link_to_record($delivery_order);
     # TODO extend link_to_record for items, otherwise long-term no d.r.y.
@@ -247,10 +246,10 @@ sub convert_to_delivery_order {
     $self->update_attributes(delivered => 1) unless $::instance_conf->get_shipped_qty_require_stock_out;
     1;
   })) {
-    return undef;
+    return undef, $self->db->error->db_error->db_error;
   }
 
-  return $delivery_order;
+  return $delivery_order, undef;
 }
 
 #TODO(Werner): überprüfen ob alle Felder richtig gestetzt werden
