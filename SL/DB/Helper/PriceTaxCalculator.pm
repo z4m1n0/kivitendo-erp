@@ -143,19 +143,19 @@ sub _calculate_item {
   my $linetotal_cost = 0;
 
   if (!$linetotal) {
-    $item->marge_total(  0) if $item->can('marge_total');    # TODO(Tamino): hat reclamation_items nicht!
-    $item->marge_percent(0) if $item->can('marge_precent');  # TODO(Tamino): hat reclamation_items nicht!
+    $item->marge_total(  0) if $marge_calculations;
+    $item->marge_percent(0) if $marge_calculations;
 
   } else {
     my $lastcost       = !(($item->lastcost // 0) * 1) ? ($part->lastcost || 0) : $item->lastcost;
-    $linetotal_cost    = _round($lastcost * $item->qty / $item->marge_price_factor, 2) if $item->can('marge_price_factor');  # TODO(Tamino): hat reclamation_items nicht!
+    $linetotal_cost    = _round($lastcost * $item->qty / ( $marge_calculations ? $item->marge_price_factor : 1 ), 2);
     my $linetotal_net  = $self->taxincluded ? $linetotal - $tax_amount : $linetotal;
 
-    $item->marge_total(  $linetotal_net - $linetotal_cost) if $item->can('marge_total');  # TODO(Tamino): hat reclamation_items nicht!
-    $item->marge_percent($item->marge_total * 100 / $linetotal_net) if $item->can('marge_precent');  # TODO(Tamino): hat reclamation_items nicht!
+    $item->marge_total(  $linetotal_net - $linetotal_cost) if $marge_calculations;
+    $item->marge_percent($item->marge_total * 100 / $linetotal_net) if $marge_calculations;
 
     unless ($data->{allow_optional_items} && $item->optional) {
-      $self->marge_total(  $self->marge_total + $item->marge_total) if $self->can('marge_total');  # TODO(Tamino): hat reclamations nicht!
+      $self->marge_total(  $self->marge_total + $item->marge_total) if $marge_calculations;
       $data->{lastcost_total} += $linetotal_cost;
     }
   }
@@ -187,6 +187,7 @@ sub _calculate_item {
 
 sub _calculate_amounts {
   my ($self, $data, %params) = @_;
+  my $marge_calculations = $self->can('marge_total');
 
   my $tax_diff = 0;
   foreach my $chart_id (keys %{ $data->{taxes_by_chart_id} }) {
@@ -216,7 +217,7 @@ sub _calculate_amounts {
 
   $self->netamount(    $netamount);
   $self->amount(       $grossamount);
-  $self->marge_percent($self->netamount ? ($self->netamount - $data->{lastcost_total}) * 100 / $self->netamount : 0) if $self->can('marge_percent');  # TODO(Tamino): hat reclamations nicht!
+  $self->marge_percent($self->netamount ? ($self->netamount - $data->{lastcost_total}) * 100 / $self->netamount : 0) if $marge_calculations;
 }
 
 sub _calculate_assembly_item {
