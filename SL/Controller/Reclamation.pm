@@ -628,8 +628,7 @@ sub action_save_and_credit_note {
   # TODO(Tamino): create add_from_reclamation in credit note controller
   $self->save_and_redirect_to(
     controller => 'is.pl', # TODO(Tamino): which controller to use?
-    action     => 'add_from_reclamation',
-    type       => 'credit_note',
+    action     => 'credit_note_from_reclamation',
     from_id    => $self->reclamation->id,
   );
 }
