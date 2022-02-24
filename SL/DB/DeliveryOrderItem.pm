@@ -97,8 +97,8 @@ sub new_from {
       transdate
       unit
     );
-    custom_variables => \@custom_variables,
-    ordnumber        => ref($source->record) eq 'SL::DB::Order' ? $source->record->ordnumber : $source->ordnumber,
+    $item_args{custom_variables} = \@custom_variables;
+    $item_args{ordnumber}        = ref($source->record) eq 'SL::DB::Order' ? $source->record->ordnumber : $source->ordnumber;
     # }}} for vim folds
   }
 
