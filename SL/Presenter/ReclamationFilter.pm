@@ -549,7 +549,7 @@ default values of the filter elements or to add a new ones.
 A filter element is stored in and as a hash map. Each filter has a unique key
 and should have entries for:
 
-=over 2
+=over 4
 
 =item * position
 
@@ -601,7 +601,7 @@ If falsish the element is ignored.
 
 =item * input_name, input_default, input_default_ge, input_default_le
 
-Look at L<input_tag|/"* input_tag"> to see how they are used.
+Look at I<input_tag> to see how they are used.
 
 =back
 
