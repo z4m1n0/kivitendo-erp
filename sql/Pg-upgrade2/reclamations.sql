@@ -20,7 +20,7 @@ CREATE TRIGGER mtime_reclamation_reasons
 CREATE TABLE reclamations (
 --basic
   id                      INTEGER                     NOT NULL DEFAULT nextval('id'),
-  record_number           TEXT                        NOT NULL UNIQUE,
+  record_number           TEXT                        NOT NULL,
   transdate               DATE                        DEFAULT CURRENT_DATE,
   itime                   TIMESTAMP without time zone DEFAULT now(),
   mtime                   TIMESTAMP without time zone,
