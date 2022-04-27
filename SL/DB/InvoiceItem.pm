@@ -16,6 +16,7 @@ use SL::DB::Helper::CustomVariables (
     },
   },
 );
+use Rose::DB::Object::Helpers qw(as_tree strip);
 
 __PACKAGE__->meta->make_manager_class;
 
