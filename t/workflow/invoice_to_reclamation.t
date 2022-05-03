@@ -247,7 +247,7 @@ foreach my $pair (zip(@sales_invoice_items, @converted_sales_reclamation_items))
 }
 ok Compare($sales_invoice->strip->as_tree, $converted_sales_reclamation->strip->as_tree, {ignore_hash_keys => [qw(
       id employee_id itime mtime transdate
-      billing_address_id datepaid delivery_customer_id delivery_vendor_id deliverydate direct_debit donumber duedate dunning_config_id gldate invnumber_for_credit_note invoice marge_percent marge_total orddate ordnumber paid quodate quonumber storno storno_id type
+      datepaid delivery_customer_id delivery_vendor_id deliverydate direct_debit donumber duedate dunning_config_id gldate invnumber_for_credit_note invoice marge_percent marge_total orddate ordnumber paid quodate quonumber storno storno_id type
       delivered closed exchangerate reqdate vendor_id
       cp_id contact_id
       cusordnumber cv_record_number
@@ -265,7 +265,7 @@ foreach my $pair (zip(@purchase_invoice_items, @converted_purchase_reclamation_i
 ok Compare($purchase_invoice->strip->as_tree, $converted_purchase_reclamation->strip->as_tree, {ignore_hash_keys => [qw(
       id employee_id itime mtime transdate
       datepaid deliverydate direct_debit duedate gldate invoice orddate ordnumber paid quodate quonumber storno storno_id type
-      customer_id cv_record_number delivered closed exchangerate reqdate salesman_id shippingpoint shipto_id
+      billing_address_id customer_id cv_record_number delivered closed exchangerate reqdate salesman_id shippingpoint shipto_id
       cp_id contact_id
       invnumber record_number
       )]});
