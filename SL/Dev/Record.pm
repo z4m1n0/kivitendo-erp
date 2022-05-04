@@ -176,14 +176,14 @@ sub create_purchase_delivery_order {
   my $orderitems = delete $params{orderitems} // _create_two_items($record_type);
   _check_items($orderitems, $record_type);
 
-  my $customer = $params{customer} // new_customer(name => 'Testcustomer')->save;
-  die "illegal customer" unless ref($customer) eq 'SL::DB::Customer';
+  my $vendor = $params{vendor} // new_vendor(name => 'Testvendor')->save;
+  die "illegal vendor" unless ref($vendor) eq 'SL::DB::Vendor';
 
   my $delivery_order = SL::DB::DeliveryOrder->new(
     'is_sales'   => 'false',
     'closed'     => undef,
-    customer_id    => $customer->id,
-    taxzone_id   => $customer->taxzone_id,
+    vendor_id    => $vendor->id,
+    taxzone_id   => $vendor->taxzone_id,
     donumber     => $params{donumber}    // undef,
     currency_id  => $params{currency_id} // $::instance_conf->get_currency_id,
     taxincluded  => $params{taxincluded} // 0,
