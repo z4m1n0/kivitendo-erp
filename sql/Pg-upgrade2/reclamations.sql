@@ -21,7 +21,7 @@ CREATE TABLE reclamations (
 --basic
   id                      INTEGER                     NOT NULL DEFAULT nextval('id'),
   record_number           TEXT                        NOT NULL,
-  transdate               DATE                        DEFAULT CURRENT_DATE,
+  transdate               DATE                        DEFAULT now(),
   itime                   TIMESTAMP without time zone DEFAULT now(),
   mtime                   TIMESTAMP without time zone,
   delivered               BOOLEAN                     NOT NULL DEFAULT false,

@@ -40,7 +40,7 @@ __PACKAGE__->meta->columns(
   taxincluded             => { type => 'boolean', not_null => 1 },
   taxzone_id              => { type => 'integer', not_null => 1 },
   transaction_description => { type => 'text' },
-  transdate               => { type => 'date', default => 'CURRENT_DATE' },
+  transdate               => { type => 'date', default => 'now()' },
   vendor_id               => { type => 'integer' },
 );
 
