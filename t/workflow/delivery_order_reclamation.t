@@ -296,7 +296,7 @@ foreach my $pair (zip(@sales_delivery_order_items, @converted_sales_reclamation_
 ok Compare($sales_delivery_order->strip->as_tree, $converted_sales_reclamation->strip->as_tree, {ignore_hash_keys => [qw(
       id employee_id itime mtime reqdate
       is_sales ordnumber oreqnumber
-      amount exchangerate netamount
+      billing_address_id amount exchangerate netamount
       cp_id contact_id
       cusordnumber cv_record_number
       donumber record_number
@@ -313,7 +313,7 @@ foreach my $pair (zip(@sales_reclamation_items, @converted_sales_delivery_order_
 ok Compare($sales_reclamation->strip->as_tree, $converted_sales_delivery_order->strip->as_tree, {ignore_hash_keys => [qw(
       id employee_id itime mtime delivered reqdate
       is_sales ordnumber oreqnumber
-      amount exchangerate netamount
+      amount billing_address_id exchangerate netamount
       cp_id contact_id
       cusordnumber cv_record_number
       donumber record_number
@@ -332,7 +332,7 @@ foreach my $pair (zip(@purchase_delivery_order_items, @converted_purchase_reclam
 ok Compare($purchase_delivery_order->strip->as_tree, $converted_purchase_reclamation->strip->as_tree, {ignore_hash_keys => [qw(
       id employee_id itime mtime reqdate
       is_sales ordnumber oreqnumber
-      amount exchangerate netamount
+      amount billing_address_id exchangerate netamount
       cp_id contact_id
       cusordnumber cv_record_number
       donumber record_number
@@ -349,7 +349,7 @@ foreach my $pair (zip(@purchase_reclamation_items, @converted_purchase_delivery_
 ok Compare($purchase_reclamation->strip->as_tree, $converted_purchase_delivery_order->strip->as_tree, {ignore_hash_keys => [qw(
       id employee_id itime mtime delivered reqdate
       is_sales ordnumber oreqnumber
-      amount exchangerate netamount
+      amount billing_address_id exchangerate netamount
       cp_id contact_id
       cusordnumber cv_record_number
       donumber record_number
