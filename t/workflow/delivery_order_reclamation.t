@@ -42,9 +42,8 @@ my (
 
 
 sub clear_up {
-  #TODO(Tamino): no Manager for DeliveryOrderItem
   foreach (qw(
-    DeliveryOrder
+    DeliveryOrder DeliveryOrderItem
     Reclamation ReclamationItem
     Part
     Customer Vendor
