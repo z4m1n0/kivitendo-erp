@@ -1,4 +1,3 @@
-# TODO(Tamino): create linked_records when converting to reclamation
 use Test::More;
 
 use strict;
