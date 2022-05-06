@@ -1,4 +1,3 @@
-# TODO(Tamino): check_auth
 package SL::Controller::ReclamationReason;
 
 use strict;
@@ -223,3 +222,59 @@ sub load_reclamation_reason {
 }
 
 1;
+
+__END__
+
+=encoding utf-8
+
+=head1 NAME
+
+SL::Controller::ReclamationReason - controller for reclamation_reasons
+
+=head1 SYNOPSIS
+
+This is a small controller to add end edit reclamation_reasons.
+
+=head2 Key Features
+
+=over 4
+
+=item *
+
+Adding, editing, deleting and sorting of reclamation reasons.
+
+=item *
+
+Reasons can be valid for purchase, sales or both.
+
+=back
+
+=head1 CODE
+
+=head2 Layout
+
+=over 4
+
+=item * C<SL/Controller/ReclamationReason.pm>
+
+the controller
+
+=item * C<template/webpages/reclamation_reason/form.html>
+
+main form
+
+=item * C<template/webpages/reclamation_reason/list.html>
+
+list form
+
+=item * C<template/webpages/reclamation_reason/sort_list.html>
+
+sorting form
+
+=back
+
+=head1 AUTHOR
+
+Tamino Steinert E<lt>tamino.steinert@tamino.stE<gt>
+
+=cut
