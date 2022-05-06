@@ -915,7 +915,9 @@ sub action_reorder_items {
   my %sort_keys = (
     partnumber   => sub { $_[0]->part->partnumber },
     description  => sub { $_[0]->description },
-    reason       => sub { $_[0]->reason->name },
+    reason       => sub { $_[0]->reason eq undef ? "" : $_[0]->reason->name }, # TODO(tamino): check
+    reason_description_ext => sub { $_[0]->reason_description_ext },
+    reason_description_int => sub { $_[0]->reason_description_int },
     qty          => sub { $_[0]->qty },
     sellprice    => sub { $_[0]->sellprice },
     discount     => sub { $_[0]->discount },
@@ -2588,9 +2590,9 @@ the bottom.
 
 =item *
 
-Ordering item rows with drag and drop is possible. Sorting item rows is
-possible (by partnumber, description, reason, qty, sellprice
-and discount for now).
+Ordering item rows with drag and drop is possible. Sorting item rows is possible
+(by partnumber, description, reason, reason_description_int,
+reason_description_ext, qty, sellprice and discount for now).
 
 =item *
 
@@ -2601,6 +2603,10 @@ with ajax-calls and the page only reloads on C<save>.
 
 User can see changes immediately, because of the use of java script
 and ajax.
+
+=item *
+
+Parts that are linked though RecordLinks are protected against price editing.
 
 =back
 
@@ -2639,6 +2645,10 @@ The input line for items
 
 One row for already entered items
 
+=item * C<template/webpages/reclamation/tabs/basic_data/_second_row.html>
+
+Foldable second row for already entered items with more fields
+
 =item * C<template/webpages/reclamation/tabs/basic_data/_tax_row.html>
 
 Displaying tax information
@@ -2655,49 +2665,9 @@ java script functions
 
 =back
 
-=head1 TODO
-
-=over 4
-
-=item * testing
-
-=item * price sources: little symbols showing better price / better discount
-
-=item * select units in input row?
-
-=item * check for direct delivery (workflow sales reclamation -> purchase reclamation)
-
-=item * access rights
-
-=item * display weights
-
-=item * mtime check
-
-=item * optional client/user behaviour
-
-(transactions has to be set - department has to be set -
- force project if enabled in client config - transport cost reminder)
-
-=back
-
 =head1 KNOWN BUGS AND CAVEATS
 
 =over 4
-
-=item *
-
-Customer discount is not displayed as a valid discount in price source popup
-(this might be a bug in price sources)
-
-(I cannot reproduce this (Bernd))
-
-=item *
-
-No indication that <shift>-up/down expands/collapses second row.
-
-=item *
-
-Inline creation of parts is not currently supported
 
 =item *
 
@@ -2705,7 +2675,7 @@ Table header is not sticky in the scrolling area.
 
 =item *
 
-Sorting does not include C<position>, neither does rereclamationing.
+Sorting does not include C<position>, neither does reordering.
 
 This behavior was implemented intentionally. But we can discuss, which behavior
 should be implemented.
@@ -2718,11 +2688,6 @@ should be implemented.
 
 =item *
 
-How to expand/collapse second row. Now it can be done clicking the icon or
-<shift>-up/down.
-
-=item *
-
 Possibility to select PriceSources in input row?
 
 =item *
@@ -2732,24 +2697,12 @@ dialog. Maybe there could be used one code source.
 
 =item *
 
-Rounding-differences between this controller (PriceTaxCalculator) and the old
-form. This is not only a problem here, but also in all parts using the PTC.
-There exists a ticket and a patch. This patch should be testet.
-
-=item *
-
-An indicator, if the actual inputs are saved (like in an
-editor or on text processing application).
-
-=item *
-
 A warning when leaving the page without saveing unchanged inputs.
-
 
 =back
 
 =head1 AUTHOR
 
-Bernd Bleßmann E<lt>bernd@kivitendo-premium.deE<gt>
+Tamino Steinert E<lt>tamino.steinert@tamino.stE<gt>
 
 =cut
