@@ -140,6 +140,7 @@ use SL::DB::ShopOrder;
 use SL::DB::ShopOrderItem;
 use SL::DB::ShopPart;
 use SL::DB::Status;
+use SL::DB::Stock;
 use SL::DB::Stocktaking;
 use SL::DB::Tax;
 use SL::DB::TaxKey;

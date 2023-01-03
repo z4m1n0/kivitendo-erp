@@ -220,6 +220,7 @@ my %kivitendo_package_names = (
   shop_parts                     => 'shop_part',
   status                         => 'status',
   stocktakings                   => 'stocktaking',
+  stocks                         => 'Stock',
   tax                            => 'tax',
   taxkeys                        => 'tax_key',
   tax_zones                      => 'tax_zone',
